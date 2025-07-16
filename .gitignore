@@ -1,3 +1,10 @@
+checkpoints/
+onnx/
+engine/
+results/
+ml-depth-pro/
+timing.cache
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
