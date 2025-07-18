@@ -128,7 +128,7 @@ def preprocess_image(img, precision= torch.float32):
    return tensor_resized.cpu().numpy()
 
 def main():
-    iteration = 20
+    count = 0
     dur_time = 0
 
     # Input
@@ -138,12 +138,11 @@ def main():
     img = Image.open(image_path)
     H = img.size[1]
     W = img.size[0]
-    print(f'h : {H}, w : {W}')
-    print(f'original shape : {img.size}')
+    print(f'original shape : {img.size}') # (3024, 2268)
     input_image = preprocess_image(img, torch.half)  # Preprocess image
-    print(f'after preprocess shape : {input_image.shape}')
+    print(f'after preprocess shape : {input_image.shape}') # (1, 3, 1536, 1536)
     batch_images = np.concatenate([input_image], axis=0)
-    print(f'trt input shape : {batch_images.shape}')
+    print(f'trt input shape : {batch_images.shape}') #  (1, 3, 1536, 1536)
 
     # Model and engine paths
     precision = "fp16"  # Choose 'fp32' or 'fp16'
@@ -154,58 +153,45 @@ def main():
 
     # Output shapes 
     output_shapes = (1, 1, input_image.shape[2], input_image.shape[3])
-    print(f'trt output shape : {output_shapes}')
+    print(f'trt output shape : {output_shapes}') # (1, 1, 1536, 1536)
 
     # Load or build the TensorRT engine and do inference
     with get_engine(onnx_model_path, engine_file_path, precision) as engine, \
             engine.create_execution_context() as context:
                 
-        # inspector = engine.create_engine_inspector()
-        # inspector.execution_context = context # OPTIONAL
-        # print(inspector.get_layer_information(0, trt.tensorrt.LayerInformationFormat.JSON)) # Print the information of the first layer in the engine.
-        # print(inspector.get_engine_information( trt.tensorrt.LayerInformationFormat.JSON)) # Print the information of the entire engine.
-        
         inputs, outputs, bindings, stream = common.allocate_buffers(engine)
         inputs[0].host = batch_images
         
         context.set_input_shape('input', batch_images.shape)
         
-        # Warm-up      
-        for _ in range(5):  
-            common.do_inference(context, engine=engine, bindings=bindings, inputs=inputs, outputs=outputs, stream=stream)
+        begin = time.time()
+        trt_outputs = common.do_inference(context, engine=engine, bindings=bindings, inputs=inputs, outputs=outputs, stream=stream)
+        
+        # # Reshape output
+        canonical_inverse_depth = torch.from_numpy(trt_outputs[0].reshape(output_shapes))
+        fov_deg = torch.from_numpy(trt_outputs[1])
+        if f_px is None:
+            f_px = 0.5 * W / torch.tan(0.5 * torch.deg2rad(fov_deg.to(torch.float)))
+
+        inverse_depth = canonical_inverse_depth * (W / f_px)
+        inverse_depth = nn.functional.interpolate(
+            inverse_depth, size=(H, W), mode='bilinear', align_corners=False
+        )
+        depth = 1.0 / torch.clamp(inverse_depth, min=1e-4, max=1e4)
+        
         torch.cuda.synchronize()
-
-        # Inference loop
-        for _ in range(iteration):
-            begin = time.time()
-            trt_outputs = common.do_inference(context, engine=engine, bindings=bindings, inputs=inputs, outputs=outputs, stream=stream)
-            
-            # # Reshape output
-            canonical_inverse_depth = torch.from_numpy(trt_outputs[0].reshape(output_shapes))
-            fov_deg = torch.from_numpy(trt_outputs[1])
-            if f_px is None:
-                f_px = 0.5 * W / torch.tan(0.5 * torch.deg2rad(fov_deg.to(torch.float)))
-
-            inverse_depth = canonical_inverse_depth * (W / f_px)
-            inverse_depth = nn.functional.interpolate(
-                inverse_depth, size=(H, W), mode='bilinear', align_corners=False
-            )
-            depth = 1.0 / torch.clamp(inverse_depth, min=1e-4, max=1e4)
-            
-            torch.cuda.synchronize()
-            dur_time += time.time() - begin
+        dur_time += time.time() - begin
+        count += 1
 
     # Results
-    print(f'[TRT] {iteration} iterations time: {dur_time:.4f} [sec]')
-    avg_time = dur_time / iteration
+    print(f'[TRT] {count} iterations time: {dur_time:.4f} [sec]')
+    avg_time = dur_time / count
     print(f'[TRT] Average FPS: {1 / avg_time:.2f} [fps]')
     print(f'[TRT] Average inference time: {avg_time * 1000:.2f} [msec]')
-    print(f'[TRT] focal_length : {f_px}') # 3365.7549
+    print(f'[TRT] focal_length : {f_px}')
 
     # post process
     depth = depth.numpy().squeeze()
-    print(f'max : {depth.max()} , min : {depth.min()}')
-
     inverse_depth = 1 / depth
     # Visualize inverse depth instead of depth, clipped to [0.1m;250m] range for better visualization.
     max_invdepth_vizu = min(inverse_depth.max(), 1 / 0.1)
@@ -214,24 +200,21 @@ def main():
         max_invdepth_vizu - min_invdepth_vizu
     )
 
-    if 0 : # prev version 
-        #activation_map = (inverse_depth - np.min(inverse_depth)) / np.max(inverse_depth)
-        heat_map = cv2.applyColorMap(np.uint8(255 * inverse_depth_normalized), cv2.COLORMAP_TURBO) # hw -> hwc
-        # 샘플 결과 출력 및 저장
-        save_path = os.path.join(current_directory, 'results', f'{os.path.splitext(image_file_name)[0]}_TRT_cv.jpg')
-        os.makedirs(os.path.dirname(save_path), exist_ok=True)
-        cv2.imwrite(save_path, heat_map)
-    else : # original ml-pro 
-        # Save as color-mapped "turbo" jpg image.
-        cmap = plt.get_cmap("turbo")
-        color_depth = (cmap(inverse_depth_normalized)[..., :3] * 255).astype(np.uint8)
-        # 샘플 결과 출력 및 저장
-        save_path = os.path.join(current_directory, 'results', f'{os.path.splitext(image_file_name)[0]}_TRT.jpg')
-        os.makedirs(os.path.dirname(save_path), exist_ok=True)
-        Image.fromarray(color_depth).save(save_path, format="JPEG", quality=90)
-
-    output_file_npz = os.path.join(current_directory, 'results', f'{os.path.splitext(image_file_name)[0]}_TRT')
-    np.savez_compressed(output_file_npz, depth=depth)
+    # with color bar
+    save_path = os.path.join(current_directory, 'results', f'{os.path.splitext(image_file_name)[0]}_colormap.jpg')
+    plt.figure(figsize=(8, 6))
+    img = plt.imshow(inverse_depth_normalized, cmap='turbo')  
+    plt.axis('off')
+    cbar = plt.colorbar(img, fraction=0.046, pad=0.04)
+    num_ticks = 5
+    cbar_ticks = np.linspace(0, 1, num_ticks)
+    cbar_ticklabels = np.linspace(max_invdepth_vizu, min_invdepth_vizu,  num_ticks)
+    cbar.set_ticks(cbar_ticks)
+    cbar.set_ticklabels([f'{v:.2f} m' for v in cbar_ticklabels])
+    cbar.set_label('Depth (m)', fontsize=12)
+    plt.tight_layout()
+    plt.savefig(save_path, bbox_inches='tight', pad_inches=0.1, dpi=300)
+    plt.close()
 
     common.free_buffers(inputs, outputs, stream)
 

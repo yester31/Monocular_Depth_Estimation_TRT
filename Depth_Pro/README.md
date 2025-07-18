@@ -27,7 +27,7 @@ depth-pro-run -i ./data/example.jpg -o ./results
 cd ..
 python infer.py
 ```
-- see example_Torch.jpg    
+- see results/example_Torch.jpg    
 - 20 iterations time: 124.4491 [sec]   
 - Average FPS: 0.16 [fps]   
 - Average inference time: 6222.46 [msec]   
@@ -49,7 +49,7 @@ pip install matplotlib
 python onnx2trt.py
 // a file 'dinov2l16_384_fp16.engine' will be generated in engine directory.
 ```
-- see example_TRT.jpg  
+- see results/example_TRT.jpg  
 - 20 iterations time: 14.1636 [sec]
 - Average FPS: 1.41 [fps]
 - Average inference time: 708.18 [msec]
