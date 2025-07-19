@@ -6,12 +6,7 @@ sys.path.insert(1, os.path.join(sys.path[0], ".."))
 
 import tensorrt as trt
 import torch
-from torch import nn
 import torch.nn.functional as F
-from torchvision.transforms import Compose
-
-sys.path.insert(1, os.path.join(sys.path[0], "Depth-Anything-V2"))
-from depth_anything_v2.util.transform import Resize, NormalizeImage, PrepareForNet
 
 from PIL import Image
 from matplotlib import pyplot as plt
@@ -110,29 +105,52 @@ def get_engine(onnx_file_path, engine_file_path="", precision='fp32', dynamic_in
         print(f'[TRT_E] engine build done! ({build_time_str})')
 
         return engine
-    
+
+
+def constrain_to_multiple_of(x, min_val=0, max_val=None, ensure_multiple_of=14):
+    y = (np.round(x / ensure_multiple_of) * ensure_multiple_of).astype(int)
+
+    if max_val is not None and y > max_val:
+        y = (np.floor(x / ensure_multiple_of) * ensure_multiple_of).astype(int)
+
+    if y < min_val:
+        y = (np.ceil(x / ensure_multiple_of) * ensure_multiple_of).astype(int)
+
+    return y
+
 def preprocess_image(raw_image, input_size=518, precision=torch.float32):
-    transform = Compose([
-        Resize(
-            width=input_size,
-            height=input_size,
-            resize_target=False,
-            keep_aspect_ratio=True,
-            ensure_multiple_of=14,
-            resize_method='lower_bound',
-            image_interpolation_method=cv2.INTER_CUBIC,
-        ),
-        NormalizeImage(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-        PrepareForNet(),
-    ])
-    
+
     image = cv2.cvtColor(raw_image, cv2.COLOR_BGR2RGB) / 255.0
     
-    image = transform({'image': image})['image']
+    width, height = image.shape[1], image.shape[0]
+    scale_height = input_size / height
+    scale_width = input_size / width 
 
-    image = torch.from_numpy(image).unsqueeze(0)
+    # scale such that output size is lower bound
+    if scale_width > scale_height:
+        # fit width
+        scale_height = scale_width
+    else:
+        # fit height
+        scale_width = scale_height
 
-    return image.cpu().numpy()
+    new_height = constrain_to_multiple_of(scale_height * height, min_val=input_size)
+    new_width = constrain_to_multiple_of(scale_width * width, min_val=input_size)
+
+    # resize sample
+    image = cv2.resize(image, (new_width, new_height), interpolation=cv2.INTER_CUBIC)
+
+    # NormalizeImage
+    image = (image - [0.485, 0.456, 0.406]) / [0.229, 0.224, 0.225]
+
+    # PrepareForNet
+    image = np.transpose(image, (2, 0, 1))
+    image = np.ascontiguousarray(image).astype(np.float32)
+
+    # [C, H, W] -> [1, C, H, W]
+    image = np.expand_dims(image, axis=0)
+
+    return image
 
 
 def main():
