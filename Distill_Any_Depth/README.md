@@ -49,7 +49,7 @@ bash scripts/00_infer.sh
 cd ..
 python infer.py
 ```
-
+- 518 x 518 input
 - see results/example_small_dad_torch.png    
 - 100 iterations time: 1.9052 [sec]
 - Average FPS: 52.49 [fps]
@@ -73,6 +73,7 @@ pip install matplotlib
 python onnx2trt.py
 // a file 'distill_any_depth_small_fp16.engine' will be generated in engine directory.
 ```
+- 518 x 518 input
 - see results/example_dad_TRT.jpg 
 - 100 iterations time: 0.8240 [sec]
 - Average FPS: 121.36 [fps]
