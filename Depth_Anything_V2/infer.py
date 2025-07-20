@@ -40,8 +40,7 @@ def image2tensor(raw_image, input_size=518):
     h, w = raw_image.shape[:2]
     image = cv2.cvtColor(raw_image, cv2.COLOR_BGR2RGB) / 255.0
     image = transform({'image': image})['image']
-    image = torch.from_numpy(image).unsqueeze(0)
-    image = image.to(DEVICE)
+    image = torch.from_numpy(image).unsqueeze(0).to(DEVICE)
     
     return image, (h, w)
 
@@ -126,8 +125,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-# 20 iterations time: 0.5182 [sec]
-# Average FPS: 38.60 [fps]
-# Average inference time: 25.91 [msec]

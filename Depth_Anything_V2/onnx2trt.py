@@ -239,7 +239,7 @@ def main():
     os.makedirs(outdir, exist_ok=True)
     cv2.imwrite(os.path.join(outdir, file_name + f'_{encoder}_TRT.png'), heat_map)
 
-    if 0 : # prev version 
+    if 1 : # prev version 
         #activation_map = (inverse_depth - np.min(inverse_depth)) / np.max(inverse_depth)
         heat_map = cv2.applyColorMap(depth, cv2.COLORMAP_TURBO) # hw -> hwc
         # 샘플 결과 출력 및 저장
@@ -263,12 +263,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-# sim
-# [TRT] 20 iterations time: 0.2152 [sec]
-# [TRT] Average FPS: 92.92 [fps]
-# [TRT] Average inference time: 10.76 [msec]
-
-# [TRT] 20 iterations time: 0.2099 [sec]
-# [TRT] Average FPS: 95.27 [fps]
-# [TRT] Average inference time: 10.50 [msec]
