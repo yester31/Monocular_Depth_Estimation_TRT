@@ -23,8 +23,10 @@ pip install opencv-python
 [Depth Pro](Depth_Pro/README.md)   
 [Depth Anything V2](Depth_Anything_V2/README.md)   
 [Distill Any Depth](Distill_Any_Depth/README.md)   
+[MoGe-2](MoGe_2/README.md)   
 
 - todo
-   - [Depth Anything At Any Condition](DepthAnythingAC/README.md)   
+   - [Uni-Depth V2](Uni_Depth_V2/README.md)   
+   - [Depth Anything At Any Condition](Depth_Anything_AC/README.md)   
    - [Video Depth Anything](Video_Depth_Anything/README.md)   
-   - [Flash Depth](Flash_Depth/README.md)
+   - [Flash Depth](Flash_Depth/README.md)   

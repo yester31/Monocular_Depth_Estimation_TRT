@@ -105,8 +105,14 @@ def allocate_buffers(engine: trt.ICudaEngine, output_shape:np.ndarray = None, pr
                 "but no profile was specified.")
         
         size = trt.volume(shape)
-        if profile_idx is not None and binding == 'output':
-            size = trt.volume(output_shape)
+        if output_shape is not None and binding == 'points':
+            size = trt.volume(output_shape['points'])
+        if output_shape is not None and binding == 'normal':
+            size = trt.volume(output_shape['normal'])
+        if output_shape is not None and binding == 'mask':
+            size = trt.volume(output_shape['mask'])
+        if output_shape is not None and binding == 'metric_scale':
+            size = trt.volume(output_shape['metric_scale'])
             
         trt_type = engine.get_tensor_dtype(binding)
 
