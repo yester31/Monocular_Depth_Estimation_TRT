@@ -68,7 +68,7 @@ def main():
     print('[MDET] Load model & image')
     model, transform = set_model()
 
-    img_size = model.img_size # 1536 
+    input_size = model.img_size # 1536 
     interpolation_mode = "bilinear"
     image_file_name = 'example.jpg'
     image_path = os.path.join(CUR_DIR, '..', 'data', image_file_name)
@@ -80,12 +80,12 @@ def main():
     if len(x.shape) == 3:
         x = x.unsqueeze(0)
     _, _, H, W = x.shape
-    resize = H != img_size or W != img_size
+    resize = H != input_size or W != input_size
 
     if resize:
         x = torch.nn.functional.interpolate(
             x,
-            size=(img_size, img_size),
+            size=(input_size, input_size),
             mode=interpolation_mode,
             align_corners=False,
         )
@@ -143,7 +143,7 @@ def main():
     cv2.imwrite(output_file_depth, color_depth_bgr)
 
     # save_npz
-    output_file_npz = os.path.join(save_dir_path, os.path.splitext(image_file_name)[0])
+    output_file_npz = os.path.join(save_dir_path, os.path.splitext(image_file_name)[0]+ f'_torch')
     np.savez_compressed(output_file_npz, depth=depth)
 
     print(f'[MDET] see results ({save_dir_path})')

@@ -1,6 +1,9 @@
 # Depth Pro
+- **[Depth Pro: Sharp Monocular Metric Depth in Less Than a Second](https://arxiv.org/abs/2410.02073)**
+- **[Depth Pro official GitHub](https://github.com/apple/ml-depth-pro)**
+- 2d image -> depth & focal length
 
-## How to Run
+## How to Run (Pytorch)
 
 1. set up a virtual environment.
 ```
@@ -32,23 +35,28 @@ python infer.py
 - 20 iterations time: 124.4491 [sec]   
 - Average FPS: 0.16 [fps]   
 - Average inference time: 6222.46 [msec]   
---------------------------------------------------------------------
 
-5. generate onnx file
+
+## How to Run (TensorRT)
+
+1. generate onnx file
 
 ```
 pip install onnx
 python onnx_export.py
-// a file 'dinov2l16_384_cuda.onnx' will be generated in onnx directory.
+// a file 'depth_pro_dynamo.onnx' will be generated in onnx directory.
 ```
 
-6. build tensorrt model and run
+2-1. build tensorrt model and run single image process
 
 ```
 conda activate trte
 pip install matplotlib
+```
+
+```
 python onnx2trt.py
-// a file 'dinov2l16_384_fp16.engine' will be generated in engine directory.
+// a file 'depth_pro_dynamo_fp16.engine' will be generated in engine directory.
 ```
 - 1536 x 1536 input
 - see results/example_TRT.jpg  
@@ -56,4 +64,16 @@ python onnx2trt.py
 - Average FPS: 1.41 [fps]
 - Average inference time: 708.18 [msec]
 
-https://github.com/apple/ml-depth-pro
+2-2. build tensorrt model and run video process
+
+```
+python onnx2trt_video.py
+```
+
+2-3. build tensorrt model and run wabcam process
+
+```
+python onnx2trt_webcam.py
+```
+
+**[Back](../README.md)** 
