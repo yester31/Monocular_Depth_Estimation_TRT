@@ -34,18 +34,15 @@ pip install opencv-python
 ## 2. Monocular Depth Estimation Models 
 
 ### 2.1 Depth Pro
-- [Depth Pro](Depth_Pro/README.md)   
-- Metric Depth Estimation
+- **[Depth Pro to TensorRT](Depth_Pro/README.md)**   
 
 ### 2.2 Depth Anything V2
-- [Depth Anything V2](Depth_Anything_V2/README.md)   
-- Relative Depth Estimation
+- **[Depth Anything V2](Depth_Anything_V2/README.md)**   
 
 ### 2.3 Distill Any Depth
-- [Distill Any Depth](Distill_Any_Depth/README.md)   
-- Relative Depth Estimation
+- **[Distill Any Depth](Distill_Any_Depth/README.md)**   
 
 ### 2.4 MoGe-2
-- [MoGe-2](MoGe_2/README.md)   
+- **[MoGe-2](MoGe_2/README.md)**   
 
 

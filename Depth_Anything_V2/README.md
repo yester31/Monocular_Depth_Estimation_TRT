@@ -1,6 +1,9 @@
 # Depth Anything V2
+- **[Depth Anything V2](https://arxiv.org/abs/2406.09414)**
+- **[Depth Anything V2 official GitHub](https://github.com/DepthAnything/Depth-Anything-V2)**
+- 2d image -> depth
 
-## How to Run
+## How to Run (Pytorch)
 
 1. set up a virtual environment.
 ```
@@ -34,9 +37,10 @@ python infer.py
 - 20 iterations time: 0.3925 [sec]
 - Average FPS: 50.95 [fps]
 - Average inference time: 19.63 [msec] 
---------------------------------------------------------------------
 
-5. generate onnx file
+## How to Run (TensorRT)
+
+1. generate onnx file
 
 ```
 pip install onnx
@@ -44,7 +48,7 @@ python onnx_export.py
 // a file 'depth_anything_v2_vits.onnx' will be generated in onnx directory.
 ```
 
-6. build tensorrt model and run
+2. build tensorrt model and run
 
 ```
 conda activate trte
@@ -58,4 +62,4 @@ python onnx2trt.py
 - Average FPS: 122.92 [fps]
 - Average inference time: 8.14 [msec]
 
-https://github.com/DepthAnything/Depth-Anything-V2
+**[Back](../README.md)** 
