@@ -46,6 +46,8 @@ class HostDeviceMem:
         dtype = dtype or np.dtype(np.uint8)
         nbytes = size * dtype.itemsize
         host_mem = cuda_call(cudart.cudaMallocHost(nbytes))
+        if dtype == np.float16:
+            dtype = np.float32  # workaround
         pointer_type = ctypes.POINTER(np.ctypeslib.as_ctypes_type(dtype))
 
         self._host = np.ctypeslib.as_array(ctypes.cast(host_mem, pointer_type), (size,))

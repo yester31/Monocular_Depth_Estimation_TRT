@@ -1,6 +1,17 @@
-# Monocular_Depth_Estimation_TRT
+# Monocular Depth Estimation Model to TensorRT
+- Inference Optimization for Monocular Depth Estimation models using by TensorRT 
+- Introducing various Monocular Depth Estimation models
 
-## 0. Development Environment
+## 0. todo
+   - [Uni-Depth V2](Uni_Depth_V2/README.md)   
+   - [Depth Anything At Any Condition](Depth_Anything_AC/README.md)   
+   - [Zoe Depth](Zoe_Depth/README.md)   
+   - [Metric3D V2](Metric3D_V2/README.md)   
+   - [Video Depth Anything](Video_Depth_Anything/README.md)   
+   - [Flash Depth](Flash_Depth/README.md)   
+   - [Depth Crafter](Depth_Crafter/README.md)   
+
+## 1. Development Environment
 
 - RTX3060 (notebook)
 - WSL 
@@ -20,13 +31,21 @@ pip install opencv-python
 
 ```
 
-[Depth Pro](Depth_Pro/README.md)   
-[Depth Anything V2](Depth_Anything_V2/README.md)   
-[Distill Any Depth](Distill_Any_Depth/README.md)   
-[MoGe-2](MoGe_2/README.md)   
+## 2. Monocular Depth Estimation Models 
 
-- todo
-   - [Uni-Depth V2](Uni_Depth_V2/README.md)   
-   - [Depth Anything At Any Condition](Depth_Anything_AC/README.md)   
-   - [Video Depth Anything](Video_Depth_Anything/README.md)   
-   - [Flash Depth](Flash_Depth/README.md)   
+### 2.1 Depth Pro
+- [Depth Pro](Depth_Pro/README.md)   
+- Metric Depth Estimation
+
+### 2.2 Depth Anything V2
+- [Depth Anything V2](Depth_Anything_V2/README.md)   
+- Relative Depth Estimation
+
+### 2.3 Distill Any Depth
+- [Distill Any Depth](Distill_Any_Depth/README.md)   
+- Relative Depth Estimation
+
+### 2.4 MoGe-2
+- [MoGe-2](MoGe_2/README.md)   
+
+
