@@ -21,6 +21,16 @@ mkdir -p checkpoints
 wget https://huggingface.co/depth-anything/Depth-Anything-V2-Small/resolve/main/depth_anything_v2_vits.pth -P checkpoints
 wget https://huggingface.co/depth-anything/Depth-Anything-V2-Base/resolve/main/depth_anything_v2_vitb.pth -P checkpoints
 wget https://huggingface.co/depth-anything/Depth-Anything-V2-Large/resolve/main/depth_anything_v2_vitl.pth -P checkpoints
+
+# Metric Depth Indoor (Hypersim)
+wget https://huggingface.co/depth-anything/Depth-Anything-V2-Metric-Hypersim-Small/resolve/main/depth_anything_v2_metric_hypersim_vits.pth -P checkpoints
+wget https://huggingface.co/depth-anything/Depth-Anything-V2-Metric-Hypersim-Base/resolve/main/depth_anything_v2_metric_hypersim_vitb.pth -P checkpoints
+wget https://huggingface.co/depth-anything/Depth-Anything-V2-Metric-Hypersim-Large/resolve/main/depth_anything_v2_metric_hypersim_vitl.pth -P checkpoints
+
+# Metric Depth Outdoor (Virtual KITTI 2)
+wget https://huggingface.co/depth-anything/Depth-Anything-V2-Metric-VKITTI-Small/resolve/main/depth_anything_v2_metric_vkitti_vits.pth -P checkpoints
+wget https://huggingface.co/depth-anything/Depth-Anything-V2-Metric-VKITTI-Base/resolve/main/depth_anything_v2_metric_vkitti_vitb.pth -P checkpoints
+wget https://huggingface.co/depth-anything/Depth-Anything-V2-Metric-VKITTI-Large/resolve/main/depth_anything_v2_metric_vkitti_vitl.pth -P checkpoints
 ```
 3. run the original pytorch model on test images.
 ```
@@ -61,5 +71,12 @@ python onnx2trt.py
 - 100 iterations time: 0.8135 [sec]
 - Average FPS: 122.92 [fps]
 - Average inference time: 8.14 [msec]
+
+2. generate point cloud 
+
+```
+pip install open3d
+python onnx2trt_pointcloud.py
+```
 
 **[Back](../README.md)** 

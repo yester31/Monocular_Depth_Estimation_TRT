@@ -19,18 +19,17 @@ from infer_metric import set_model as load_metric_model
 def main ():
     print('[MDET] Load model')
 
-    metric_model = False # True or False
-    input_shape_h = 518
-    input_shape_w = 518
-    encoder = 'vits' # 'vits', 'vitb', 'vitg' 
-    dataset = 'hypersim'  # 'hypersim' for indoor model, 'vkitti' for outdoor model
+    input_shape_h = 518 # 1036
+    input_shape_w = 518 # 1386
+    encoder = 'vits'    # 'vits', 'vitb', 'vitg' 
+    metric_model = True # True or False
+    dataset = 'hypersim'# 'hypersim' for indoor model, 'vkitti' for outdoor model
     if metric_model:
-        model, _ = load_metric_model(encoder, dataset, input_shape_w)
+        model, _ = load_metric_model(encoder, dataset, input_shape_h)
     else:
         model, _ = load_model(encoder, input_shape_w)
-
-    dynamo = False # True or False
-    dynamic = False # Fail...
+    dynamo = False      # True or False
+    dynamic = False     # Fail... (False only)
     model_name = f"depth_anything_v2_metric_{dataset}" if metric_model else "depth_anything_v2"
     model_name = f"{model_name}_{encoder}"
     model_name = f"{model_name}_dynamic" if dynamic else model_name
@@ -51,7 +50,7 @@ def main ():
         else:
             dynamic_axes={"input": {0: "batch", 2: "height", 3: "width"},} 
 
-    with torch.no_grad():  # Disable gradients for efficiency
+    with torch.no_grad():
         torch.onnx.export(
             model, 
             dummy_input, 

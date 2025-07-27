@@ -84,7 +84,7 @@ def main():
 
     print('[MDET] Load model & image')
     input_size = 518
-    encoder = 'vits' # 'vits', 'vitb', 'vitg' 
+    encoder = 'vits' # 'vits', 'vitb', vitl','vitg' 
     dataset = 'hypersim'  # 'hypersim' for indoor model, 'vkitti' for outdoor model
     dtype = torch.half
     model, transform = set_model(encoder, dataset, input_size, dtype)
@@ -92,7 +92,7 @@ def main():
     image_file_name = 'example.jpg'
     image_path = os.path.join(CUR_DIR, '..', 'data', image_file_name)
     raw_image = cv2.imread(image_path) # Load image.
-    raw_image = cv2.resize(raw_image, (518, 518))
+    #raw_image = cv2.resize(raw_image, (518, 518))
     # ===================================================================
     print('[MDET] Pre process')
     ori_shape = raw_image.shape[:2]

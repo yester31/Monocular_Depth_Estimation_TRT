@@ -133,17 +133,16 @@ def main():
 
     save_dir_path = os.path.join(CUR_DIR, 'results')
     os.makedirs(save_dir_path, exist_ok=True)
-    input_size = 518
 
     # Input
     image_file_name = 'example.jpg'
     image_path = os.path.join(CUR_DIR, '..', 'data', image_file_name)
     raw_img = cv2.imread(image_path)
+
+    input_size = 518 # 1036
     raw_img = cv2.resize(raw_img, (518, 518))
-    #raw_img = cv2.resize(raw_img, (686, 686))
 
     h, w = raw_img.shape[:2]
-    print(f'[MDET] h : {h}, w : {w}')
     print(f'[MDET] original shape : {raw_img.shape}')
 
     input_image = preprocess_image(raw_img, input_size)  # Preprocess image
@@ -151,14 +150,13 @@ def main():
     batch_images = np.concatenate([input_image], axis=0)
 
     # Model and engine paths
-    # FFF(O), FFT(O), TFF(O), TFT(O), FTF (x), TTF (x)
-    dynamo = False # True or False
-    dynamic = False # fail...
-    onnx_sim = False # True or False
+    precision = "fp16"  # 'fp32' or 'fp16'
+    encoder = 'vits'    # 'vits' or 'vitb' or 'vitg'
     metric_model = True # True or False
-    dataset = 'hypersim'  # 'hypersim' for indoor model, 'vkitti' for outdoor model
-    precision = "fp16"  # Choose 'fp32' or 'fp16'
-    encoder = 'vits' # or 'vits', 'vitb', 'vitg'
+    dataset = 'hypersim'# 'hypersim' for indoor model, 'vkitti' for outdoor model
+    dynamo = False      # True or False
+    onnx_sim = False    # True or False
+    dynamic = False     # fail...(False only)
     model_name = f"depth_anything_v2_metric_{dataset}" if metric_model else "depth_anything_v2"
     model_name = f"{model_name}_{encoder}"
     model_name = f"{model_name}_dynamic" if dynamic else model_name
@@ -175,9 +173,9 @@ def main():
     print(f'[MDET] trt output shape : {output_shape}')
 
     if dynamic:
-        dynamic_input_shapes = [[1,3,280,280], [1,3,518,518], [1,3,686,686]]
-        dynamic_input_shapes = [[1,3,280,280], [1,3,518,686], [1,3,686,686]]
-        #dynamic_input_shapes = [[1,3,518,518], [1,3,518,518], [1,3,518,518]]
+        #dynamic_input_shapes = [[1,3,280,280], [1,3,518,518], [1,3,686,686]]
+        #dynamic_input_shapes = [[1,3,280,280], [1,3,518,686], [1,3,686,686]]
+        dynamic_input_shapes = [[1,3,518,518], [1,3,518,518], [1,3,518,518]]
     else :
         dynamic_input_shapes = None
 
@@ -187,13 +185,9 @@ def main():
     with get_engine(onnx_model_path, engine_file_path, precision, dynamic_input_shapes) as engine, \
             engine.create_execution_context() as context:
                 
-        # inspector = engine.create_engine_inspector()
-        # inspector.execution_context = context # OPTIONAL
-        # print(inspector.get_layer_information(0, trt.tensorrt.LayerInformationFormat.JSON)) # Print the information of the first layer in the engine.
-        # print(inspector.get_engine_information( trt.tensorrt.LayerInformationFormat.JSON)) # Print the information of the entire engine.
-        
         inputs, outputs, bindings, stream = common.allocate_buffers(engine, output_shape, profile_idx=0)
         inputs[0].host = batch_images
+        
         if dynamic:
             context.set_input_shape('input', batch_images.shape)
         
@@ -209,19 +203,21 @@ def main():
             torch.cuda.synchronize()
             dur_time += time.time() - begin
 
-    # Results
-    print(f'[MDET] {iteration} iterations time: {dur_time:.4f} [sec]')
-    avg_time = dur_time / iteration
-    print(f'[MDET] Average FPS: {1 / avg_time:.2f} [fps]')
-    print(f'[MDET] Average inference time: {avg_time * 1000:.2f} [msec]')
+        # ===================================================================
+        print('[MDET] Post process')
+        depth = torch.from_numpy(trt_outputs[0].reshape(output_shape))
+        depth = F.interpolate(depth[:, None], (h, w), mode="bilinear", align_corners=True)[0, 0]
+        depth = torch.clamp(depth, min=1e-3, max=1e3)
+        depth = torch.squeeze(depth).numpy()
 
-    # ===================================================================
-    print('[MDET] Post process')
-    depth = torch.from_numpy(trt_outputs[0].reshape(output_shape))
-    depth = F.interpolate(depth[:, None], (h, w), mode="bilinear", align_corners=True)[0, 0]
-    depth = torch.clamp(depth, min=1e-3, max=1e3)
-    depth = torch.squeeze(depth).numpy()
-    print(f'[MDET] max : {depth.max():0.5f} , min : {depth.min():0.5f}')
+        # Results
+        print(f'[MDET] {iteration} iterations time: {dur_time:.4f} [sec]')
+        avg_time = dur_time / iteration
+        print(f'[MDET] Average FPS: {1 / avg_time:.2f} [fps]')
+        print(f'[MDET] Average inference time: {avg_time * 1000:.2f} [msec]')
+        print(f'[MDET] max : {depth.max():0.5f} , min : {depth.min():0.5f}')
+
+    common.free_buffers(inputs, outputs, stream)
 
     # ===================================================================
     print('[MDET] Generate color depth image')
@@ -247,11 +243,25 @@ def main():
     cv2.imwrite(output_file_depth, color_depth_bgr)
 
     # save_npz
-    output_file_npz = os.path.join(save_dir_path, os.path.splitext(image_file_name)[0]+ f'_trt')
+    output_file_npz = os.path.join(save_dir_path, os.path.splitext(image_file_name)[0] + model_name + f'_trt')
     np.savez_compressed(output_file_npz, depth=depth)
 
-    common.free_buffers(inputs, outputs, stream)
-
+    if metric_model :
+        # save colored depth image with color depth bar
+        output_file_depth_bar = os.path.join(save_dir_path, f'{os.path.splitext(image_file_name)[0]}_{model_name}_trt_depth_bar.jpg')
+        plt.figure(figsize=(8, 6))
+        img = plt.imshow(inverse_depth_normalized, cmap='turbo')  
+        plt.axis('off')
+        cbar = plt.colorbar(img, fraction=0.046, pad=0.04)
+        num_ticks = 5
+        cbar_ticks = np.linspace(0, 1, num_ticks)
+        cbar_ticklabels = np.linspace(depth.max(), depth.min(),  num_ticks)
+        cbar.set_ticks(cbar_ticks)
+        cbar.set_ticklabels([f'{v:.2f} m' for v in cbar_ticklabels])
+        cbar.set_label('Depth (m)', fontsize=12)
+        plt.tight_layout()
+        plt.savefig(output_file_depth_bar, bbox_inches='tight', pad_inches=0.1, dpi=300)
+        plt.close()
 
 if __name__ == '__main__':
     main()
