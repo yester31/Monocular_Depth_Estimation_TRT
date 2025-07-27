@@ -1,12 +1,12 @@
 # by yhpark 2025-7-26
-import cv2
-import torch
-from matplotlib import pyplot as plt
-import numpy as np
-import time
 import os
 import sys
+from matplotlib import pyplot as plt
+import numpy as np
+import cv2
+import time
 
+import torch
 from torchvision.transforms import Compose
 import torch.nn.functional as F
 
@@ -38,7 +38,7 @@ def infer_performace(model, input_size=518):
             torch.cuda.synchronize()
             dur_time += time.time() - begin
 
-    print(f'[MDET] {iteration} iterations time ({dummy_input.shape}): {dur_time:.4f} [sec]')
+    print(f'[MDET] {iteration} iterations time ({input_size, input_size}): {dur_time:.4f} [sec]')
     avg_time = dur_time / iteration
     print(f'[MDET] Average FPS: {1 / avg_time:.2f} [fps]')
     print(f'[MDET] Average inference time: {avg_time * 1000:.2f} [msec]')
@@ -75,7 +75,6 @@ def set_model(encoder='vits', input_size=518, dtype: torch.dtype = torch.float32
 
     return model, transform
 
-
 def main():
     save_dir_path = os.path.join(CUR_DIR, 'results')
     os.makedirs(save_dir_path, exist_ok=True)
@@ -103,7 +102,6 @@ def main():
     # ===================================================================
     print('[MDET] Run inference')
     with torch.no_grad():
-        # Run inference
         depth = model(x)
     # ===================================================================
     print('[MDET] Post process')

@@ -134,18 +134,18 @@ def main():
     save_dir_path = os.path.join(CUR_DIR, 'results')
     os.makedirs(save_dir_path, exist_ok=True)
 
+    input_h = 518 # 1036
+    input_w = 518 # 1386
+
     # Input
     image_file_name = 'example.jpg'
     image_path = os.path.join(CUR_DIR, '..', 'data', image_file_name)
     raw_img = cv2.imread(image_path)
-
-    input_size = 518 # 1036
-    raw_img = cv2.resize(raw_img, (518, 518))
-
     h, w = raw_img.shape[:2]
     print(f'[MDET] original shape : {raw_img.shape}')
+    raw_img = cv2.resize(raw_img, (input_w, input_h))
 
-    input_image = preprocess_image(raw_img, input_size)  # Preprocess image
+    input_image = preprocess_image(raw_img, input_h)  # Preprocess image
     print(f'[MDET] after preprocess shape : {input_image.shape}')
     batch_images = np.concatenate([input_image], axis=0)
 
@@ -154,11 +154,11 @@ def main():
     encoder = 'vits'    # 'vits' or 'vitb' or 'vitg'
     metric_model = True # True or False
     dataset = 'hypersim'# 'hypersim' for indoor model, 'vkitti' for outdoor model
-    dynamo = False      # True or False
-    onnx_sim = False    # True or False
+    dynamo = True       # True or False
+    onnx_sim = True     # True or False
     dynamic = False     # fail...(False only)
-    model_name = f"depth_anything_v2_metric_{dataset}" if metric_model else "depth_anything_v2"
-    model_name = f"{model_name}_{encoder}"
+    model_name = f"depth_anything_v2_{encoder}_{input_h}x{input_w}"
+    model_name = f"{model_name}_metric_{dataset}" if metric_model else model_name
     model_name = f"{model_name}_dynamic" if dynamic else model_name
     model_name = f"{model_name}_dynamo" if dynamo else model_name
     model_name = f"{model_name}_sim" if onnx_sim else model_name
@@ -217,15 +217,13 @@ def main():
         print(f'[MDET] Average inference time: {avg_time * 1000:.2f} [msec]')
         print(f'[MDET] max : {depth.max():0.5f} , min : {depth.min():0.5f}')
 
-    common.free_buffers(inputs, outputs, stream)
-
     # ===================================================================
     print('[MDET] Generate color depth image')
 
     # visualization
     # Save as color-mapped "turbo" jpg image.
     cmap = plt.get_cmap("turbo")
-    output_file_depth = os.path.join(save_dir_path, os.path.splitext(image_file_name)[0] + model_name + f'_trt.jpg')
+    output_file_depth = os.path.join(save_dir_path, os.path.splitext(image_file_name)[0] + f'_{model_name}_trt.jpg')
     if metric_model :
         inverse_depth = 1 / depth
         max_invdepth_vizu = min(inverse_depth.max(), 1 / 0.1)
@@ -243,7 +241,7 @@ def main():
     cv2.imwrite(output_file_depth, color_depth_bgr)
 
     # save_npz
-    output_file_npz = os.path.join(save_dir_path, os.path.splitext(image_file_name)[0] + model_name + f'_trt')
+    output_file_npz = os.path.join(save_dir_path, os.path.splitext(image_file_name)[0] + f'_{model_name}_trt')
     np.savez_compressed(output_file_npz, depth=depth)
 
     if metric_model :
@@ -262,6 +260,8 @@ def main():
         plt.tight_layout()
         plt.savefig(output_file_depth_bar, bbox_inches='tight', pad_inches=0.1, dpi=300)
         plt.close()
+        
+    common.free_buffers(inputs, outputs, stream)
 
 if __name__ == '__main__':
     main()

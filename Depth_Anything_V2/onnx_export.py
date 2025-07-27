@@ -18,28 +18,29 @@ from infer_metric import set_model as load_metric_model
 
 def main ():
     print('[MDET] Load model')
+    save_path = os.path.join(CUR_DIR, 'onnx')
+    os.makedirs(save_path, exist_ok=True)
 
-    input_shape_h = 518 # 1036
-    input_shape_w = 518 # 1386
+    input_h = 518 # 1036
+    input_w = 518 # 1386
     encoder = 'vits'    # 'vits', 'vitb', 'vitg' 
     metric_model = True # True or False
     dataset = 'hypersim'# 'hypersim' for indoor model, 'vkitti' for outdoor model
     if metric_model:
-        model, _ = load_metric_model(encoder, dataset, input_shape_h)
+        model, _ = load_metric_model(encoder=encoder, dataset=dataset)
     else:
-        model, _ = load_model(encoder, input_shape_w)
-    dynamo = False      # True or False
+        model, _ = load_model(encoder=encoder)
+    dynamo = True      # True or False
+    onnx_sim = True     # True or False
     dynamic = False     # Fail... (False only)
-    model_name = f"depth_anything_v2_metric_{dataset}" if metric_model else "depth_anything_v2"
-    model_name = f"{model_name}_{encoder}"
+    model_name = f"depth_anything_v2_{encoder}_{input_h}x{input_w}"
+    model_name = f"{model_name}_metric_{dataset}" if metric_model else model_name
     model_name = f"{model_name}_dynamic" if dynamic else model_name
     model_name = f"{model_name}_dynamo" if dynamo else model_name
-    save_path = os.path.join(CUR_DIR, 'onnx')
-    os.makedirs(os.path.dirname(save_path), exist_ok=True)
     export_model_path = os.path.join(save_path, f'{model_name}.onnx')
 
     print('[MDET] Export the model to onnx format')
-    input_size = (1, 3, input_shape_h, input_shape_w)
+    input_size = (1, 3, input_h, input_w)
     dummy_input = torch.randn(input_size, requires_grad=False).to(DEVICE)  # Create a dummy input
     
     dynamic_axes = None 
@@ -84,18 +85,19 @@ def main ():
         for d in output.type.tensor_type.shape.dim:
             print("[MDET] dim_value:", d.dim_value, "dim_param:", d.dim_param)
 
-    print("[MDET] Simplify exported onnx model")
-    onnx_model = onnx.load(export_model_path)
-    try:
-        model_simplified, check = simplify(onnx_model)
-        if not check:
-            raise RuntimeError("[MDET] Simplified model is invalid.")
-        
-        export_model_sim_path = os.path.join(save_path, f'{model_name}_sim.onnx')
-        onnx.save(model_simplified, export_model_sim_path)
-        print(f"[MDET] simplified onnx model saved to: {export_model_sim_path}")
-    except Exception as e:
-        print(f"[MDET] simplification failed: {e}")
+    if onnx_sim :
+        print("[MDET] Simplify exported onnx model")
+        onnx_model = onnx.load(export_model_path)
+        try:
+            model_simplified, check = simplify(onnx_model)
+            if not check:
+                raise RuntimeError("[MDET] Simplified model is invalid.")
+            
+            export_model_sim_path = os.path.join(save_path, f'{model_name}_sim.onnx')
+            onnx.save(model_simplified, export_model_sim_path)
+            print(f"[MDET] simplified onnx model saved to: {export_model_sim_path}")
+        except Exception as e:
+            print(f"[MDET] simplification failed: {e}")
 
 if __name__ == "__main__":
     main()
