@@ -37,7 +37,7 @@ def main():
     dynamo = True # True or False
     model_name = "depth_pro_dynamo" if dynamo else "depth_pro"
     save_path = os.path.join(CUR_DIR, 'onnx')
-    os.makedirs(os.path.dirname(save_path), exist_ok=True)
+    os.makedirs(save_path, exist_ok=True)
     export_model_path = os.path.join(save_path, f'{model_name}.onnx')
 
     print('[MDET] Export the model to onnx format')

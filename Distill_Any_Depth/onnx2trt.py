@@ -139,7 +139,7 @@ def main():
     # Model and engine paths
     precision = "fp16"  # Choose 'fp32' or 'fp16'
     encoder = 'small'   # 'large' or 'base' or 'small' or 'Large-2w-iter'
-    dynamo = False      # True or False
+    dynamo = True      # True or False
     onnx_sim = True    # True or False
     model_name = f"distill_any_depth_{encoder}_{input_h}x{input_w}"
     model_name = f"{model_name}_dynamo" if dynamo else model_name

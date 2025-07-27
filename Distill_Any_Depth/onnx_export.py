@@ -23,7 +23,7 @@ class ModelWrapper(torch.nn.Module):
 def main ():
     print('[MDET] Load model')
     save_path = os.path.join(CUR_DIR, 'onnx')
-    os.makedirs(os.path.dirname(save_path), exist_ok=True)
+    os.makedirs(save_path, exist_ok=True)
 
     # Model preparation
     input_h, input_w = 518, 518 # 700, 700
