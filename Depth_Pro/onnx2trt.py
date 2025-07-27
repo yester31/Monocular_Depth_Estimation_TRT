@@ -15,7 +15,6 @@ from torchvision.transforms import (
     ToTensor,
 )
 
-from PIL import Image
 from matplotlib import pyplot as plt
 import cv2
 import numpy as np
@@ -87,6 +86,8 @@ def main():
     # Input
     f_px0 = None
     image_file_name = 'example.jpg'
+    # image_file_name = '1.png'
+    # image_file_name = 'panda0.jpg'
     image_path = os.path.join(CUR_DIR, '..', 'data', image_file_name)
     image = cv2.imread(image_path)
     image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -217,7 +218,7 @@ def main():
     cbar = plt.colorbar(img, fraction=0.046, pad=0.04)
     num_ticks = 5
     cbar_ticks = np.linspace(0, 1, num_ticks)
-    cbar_ticklabels = np.linspace(max_invdepth_vizu, min_invdepth_vizu,  num_ticks)
+    cbar_ticklabels = np.linspace(depth.max(), depth.min(),  num_ticks)
     cbar.set_ticks(cbar_ticks)
     cbar.set_ticklabels([f'{v:.2f} m' for v in cbar_ticklabels])
     cbar.set_label('Depth (m)', fontsize=12)
