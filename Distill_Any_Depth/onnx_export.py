@@ -1,128 +1,91 @@
 # by yhpark 2025-7-20
 import os
-import sys
 import torch
 import onnx
 from onnxsim import simplify
 
-cur_dir = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(1, os.path.join(sys.path[0], "Distill-Any-Depth"))
+from infer import set_model as load_model
 
-from distillanydepth.modeling.archs.dam.dam import DepthAnything
-from distillanydepth.depth_anything_v2.dpt import DepthAnythingV2
-from safetensors.torch import load_file 
+CUR_DIR = os.path.dirname(os.path.abspath(__file__))
+DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+#DEVICE = torch.device("cpu")
+print(f"[MDET] using device: {DEVICE}")
 
-# Helper function for model loading
-def load_model_by_name(arch_name, checkpoint_path, device):
-    model_kwargs = dict(
-        vits=dict(
-            encoder='vits', 
-            features=64,
-            out_channels=[48, 96, 192, 384]
-        ),
-        vitb=dict(
-            encoder='vitb',
-            features=128,
-            out_channels=[96, 192, 384, 768],
-        ),
-        vitl=dict(
-            encoder="vitl", 
-            features=256, 
-            out_channels=[256, 512, 1024, 1024], 
-            use_bn=False, 
-            use_clstoken=False, 
-            max_depth=150.0, 
-            mode='disparity',
-            pretrain_type='dinov2',
-            del_mask_token=False
+class ModelWrapper(torch.nn.Module):
+    def __init__(self, base_model):
+        super().__init__()
+        self.base_model = base_model
+
+    def forward(self, x):
+        output, _ = self.base_model(x)  # ignore output2
+        return output  # 
+
+def main ():
+    print('[MDET] Load model')
+    save_path = os.path.join(CUR_DIR, 'onnx')
+    os.makedirs(os.path.dirname(save_path), exist_ok=True)
+
+    # Model preparation
+    input_h, input_w = 518, 518 # 700, 700
+    encoder = 'small' # 'large' or 'base' or 'small' or 'Large-2w-iter'
+    model, _ = load_model(encoder)
+
+    dynamo = True      # True or False
+    onnx_sim = True    # True or False
+    model_name = f"distill_any_depth_{encoder}_{input_h}x{input_w}"
+    model_name = f"{model_name}_dynamo" if dynamo else model_name
+    export_model_path = os.path.join(save_path, f'{model_name}.onnx')
+
+    print('[MDET] Export the model to onnx format')
+    input_size = (1, 3, input_h, input_w)
+    dummy_input = torch.randn(input_size, requires_grad=False).to(DEVICE)  # Create a dummy input
+
+    # Export the model to ONNX format
+    with torch.no_grad():  # Disable gradients for efficiency
+        torch.onnx.export(
+            ModelWrapper(model), 
+            dummy_input, 
+            export_model_path, 
+            opset_version=20, 
+            input_names=["input"],
+            output_names=["output"],
+            dynamo=dynamo,
         )
-    )
+    print(f"ONNX model exported to: {export_model_path}")
 
-    # Load model
-    if arch_name == 'depthanything-large':
-        model = DepthAnything(**model_kwargs['vitl']).to(device)
-        # checkpoint_path = hf_hub_download(repo_id=f"xingyang1/Distill-Any-Depth", filename=f"large/model.safetensors", repo_type="model")
+    print("[MDET] Validate exported onnx model")
+    try:
+        onnx_model = onnx.load(export_model_path)
+        onnx.checker.check_model(onnx_model)
+    except Exception as e:
+        print(f"[MDET] failed onnx.checker.check_model() : {e}")
+    finally:
+        onnx.checker.check_model(export_model_path)
 
-    elif arch_name == 'depthanything-base':
-        model = DepthAnythingV2(**model_kwargs['vitb']).to(device)
-        # checkpoint_path = hf_hub_download(repo_id=f"xingyang1/Distill-Any-Depth", filename=f"base/model.safetensors", repo_type="model")
-    elif arch_name == 'depthanything-small':
-        model = DepthAnythingV2(**model_kwargs['vits']).to(device)
-        # checkpoint_path = hf_hub_download(repo_id=f"xingyang1/Distill-Any-Depth", filename=f"base/model.safetensors", repo_type="model")
+    for input in onnx_model.graph.input:
+        print(f"[MDET] Input: {input.name}")
+        for d in input.type.tensor_type.shape.dim:
+            print("[MDET] dim_value:", d.dim_value, "dim_param:", d.dim_param)
 
-    else:
-        raise NotImplementedError(f"Unknown architecture: {arch_name}")
-    
-    # safetensors 
-    model_weights = load_file(checkpoint_path)
-    model.load_state_dict(model_weights)
-    del model_weights
-    torch.cuda.empty_cache()
-    return model
+    for output in onnx_model.graph.output:
+        print(f"[MDET] Output: {output.name}")
+        for d in output.type.tensor_type.shape.dim:
+            print("[MDET] dim_value:", d.dim_value, "dim_param:", d.dim_param)
 
-# Load model
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-#device = torch.device("cpu")
-print(f"Using device: {device}")
-
-encoder = 'small' # 'large' or 'base', 'small'
-checkpoint = f'{cur_dir}/Distill-Any-Depth/checkpoint/{encoder}/model.safetensors'
-arch_name = f"depthanything-{encoder}" # 'depthanything-large', 'depthanything-base', 'depthanything-small'
-model = load_model_by_name(arch_name, checkpoint, device)
-model = model.eval().to(device)
-
-model_name = f"distill_any_depth_{encoder}"
-export_model_path = os.path.join(cur_dir, 'onnx', f'{model_name}.onnx')
-os.makedirs(os.path.dirname(export_model_path), exist_ok=True)
-
-# Get model input size from the model configuration
-input_size = (1, 3, 518, 518)
-#input_size = (1, 3, 518, 686)
-dummy_input = torch.randn(input_size, requires_grad=False).to(device)  # Create a dummy input
-
-# Export the model to ONNX format
-with torch.no_grad():  # Disable gradients for efficiency
-    torch.onnx.export(
-        model, 
-        dummy_input, 
-        export_model_path, 
-        opset_version=20, 
-        input_names=["input"],
-        output_names=["output"],
-        # dynamic_axes={
-        #    "input": {0: "batch_size", 2: "height", 3: "width"},
-        #    "output": {0: "batch_size", 1: "height", 2: "width"},
-        #}
-        #dynamo=True,
-        #dynamic_shapes={"input": {0: "batch_size", 2: "height", 3: "width"},
-        #"output": {0: "batch_size", 1: "height", 2: "width"}  # 옵션 (출력도 동적이면)
-        #}
-    )
-print(f"ONNX model exported to: {export_model_path}")
-
-# Verify the exported ONNX model
-onnx_model = onnx.load(export_model_path)
-onnx.checker.check_model(export_model_path)  # Perform a validity check
-print("ONNX model validation successful!")
-
-for input in onnx_model.graph.input:
-    print(f"Input: {input.name}")
-    for d in input.type.tensor_type.shape.dim:
-        print("dim_value:", d.dim_value, "dim_param:", d.dim_param)
-
-for output in onnx_model.graph.output:
-    print(f"Output: {output.name}")
-    for d in output.type.tensor_type.shape.dim:
-        print("dim_value:", d.dim_value, "dim_param:", d.dim_param)
+    if onnx_sim :
+        print("[MDET] Simplify exported onnx model")
+        onnx_model = onnx.load(export_model_path)
+        try:
+            model_simplified, check = simplify(onnx_model)
+            if not check:
+                raise RuntimeError("[MDET] Simplified model is invalid.")
+            
+            export_model_sim_path = os.path.join(save_path, f'{model_name}_sim.onnx')
+            onnx.save(model_simplified, export_model_sim_path)
+            print(f"[MDET] simplified onnx model saved to: {export_model_sim_path}")
+        except Exception as e:
+            print(f"[MDET] simplification failed: {e}")
 
 
-# Simplify
-try:
-    model_simplified, check = simplify(onnx_model)
-    if not check:
-        raise RuntimeError("Simplified model is invalid.")
-    export_model_sim_path = os.path.join(cur_dir, 'onnx', f'{model_name}_sim.onnx')
-    onnx.save(model_simplified, export_model_sim_path)
-    print(f"Simplified model saved to: {export_model_sim_path}")
-except Exception as e:
-    print(f"Simplification failed: {e}")
+if __name__ == "__main__":
+    main()

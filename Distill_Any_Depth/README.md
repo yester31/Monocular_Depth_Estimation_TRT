@@ -1,6 +1,9 @@
 # Distill Any Depth
+- **[Distill Any Depth: Distillation Creates a Stronger Monocular Depth Estimator](https://arxiv.org/abs/2502.19204)**
+- **[Distill Any Depth official GitHub](https://github.com/Westlake-AGI-Lab/Distill-Any-Depth)**
+- 2d image -> depth
 
-## How to Run
+## How to Run (Pytorch)
 
 1. set up a virtual environment.
 ```
@@ -56,7 +59,9 @@ python infer.py
 - Average inference time: 19.05 [msec]
 --------------------------------------------------------------------
 
-5. generate onnx file
+## How to Run (TensorRT)
+
+1. generate onnx file
 
 ```
 pip install onnx
@@ -65,7 +70,7 @@ python onnx_export.py
 // a file 'distill_any_depth_small.onnx' will be generated in onnx directory.
 ```
 
-6. build tensorrt model and run
+2. build tensorrt model and run
 
 ```
 conda activate trte
@@ -79,4 +84,4 @@ python onnx2trt.py
 - Average FPS: 121.36 [fps]
 - Average inference time: 8.24 [msec]
 
-https://github.com/Westlake-AGI-Lab/Distill-Any-Depth
+**[Back](../README.md)** 

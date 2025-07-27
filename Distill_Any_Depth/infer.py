@@ -1,28 +1,28 @@
-import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import os.path as osp
+from matplotlib import pyplot as plt
 import numpy as np
-import torch
-from PIL import Image
 import cv2
-from torchvision.transforms import Compose
 import time
 
-sys.path.insert(1, os.path.join(sys.path[0], "Distill-Any-Depth"))
+import torch
+from torchvision.transforms import Compose
 
 from distillanydepth.midas.transforms import Resize, NormalizeImage, PrepareForNet
 from distillanydepth.modeling.archs.dam.dam import DepthAnything
 from distillanydepth.depth_anything_v2.dpt import DepthAnythingV2
-from distillanydepth.utils.image_util import chw2hwc, colorize_depth_maps
 from safetensors.torch import load_file 
 
-cur_dir = os.path.dirname(os.path.abspath(__file__))
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-print(f"Using device: {device}")
+CUR_DIR = os.path.dirname(os.path.abspath(__file__))
+DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+print(f"[MDET] using device: {DEVICE}")
 
-# Helper function for model loading
-def load_model_by_name(arch_name, checkpoint_path, device):
+def set_model(encoder='vits', input_h=518, input_w=518, dtype: torch.dtype = torch.float32):
+    checkpoint_path = f'{CUR_DIR}/Distill-Any-Depth/checkpoint/{encoder}/model.safetensors'       
+    arch_name = f"depthanything-{encoder}" # 'depthanything-large', 'depthanything-base', 'depthanything-small'
+
+    if encoder == 'Large-2w-iter':
+        arch_name = f"depthanything-large" # 'depthanything-large', 'depthanything-base', 'depthanything-small'
+
     model_kwargs = dict(
         vits=dict(
             encoder='vits', 
@@ -49,16 +49,11 @@ def load_model_by_name(arch_name, checkpoint_path, device):
 
     # Load model
     if arch_name == 'depthanything-large':
-        model = DepthAnything(**model_kwargs['vitl']).to(device)
-        # checkpoint_path = hf_hub_download(repo_id=f"xingyang1/Distill-Any-Depth", filename=f"large/model.safetensors", repo_type="model")
-
+        model = DepthAnything(**model_kwargs['vitl']).to(DEVICE)
     elif arch_name == 'depthanything-base':
-        model = DepthAnythingV2(**model_kwargs['vitb']).to(device)
-        # checkpoint_path = hf_hub_download(repo_id=f"xingyang1/Distill-Any-Depth", filename=f"base/model.safetensors", repo_type="model")
+        model = DepthAnythingV2(**model_kwargs['vitb']).to(DEVICE)
     elif arch_name == 'depthanything-small':
-        model = DepthAnythingV2(**model_kwargs['vits']).to(device)
-        # checkpoint_path = hf_hub_download(repo_id=f"xingyang1/Distill-Any-Depth", filename=f"base/model.safetensors", repo_type="model")
-
+        model = DepthAnythingV2(**model_kwargs['vits']).to(DEVICE)
     else:
         raise NotImplementedError(f"Unknown architecture: {arch_name}")
     
@@ -67,20 +62,33 @@ def load_model_by_name(arch_name, checkpoint_path, device):
     model.load_state_dict(model_weights)
     del model_weights
     torch.cuda.empty_cache()
-    return model
+    model = model.eval()
 
+    if dtype == torch.half:
+        model = model.half()
 
-def infer_performace(model, input_size=700):
-    model = model.half()
-    dummy_input = torch.randn(1, 3, input_size, input_size).to(device).half()
+    transform = Compose([
+        Resize(input_w, 
+               input_h, 
+               resize_target=False, 
+               keep_aspect_ratio=False, 
+               ensure_multiple_of=14, 
+               resize_method='lower_bound', 
+               image_interpolation_method=cv2.INTER_CUBIC),
+        NormalizeImage(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+        PrepareForNet()
+    ])
 
-    # 예열 단계 (GPU 워밍업)
+    return model, transform
+
+def infer_performace(model, input_h=518, input_w=518):
+    dummy_input = torch.randn(1, 3, input_h, input_w).to(DEVICE).half()
+
     with torch.no_grad():
         for _ in range(20):
             pred_disp, _ = model(dummy_input)
     torch.cuda.synchronize()
 
-    # FPS 측정
     iteration = 100
     dur_time = 0
     with torch.no_grad():
@@ -90,60 +98,58 @@ def infer_performace(model, input_size=700):
             torch.cuda.synchronize()
             dur_time += time.time() - begin
 
-    print(f'{iteration} iterations time: {dur_time:.4f} [sec]')
+    print(f'[MDET] {iteration} iterations time ({input_h, input_w}): {dur_time:.4f} [sec]')
     avg_time = dur_time / iteration
-    print(f'Average FPS: {1 / avg_time:.2f} [fps]')
-    print(f'Average inference time: {avg_time * 1000:.2f} [msec]')
-
+    print(f'[MDET] Average FPS: {1 / avg_time:.2f} [fps]')
+    print(f'[MDET] Average inference time: {avg_time * 1000:.2f} [msec]')
 
 def main():
 
-    # Model preparation
-    encoder = 'small' # 'large' or 'base', 'small'
-    checkpoint = f'{cur_dir}/Distill-Any-Depth/checkpoint/{encoder}/model.safetensors'
-    arch_name = f"depthanything-{encoder}" # 'depthanything-large', 'depthanything-base', 'depthanything-small'
-    model = load_model_by_name(arch_name, checkpoint, device)
+    save_dir_path = os.path.join(CUR_DIR, 'results')
+    os.makedirs(save_dir_path, exist_ok=True)
 
-    # Define image transformation
-    # resize_h, resize_w = 700, 700
-    resize_h, resize_w = 518, 518
-    transform = Compose([
-        Resize(resize_w, resize_h, resize_target=False, keep_aspect_ratio=False, ensure_multiple_of=14, resize_method='lower_bound', image_interpolation_method=cv2.INTER_CUBIC),
-        NormalizeImage(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-        PrepareForNet()
-    ])
+    # Model preparation
+    encoder = 'small' # 'large' or 'base' or 'small' or 'Large-2w-iter'
+    input_h, input_w = 518, 518 # 518, 518
+    dtype = torch.half
+    model, transform = set_model(encoder, input_h, input_w, dtype)
 
     # input 
-    image_path = os.path.join(cur_dir, '..', 'data', 'example.jpg')
-    validation_image_np = cv2.imread(image_path, cv2.COLOR_BGR2RGB)[..., ::-1] / 255
-    print(f"original input size : {validation_image_np.shape}")
-    validation_image = transform({'image': validation_image_np})['image']
-    validation_image = torch.from_numpy(validation_image).unsqueeze(0).to(device).half()
-    model = model.eval().half()
-    # infer
-    with torch.autocast("cuda"):
-        pred_disp, _ = model(validation_image)
-    
-    # post-proc
-    pred_disp_np = pred_disp.cpu().detach().numpy()[0, :, :, :].transpose(1, 2, 0)
-    pred_disp = (pred_disp_np - pred_disp_np.min()) / (pred_disp_np.max() - pred_disp_np.min())
+    image_file_name = 'example.jpg'
+    image_path = os.path.join(CUR_DIR, '..', 'data', image_file_name)
+    raw_image = cv2.imread(image_path)
+    #raw_image = cv2.resize(raw_image, (518, 518))
+    # ===================================================================
+    print('[MDET] Pre process')
+    ori_shape = raw_image.shape[:2]
+    print(f"[MDET] original image size : {ori_shape}")
+    image = cv2.cvtColor(raw_image, cv2.COLOR_BGR2RGB) / 255.0
+    image = transform({'image': image})['image']
+    x = torch.from_numpy(image).unsqueeze(0).to(DEVICE)
+    if dtype == torch.half:
+        x = x.half()
+    print(f'[MDET] model input size : {x.shape}') # 
+    # ===================================================================
+    print('[MDET] Run inference')
+    with torch.no_grad():
+        pred_disp, _ = model(x)
+    # ===================================================================
+    print('[MDET] Post process')
+    depth = torch.squeeze(pred_disp).detach().cpu().numpy()
+    print(f'[MDET] max : {depth.max():0.5f} , min : {depth.min():0.5f}')
+    depth_normalized = (depth - depth.min()) / (depth.max() - depth.min()) * 255.0
+    depth_normalized = depth_normalized.astype(np.uint8)
 
-    # visualization
-    cmap = "turbo" # "turbo" or "Spectral_r"
-    depth_colored = colorize_depth_maps(pred_disp[None, ...], 0, 1, cmap=cmap).squeeze()
-    depth_colored = (depth_colored * 255).astype(np.uint8)
-    depth_colored_hwc = chw2hwc(depth_colored)
-    h, w = validation_image_np.shape[:2]
-    depth_colored_hwc = cv2.resize(depth_colored_hwc, (w, h), cv2.INTER_LINEAR)
-    image_out = Image.fromarray(np.concatenate([depth_colored_hwc], axis=1))
+    cmap = plt.get_cmap("turbo")
+    color_depth = (cmap(depth_normalized)[..., :3] * 255).astype(np.uint8)
+    color_depth_bgr = cv2.cvtColor(color_depth, cv2.COLOR_RGB2BGR)    
+    color_depth_bgr = cv2.resize(color_depth_bgr, (ori_shape[1], ori_shape[0]), cv2.INTER_LINEAR)
 
-    # save result
-    outdir = 'results'
-    os.makedirs(outdir, exist_ok=True)
-    image_out.save(osp.join(cur_dir, outdir, f'{os.path.splitext(os.path.basename(image_path))[0]}_{encoder}_dad_torch.png'))
-    torch.cuda.empty_cache()
+    # save colored depth image 
+    output_file_depth = os.path.join(save_dir_path, os.path.splitext(image_file_name)[0] + f'_{encoder}_dad_torch.jpg')
+    cv2.imwrite(output_file_depth, color_depth_bgr)
 
-    infer_performace(model, resize_h)
+    infer_performace(model, input_h, input_w)
 
     
 if __name__ == "__main__":

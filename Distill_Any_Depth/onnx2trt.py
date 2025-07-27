@@ -1,4 +1,4 @@
-# by yhpark 2025-7-20
+# by yhpark 2025-7-27
 # Distill Any Depth TensorRT model generation
 import os
 import sys
@@ -18,15 +18,9 @@ import time
 import common
 from common import *
 
-current_file_path = os.path.abspath(__file__)
-cur_dir = os.path.dirname(current_file_path)
-print(f"current file path: {current_file_path}")
-print(f"current directory: {cur_dir}")
-
-# Global Variables
+CUR_DIR = os.path.dirname(os.path.abspath(__file__))
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-print(f"Using device: {DEVICE}")
-
+print(f"[MDET] using device: {DEVICE}")
 TRT_LOGGER = trt.Logger(trt.Logger.INFO)
 TRT_LOGGER.min_severity = trt.Logger.Severity.INFO
 
@@ -42,16 +36,9 @@ def get_engine(onnx_file_path, engine_file_path="", precision='fp32', dynamic_in
             if not os.path.exists(onnx_file_path):
                 raise FileNotFoundError(f"[TRT] ONNX file {onnx_file_path} not found.")
 
-            # print(f"[TRT] Loading and parsing ONNX file: {onnx_file_path}")
-            # with open(onnx_file_path, "rb") as model:
-            #     if not parser.parse(model.read()):
-            #         raise RuntimeError("[TRT] Failed to parse the ONNX file.")
-            #     for error in range(parser.num_errors):
-            #         print(parser.get_error(error))
-                    
             parser.parse_from_file(onnx_file_path)
             
-            timing_cache = f"{cur_dir}/timing_{os.path.splitext(os.path.basename(onnx_file_path))[0]}.cache"
+            timing_cache = f"{os.path.dirname(engine_file_path)}/{os.path.splitext(os.path.basename(engine_file_path))[0]}_timing.cache"
             common.setup_timing_cache(config, timing_cache)
             config.profiling_verbosity = trt.ProfilingVerbosity.DETAILED
             config.set_memory_pool_limit(trt.MemoryPoolType.WORKSPACE, common.GiB(2))
@@ -60,17 +47,6 @@ def get_engine(onnx_file_path, engine_file_path="", precision='fp32', dynamic_in
             if precision == "fp16" and builder.platform_has_fast_fp16:
                 config.set_flag(trt.BuilderFlag.FP16)
                 print(f'[TRT_E] set fp16 model')
-            if dynamic_input_shapes is not None :
-                profile = builder.create_optimization_profile()
-                for i_idx in range(network.num_inputs):
-                    input = network.get_input(i_idx)
-                    assert input.shape[0] == -1
-                    min_shape = dynamic_input_shapes[0]
-                    opt_shape = dynamic_input_shapes[1]
-                    max_shape = dynamic_input_shapes[2]
-                    profile.set_shape(input.name, min_shape, opt_shape, max_shape) # any dynamic input tensors
-                    print("[TRT_E] Input '{}' Optimization Profile with shape MIN {} / OPT {} / MAX {}".format(input.name, min_shape, opt_shape, max_shape))
-                config.add_optimization_profile(profile)
 
             for i_idx in range(network.num_inputs):
                 print(f'[TRT_E] input({i_idx}) name: {network.get_input(i_idx).name}, shape= {network.get_input(i_idx).shape}')
@@ -105,7 +81,6 @@ def get_engine(onnx_file_path, engine_file_path="", precision='fp32', dynamic_in
 
         return engine
 
-
 def constrain_to_multiple_of(x, min_val=0, max_val=None, ensure_multiple_of=14):
     y = (np.round(x / ensure_multiple_of) * ensure_multiple_of).astype(int)
 
@@ -117,24 +92,16 @@ def constrain_to_multiple_of(x, min_val=0, max_val=None, ensure_multiple_of=14):
 
     return y
 
-def preprocess_image(raw_image, input_size=518, precision=torch.float32):
+def preprocess_image(raw_image, input_h=518, input_w=518, precision=torch.float32):
 
     image = cv2.cvtColor(raw_image, cv2.COLOR_BGR2RGB) / 255.0
     
     width, height = image.shape[1], image.shape[0]
-    scale_height = input_size / height
-    scale_width = input_size / width 
+    scale_height = input_h / height
+    scale_width = input_w / width 
 
-    # scale such that output size is lower bound
-    if scale_width > scale_height:
-        # fit width
-        scale_height = scale_width
-    else:
-        # fit height
-        scale_width = scale_height
-
-    new_height = constrain_to_multiple_of(scale_height * height, min_val=input_size)
-    new_width = constrain_to_multiple_of(scale_width * width, min_val=input_size)
+    new_height = constrain_to_multiple_of(scale_height * height, min_val=input_h)
+    new_width = constrain_to_multiple_of(scale_width * width, min_val=input_w)
 
     # resize sample
     image = cv2.resize(image, (new_width, new_height), interpolation=cv2.INTER_CUBIC)
@@ -151,34 +118,34 @@ def preprocess_image(raw_image, input_size=518, precision=torch.float32):
 
     return image
 
-
 def main():
-    iteration = 100
-    dur_time = 0
+    save_dir_path = os.path.join(CUR_DIR, 'results')
+    os.makedirs(save_dir_path, exist_ok=True)
+
+    input_h, input_w = 518, 518 # 700, 700
 
     # Input
-    image_path = os.path.join(cur_dir, '..', 'data', 'example.jpg')
-    file_name = os.path.splitext(os.path.basename(image_path))[0]
+    image_file_name = 'example.jpg'
+    image_path = os.path.join(CUR_DIR, '..', 'data', image_file_name)
     raw_img = cv2.imread(image_path)
     h, w = raw_img.shape[:2]
-    print(f'h : {h}, w : {w}')
     print(f'original shape : {raw_img.shape}')
-    raw_img = cv2.resize(raw_img, (518, 518))
+    raw_img = cv2.resize(raw_img, (input_w, input_h))
 
-    input_image = preprocess_image(raw_img)  # Preprocess image
+    input_image = preprocess_image(raw_img, input_h, input_w)  # Preprocess image
     print(f'after preprocess shape : {input_image.shape}')
     batch_images = np.concatenate([input_image], axis=0)
 
     # Model and engine paths
     precision = "fp16"  # Choose 'fp32' or 'fp16'
-    encoder = 'small' # 'large' or 'base', 'small'
-    model_name = f"distill_any_depth_{encoder}"
-    if 1:
-        onnx_model_path = os.path.join(cur_dir, 'onnx', f'{model_name}_sim.onnx')
-        engine_file_path = os.path.join(cur_dir, 'engine', f'{model_name}_{precision}_sim.engine')
-    else :
-        onnx_model_path = os.path.join(cur_dir, 'onnx', f'{model_name}.onnx')
-        engine_file_path = os.path.join(cur_dir, 'engine', f'{model_name}_{precision}.engine')
+    encoder = 'small'   # 'large' or 'base' or 'small' or 'Large-2w-iter'
+    dynamo = False      # True or False
+    onnx_sim = True    # True or False
+    model_name = f"distill_any_depth_{encoder}_{input_h}x{input_w}"
+    model_name = f"{model_name}_dynamo" if dynamo else model_name
+    model_name = f"{model_name}_sim" if onnx_sim else model_name
+    onnx_model_path = os.path.join(CUR_DIR, 'onnx', f'{model_name}.onnx')
+    engine_file_path = os.path.join(CUR_DIR, 'engine', f'{model_name}_{precision}.engine')
     os.makedirs(os.path.dirname(engine_file_path), exist_ok=True)
 
     # input & output shapes 
@@ -186,24 +153,16 @@ def main():
     output_shape = (1, batch_images.shape[2], batch_images.shape[3])
     print(f'trt input shape : {input_shape}')
     print(f'trt output shape : {output_shape}')
-    #dynamic_input_shapes = [[1,3,259,259], [1,3,518,518], [1,3,686,686]]
-    #dynamic_input_shapes = [[1,3,518,518], [1,3,518,518], [1,3,518,518]]
-    dynamic_input_shapes = None
 
+    iteration = 100
+    dur_time = 0
     # Load or build the TensorRT engine and do inference
-    with get_engine(onnx_model_path, engine_file_path, precision, dynamic_input_shapes) as engine, \
+    with get_engine(onnx_model_path, engine_file_path, precision) as engine, \
             engine.create_execution_context() as context:
                 
-        # inspector = engine.create_engine_inspector()
-        # inspector.execution_context = context # OPTIONAL
-        # print(inspector.get_layer_information(0, trt.tensorrt.LayerInformationFormat.JSON)) # Print the information of the first layer in the engine.
-        # print(inspector.get_engine_information( trt.tensorrt.LayerInformationFormat.JSON)) # Print the information of the entire engine.
-        
         inputs, outputs, bindings, stream = common.allocate_buffers(engine, output_shape, profile_idx=0)
         inputs[0].host = batch_images
-        
-        context.set_input_shape('input', batch_images.shape)
-        
+                
         # Warm-up      
         for _ in range(10):  
             common.do_inference(context, engine=engine, bindings=bindings, inputs=inputs, outputs=outputs, stream=stream)
@@ -215,52 +174,42 @@ def main():
             trt_outputs = common.do_inference(context, engine=engine, bindings=bindings, inputs=inputs, outputs=outputs, stream=stream)
             torch.cuda.synchronize()
             dur_time += time.time() - begin
+        # ===================================================================
 
-    # Results
-    print(f'[TRT] {iteration} iterations time: {dur_time:.4f} [sec]')
-    avg_time = dur_time / iteration
-    print(f'[TRT] Average FPS: {1 / avg_time:.2f} [fps]')
-    print(f'[TRT] Average inference time: {avg_time * 1000:.2f} [msec]')
+        print('[MDET] Post process')
+        depth = torch.from_numpy(trt_outputs[0].reshape(output_shape))
+        depth = torch.squeeze(depth).numpy()
+        
+        # Results
+        print(f'[MDET] {iteration} iterations time: {dur_time:.4f} [sec]')
+        avg_time = dur_time / iteration
+        print(f'[MDET] Average FPS: {1 / avg_time:.2f} [fps]')
+        print(f'[MDET] Average inference time: {avg_time * 1000:.2f} [msec]')
+        print(f'[MDET] max : {depth.max():0.5f} , min : {depth.min():0.5f}')
+    
+    # ===================================================================
+    print('[MDET] Generate color depth image')
 
-    # # Reshape output
-    output = torch.from_numpy(trt_outputs[0].reshape(output_shape))
-    output = F.interpolate(output[:, None], (h, w), mode="bilinear", align_corners=True)[0, 0]
-    depth0 = output.numpy() 
+    # visualization
+    # Save as color-mapped "turbo" jpg image.
+    cmap = plt.get_cmap("turbo")
+    output_file_depth = os.path.join(save_dir_path, os.path.splitext(image_file_name)[0] + f'_{model_name}_trt.jpg')
 
-    # post process
-    print(f'max : {depth0.max()} , min : {depth0.min()}')
+    depth_normalized = (depth - depth.min()) / (depth.max() - depth.min()) * 255.0
+    depth_normalized = depth_normalized.astype(np.uint8)
 
-    depth = (depth0 - depth0.min()) / (depth0.max() - depth0.min()) * 255.0
-    depth = depth.astype(np.uint8)
-    #cmap = matplotlib.colormaps.get_cmap('Spectral_r')
-    cmap = matplotlib.colormaps.get_cmap('turbo')
-    heat_map = (cmap(depth)[:, :, :3] * 255)[:, :, ::-1].astype(np.uint8)
+    color_depth = (cmap(depth_normalized)[..., :3] * 255).astype(np.uint8)
+    color_depth_bgr = cv2.cvtColor(color_depth, cv2.COLOR_RGB2BGR)    
+    color_depth_bgr = cv2.resize(color_depth_bgr, (w, h), cv2.INTER_LINEAR)
 
-    outdir = 'results'
-    os.makedirs(outdir, exist_ok=True)
-    cv2.imwrite(os.path.join(cur_dir, outdir, file_name + f'_{encoder}_dad_TRT.png'), heat_map)
+    # save colored depth image 
+    cv2.imwrite(output_file_depth, color_depth_bgr)
 
-    if 1 : # prev version 
-        #activation_map = (inverse_depth - np.min(inverse_depth)) / np.max(inverse_depth)
-        heat_map = cv2.applyColorMap(depth, cv2.COLORMAP_TURBO) # hw -> hwc
-        # 샘플 결과 출력 및 저장
-        save_path = os.path.join(cur_dir, outdir, f'{file_name}_dad_TRT_cv.jpg')
-        os.makedirs(os.path.dirname(save_path), exist_ok=True)
-        cv2.imwrite(save_path, heat_map)
-    else : # original ml-pro 
-        # Save as color-mapped "turbo" jpg image.
-        cmap = plt.get_cmap("turbo")
-        heat_map = (cmap(depth)[..., :3] * 255).astype(np.uint8)
-        # 샘플 결과 출력 및 저장
-        save_path = os.path.join(cur_dir, outdir, f'{file_name}_dad_TRT.jpg')
-        os.makedirs(os.path.dirname(save_path), exist_ok=True)
-        Image.fromarray(heat_map).save(save_path, format="JPEG", quality=90)
-
-    output_file_npz = os.path.join(cur_dir, outdir, f'{file_name}_dad_TRT')
+    # save_npz
+    output_file_npz = os.path.join(save_dir_path, os.path.splitext(image_file_name)[0] + f'_{model_name}_trt')
     np.savez_compressed(output_file_npz, depth=depth)
 
     common.free_buffers(inputs, outputs, stream)
-
 
 if __name__ == '__main__':
     main()
