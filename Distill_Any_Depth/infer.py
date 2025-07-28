@@ -108,7 +108,7 @@ def main():
     save_dir_path = os.path.join(CUR_DIR, 'results')
     os.makedirs(save_dir_path, exist_ok=True)
 
-    # Model preparation
+    print('[MDET] Load model & image')
     encoder = 'small' # 'large' or 'base' or 'small' or 'Large-2w-iter'
     input_h, input_w = 518, 518 # 518, 518
     dtype = torch.half
