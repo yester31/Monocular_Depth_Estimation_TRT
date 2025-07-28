@@ -1,6 +1,9 @@
 # MoGe-2
+- **[MoGe-2: Accurate Monocular Geometry with Metric Scale and Sharp Details](https://arxiv.org/abs/2507.02546)**
+- **[MoGe-2 official GitHub](https://github.com/microsoft/MoGe)**
+- 2d image -> depth, point cloud, normal, fov
 
-## How to Run
+## How to Run (Pytorch)
 
 1. set up a virtual environment.
 ```
@@ -53,7 +56,9 @@ python infer.py
 - Average inference time: 140.06 [msec]
 --------------------------------------------------------------------
 
-5. generate onnx file
+## How to Run (TensorRT)
+
+1. generate onnx file
 
 ```
 pip install onnx
@@ -62,7 +67,7 @@ python onnx_export.py
 // a file 'moge-2-vits-normal_dynamic_sim.onnx' will be generated in onnx directory.
 ```
 
-6. build tensorrt model and run
+2. build tensorrt model and run
 
 ```
 conda activate trte
@@ -71,15 +76,9 @@ python onnx2trt.py
 // a file 'moge-2-vits-normal_fp16_dynamic_sim.engine' will be generated in engine directory.
 ```
 - 518 x 518 input
-- dynamic shape model
-    - 100 iterations time ((518, 518)): 4.6682 [sec]
-    - Average FPS: 21.42 [fps]
-    - Average inference time: 46.68 [msec]
-    - max : 2.4785473346710205 , min : 0.7019206285476685
-- static shape model
-    - 100 iterations time ((518, 518)): 4.7010 [sec]
-    - Average FPS: 21.27 [fps]
-    - Average inference time: 47.01 [msec]
-    - max : 2.4711220264434814 , min : 0.7006123661994934
+- 100 iterations time ((518, 518)): 4.7010 [sec]
+- Average FPS: 21.27 [fps]
+- Average inference time: 47.01 [msec]
+- max : 2.4711220264434814 , min : 0.7006123661994934
 
-https://github.com/microsoft/MoGe
+**[Back](../README.md)** 
