@@ -33,12 +33,10 @@ pip install opencv-python
 - **[MoGe-2 to TensorRT](MoGe_2/README.md)**   
 ### 2.5 Depth Anything At Any Condition
 - **[Depth Anything AC to TensorRT](Depth_Anything_AC/README.md)**   
-
+### 2.6 Uni Depth V2
+- **[Uni Depth V2 to TensorRT](Uni_Depth_V2/README.md)**  
 
 ## 3. todo
-
-### 2.6 Uni Depth V2
-- **[Uni-Depth V2 to TensorRT](Uni_Depth_V2/README.md)**  
 ### 2.7 Metric3D V2
 - **[Metric3D V2 to TensorRT](Metric3D_V2/README.md)**  
 ### 2.8 Zoe Depth
@@ -50,7 +48,6 @@ pip install opencv-python
 ### 2.11 Depth Crafter
 - **[Depth Crafter to TensorRT](Depth_Crafter/README.md)**   
 -------------
-- [Uni-Depth V2](https://github.com/lpiccinelli-eth/UniDepth)   
 - [Metric3D V2](https://github.com/YvanYin/Metric3D)   
 - [Zoe Depth](https://github.com/isl-org/ZoeDepth)   
 - [Video Depth Anything](https://github.com/DepthAnything/Video-Depth-Anything)   
