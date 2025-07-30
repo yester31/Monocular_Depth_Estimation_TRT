@@ -1,5 +1,4 @@
-# by yhpark 2025-7-28
-# Depth Anything AC TensorRT model generation
+# by yhpark 2025-7-29
 import os
 import sys
 sys.path.insert(1, os.path.join(sys.path[0], ".."))
