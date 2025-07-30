@@ -58,8 +58,8 @@ python onnx2trt.py
 // a file '.engine' will be generated in engine directory.
 ```
 - encoder: vitb, input size: 518 x 518 
-[MDET] 100 iterations time: 2.7127 [sec]
-[MDET] Average FPS: 36.86 [fps]
-[MDET] Average inference time: 27.13 [msec]
+- 100 iterations time: 2.7127 [sec]
+- Average FPS: 36.86 [fps]
+- Average inference time: 27.13 [msec]
 
 **[Back](../README.md)** 

@@ -1,7 +1,7 @@
 # MoGe-2
 - **[MoGe-2: Accurate Monocular Geometry with Metric Scale and Sharp Details](https://arxiv.org/abs/2507.02546)**
 - **[MoGe-2 official GitHub](https://github.com/microsoft/MoGe)**
-- 2d image -> depth, point cloud, normal, fov
+- 2d image -> depth, point cloud, surface normal, fov
 
 ## How to Run (Pytorch)
 
