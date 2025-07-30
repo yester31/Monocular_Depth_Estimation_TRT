@@ -16,7 +16,7 @@ import time
 import common
 from common import *
 
-from unidepth.models.unidepthv2.unidepthv2 import get_paddings, get_resize_factor
+from UniDepth.unidepth.models.unidepthv2.unidepthv2 import get_paddings, get_resize_factor
 
 
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -75,30 +75,24 @@ def get_engine(onnx_file_path, engine_file_path="", precision='fp32', dynamic_in
         print(f'[MDET] Engine build done! ({build_time_str})')
 
         return engine
-    
-def preprocess_image(image, target_size=518):
-    """Preprocess input image"""
-    
-    h, w = image.shape[:2]
-    scale = target_size / min(h, w)
-    new_h, new_w = int(h * scale), int(w * scale)
-    
-    new_h = ((new_h + 13) // 14) * 14
-    new_w = ((new_w + 13) // 14) * 14
-    image = cv2.resize(image, (new_w, new_h), interpolation=cv2.INTER_CUBIC)
 
-    mean = np.array([0.485, 0.456, 0.406])
-    std = np.array([0.229, 0.224, 0.225])
-    image = (image - mean) / std
+def postprocess_intrinsics(K, resize_factors, paddings = None):
+    batch_size = K.shape[0]
+    K_new = K.clone()
 
-    # PrepareForNet
-    image = np.transpose(image, (2, 0, 1))
-    image = np.ascontiguousarray(image).astype(np.float32)
+    for i in range(batch_size):
+        scale_w, scale_h = resize_factors
+        #pad_l, _, pad_t, _ = paddings[i]
 
-    # [C, H, W] -> [1, C, H, W]
-    image = np.expand_dims(image, axis=0)
+        K_new[i, 0, 0] *= scale_w  # fx
+        K_new[i, 1, 1] *= scale_h  # fy
+        K_new[i, 0, 2] *= scale_w  # cx
+        K_new[i, 1, 2] *= scale_h  # cy
 
-    return image
+        #K_new[i, 0, 2] -= pad_l  # cx
+        #K_new[i, 1, 2] -= pad_t  # cy
+
+    return K_new
 
 def main():
 
@@ -113,34 +107,32 @@ def main():
     image_path = os.path.join(CUR_DIR, '..', 'data', image_file_name)
     raw_image = cv2.imread(image_path)
     h, w = raw_image.shape[:2]
+    resize_factors = (w/input_w, h/input_h)
+
     print(f'[MDET] original shape : {raw_image.shape}')
     raw_image = cv2.resize(raw_image, (input_w, input_h))
-
     image = cv2.cvtColor(raw_image, cv2.COLOR_BGR2RGB).astype(np.float32) 
     rgb = torch.from_numpy(image).permute(2, 0, 1) # C, H, W
     rgb = rgb.unsqueeze(0)
-    B, _, H, W = rgb.shape
-
-    ratio_bounds =  [0.5, 2.5]
-    pixels_bounds= [600000, 200000]
-    paddings, (padded_H, padded_W) = get_paddings((H, W), ratio_bounds)
-    (pad_left, pad_right, pad_top, pad_bottom) = paddings
-    resize_factor, (new_H, new_W) = get_resize_factor((padded_H, padded_W), pixels_bounds)
-    
     rgb = TF.normalize(rgb.float() / 255.0, mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225),)
-    rgb = F.pad(rgb, (pad_left, pad_right, pad_top, pad_bottom), value=0.0)
-    #rgb = F.interpolate(rgb, size=(new_H, new_W), mode="bilinear", align_corners=False)
-    # image = cv2.cvtColor(raw_image, cv2.COLOR_BGR2RGB).astype(np.float32)
-    # x = torch.from_numpy(image).permute(2, 0, 1) # C, H, W
+    '''
+        B, _, H, W = rgb.shape
+        ratio_bounds =  [0.5, 2.5]
+        pixels_bounds= [200000, 600000]
+        paddings, (padded_H, padded_W) = get_paddings((H, W), ratio_bounds)
+        (pad_left, pad_right, pad_top, pad_bottom) = paddings
+        resize_factor, (new_H, new_W) = get_resize_factor((padded_H, padded_W), pixels_bounds)
+        rgb = F.pad(rgb, (pad_left, pad_right, pad_top, pad_bottom), value=0.0)
+        rgb = F.interpolate(rgb, size=(new_H, new_W), mode="bilinear", align_corners=False)
+    '''
     x = rgb.cpu().numpy()
-
     print(f'[MDET] after preprocess shape : {x.shape}')
     batch_images = np.concatenate([x], axis=0)
 
-    # Model and engine paths (ff)
+    # Model and engine paths
     precision = "fp16"  # 'fp32' or 'fp16'
-    encoder = 'vitb'    # 'vits'
-    dynamo = False       # True or False
+    encoder = 'vitb'    # 'vits' or 'vitb'  or 'vitl' 
+    dynamo = False      # False
     onnx_sim = False     # True or False
     model_name = f"uni_depth_v2_{encoder}_{input_h}x{input_w}"
     model_name = f"{model_name}_dynamo" if dynamo else model_name
@@ -179,11 +171,15 @@ def main():
         # ===================================================================
         print('[MDET] Post process')
         points = torch.from_numpy(trt_outputs[0].reshape(output_shape))
+        points = F.interpolate(points, (h, w), mode="bilinear", align_corners=False)
         depth = points[:, -1:]
-        #depth = torch.from_numpy(depth)
-        depth = F.interpolate(depth, (h, w), mode="bilinear", align_corners=True)[0, 0]
         depth = torch.clamp(depth, min=1e-3, max=1e3)
         depth = torch.squeeze(depth).numpy()
+        points = torch.squeeze(points).numpy()
+
+        intrinsics = torch.from_numpy(trt_outputs[2].reshape((1,3,3)))
+        intrinsics = postprocess_intrinsics(intrinsics, resize_factors)
+        intrinsics = torch.squeeze(intrinsics).numpy()
 
         # Results
         print(f'[MDET] {iteration} iterations time: {dur_time:.4f} [sec]')
@@ -194,7 +190,6 @@ def main():
 
     # ===================================================================
     print('[MDET] Generate color depth image')
-    # depth_normalized = (depth - depth.min()) / (depth.max() - depth.min() + 1e-6)
     inverse_depth = 1 / depth
     max_invdepth_vizu = min(inverse_depth.max(), 1 / 0.1)
     min_invdepth_vizu = max(1 / 250, inverse_depth.min())

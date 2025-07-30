@@ -20,7 +20,7 @@ def main ():
     input_h = 518 # 1036
     input_w = 518 # 1386
     encoder = 'vitb' # 'vits' or vitb or vitl
-    with open(os.path.join("configs", f"config_v2_{encoder}14.json")) as f:
+    with open(os.path.join(f"{CUR_DIR}/UniDepth/configs", f"config_v2_{encoder}14.json")) as f:
         config = json.load(f)
         config["training"]["export"] = True
 
@@ -33,7 +33,7 @@ def main ():
     info = model.load_state_dict(torch.load(path), strict=False)
     model = model.eval().to(DEVICE) 
 
-    dynamo = False      # True or False
+    dynamo = False      # False
     onnx_sim = True     # True or False
     model_name = f"uni_depth_v2_{encoder}_{input_h}x{input_w}"
     model_name = f"{model_name}_dynamo" if dynamo else model_name
@@ -49,9 +49,9 @@ def main ():
             dummy_input, 
             export_model_path, 
             opset_version=20, 
-            input_names=["rgb"],
-            output_names=["pts_3d","confidence","intrinsics"],
-            dynamo=dynamo
+            input_names=["rgbs"],
+            output_names=["pts_3d", "confidence", "intrinsics"],
+            dynamo=dynamo,
         )
         print(f"[MDET] onnx model exported to: {export_model_path}")
 

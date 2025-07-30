@@ -61,17 +61,17 @@ def main():
     image_file_name = 'example.jpg'
     image_path = os.path.join(CUR_DIR, '..', 'data', image_file_name)
     raw_image = cv2.imread(image_path) # Load image.
-    # raw_image = cv2.resize(raw_image, (518, 518))
+    #raw_image = cv2.resize(raw_image, (518, 518))
     # ===================================================================
     print('[MDET] Pre process')
-    ori_shape = raw_image.shape[:2]
+    ori_shape = raw_image.shape[:2] # 518, 518
     print(f'[MDET] original image size : {ori_shape}') # 
-    image = cv2.cvtColor(raw_image, cv2.COLOR_BGR2RGB).astype(np.float32)
-    x = torch.from_numpy(image).permute(2, 0, 1) # C, H, W
+    image = cv2.cvtColor(raw_image, cv2.COLOR_BGR2RGB).astype(np.float32) # 518, 518, 3
+    x = torch.from_numpy(image).permute(2, 0, 1) # 3, 518, 518
+    x = x.unsqueeze(0).to(DEVICE)
+    if dtype == torch.half:
+        x = x.half()
 
-    #x = x.unsqueeze(0).to(DEVICE)
-    #if dtype == torch.half:
-    #    x = x.half()
     print(f'[MDET] model input size : {x.shape}')
     # ===================================================================
     print('[MDET] Run inference')
@@ -88,7 +88,7 @@ def main():
         #depth = depth.squeeze(0) # [1,1,h,w] - > [1,h,w] 
         #depth = depth[:, None] # [1,h,w] -> [1,1,h,w]
         depth = F.interpolate(depth, ori_shape, mode="bilinear", align_corners=True)[0, 0]
-        depth = torch.clamp(depth, min=1e-3, max=1e3)
+        #depth = torch.clamp(depth, min=1e-3, max=1e3)
         depth = torch.squeeze(depth).detach().cpu().numpy()
 
     print(f'[MDET] max : {depth.max():0.5f} , min : {depth.min():0.5f}')

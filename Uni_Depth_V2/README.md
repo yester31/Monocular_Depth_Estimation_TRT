@@ -1,7 +1,7 @@
 # UniDepthV2
 - **[UniDepthV2: Universal Monocular Metric Depth Estimation Made Simpler](https://arxiv.org/abs/2502.20110)**
 - **[UniDepthV2 official GitHub](https://github.com/lpiccinelli-eth/UniDepth)**
-- 2d image -> depth, point cloud(xyz), Camera rays, radius(distance from the origin), Intrinsics
+- 2d image -> depth, point cloud(xyz), Intrinsics, Camera rays, radius(distance from the origin)
 
 ## How to Run (Pytorch)
 
@@ -33,7 +33,10 @@ python ./scripts/demo.py
 cd ..
 python infer.py
 ```
-- 518 x 518 input
+- encoder: vitb, input size: 518 x 518 
+- 100 iterations time: 5.8027 [sec]
+- Average FPS: 17.23 [fps]
+- Average inference time: 58.03 [msec]
 --------------------------------------------------------------------
 
 ## How to Run (TensorRT)
@@ -54,7 +57,9 @@ pip install matplotlib
 python onnx2trt.py
 // a file '.engine' will be generated in engine directory.
 ```
-- 518 x 518 input
-
+- encoder: vitb, input size: 518 x 518 
+[MDET] 100 iterations time: 2.7127 [sec]
+[MDET] Average FPS: 36.86 [fps]
+[MDET] Average inference time: 27.13 [msec]
 
 **[Back](../README.md)** 
