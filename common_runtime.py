@@ -107,6 +107,10 @@ def allocate_buffers(engine: trt.ICudaEngine, output_shape:np.ndarray = None, pr
                 "but no profile was specified.")
         
         size = trt.volume(shape)
+        if binding == 'pts_3d':
+            size = trt.volume(output_shape)
+        if binding == 'confidence':
+            size = trt.volume(output_shape)
         if size == 1 and binding == 'output':
             size = trt.volume(output_shape)
         if output_shape is not None and binding == 'points':

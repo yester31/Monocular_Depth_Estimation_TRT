@@ -40,6 +40,8 @@ pip install opencv-python
 - **[Uni Depth V2 to TensorRT](Uni_Depth_V2/README.md)**  
 ### 2.7 Metric3D V2
 - **[Metric3D V2 to TensorRT](Metric3D_V2/README.md)**  
+### 2.8 UniK3D
+- **[UniK3D to TensorRT](UniK3D/README.md)**  
 
 
 ## 3. todo
