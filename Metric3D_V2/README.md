@@ -27,8 +27,8 @@ pip install -r requirements_v1.txt
 ```
 python hubconf.py
 ```
-# see normal_vis.png
-# abs_rel_err: 0.05135032907128334
+- see normal_vis.png
+- abs_rel_err: 0.05135032907128334
 
 3. check pytorch model inference performance
 ```
