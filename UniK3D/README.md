@@ -1,7 +1,7 @@
 # UniK3D
 - **[UniK3D: Universal Camera Monocular 3D Estimation](https://arxiv.org/abs/2503.16591)**
 - **[UniK3D official GitHub](https://github.com/lpiccinelli-eth/unik3d)**
-- 2d image -> depth
+- 2d image -> depth, point cloud
 
 ## How to Run (Pytorch)
 
