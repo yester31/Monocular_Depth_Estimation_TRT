@@ -1,19 +1,27 @@
 # Monocular Depth Estimation Model to TensorRT
-- Inference Optimization for Monocular Depth Estimation models using by TensorRT 
-- Introducing various Monocular Depth Estimation models
-- 2d to 3d 
 
+## Project Overview
+
+This project aims to optimize the inference performance of various monocular depth estimation models using NVIDIA's TensorRT. It provides a pipeline to convert pre-trained PyTorch models into ONNX format and then into TensorRT engines, allowing for a comparative analysis of inference speeds.
+
+- **Key Features:**
+    - Introduction to various monocular depth estimation models and a TensorRT conversion pipeline.
+    - Performance comparison (FPS, inference time) between the original PyTorch models and the TensorRT-optimized models.
+    - Generation of 3D depth information and point clouds from 2D images.
 
 ## 1. Development Environment
 
-- RTX3060 (notebook)
-- WSL 
-- Ubuntu 22.04.5 LTS
-- cuda 12.9
+- **Hardware:** NVIDIA RTX3060 (notebook)
+- **OS:** Windows Subsystem for Linux (WSL)
+- **Linux Distribution:** Ubuntu 22.04.5 LTS
+- **CUDA Version:** 12.9
 
-```
-conda create -n trte python=3.12 --yes 
+```bash
+# Create and activate a Conda virtual environment
+conda create -n trte python=3.12 --yes
 conda activate trte
+
+# Install the required libraries
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
 pip install cuda-python
 pip install tensorrt
@@ -22,42 +30,34 @@ pip install opencv-python
 pip install matplotlib
 ```
 
-## 2. Monocular Depth Estimation Models 
+## 2. Supported Models
 
-### 2.1 Depth Anything V2
-- **[Depth Anything V2 to TensorRT](Depth_Anything_V2/README.md)**   
-### 2.2 Distill Any Depth
-- **[Distill Any Depth to TensorRT](Distill_Any_Depth/README.md)**   
-### 2.3 Depth Anything At Any Condition
-- **[Depth Anything AC to TensorRT](Depth_Anything_AC/README.md)** 
+Each model directory contains a `README.md` file with detailed instructions.
 
-### 2.4 Depth Pro
-- **[Depth Pro to TensorRT](Depth_Pro/README.md)**   
+| Model Name | Link to TensorRT Conversion | Main Outputs |
+| :--- | :--- | :--- |
+| **Depth Anything V2** | [TensorRT Conversion](Depth_Anything_V2/README.md) | Depth |
+| **Distill Any Depth** | [TensorRT Conversion](Distill_Any_Depth/README.md) | Depth |
+| **Depth Anything AC** | [TensorRT Conversion](Depth_Anything_AC/README.md) | Depth |
+| **Depth Pro** | [TensorRT Conversion](Depth_Pro/README.md) | Depth, Focal Length |
+| **Uni Depth V2** | [TensorRT Conversion](Uni_Depth_V2/README.md) | Depth, Point Cloud, Intrinsics |
+| **Metric3D V2** | [TensorRT Conversion](Metric3D_V2/README.md) | Depth, Surface Normal |
+| **UniK3D** | [TensorRT Conversion](UniK3D/README.md) | Depth, Point Cloud |
+| **MoGe-2** | [TensorRT Conversion](MoGe_2/README.md) | Depth, Point Cloud, Surface Normal, FOV |
+| **VGGT** | [TensorRT Conversion](VGGT/README.md) | Depth, Point Cloud, Camera Pose |
+| **StreamVGGT** | [TensorRT Conversion](StreamVGGT/README.md) | Depth, Point Cloud, Camera Pose |
 
-### 2.5 Uni Depth V2
-- **[Uni Depth V2 to TensorRT](Uni_Depth_V2/README.md)**  
-### 2.6 Metric3D V2
-- **[Metric3D V2 to TensorRT](Metric3D_V2/README.md)**  
-### 2.7 UniK3D
-- **[UniK3D to TensorRT](UniK3D/README.md)**  
+---
 
-### 2.8 MoGe-2
-- **[MoGe-2 to TensorRT](MoGe_2/README.md)**  
-### 2.9 VGGT
-- **[VGGT to TensorRT](VGGT/README.md)**  
-### 2.10 StreamVGGT
-- **[StreamVGGT to TensorRT](StreamVGGT/README.md)**  
+## 3. To-Do List for Project Improvement
 
+- [ ] **Unified Inference Script:** Create a single inference script that accepts the model name as an argument to improve user experience.
+- [ ] **Summarize Performance Analysis:** Add a table to the main `README.md` that summarizes the performance of all models (including input resolution, precision, and hardware details) for easy comparison.
+- [ ] **Docker Support:** Add a `Dockerfile` to facilitate the environment setup and ensure reproducibility.
+---
 
-## 3. todo
+## 3. Upcoming Models
 
-### 3.9 Video Depth Anything
-- **[Video Depth Anything to TensorRT](Video_Depth_Anything/README.md)** 
-### 3.10 Flash Depth  
-- **[Flash Depth to TensorRT](Flash_Depth/README.md)**   
-### 3.11 Depth Crafter
-- **[Depth Crafter to TensorRT](Depth_Crafter/README.md)**   
--------------
-- [Video Depth Anything](https://github.com/DepthAnything/Video-Depth-Anything)   
-- [Flash Depth](https://github.com/Eyeline-Research/flashdepth)   
-- [Depth Crafter](https://github.com/Tencent/DepthCrafter)   
+- **Video Depth Anything:** [GitHub](https://github.com/DepthAnything/Video-Depth-Anything)
+- **Flash Depth:** [GitHub](https://github.com/Eyeline-Research/flashdepth)
+- **Depth Crafter:** [GitHub](https://github.com/Tencent/DepthCrafter)

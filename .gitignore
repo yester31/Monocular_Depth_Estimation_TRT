@@ -4,7 +4,7 @@ engine/
 results/
 ml-depth-pro/
 *.cache
-
+GEMINI.md
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
