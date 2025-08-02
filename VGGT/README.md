@@ -1,7 +1,7 @@
 # VGGT
 - **[VGGT: Visual Geometry Grounded Transformer](https://arxiv.org/abs/2503.11651)**
 - **[VGGT official GitHub](https://github.com/facebookresearch/vggt)**
-- 2d image -> depth, (point cloud, extrinsic, intrinsic)
+- 2d image -> depth, (point cloud, extrinsic, intrinsic, Camera pose)
 
 ## How to Run (Pytorch)
 
@@ -21,6 +21,8 @@ conda activate vggt
 pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
 pip install -r requirements.txt
 pip install -e .
+pip install onnx
+pip install onnxsim
 ```
 
 2. run the original pytorch model on test images.
@@ -29,7 +31,7 @@ python demo_colmap.py --scene_dir=../../data --use_ba --max_query_pts=2048 --que
 
 ```
 
-4. check pytorch model inference performance
+3. check pytorch model inference performance
 ```
 cd ..
 python infer.py
@@ -46,8 +48,6 @@ python infer.py
 1. generate onnx file
 
 ```
-pip install onnx
-pip install onnxsim
 python onnx_export.py
 // a file '.onnx' will be generated in onnx directory.
 ```
@@ -56,7 +56,6 @@ python onnx_export.py
 
 ```
 conda activate trte
-pip install matplotlib
 python onnx2trt.py
 // a file '.engine' will be generated in engine directory.
 ```

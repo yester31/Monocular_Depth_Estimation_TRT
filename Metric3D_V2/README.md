@@ -1,7 +1,7 @@
 # Metric3D V2
 - **[Metric3Dv2: A Versatile Monocular Geometric Foundation Model for Zero-shot Metric Depth and Surface Normal Estimation](https://arxiv.org/abs/2404.15506)**
 - **[Metric3D official GitHub](https://github.com/YvanYin/Metric3D)**
-- 2d image -> depth,
+- 2d image -> depth, surface normal
 
 ## How to Run (Pytorch)
 

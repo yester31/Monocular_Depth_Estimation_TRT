@@ -11,10 +11,10 @@ DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print(f"[MDET] using device: {DEVICE}")   
 
 ### NOTICE ###
-# Before exporting to onnx, edit line 64 in vggt/vggt/layers/rope.py.
+# Before exporting to onnx, edit line 55 in vggt/vggt/layers/rope.py.
 '''
-    # Comment out line 64
-    # positions = torch.cartesian_prod(y_coords, x_coords) # <- original 64 line
+    # Comment out line 55
+    # positions = torch.cartesian_prod(y_coords, x_coords) # <- original 55 line
     # Add the three lines below
     yy = y_coords.unsqueeze(1).expand(-1, x_coords.size(0))  # [H, W]
     xx = x_coords.unsqueeze(0).expand(y_coords.size(0), -1)  # [H, W]
