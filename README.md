@@ -9,17 +9,17 @@
 - RTX3060 (notebook)
 - WSL 
 - Ubuntu 22.04.5 LTS
-- cuda 12.8
+- cuda 12.9
 
 ```
 conda create -n trte python=3.12 --yes 
 conda activate trte
-
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
 pip install cuda-python
 pip install tensorrt
 pip install onnx
 pip install opencv-python
+pip install matplotlib
 ```
 
 ## 2. Monocular Depth Estimation Models 
@@ -34,16 +34,19 @@ pip install opencv-python
 ### 2.4 Depth Pro
 - **[Depth Pro to TensorRT](Depth_Pro/README.md)**   
 
-### 2.5 MoGe-2
-- **[MoGe-2 to TensorRT](MoGe_2/README.md)**   
-### 2.6 Uni Depth V2
+### 2.5 Uni Depth V2
 - **[Uni Depth V2 to TensorRT](Uni_Depth_V2/README.md)**  
-### 2.7 Metric3D V2
+### 2.6 Metric3D V2
 - **[Metric3D V2 to TensorRT](Metric3D_V2/README.md)**  
-### 2.8 UniK3D
+### 2.7 UniK3D
 - **[UniK3D to TensorRT](UniK3D/README.md)**  
+
+### 2.8 MoGe-2
+- **[MoGe-2 to TensorRT](MoGe_2/README.md)**  
 ### 2.9 VGGT
 - **[VGGT to TensorRT](VGGT/README.md)**  
+### 2.10 StreamVGGT
+- **[StreamVGGT to TensorRT](StreamVGGT/README.md)**  
 
 
 ## 3. todo
