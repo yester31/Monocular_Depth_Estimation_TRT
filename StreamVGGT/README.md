@@ -18,8 +18,8 @@ conda create -n streamvggt -y python=3.11 cmake=3.14.0
 conda activate streamvggt
 
 # Install the required Python packages
-# pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
 pip install -r requirements.txt
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
 conda install 'llvm-openmp<16'
 pip install onnx
 pip install onnxsim

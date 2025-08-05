@@ -5,7 +5,7 @@ def main():
 
     # Input video
     video_file_name = 'video2.mp4'
-    video_file_path = os.path.join(CUR_DIR, '..', 'data', video_file_name)
+    video_file_path = os.path.join(CUR_DIR, '..', 'video', video_file_name)
     # Output video
     output_video_file_path = os.path.join(CUR_DIR, 'results', f'{os.path.splitext(video_file_name)[0]}_trt.mp4')
 
