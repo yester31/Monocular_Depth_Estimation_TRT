@@ -65,19 +65,20 @@ def main():
         print(f"[MDET] failed onnx.checker.check_model() : {e}")
     finally:
         onnx.checker.check_model(export_model_path)
-
-    print("[MDET] Simplify exported onnx model")
-    onnx_model = onnx.load(export_model_path)
-    try:
-        model_simplified, check = simplify(onnx_model)
-        if not check:
-            raise RuntimeError("Simplified model is invalid.")
         
-        export_model_sim_path = os.path.join(save_path, f'{model_name}_sim.onnx')
-        onnx.save(model_simplified, export_model_sim_path)
-        print(f"[MDET] simplified onnx model saved to: {export_model_sim_path}")
-    except Exception as e:
-        print(f"[MDET] simplification failed: {e}")
+    if 0 :
+        print("[MDET] Simplify exported onnx model")
+        onnx_model = onnx.load(export_model_path)
+        try:
+            model_simplified, check = simplify(onnx_model)
+            if not check:
+                raise RuntimeError("Simplified model is invalid.")
+            
+            export_model_sim_path = os.path.join(save_path, f'{model_name}_sim.onnx')
+            onnx.save(model_simplified, export_model_sim_path)
+            print(f"[MDET] simplified onnx model saved to: {export_model_sim_path}")
+        except Exception as e:
+            print(f"[MDET] simplification failed: {e}")
 
 if __name__ == "__main__":
     main()

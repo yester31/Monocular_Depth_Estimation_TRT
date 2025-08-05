@@ -13,6 +13,9 @@ cd ml-depth-pro
 conda create -n depth-pro -y python=3.9
 conda activate depth-pro
 pip install -e .
+pip install onnx
+pip install onnxsim
+pip install onnxscript
 ```
 
 2. download pretrained checkpoints.
@@ -42,17 +45,15 @@ python infer.py
 1. generate onnx file
 
 ```
-pip install onnx
 python onnx_export.py
 // a file 'depth_pro_dynamo.onnx' will be generated in onnx directory.
 ```
 
-2-1. build tensorrt model and run single image process
-
 ```
 conda activate trte
-pip install matplotlib
 ```
+
+2-1. build tensorrt model and run single image process
 
 ```
 python onnx2trt.py
@@ -74,6 +75,12 @@ python onnx2trt_video.py
 
 ```
 python onnx2trt_webcam.py
+```
+
+2-4. build tensorrt model and generate point cloud file process
+
+```
+python onnx2trt_pointcloud.py
 ```
 
 **[Back](../README.md)** 

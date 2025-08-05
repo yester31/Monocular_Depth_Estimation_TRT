@@ -22,7 +22,8 @@ point_path7 = f"{CUR_DIR}/MoGe_2/results/example_vitl_m2_torch_point_cloud.ply"
 point_path8 = f"{CUR_DIR}/MoGe_2/results/example_vits_m2_trt_point_cloud.ply"
 point_path9 = f"{CUR_DIR}/MoGe_2/results/7_vits_m2_trt_point_cloud.ply"
 point_path10 = f"{CUR_DIR}/scene_output.ply"
+point_path11 = f"{CUR_DIR}/Depth_Pro/results/example.ply"
 
 #vis_point_cloud(point_path5)
 #vis_point_cloud(point_path6)
-vis_point_cloud(point_path10)
+vis_point_cloud(point_path11)
