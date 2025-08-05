@@ -18,8 +18,9 @@ conda create -n vggt -y python=3.11
 conda activate vggt
 
 # Install the required Python packages
-pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
+pip install -r requirements_demo.txt
 pip install -r requirements.txt
+pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
 pip install -e .
 pip install onnx
 pip install onnxsim
@@ -27,8 +28,11 @@ pip install onnxsim
 
 2. run the original pytorch model on test images.
 ```
-python demo_colmap.py --scene_dir=../../data --use_ba --max_query_pts=2048 --query_frame_num=5
-
+mkdir -p data/image
+cp ../../data/example.jpg data/image/example.jpg
+python demo_colmap.py --scene_dir=data --use_ba --max_query_pts=2048 --query_frame_num=5
+python demo_colmap.py --scene_dir=data --use_ba --max_query_pts=4096 --query_frame_num=8
+python demo_viser.py --image_folder data/images
 ```
 
 3. check pytorch model inference performance

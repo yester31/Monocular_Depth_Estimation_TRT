@@ -1,15 +1,18 @@
 # by yhpark 2025-8-1
 import os
+import time
 from matplotlib import pyplot as plt
 import numpy as np
 import cv2
-import time
 
 import torch
 import torch.nn.functional as F
 
 from vggt.vggt.models.vggt import VGGT
 from vggt.vggt.utils.pose_enc import pose_encoding_to_extri_intri
+from vggt.vggt.utils.geometry import unproject_depth_map_to_point_map
+
+import open3d as o3d
 
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -69,13 +72,13 @@ def main():
     model.load_state_dict(torch.hub.load_state_dict_from_url(_URL))
     model.eval()
     model = model.to(DEVICE)
-    print(f"Model loaded")
 
     # input 
     image_file_name = 'example.jpg'
     image_path = os.path.join(CUR_DIR, '..', 'data', image_file_name)
     raw_image = cv2.imread(image_path)
     # ===================================================================
+    # original -> 1024 -> 518 - > 1024 -> original
     print('[MDET] Pre process')
     height, width = raw_image.shape[:2]
     print(f"[MDET] original image size : {height, width}")
@@ -121,11 +124,22 @@ def main():
             aggregated_tokens_list, ps_idx = model.aggregator(images)
 
         # Predict Cameras
-        # pose_enc = model.camera_head(aggregated_tokens_list)[-1]
+        pose_enc = model.camera_head(aggregated_tokens_list)[-1]
+        print(f'[MDET] pose_enc : \n{pose_enc.reshape((3,3))}')
         # Extrinsic and intrinsic matrices, following OpenCV convention (camera from world)
-        # extrinsic, intrinsic = pose_encoding_to_extri_intri(pose_enc, images.shape[-2:])
+        extrinsic, intrinsic = pose_encoding_to_extri_intri(pose_enc, images.shape[-2:])
         # Predict Depth Maps
         depth_map, depth_conf = model.depth_head(aggregated_tokens_list, images, ps_idx)
+        # Predict Point Maps
+        point_map, point_conf = model.point_head(aggregated_tokens_list, images, ps_idx)
+        # Construct 3D Points from Depth Maps and Cameras
+        # which usually leads to more accurate 3D points than point map branch
+        depth_map = depth_map.squeeze(0) # [1,518,518,1]
+        depth_map = depth_map.permute(0, 3, 1, 2) # [1, 1, 518, 518]
+        depth_map = F.interpolate(depth_map, size=(target_size, target_size), mode="bilinear", align_corners=False) # [1, 1, 1024, 1024]
+        depth_map = depth_map[...,int(y1):int(y2), int(x1):int(x2)] # remove paddings # [1, 1, 768, 1024]
+        depth_map = depth_map.permute(0, 2, 3, 1) # [1, 768, 1024, 1]
+        point_map_by_unprojection = unproject_depth_map_to_point_map(depth_map, extrinsic.squeeze(0), intrinsic.squeeze(0))
 
     #extrinsic = extrinsic.squeeze(0).cpu().numpy()
     #intrinsic = intrinsic.squeeze(0).cpu().numpy()
@@ -133,11 +147,12 @@ def main():
     #depth_conf = depth_conf.squeeze(0).cpu().numpy()
     # ===================================================================
     print('[MDET] Post process')
-    depth = depth_map[0,...,0]
-
-    original_coord = original_coords[0]
-    depth = depth[int(original_coord[1]/2) : int(original_coord[3]/2), :] # remove paddings
-    depth = cv2.resize(depth, (int(original_coord[4]), int(original_coord[5])))
+    depth = np.squeeze(depth_map)
+    # depth = cv2.resize(depth, (target_size, target_size))
+    # original_coord = original_coords[0]
+    # depth = depth[int(original_coord[1]) : int(original_coord[3]), int(original_coord[0]):int(original_coord[2])] # remove paddings
+    # depth = depth[int(y1):int(y2), int(x1):int(x2)] # remove paddings
+    input_h2, input_w2 = depth.shape
     print(f'[MDET] max : {depth.max():0.5f} , min : {depth.min():0.5f}')
 
     print('[MDET] Generate color depth image')
@@ -154,6 +169,19 @@ def main():
     # save colored depth image 
     output_file_depth = os.path.join(save_dir_path, os.path.splitext(image_file_name)[0] + f'_vggt_torch.jpg')
     cv2.imwrite(output_file_depth, color_depth_bgr)
+
+    # save point cloud 
+    bgr_image = cv2.imread(image_path)
+    rgb_image = cv2.cvtColor(bgr_image, cv2.COLOR_BGR2RGB) 
+    rgb_resized_img = cv2.resize(rgb_image, (input_w2, input_h2), cv2.INTER_LINEAR)
+    points = np.stack(point_map_by_unprojection, axis=-1).reshape(-1, 3)
+    colors = np.array(rgb_resized_img).reshape(-1, 3) / 255.0
+    # Create the point cloud and save it to the output directory
+    pcd = o3d.geometry.PointCloud()
+    pcd.points = o3d.utility.Vector3dVector(points)
+    pcd.colors = o3d.utility.Vector3dVector(colors)
+    o3d.io.write_point_cloud(os.path.join(save_dir_path, os.path.splitext(image_file_name)[0] + "_vggt.ply"), pcd)
+    o3d.visualization.draw_geometries([pcd])
 
     infer_performace(model, input_h, input_w)
 
