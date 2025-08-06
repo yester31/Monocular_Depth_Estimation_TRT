@@ -42,7 +42,6 @@ def infer_performace(model, input_size=(518, 518)):
     print(f'[MDET] Average FPS: {1 / avg_time:.2f} [fps]')
     print(f'[MDET] Average inference time: {avg_time * 1000:.2f} [msec]')
 
-
 def set_model(encoder='vits', normal=True, dtype: torch.dtype = torch.float32):
     
     if normal:
@@ -74,20 +73,21 @@ def main():
     image_file_name = 'example.jpg'
     image_path = os.path.join(CUR_DIR, '..', 'data', image_file_name)
     raw_image = cv2.imread(image_path)
+    # raw_image = cv2.resize(raw_image, (518, 518))
     # ===================================================================
     print('[MDET] Pre process')
     ori_shape = raw_image.shape[:2]
     print(f"[MDET] original image size : {ori_shape}")
-    # raw_image = cv2.resize(raw_image, (518, 518))
-    resize_to = None # 518
+    image_rgb = cv2.cvtColor(raw_image, cv2.COLOR_BGR2RGB)
+
+    resize_to = 518 # 518 or None
     if resize_to is not None:
-        height, width = raw_image.shape[:2]
+        height, width = ori_shape[0], ori_shape[1]
         height, width = min(resize_to, int(resize_to * height / width)), min(resize_to, int(resize_to * width / height))
         print(f"[MDET] resize_to : {height, width}")
-        image = cv2.resize(image, (width, height), cv2.INTER_AREA)
+        image_rgb_resized = cv2.resize(image_rgb, (width, height), cv2.INTER_AREA)
 
-    image_rgb = cv2.cvtColor(raw_image, cv2.COLOR_BGR2RGB)
-    image = image_rgb / 255.0
+    image = image_rgb_resized / 255.0
     x = torch.from_numpy(image).permute(2, 0, 1).unsqueeze(0).to(DEVICE)
     if dtype == torch.half:
         x = x.half()
@@ -170,6 +170,11 @@ def main():
     color_depth_bgr = cv2.cvtColor(color_depth, cv2.COLOR_RGB2BGR)    
     #color_depth_bgr = cv2.resize(color_depth_bgr, (ori_shape[1], ori_shape[0]), cv2.INTER_LINEAR)
     cv2.imwrite(f'{save_prefix}_depth.jpg', color_depth_bgr)
+
+    depth = cv2.resize(depth, (ori_shape[1], ori_shape[0]), cv2.INTER_LINEAR)
+    normal = cv2.resize(normal, (ori_shape[1], ori_shape[0]), cv2.INTER_LINEAR)
+    points = cv2.resize(points, (ori_shape[1], ori_shape[0]), cv2.INTER_LINEAR)
+    mask = cv2.resize(mask.astype(np.uint8), (ori_shape[1], ori_shape[0]), cv2.INTER_NEAREST).astype(bool)
 
     # point cloud
     threshold = 0.04 # 0.01

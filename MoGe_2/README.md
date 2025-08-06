@@ -21,6 +21,8 @@ conda activate MoGe
 pip install -r requirements.txt 
 pip install git+https://github.com/microsoft/MoGe.git
 pip install pyglet==1.5.29
+pip install onnx
+pip install onnxsim
 ```
 
 2. download pretrained checkpoints.
@@ -41,7 +43,6 @@ wget https://huggingface.co/Ruicheng/moge-2-vits-normal/resolve/main/model.pt -P
 3. run the original pytorch model on test images.
 ```
 moge infer -i ../../data -o outputs --maps --glb --ply
-
 ```
 
 4. check pytorch model inference performance
@@ -61,8 +62,6 @@ python infer.py
 1. generate onnx file
 
 ```
-pip install onnx
-pip install onnxsim
 python onnx_export.py
 // a file 'moge-2-vits-normal_dynamic_sim.onnx' will be generated in onnx directory.
 ```
@@ -71,7 +70,8 @@ python onnx_export.py
 
 ```
 conda activate trte
-pip install matplotlib
+pip install git+https://github.com/EasternJournalist/utils3d.git#egg=utils3d
+pip install trimesh
 python onnx2trt.py
 // a file 'moge-2-vits-normal_fp16_dynamic_sim.engine' will be generated in engine directory.
 ```

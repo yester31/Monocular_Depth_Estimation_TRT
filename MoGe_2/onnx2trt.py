@@ -21,7 +21,6 @@ import common
 from common import *
 
 import json
-import utils3d
 from MoGe.moge.utils.geometry_torch import recover_focal_shift
 
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -40,7 +39,7 @@ def get_engine(onnx_file_path, engine_file_path="", precision='fp32', dynamic_in
                 trt.Runtime(TRT_LOGGER) as runtime:
             
             if not os.path.exists(onnx_file_path):
-                raise FileNotFoundError(f"[TRT] ONNX file {onnx_file_path} not found.")
+                raise FileNotFoundError(f"[MDET] ONNX file {onnx_file_path} not found.")
             
             parser.parse_from_file(onnx_file_path)
             
@@ -52,17 +51,17 @@ def get_engine(onnx_file_path, engine_file_path="", precision='fp32', dynamic_in
 
             if precision == "fp16" and builder.platform_has_fast_fp16:
                 config.set_flag(trt.BuilderFlag.FP16)
-                print(f'[TRT_E] set fp16 model')
+                print(f'[MDET] set fp16 model')
 
             for i_idx in range(network.num_inputs):
-                print(f'[TRT_E] input({i_idx}) name: {network.get_input(i_idx).name}, shape= {network.get_input(i_idx).shape}')
+                print(f'[MDET] input({i_idx}) name: {network.get_input(i_idx).name}, shape= {network.get_input(i_idx).shape}')
                 
             for o_idx in range(network.num_outputs):
-                print(f'[TRT_E] output({o_idx}) name: {network.get_output(o_idx).name}, shape= {network.get_output(o_idx).shape}')
+                print(f'[MDET] output({o_idx}) name: {network.get_output(o_idx).name}, shape= {network.get_output(o_idx).shape}')
     
             plan = builder.build_serialized_network(network, config)
             if plan is None:
-                raise RuntimeError("Failed to build TensorRT engine. Likely due to shape mismatch or model incompatibility.")
+                raise RuntimeError("[MDET] Failed to build TensorRT engine. Likely due to shape mismatch or model incompatibility.")
             
             engine = runtime.deserialize_cuda_engine(plan)
             common.save_timing_cache(config, timing_cache)
@@ -72,10 +71,10 @@ def get_engine(onnx_file_path, engine_file_path="", precision='fp32', dynamic_in
             
             return engine
 
-    print(f"[TRT] Engine file path: {engine_file_path}")
+    print(f"[MDET] Engine file path: {engine_file_path}")
 
     if os.path.exists(engine_file_path):
-        print(f"[TRT] Reading engine from file {engine_file_path}")
+        print(f"[MDET] Reading engine from file {engine_file_path}")
         with open(engine_file_path, "rb") as f, trt.Runtime(TRT_LOGGER) as runtime:
             return runtime.deserialize_cuda_engine(f.read())
     else:
@@ -83,7 +82,7 @@ def get_engine(onnx_file_path, engine_file_path="", precision='fp32', dynamic_in
         engine = build_engine()
         build_time = time.time() - begin
         build_time_str = f"{build_time:.2f} [sec]" if build_time < 60 else f"{build_time // 60 :.1f} [min] {build_time % 60 :.2f} [sec]"
-        print(f'[TRT_E] engine build done! ({build_time_str})')
+        print(f'[MDET] engine build done! ({build_time_str})')
 
         return engine
 
@@ -99,11 +98,13 @@ def main():
     save_dir_path = os.path.join(CUR_DIR, 'results')
     os.makedirs(save_dir_path, exist_ok=True)
 
-    input_h, input_w = 518, 518 # 700, 700
+    input_h, input_w = 388, 518 # 700, 700
 
     # Input
     image_file_name = 'example.jpg'
     image_path = os.path.join(CUR_DIR, '..', 'data', image_file_name)
+    image_file_name = '7.jpg'
+    image_path = os.path.join(CUR_DIR, '..', 'StreamVGGT','StreamVGGT','examples','example_building', image_file_name)
     raw_image = cv2.imread(image_path)
     ori_shape = raw_image.shape[:2]
     print(f"[MDET] original image size : {ori_shape}")
@@ -111,7 +112,7 @@ def main():
     image_rgb_resized = cv2.resize(image_rgb, (input_w, input_h))
 
     input_image = preprocess_image(image_rgb_resized)  # Preprocess image
-    print(f'after preprocess shape : {input_image.shape}')
+    print(f'[MDET] after preprocess shape : {input_image.shape}')
     batch_images = np.concatenate([input_image], axis=0)
 
     # Model and engine paths
@@ -128,7 +129,7 @@ def main():
 
     # input & output shapes 
     input_shape = (batch_images.shape)
-    print(f'trt input shape : {input_shape}')
+    print(f'[MDET] trt input shape : {input_shape}')
 
     iteration = 100
     dur_time = 0
@@ -139,7 +140,7 @@ def main():
         output_shape = {}
         for i in range(engine.num_io_tensors):
             output_shape[engine.get_tensor_name(i)] = engine.get_tensor_shape(engine.get_tensor_name(i))
-            print(f'trt output shape ({engine.get_tensor_name(i)}) : {engine.get_tensor_shape(engine.get_tensor_name(i))}')
+            print(f'[MDET] trt output shape ({engine.get_tensor_name(i)}) : {engine.get_tensor_shape(engine.get_tensor_name(i))}')
 
         inputs, outputs, bindings, stream = common.allocate_buffers(engine, output_shape, profile_idx=0)
         inputs[0].host = batch_images
@@ -157,10 +158,10 @@ def main():
             dur_time += time.time() - begin
 
         # Results
-        print(f'[TRT] {iteration} iterations time ({input_image.shape[:2]}): {dur_time:.4f} [sec]')
+        print(f'[MDET] {iteration} iterations time ({input_image.shape[:2]}): {dur_time:.4f} [sec]')
         avg_time = dur_time / iteration
-        print(f'[TRT] Average FPS: {1 / avg_time:.2f} [fps]')
-        print(f'[TRT] Average inference time: {avg_time * 1000:.2f} [msec]')
+        print(f'[MDET] Average FPS: {1 / avg_time:.2f} [fps]')
+        print(f'[MDET] Average inference time: {avg_time * 1000:.2f} [msec]')
 
         # # Reshape output
         points = torch.from_numpy(trt_outputs[0].reshape(output_shape['points']))
@@ -252,7 +253,6 @@ def main():
     plt.savefig(f'{save_prefix}_depth_bar.jpg', bbox_inches='tight', pad_inches=0.1, dpi=300)
     plt.close()
 
-    # point cloud
     depth = cv2.resize(depth, (ori_shape[1], ori_shape[0]), cv2.INTER_LINEAR)
     normal = cv2.resize(normal, (ori_shape[1], ori_shape[0]), cv2.INTER_LINEAR)
     points = cv2.resize(points, (ori_shape[1], ori_shape[0]), cv2.INTER_LINEAR)

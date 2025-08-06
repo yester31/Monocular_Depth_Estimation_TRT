@@ -41,7 +41,7 @@ def main ():
 
     # Load model
     num_tokens = 1800 # [1200, 3600]
-    input_h, input_w = 518, 518 # 700, 700
+    input_h, input_w = 388, 518 # 700, 700
     encoder = 'vits' # 'vitl' or 'vitb', 'vits'
     normal = True # True or False
     model = load_model(encoder, normal)
