@@ -5,8 +5,11 @@ results/
 ml-depth-pro/
 *.cache
 GEMINI.md
-video_frames/
+video_frames*
 *.ply
+Prior_Depth_Anything/
+Align3R/
+SIDepth/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

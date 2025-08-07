@@ -1,4 +1,4 @@
-# VGGT
+# StreamVGGT
 - **[Streaming 4D Visual Geometry Transformer](https://arxiv.org/abs/2507.11539)**
 - **[StreamVGGT official GitHub](https://github.com/wzzheng/StreamVGGT)**
 - 2d image -> depth, (point cloud, extrinsic, intrinsic, Camera pose)

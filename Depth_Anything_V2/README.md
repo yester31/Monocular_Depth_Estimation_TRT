@@ -13,6 +13,9 @@ cd Depth-Anything-V2
 conda create -n dav2 -y python=3.11
 conda activate dav2
 pip install -r requirements.txt
+pip install onnxsim
+pip install onnx
+pip install onnxscript
 ```
 
 2. download pretrained checkpoints.
@@ -53,7 +56,6 @@ python infer.py
 1. generate onnx file
 
 ```
-pip install onnx
 python onnx_export.py
 // a file 'depth_anything_v2_vits.onnx' will be generated in onnx directory.
 ```
@@ -62,7 +64,6 @@ python onnx_export.py
 
 ```
 conda activate trte
-pip install matplotlib
 python onnx2trt.py
 // a file 'depth_anything_v2_vits.engine' will be generated in engine directory.
 ```
