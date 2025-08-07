@@ -72,6 +72,8 @@ def main():
     # input
     image_file_name = 'example.jpg'
     image_path = os.path.join(CUR_DIR, '..', 'data', image_file_name)
+    # image_file_name = 'frame_00000.png'
+    # image_path = os.path.join(CUR_DIR, '..', 'video_frames', 'frame_00000.png')
     raw_image = cv2.imread(image_path)
     # raw_image = cv2.resize(raw_image, (518, 518))
     # ===================================================================

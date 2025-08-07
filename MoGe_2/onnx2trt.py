@@ -98,13 +98,15 @@ def main():
     save_dir_path = os.path.join(CUR_DIR, 'results')
     os.makedirs(save_dir_path, exist_ok=True)
 
-    input_h, input_w = 388, 518 # 700, 700
+    input_h, input_w = 388, 518 # 291, 518 # 700, 700
 
     # Input
     image_file_name = 'example.jpg'
     image_path = os.path.join(CUR_DIR, '..', 'data', image_file_name)
-    image_file_name = '7.jpg'
-    image_path = os.path.join(CUR_DIR, '..', 'StreamVGGT','StreamVGGT','examples','example_building', image_file_name)
+    # image_file_name = '7.jpg'
+    # image_path = os.path.join(CUR_DIR, '..', 'StreamVGGT','StreamVGGT','examples','example_building', image_file_name)
+    # image_file_name = 'frame_00000.png'
+    # image_path = os.path.join(CUR_DIR, '..', 'video_frames_50', image_file_name)
     raw_image = cv2.imread(image_path)
     ori_shape = raw_image.shape[:2]
     print(f"[MDET] original image size : {ori_shape}")
@@ -218,9 +220,15 @@ def main():
     cv2.imwrite(f'{save_prefix}_normal.jpg', color_normal_bgr)
 
     # depth
+    def clamp(x, min_val, max_val):
+        return max(min_val, min(x, max_val))
+
     print(f'[MDET] max : {depth.max()} , min : {depth.min()}')
-    depth_normalized = (depth - depth.min()) / (depth.max() - depth.min()) * 255.0
-    depth_normalized = depth_normalized.astype(np.uint8)
+    depth_ = depth.copy() 
+    finite_arr = depth_[np.isfinite(depth_)]
+    max_val = np.max(finite_arr)
+    depth = np.clip(depth, 1e-3, max_val)
+    print(f'[MDET] max : {depth.max()} , min : {depth.min()}')
 
     inverse_depth = 1 / depth
     max_invdepth_vizu = np.nanquantile(inverse_depth, 0.99)
