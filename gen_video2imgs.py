@@ -10,6 +10,9 @@ def extract_frames_from_video(video_path, save_folder, max_count = None):
 
     # Open video file
     cap = cv2.VideoCapture(video_path)
+    if max_count is None:
+        max_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+
     if not cap.isOpened():
         print("비디오를 열 수 없습니다:", video_path)
         return
@@ -24,6 +27,7 @@ def extract_frames_from_video(video_path, save_folder, max_count = None):
         output_path = os.path.join(save_folder, f"frame_{frame_count:05d}.png")
         cv2.imwrite(output_path, frame)
         frame_count += 1
+
         if frame_count > max_count:
             break
 
@@ -36,5 +40,5 @@ if __name__ == "__main__":
 
     save_folder = os.path.join(CUR_DIR, 'video_frames')
 
-    extract_frames_from_video(f"{CUR_DIR}/video/video2.mp4", save_folder)
-    # extract_frames_from_video(f"{CUR_DIR}/video/video2.mp4", save_folder, 50)
+    # extract_frames_from_video(f"{CUR_DIR}/video/video2.mp4", save_folder)
+    extract_frames_from_video(f"{CUR_DIR}/video/video2.mp4", save_folder, 10)

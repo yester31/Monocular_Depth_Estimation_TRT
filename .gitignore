@@ -10,6 +10,7 @@ video_frames*
 Prior_Depth_Anything/
 Align3R/
 SIDepth/
+results_*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
