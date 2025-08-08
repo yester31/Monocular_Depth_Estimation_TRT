@@ -5,25 +5,12 @@ import torch
 import onnx
 from onnxsim import simplify
 
-sys.path.insert(1, os.path.join(sys.path[0], "RAFT", "core"))
-from RAFT.core.raft import RAFT
+from wrapper import RAFTModelWrapper
 
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 #DEVICE = torch.device("cpu")
 print(f"[MDET] using device: {DEVICE}")
-
-class RAFTModelWrapper(torch.nn.Module):
-    def __init__(self, model: torch.nn.Module):
-        super().__init__()
-        self.model = model  
-
-    def forward(self, image1: torch.Tensor, image2: torch.Tensor, iters=20):
-        
-        flow_predictions = self.model(image1, image2, iters)
-
-        return flow_predictions[-1]
-
 
 def main():
 
@@ -39,7 +26,7 @@ def main():
     parser.add_argument('--alternate_corr', action='store_true', help='use efficent correlation implementation')
     args = parser.parse_args()
 
-    model = torch.nn.DataParallel(RAFT(args))
+    model = torch.nn.DataParallel(RAFTModelWrapper(args))
     model.load_state_dict(torch.load(args.model))
     model = model.module
     model.to(DEVICE)
@@ -47,11 +34,9 @@ def main():
 
     input_h, input_w = 288, 512  # divisible by 8
 
-    dynamic = False # Fail... (False only)
     dynamo = False   # True or False
-    onnx_sim = False # True or False
+    onnx_sim = True # True or False
     model_name = f"raft_{input_h}x{input_w}"
-    model_name = f"{model_name}_dynamic" if dynamic else model_name
     model_name = f"{model_name}_dynamo" if dynamo else model_name
     export_model_path = os.path.join(save_path, f'{model_name}.onnx')
 
@@ -59,26 +44,17 @@ def main():
     input_size = (1, 3, input_h, input_w)
     dummy_input1 = torch.randn(input_size, requires_grad=False).to(DEVICE)  # Create a dummy input1
     dummy_input2 = torch.randn(input_size, requires_grad=False).to(DEVICE)  # Create a dummy input2
-
-    dynamic_axes = None 
-    dynamic_shapes = None 
-    if dynamic:
-        if dynamo:
-            dynamic_shapes = {"image1": {0: "batch", 2: "height", 3: "width"},"image2": {0: "batch", 2: "height", 3: "width"}}
-        else:
-            dynamic_axes={"image1": {0: "batch", 2: "height", 3: "width"},"image2": {0: "batch", 2: "height", 3: "width"}} 
+    iters = 20
 
     with torch.no_grad():
         torch.onnx.export(
-            RAFTModelWrapper(model), 
-            (dummy_input1, dummy_input2, 20), 
+            model, 
+            (dummy_input1, dummy_input2, iters), 
             export_model_path, 
             opset_version=20, 
             input_names=["image1", "image2"],
-            output_names=["output"],
-            dynamic_axes=dynamic_axes,
+            output_names=["flow_low", "flow_up"],
             dynamo=dynamo,
-            dynamic_shapes=dynamic_shapes
         )
         print(f"[MDET] onnx model exported to: {export_model_path}")
 

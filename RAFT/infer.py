@@ -6,12 +6,14 @@ import glob
 import numpy as np
 import torch
 from PIL import Image
+import time 
 
 sys.path.insert(1, os.path.join(sys.path[0], "RAFT", "core"))
 
 from RAFT.core.raft import RAFT
 from RAFT.core.utils import flow_viz
 from RAFT.core.utils.utils import InputPadder
+from wrapper import RAFTModelWrapper
 
 DEVICE = 'cuda'
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -58,6 +60,7 @@ def main():
     args = parser.parse_args()
 
     model = torch.nn.DataParallel(RAFT(args))
+    #model = torch.nn.DataParallel(RAFTModelWrapper(args))
     model.load_state_dict(torch.load(args.model))
     model = model.module
     model.to(DEVICE)
@@ -65,8 +68,9 @@ def main():
 
     # 프레임 정보
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-    out = cv2.VideoWriter(f"{save_dir_path}/results/output_video_pytorch.mp4", fourcc, 20, (640, 480))
-
+    out = cv2.VideoWriter(f"{CUR_DIR}/results/video_RAFT_pytorch.mp4", fourcc, 20, (640, 480))
+    
+    dur_time = 0
     with torch.no_grad():
         images = glob.glob(os.path.join(args.path, '*.png')) + \
                  glob.glob(os.path.join(args.path, '*.jpg'))
@@ -80,8 +84,11 @@ def main():
 
             padder = InputPadder(image1.shape)
             image1, image2 = padder.pad(image1, image2)
-
+            
+            begin = time.time()
             flow_low, flow_up = model(image1, image2, iters=20, test_mode=True)
+            torch.cuda.synchronize()
+            dur_time += time.time() - begin
 
             image1 = image1[0].permute(1,2,0).cpu().numpy()
             flow_up = flow_up[0].permute(1,2,0).cpu().numpy()
@@ -106,6 +113,11 @@ def main():
         out.release()
         cv2.destroyAllWindows()
 
+        iteration = len(images) - 1
+        print(f'[MDET] {iteration} iterations time: {dur_time:.4f} [sec]')
+        avg_time = dur_time / iteration
+        print(f'[MDET] Average FPS: {1 / avg_time:.2f} [fps]')
+        print(f'[MDET] Average inference time: {avg_time * 1000:.2f} [msec]')
 
 if __name__ == '__main__':
     main()

@@ -28,7 +28,7 @@ pip install scikit-image
 2. download pretrained checkpoints.
 ```
 ./download_models.sh
-
+```
 3. run the original pytorch model on test images.
 ```
 python demo.py --model=models/raft-things.pth --path=demo-frames
@@ -40,6 +40,17 @@ cd ..
 python ../gen_video2imgs.py
 python infer.py
 ```
+
+- input size: 288 x 512, iters: 20
+- original
+    - 249 iterations time: 26.1436 [sec]
+    - Average FPS: 9.52 [fps]
+    - Average inference time: 104.99 [msec]
+
+- wrapper for onnx/trt
+    - 249 iterations time: 41.2404 [sec]
+    - Average FPS: 6.04 [fps]
+    - Average inference time: 165.62 [msec]
 
 --------------------------------------------------------------------
 
@@ -60,5 +71,9 @@ python onnx2trt.py
 // a file '.engine' will be generated in engine directory.
 ```
 
+- input size: 288 x 512, iters: 20
+- 249 iterations time: 11.3397 [sec]
+- Average FPS: 21.96 [fps]
+- Average inference time: 45.54 [msec]
 
 **[Back](../README.md)** 

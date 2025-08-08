@@ -79,29 +79,36 @@ def get_engine(onnx_file_path, engine_file_path="", precision='fp32', dynamic_in
         begin = time.time()
         engine = build_engine()
         build_time = time.time() - begin
-        build_time_str = f"{build_time:.2f} [sec]" if build_time < 60 else f"{build_time // 60 :.1f} [min] {build_time % 60 :.2f} [sec]"
-        print(f'[MDET] Engine build done! ({build_time_str})')
-
+        print(f'[MDET] Engine build done! ({show_build_time(build_time)})')  
         return engine
+
+def show_build_time(build_time):      
+    if build_time < 60:
+        build_time_str = f"{build_time:.2f} sec"
+    elif build_time < 3600:
+        minutes = int(build_time // 60)
+        seconds = build_time % 60
+        build_time_str = f"{minutes} min {seconds:.2f} sec"
+    else:
+        hours = int(build_time // 3600)
+        minutes = int((build_time % 3600) // 60)
+        seconds = build_time % 60
+        build_time_str = f"{hours} hr {minutes} min {seconds:.2f} sec"
+    return build_time_str
     
-def load_image0(image_path, new_size=None):
+def load_image(image_path, new_size=None):
     image = cv2.imread(image_path)
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    # height, width = image.shape[:2]
+
     if new_size is not None :
         image = cv2.resize(image, new_size)
+    # [H, W, C] -> [C, H, W]
     image = np.transpose(image, (2, 0, 1))
+    # int - > float
     image = np.ascontiguousarray(image).astype(np.float32)
     # [C, H, W] -> [1, C, H, W]
     image = np.expand_dims(image, axis=0)
     return image
-
-def load_image(imfile, new_size=None):
-    img = Image.open(imfile)
-    img = img.resize(new_size, Image.LANCZOS)
-    img = np.array(img).astype(np.uint8)
-    img = torch.from_numpy(img).permute(2, 0, 1).float()
-    return img[None].numpy()
 
 def main():
 
@@ -122,7 +129,7 @@ def main():
     # Model and engine paths
     precision = "fp16"  # 'fp32' or 'fp16'
     dynamo = False       # True or False
-    onnx_sim = False     # True or False
+    onnx_sim = True     # True or False
     dynamic = False     # fail...(False only)
     model_name = f"raft_{input_h}x{input_w}"
     model_name = f"{model_name}_dynamic" if dynamic else model_name
@@ -133,11 +140,15 @@ def main():
     os.makedirs(os.path.dirname(engine_file_path), exist_ok=True)
 
     # input & output shapes 
-    output_shape = (1, 2, input_h, input_w)
-    print(f'[MDET] trt output shape : {output_shape}')
+    output_shape = {
+        "flow_low": (1, 2, int(input_h/8), int(input_w/8)),
+        "flow_up": (1, 2, input_h, input_w)
+        }
+    print(f'[MDET] "flow_low" shape : {output_shape["flow_low"]}')
+    print(f'[MDET] "flow_up" shape : {output_shape["flow_up"]}')
 
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-    out = cv2.VideoWriter(f"{CUR_DIR}/results/output_video_trt.mp4", fourcc, 20, (640, 480))
+    out = cv2.VideoWriter(f"{CUR_DIR}/results/video_RAFT_trt.mp4", fourcc, 20, (640, 480))
 
     dur_time = 0
     # Load or build the TensorRT engine and do inference
@@ -163,24 +174,24 @@ def main():
             torch.cuda.synchronize()
             dur_time += time.time() - begin
 
-            flow_up = torch.from_numpy(trt_outputs[0].reshape(output_shape))
-            image1 = np.transpose(image1[0], (1, 2, 0)) 
-            flow_up = np.transpose(flow_up[0].numpy(), (1, 2, 0)) 
-            
-            # map flow to rgb image
-            flow_up = flow_viz.flow_to_image(flow_up)
-            img_flo = np.concatenate([image1, flow_up], axis=0)
+            flow_up = trt_outputs[1].reshape(output_shape["flow_up"])
+            flow_up = np.transpose(flow_up[0], (1, 2, 0)) 
+            flow_img = flow_viz.flow_to_image(flow_up) # map flow to rgb image
+            flow_img_bgr = cv2.cvtColor(flow_img, cv2.COLOR_RGB2BGR) # map flow to rgb image
 
-            cv2.imshow('image', img_flo[:, :, [2,1,0]]/255.0)
+            image1 = np.transpose(image1[0], (1, 2, 0)) 
+            image1_bgr = cv2.cvtColor(image1, cv2.COLOR_RGB2BGR)
+
+            img_flo = np.concatenate([image1_bgr, flow_img_bgr], axis=0)
+            cv2.imshow('image', img_flo/255.0)
 
             if cv2.waitKey(1) & 0xFF == 27:
                 break
 
             output_path = f'{save_dir_path}/{os.path.splitext(os.path.basename(imfile1))[0]}_optical_flow.jpg'
-            cv2.imwrite(output_path, img_flo[:, :, [2,1,0]])
+            cv2.imwrite(output_path, img_flo)
 
-            frame = flow_up[:, :, [2,1,0]]
-            frame = cv2.resize(frame, (640, 480))
+            frame = cv2.resize(flow_img_bgr, (640, 480))
             out.write(frame)
         
         out.release()
