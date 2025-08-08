@@ -147,7 +147,7 @@ def main():
     print(f'[MDET] "flow_up" shape : {output_shape["flow_up"]}')
 
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-    out = cv2.VideoWriter(f"{CUR_DIR}/results/output_video_trt.mp4", fourcc, 20, (640, 480))
+    out = cv2.VideoWriter(f"{CUR_DIR}/results/video_meflow_trt.mp4", fourcc, 20, (640, 480))
 
     dur_time = 0
     # Load or build the TensorRT engine and do inference

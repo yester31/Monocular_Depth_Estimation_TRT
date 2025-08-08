@@ -64,7 +64,7 @@ def main():
 
     # 프레임 정보
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-    out = cv2.VideoWriter(f"{CUR_DIR}/results/output_video_pytorch.mp4", fourcc, 20, (640, 480))
+    out = cv2.VideoWriter(f"{CUR_DIR}/results/video_meflow_pytorch.mp4", fourcc, 20, (640, 480))
 
     with torch.no_grad():
         images = glob.glob(os.path.join(f'{CUR_DIR}/../video_frames', '*.png')) + \
