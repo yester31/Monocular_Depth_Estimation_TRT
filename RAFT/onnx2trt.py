@@ -20,7 +20,6 @@ CUR_DIR = os.path.dirname(os.path.abspath(__file__))
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print(f"[MDET] using device: {DEVICE}")
 TRT_LOGGER = trt.Logger(trt.Logger.INFO)
-TRT_LOGGER.min_severity = trt.Logger.Severity.INFO
 
 def get_engine(onnx_file_path, engine_file_path="", precision='fp32', dynamic_input_shapes=None):
     """Load or build a TensorRT engine based on the ONNX model."""
@@ -106,7 +105,7 @@ def load_image(imfile, new_size=None):
 
 def main():
 
-    save_dir_path = os.path.join(CUR_DIR, 'results_trt')
+    save_dir_path = os.path.join(CUR_DIR, 'results', 'tensorrt')
     os.makedirs(save_dir_path, exist_ok=True)
 
     input_h, input_w = 288, 512  # divisible by 8
@@ -136,6 +135,9 @@ def main():
     # input & output shapes 
     output_shape = (1, 2, input_h, input_w)
     print(f'[MDET] trt output shape : {output_shape}')
+
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    out = cv2.VideoWriter(f"{CUR_DIR}/results/output_video_trt.mp4", fourcc, 20, (640, 480))
 
     dur_time = 0
     # Load or build the TensorRT engine and do inference
@@ -174,8 +176,15 @@ def main():
             if cv2.waitKey(1) & 0xFF == 27:
                 break
 
-            output_path = f'{save_dir_path}/{os.path.splitext(os.path.basename(imfile1))[0]}_of.jpg'
+            output_path = f'{save_dir_path}/{os.path.splitext(os.path.basename(imfile1))[0]}_optical_flow.jpg'
             cv2.imwrite(output_path, img_flo[:, :, [2,1,0]])
+
+            frame = flow_up[:, :, [2,1,0]]
+            frame = cv2.resize(frame, (640, 480))
+            out.write(frame)
+        
+        out.release()
+        cv2.destroyAllWindows()
         # ===================================================================
         # Results
         iteration = len(image_paths) - 1

@@ -7,9 +7,7 @@ ml-depth-pro/
 GEMINI.md
 video_frames*
 *.ply
-Prior_Depth_Anything/
-Align3R/
-SIDepth/
+later/
 results_*
 
 # Byte-compiled / optimized / DLL files

@@ -46,7 +46,7 @@ def load_image0(image_path, new_size=None):
 
 def main():
 
-    save_dir_path = os.path.join(CUR_DIR, 'results_pytorch')
+    save_dir_path = os.path.join(CUR_DIR, 'results', 'pytorch')
     os.makedirs(save_dir_path, exist_ok=True)
 
     parser = argparse.ArgumentParser()
@@ -65,7 +65,7 @@ def main():
 
     # 프레임 정보
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-    out = cv2.VideoWriter(f"{save_dir_path}/output_video.mp4", fourcc, 20, (640, 480))
+    out = cv2.VideoWriter(f"{save_dir_path}/results/output_video_pytorch.mp4", fourcc, 20, (640, 480))
 
     with torch.no_grad():
         images = glob.glob(os.path.join(args.path, '*.png')) + \
@@ -96,7 +96,7 @@ def main():
                 break
 
             #img_flo_ = np.concatenate([image1, flow_up], axis=0)
-            output_path = f'{save_dir_path}/{os.path.splitext(os.path.basename(imfile1))[0]}_of.jpg'
+            output_path = f'{save_dir_path}/{os.path.splitext(os.path.basename(imfile1))[0]}_optical_flow.jpg'
             cv2.imwrite(output_path, img_flo[:, :, [2,1,0]])
             
             frame = flow_up[:, :, [2,1,0]]
@@ -104,7 +104,7 @@ def main():
             out.write(frame)
 
         out.release()
-        cv2.destroyAllWindows()  # 창 닫기
+        cv2.destroyAllWindows()
 
 
 if __name__ == '__main__':
