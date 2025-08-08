@@ -8,8 +8,8 @@ CUR_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def vis_point_cloud(point_path):
     pcd = o3d.io.read_point_cloud(point_path)
-    # pcd.paint_uniform_color([1, 0, 0])  # 빨강
-    # pcd.paint_uniform_color([0, 1, 0])  # 초록
+    # pcd.paint_uniform_color([1, 0, 0])  # red
+    # pcd.paint_uniform_color([0, 1, 0])  # green
     o3d.visualization.draw_geometries([pcd])
 
 point_path1 = f"{CUR_DIR}/Prior_Depth_Anything/results/example_vggt2.ply"

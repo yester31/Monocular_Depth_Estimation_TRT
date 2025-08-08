@@ -80,10 +80,22 @@ def get_engine(onnx_file_path, engine_file_path="", precision='fp32', dynamic_in
         begin = time.time()
         engine = build_engine()
         build_time = time.time() - begin
-        build_time_str = f"{build_time:.2f} [sec]" if build_time < 60 else f"{build_time // 60 :.1f} [min] {build_time % 60 :.2f} [sec]"
-        print(f'[MDET] Engine build done! ({build_time_str})')
-
+        print(f'[MDET] Engine build done! ({show_build_time(build_time)})')  
         return engine
+
+def show_build_time(build_time):      
+    if build_time < 60:
+        build_time_str = f"{build_time:.2f} sec"
+    elif build_time < 3600:
+        minutes = int(build_time // 60)
+        seconds = build_time % 60
+        build_time_str = f"{minutes} min {seconds:.2f} sec"
+    else:
+        hours = int(build_time // 3600)
+        minutes = int((build_time % 3600) // 60)
+        seconds = build_time % 60
+        build_time_str = f"{hours} hr {minutes} min {seconds:.2f} sec"
+    return build_time_str
     
 def load_image(image_path, new_size=None):
     image = cv2.imread(image_path)
@@ -163,8 +175,8 @@ def main():
 
             flow_up = trt_outputs[1].reshape(output_shape["flow_up"])
             flow_up = np.transpose(flow_up[0], (1, 2, 0)) 
-            flow_img = flow_to_image(flow_up)
-            flow_img_bgr = cv2.cvtColor(flow_img, cv2.COLOR_RGB2BGR) # map flow to rgb image
+            flow_img = flow_to_image(flow_up) # map flow to rgb image
+            flow_img_bgr = cv2.cvtColor(flow_img, cv2.COLOR_RGB2BGR) 
             
             image1 = np.transpose(image1[0], (1, 2, 0)) 
             image1_bgr = cv2.cvtColor(image1, cv2.COLOR_RGB2BGR)

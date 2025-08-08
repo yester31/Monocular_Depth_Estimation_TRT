@@ -105,7 +105,7 @@ def main():
             out.write(frame)
 
         out.release()
-        cv2.destroyAllWindows()  # 창 닫기
+        cv2.destroyAllWindows()
         
         iteration = len(images) - 1
         print(f'[MDET] {iteration} iterations time: {dur_time:.4f} [sec]')

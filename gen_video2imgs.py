@@ -14,7 +14,7 @@ def extract_frames_from_video(video_path, save_folder, max_count = None):
         max_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
 
     if not cap.isOpened():
-        print("비디오를 열 수 없습니다:", video_path)
+        print("Cannot open video:", video_path)
         return
 
     frame_count = 0
@@ -32,7 +32,7 @@ def extract_frames_from_video(video_path, save_folder, max_count = None):
             break
 
     cap.release()
-    print(f"{frame_count}개의 프레임을 저장했습니다.")
+    print(f"Saved {frame_count} frames.")
 
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))
 
