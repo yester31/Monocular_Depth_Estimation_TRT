@@ -37,6 +37,7 @@ python demo.py --model=models/raft-things.pth --path=demo-frames
 4. check pytorch model inference performance
 ```
 cd ..
+python ../gen_video2imgs.py
 python infer.py
 ```
 

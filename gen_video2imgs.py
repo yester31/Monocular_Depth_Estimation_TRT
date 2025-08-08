@@ -40,5 +40,5 @@ if __name__ == "__main__":
 
     save_folder = os.path.join(CUR_DIR, 'video_frames')
 
-    # extract_frames_from_video(f"{CUR_DIR}/video/video2.mp4", save_folder)
-    extract_frames_from_video(f"{CUR_DIR}/video/video2.mp4", save_folder, 10)
+    extract_frames_from_video(f"{CUR_DIR}/video/video2.mp4", save_folder)
+    # extract_frames_from_video(f"{CUR_DIR}/video/video2.mp4", save_folder, 10)
