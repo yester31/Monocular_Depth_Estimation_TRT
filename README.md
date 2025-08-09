@@ -49,6 +49,7 @@ Each model directory contains a `README.md` file with detailed instructions.
 | **RAFT** | [TensorRT Conversion](RAFT/README.md) | Optical Flow |
 | **MeFlow** | [TensorRT Conversion](MeFlow/README.md) | Optical Flow |
 | **MEMFOF** | [TensorRT Conversion](MEMFOF/README.md) | Optical Flow |
+| **NeuFlow** | [TensorRT Conversion](NeuFlow/README.md) | Optical Flow |
 
 ---
 
