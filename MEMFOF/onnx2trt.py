@@ -6,7 +6,6 @@ sys.path.insert(1, os.path.join(sys.path[0], ".."))
 
 import tensorrt as trt
 import torch
-from PIL import Image
 import cv2
 import numpy as np
 import time
@@ -128,7 +127,7 @@ def main():
 
     # Model and engine paths
     precision = "fp16"  # 'fp32' or 'fp16'
-    dynamo = False       # True or False
+    dynamo = True       # True or False
     onnx_sim = True     # True or False
     model_name = f"memfof_{input_h}x{input_w}"
     model_name = f"{model_name}_dynamo" if dynamo else model_name
@@ -162,7 +161,6 @@ def main():
             image2 = load_image(imfile2, (input_w, input_h)) # [1, C, H, W]
             image3 = load_image(imfile3, (input_w, input_h)) # [1, C, H, W]
             batch_images = np.concatenate([image1,image2,image3], axis=1) # [1, 3, C, H, W]
-
             inputs[0].host = batch_images
 
             begin = time.time()

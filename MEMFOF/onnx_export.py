@@ -1,29 +1,12 @@
-import sys
-import argparse
 import os
 import torch
-import torch.nn as nn
-
 import onnx
 from onnxsim import simplify
-
-sys.path.insert(1, os.path.join(sys.path[0], "memfof"))
-from memfof.core.memfof import MEMFOF
+from wrapper import MEMFOFModelWrapper
 
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-#DEVICE = torch.device("cpu")
 print(f"[MDET] using device: {DEVICE}")
-
-class MEMFOFWrappedModel(nn.Module):
-    def __init__(self, base_model):
-        super().__init__()
-        self.model = base_model
-
-    def forward(self, x):
-        output = self.model(x)
-
-        return output["flow"] 
 
 def main():
 
@@ -31,13 +14,13 @@ def main():
     save_path = os.path.join(CUR_DIR, 'onnx')
     os.makedirs(save_path, exist_ok=True)
 
-    model = MEMFOF.from_pretrained("egorchistov/optical-flow-MEMFOF-Tartan-T-TSKH")
+    model = MEMFOFModelWrapper.from_pretrained("egorchistov/optical-flow-MEMFOF-Tartan-T-TSKH")
     model.to(DEVICE)
     model.eval()
 
     input_h, input_w = 288, 512  # divisible by 8
 
-    dynamo = False   # True or False
+    dynamo = True   # True or False
     onnx_sim = True # True or False
     model_name = f"memfof_{input_h}x{input_w}"
     model_name = f"{model_name}_dynamo" if dynamo else model_name
@@ -49,7 +32,7 @@ def main():
 
     with torch.no_grad():
         torch.onnx.export(
-            MEMFOFWrappedModel(model), 
+            model, 
             dummy_input, 
             export_model_path, 
             opset_version=20, 

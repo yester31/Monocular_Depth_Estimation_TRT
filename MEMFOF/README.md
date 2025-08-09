@@ -1,4 +1,4 @@
-# MEMFOF (In progress...)
+# MEMFOF
 - **[MEMFOF: High-Resolution Training for Memory-Efficient Multi-Frame Optical Flow Estimation](https://arxiv.org/abs/2506.23151)**
 - **[MEMFOF official GitHub](https://github.com/msu-video-group/memfof)**
 - 2d image -> optical flow
@@ -56,8 +56,8 @@ python onnx2trt.py
 // a file '.engine' will be generated in engine directory.
 ```
 - input size: 288 x 512, iters: 8
-- 249 iterations time: 18.9969 [sec]
-- Average FPS: 13.11 [fps]
-- Average inference time: 76.29 [msec]
+- 249 iterations time: 17.6442 [sec]
+- Average FPS: 14.11 [fps]
+- Average inference time: 70.86 [msec]
 
 **[Back](../README.md)** 
