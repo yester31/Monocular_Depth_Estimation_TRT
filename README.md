@@ -48,6 +48,7 @@ Each model directory contains a `README.md` file with detailed instructions.
 | **StreamVGGT** | [TensorRT Conversion](StreamVGGT/README.md) | Depth, Point Cloud, Camera Pose |
 | **RAFT** | [TensorRT Conversion](RAFT/README.md) | Optical Flow |
 | **MeFlow** | [TensorRT Conversion](MeFlow/README.md) | Optical Flow |
+| **MEMFOF** | [TensorRT Conversion](MEMFOF/README.md) | Optical Flow |
 
 ---
 
