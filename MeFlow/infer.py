@@ -62,7 +62,6 @@ def main():
     model.to(DEVICE)
     model.eval()
 
-    # 프레임 정보
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
     out = cv2.VideoWriter(f"{CUR_DIR}/results/video_meflow_pytorch.mp4", fourcc, 20, (640, 480))
 
@@ -112,8 +111,6 @@ def main():
         avg_time = dur_time / iteration
         print(f'[MDET] Average FPS: {1 / avg_time:.2f} [fps]')
         print(f'[MDET] Average inference time: {avg_time * 1000:.2f} [msec]')
-
-
 
 
 if __name__ == '__main__':

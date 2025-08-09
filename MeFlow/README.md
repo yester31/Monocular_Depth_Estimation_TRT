@@ -52,6 +52,7 @@ cd ..
 python ../gen_video2imgs.py
 python infer.py
 ```
+
 - input size: 288 x 512, iters: 20
 - original
     - 249 iterations time: 60.6272 [sec]
@@ -67,19 +68,18 @@ python infer.py
 ## How to Run (TensorRT)
 
 1. generate onnx file
-
 ```
 python onnx_export.py
 // a file '.onnx' will be generated in onnx directory.
 ```
 
 2. build tensorrt model and run
-
 ```
 conda activate trte
 python onnx2trt.py
 // a file '.engine' will be generated in engine directory.
 ```
+
 - input size: 288 x 512, iters: 20
 - Engine build done! (197.0 [min] 7.06 [sec])
 - 249 iterations time: 13.4447 [sec]

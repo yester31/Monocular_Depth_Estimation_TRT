@@ -1,4 +1,4 @@
-# RAFT (In progress)
+# RAFT
 - **[RAFT: Recurrent All-Pairs Field Transforms for Optical Flow](https://arxiv.org/pdf/2003.12039)**
 - **[RAFT official GitHub](https://github.com/princeton-vl/raft)**
 - 2d image -> optical flow
@@ -29,6 +29,7 @@ pip install scikit-image
 ```
 ./download_models.sh
 ```
+
 3. run the original pytorch model on test images.
 ```
 python demo.py --model=models/raft-things.pth --path=demo-frames
@@ -57,14 +58,12 @@ python infer.py
 ## How to Run (TensorRT)
 
 1. generate onnx file
-
 ```
 python onnx_export.py
 // a file '.onnx' will be generated in onnx directory.
 ```
 
 2. build tensorrt model and run
-
 ```
 conda activate trte
 python onnx2trt.py

@@ -66,7 +66,6 @@ def main():
     model.to(DEVICE)
     model.eval()
 
-    # 프레임 정보
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
     out = cv2.VideoWriter(f"{CUR_DIR}/results/video_RAFT_pytorch.mp4", fourcc, 20, (640, 480))
     
@@ -102,7 +101,6 @@ def main():
             if cv2.waitKey(1) & 0xFF == 27:
                 break
 
-            #img_flo_ = np.concatenate([image1, flow_up], axis=0)
             output_path = f'{save_dir_path}/{os.path.splitext(os.path.basename(imfile1))[0]}_optical_flow.jpg'
             cv2.imwrite(output_path, img_flo[:, :, [2,1,0]])
             
