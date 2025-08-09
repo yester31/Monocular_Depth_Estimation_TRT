@@ -1,4 +1,4 @@
-# NeuFlow (In progress...)
+# NeuFlow
 - **[NeuFlow-V2: Push High-Efficiency Optical Flow To the Limit](https://arxiv.org/abs/2408.10161)**
 - **[NeuFlow official GitHub](https://github.com/neufieldrobotics/NeuFlow_v2)**
 - 2d image -> optical flow
