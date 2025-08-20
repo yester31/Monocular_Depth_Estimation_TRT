@@ -1,14 +1,13 @@
 checkpoints/
 onnx/
 engine/
-results/
 ml-depth-pro/
 *.cache
 GEMINI.md
 video_frames*
 *.ply
-later/
-results_*
+# later/
+results*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
