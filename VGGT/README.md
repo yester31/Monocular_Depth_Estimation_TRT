@@ -24,15 +24,19 @@ pip3 install torch torchvision torchaudio --index-url https://download.pytorch.o
 pip install -e .
 pip install onnx
 pip install onnxsim
+pip install open3d
+pip install einops
 ```
 
 2. run the original pytorch model on test images.
 ```
-mkdir -p data/image
-cp ../../data/example.jpg data/image/example.jpg
+mkdir -p data/images
+cp ../../data/example.jpg data/images/example.jpg
 python demo_colmap.py --scene_dir=data --use_ba --max_query_pts=2048 --query_frame_num=5
 python demo_colmap.py --scene_dir=data --use_ba --max_query_pts=4096 --query_frame_num=8
+python demo_colmap.py --scene_dir=examples/room --use_ba --max_query_pts=4096 --query_frame_num=8
 python demo_viser.py --image_folder data/images
+python demo_viser.py --image_folder examples/room/images
 ```
 
 3. check pytorch model inference performance

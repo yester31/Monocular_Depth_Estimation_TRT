@@ -29,27 +29,11 @@ class VGGTDepthOnlyWrapper(VGGT):
         aggregated_tokens_list, patch_start_idx = self.aggregator(images)
 
         with torch.amp.autocast(device_type=DEVICE.type, enabled=False):
-            # Camera pose estimation (if enabled)
-            #if self.camera_head is not None:
-            #    pose_enc_list = self.camera_head(aggregated_tokens_list)
-            #    pose_enc = pose_enc_list[-1]  # Use the last iteration output
-
             # Depth and confidence map prediction (if enabled)
             if self.depth_head is not None:
                 depth, depth_conf = self.depth_head(
                     aggregated_tokens_list, images=images, patch_start_idx=patch_start_idx
                 )
-
-            # 3D world point prediction and tracking are disabled for ONNX export
-            # Uncomment the following lines if needed for additional outputs
-            # if self.point_head is not None:
-            #     pts3d, pts3d_conf = self.point_head(
-            #         aggregated_tokens_list, images=images, patch_start_idx=patch_start_idx
-            #     )
-            #     world_points = pts3d
-            #     world_points_conf = pts3d_conf
-
-        #return pose_enc, depth, depth_conf
         return depth
 
 def main ():

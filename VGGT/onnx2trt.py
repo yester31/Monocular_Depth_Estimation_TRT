@@ -18,7 +18,7 @@ from common import *
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print(f"[MDET] using device: {DEVICE}")
-TRT_LOGGER = trt.Logger(trt.Logger.VERBOSE)
+TRT_LOGGER = trt.Logger(trt.Logger.INFO)
 
 def get_engine(onnx_file_path, engine_file_path="", precision='fp32', dynamic_input_shapes=None):
     """Load or build a TensorRT engine based on the ONNX model."""
@@ -77,55 +77,54 @@ def get_engine(onnx_file_path, engine_file_path="", precision='fp32', dynamic_in
 
         return engine
 
-def main():
-    save_dir_path = os.path.join(CUR_DIR, 'results')
-    os.makedirs(save_dir_path, exist_ok=True)
-
-    input_h, input_w = 518, 518 # 700, 700
-    target_size = 1024
+def pre_process(raw_image, target_size, input_h, input_w):
     original_coords = []  # Renamed from position_info to be more descriptive
-
-    # Input
-    image_file_name = 'example.jpg'
-    image_path = os.path.join(CUR_DIR, '..', 'data', image_file_name)
-    raw_image = cv2.imread(image_path)
-    print('[MDET] Pre process')
     height, width = raw_image.shape[:2]
-    print(f"[MDET] original image size : {height, width}")
     img = cv2.cvtColor(raw_image, cv2.COLOR_BGR2RGB) 
-
     # Make the image square by padding the shorter dimension
     max_dim = max(width, height)
-
     # Calculate padding
     left = (max_dim - width) // 2
     top = (max_dim - height) // 2
-
     # Calculate scale factor for resizing
     scale = target_size / max_dim
-
     # Calculate final coordinates of original image in target space
     x1 = left * scale
     y1 = top * scale
     x2 = (left + width) * scale
     y2 = (top + height) * scale
-
     # Store original image coordinates and scale
     original_coords.append(np.array([x1, y1, x2, y2, width, height]))
-
     # Create a new black square image and paste original
     padding = [0, 0, 0]
     img = cv2.copyMakeBorder(img, top, top, left, left, cv2.BORDER_CONSTANT, value=padding)
 
     # Resize to target size
-    rgb = cv2.resize(img, (target_size, target_size), interpolation=cv2.INTER_CUBIC)
+    img = cv2.resize(img, (target_size, target_size), interpolation=cv2.INTER_CUBIC)
 
     # Convert to tensor
-    rgb = torch.from_numpy(rgb.transpose((2, 0, 1))).float() / 255.0
-    rgb = rgb.unsqueeze(0)
-    batch_images = F.interpolate(rgb, size=(input_h, input_w), mode="bilinear", align_corners=False)
+    img = torch.from_numpy(img.transpose((2, 0, 1))).float() / 255.0
+    img = img.unsqueeze(0)
+    batch_images = F.interpolate(img, size=(input_h, input_w), mode="bilinear", align_corners=False)
     batch_images = batch_images.unsqueeze(0)
-    batch_images = batch_images.cpu().numpy()
+    return batch_images.cpu().numpy(), x1, y1, x2, y2
+
+
+def main():
+    save_dir_path = os.path.join(CUR_DIR, 'results')
+    os.makedirs(save_dir_path, exist_ok=True)
+
+    # Input
+    target_size = 1024
+    input_h, input_w = 518, 518 
+    image_path = os.path.join(CUR_DIR, '..', 'data', 'example.jpg')
+    image_file_name = os.path.splitext(os.path.basename(image_path))[0]
+    raw_image = cv2.imread(image_path)
+    height, width = raw_image.shape[:2]
+    print(f"[MDET] original image size : {height, width}")
+
+    print('[MDET] Pre process')
+    batch_images, x1, y1, x2, y2 = pre_process(raw_image, target_size, input_h, input_w)
 
     # Model and engine paths
     onnx_dtype_fp16 = True
@@ -138,14 +137,9 @@ def main():
 
     # input & output shapes 
     input_shape = (batch_images.shape)
-    pose_enc_shape = (1, 1, 9)
     depth_shape = (1, input_h, input_w)
-    depth_conf_shape = (1, input_h, input_w)
-
     print(f'[MDET] input shape : {input_shape}')
-    print(f'[MDET] pose_enc shape : {pose_enc_shape}')
     print(f'[MDET] depth  shape : {depth_shape}')
-    print(f'[MDET] depth_conf  shape : {depth_conf_shape}')
 
     iteration = 100
     dur_time = 0
@@ -168,13 +162,9 @@ def main():
             torch.cuda.synchronize()
             dur_time += time.time() - begin
         # ===================================================================
-
         print('[MDET] Post process')
         depth = trt_outputs[0].reshape(depth_shape)
         depth = np.squeeze(depth)
-
-        original_coord = original_coords[0]
-        depth = depth[int(original_coord[1]/2) : int(original_coord[3]/2), :]
 
         # Results
         print(f'[MDET] {iteration} iterations time: {dur_time:.4f} [sec]')
@@ -182,15 +172,17 @@ def main():
         print(f'[MDET] Average FPS: {1 / avg_time:.2f} [fps]')
         print(f'[MDET] Average inference time: {avg_time * 1000:.2f} [msec]')
         print(f'[MDET] max : {depth.max():0.5f} , min : {depth.min():0.5f}')
-    
+
     # ===================================================================
     print('[MDET] Generate color depth image')
 
     # visualization
     # Save as color-mapped "turbo" jpg image.
     cmap = plt.get_cmap("turbo")
-    output_file_depth = os.path.join(save_dir_path, os.path.splitext(image_file_name)[0] + f'_{model_name}_trt.jpg')
+    output_file_depth = os.path.join(save_dir_path, f"{image_file_name}_vggt_{input_h}x{input_w}_trt.jpg")
 
+    depth = cv2.resize(depth, (target_size, target_size), cv2.INTER_LINEAR)
+    depth = depth[int(y1):int(y2), int(x1):int(x2),...] 
     inverse_depth = 1 / depth
     max_invdepth_vizu = min(inverse_depth.max(), 1 / 0.1)
     min_invdepth_vizu = max(1 / 250, inverse_depth.min())
@@ -198,13 +190,13 @@ def main():
 
     color_depth = (cmap(inverse_depth_normalized)[..., :3] * 255).astype(np.uint8)
     color_depth_bgr = cv2.cvtColor(color_depth, cv2.COLOR_RGB2BGR)    
-    color_depth_bgr = cv2.resize(color_depth_bgr, (int(original_coord[4]), int(original_coord[5])), cv2.INTER_LINEAR)
+    color_depth_bgr = cv2.resize(color_depth_bgr, (width, height), cv2.INTER_LINEAR)
 
     # save colored depth image 
     cv2.imwrite(output_file_depth, color_depth_bgr)
 
     # save_npz
-    output_file_npz = os.path.join(save_dir_path, os.path.splitext(image_file_name)[0] + f'_{model_name}_trt')
+    output_file_npz = os.path.join(save_dir_path, f"{image_file_name}_vggt_{input_h}x{input_w}_trt")
     np.savez_compressed(output_file_npz, depth=depth)
 
     common.free_buffers(inputs, outputs, stream)

@@ -31,7 +31,7 @@ class VGGT_Aggregator_Wrapper(VGGT):
 
     def forward(self, images): # images [1, S, 3, H, W]
         # Aggregate features using the backbone
-        aggregated_tokens_list, patch_start_idx = self.aggregator(images)
+        aggregated_tokens_list, patch_start_idx = self.aggregator(images) # patch_start_idx = 5
         aggregated_tokens_list = torch.stack(aggregated_tokens_list)
         return aggregated_tokens_list
 
@@ -39,11 +39,11 @@ class VGGT_depth_head_Wrapper(VGGT):
     def __init__(self):
         super().__init__()
 
-    def forward(self, images, aggregated_tokens_list): # aggregated_tokens_list [23, 1, 1, 1374, 2048]
+    def forward(self, aggregated_tokens_list, images): # aggregated_tokens_list [23, 1, 1, 1374, 2048]
         aggregated_tokens_list = list(aggregated_tokens_list)
         with torch.amp.autocast(device_type=DEVICE.type, enabled=False):
             # Depth and confidence map prediction (if enabled)
-            depth, depth_conf = self.depth_head(aggregated_tokens_list, images=images, patch_start_idx=5)
+            depth, depth_conf = self.depth_head(aggregated_tokens_list, images, patch_start_idx=5)
 
         return depth, depth_conf
 
@@ -79,7 +79,7 @@ def export_aggregator():
     os.makedirs(os.path.join(save_path, model_name), exist_ok=True)
 
     print('[MDET] Export the model to onnx format')
-    dummy_input = torch.randn((1, 1, 3, input_h, input_w), requires_grad=False).to(DEVICE)  # Create a dummy input
+    images = torch.randn((1, 1, 3, input_h, input_w), requires_grad=False).to(DEVICE)  # Create a dummy input
 
     dynamic_axes = None 
     if dynamic:
@@ -89,15 +89,16 @@ def export_aggregator():
         with torch.no_grad():  # Disable gradients for efficiency
             torch.onnx.export(
                 model, 
-                dummy_input, 
+                images, 
                 export_model_path, 
-                opset_version=17, 
+                opset_version=21, 
                 input_names=["images"],
                 output_names=["aggregated_tokens_list"],
                 dynamic_axes=dynamic_axes, 
             )
 
     print(f"ONNX model exported to: {export_model_path}")
+    torch.cuda.empty_cache()
 
     print("[MDET] Validate exported onnx model")
     try:
@@ -117,7 +118,6 @@ def export_aggregator():
         print(f"[MDET] Output: {output.name}")
         for d in output.type.tensor_type.shape.dim:
             print("[MDET] dim_value:", d.dim_value, "dim_param:", d.dim_param)
-
     if onnx_sim :
         print("[MDET] Simplify exported onnx model")
         onnx_model = onnx.load(export_model_path)
@@ -152,8 +152,8 @@ def export_depth_head():
     os.makedirs(os.path.join(save_path, model_name), exist_ok=True)
 
     print('[MDET] Export the model to onnx format')
-    dummy_input = torch.randn((1, 1, 3, input_h, input_w), requires_grad=False).to(DEVICE)  # Create a dummy input
-    dummy_input2 = torch.randn((24, 1, 1, 1374, 2048), requires_grad=False).to(DEVICE)  # Create a dummy input
+    aggregated_tokens_list = torch.randn((24, 1, 1, 1374, 2048), requires_grad=False).to(DEVICE)  # Create a dummy input
+    images = torch.randn((1, 1, 3, input_h, input_w), requires_grad=False).to(DEVICE)  # Create a dummy input
 
     dynamic_axes = None 
     if dynamic:
@@ -163,15 +163,16 @@ def export_depth_head():
         with torch.no_grad():  # Disable gradients for efficiency
             torch.onnx.export(
                 model, 
-                (dummy_input, dummy_input2), 
+                (aggregated_tokens_list, images), 
                 export_model_path, 
-                opset_version=17, 
-                input_names=["images", "aggregated_tokens_list"],
+                opset_version=21, 
+                input_names=["aggregated_tokens_list", "images"],
                 output_names=["depth", "depth_conf"],
                 dynamic_axes=dynamic_axes, 
             )
 
     print(f"ONNX model exported to: {export_model_path}")
+    torch.cuda.empty_cache()
 
     print("[MDET] Validate exported onnx model")
     try:
@@ -226,7 +227,7 @@ def export_camera_head():
     os.makedirs(os.path.join(save_path, model_name), exist_ok=True)
 
     print('[MDET] Export the model to onnx format')
-    dummy_input = torch.randn((24, 1, 1, 1374, 2048), requires_grad=False).to(DEVICE)  # Create a dummy input
+    aggregated_tokens_list = torch.randn((24, 1, 1, 1374, 2048), requires_grad=False).to(DEVICE)  # Create a dummy input
 
     dynamic_axes = None 
     if dynamic:
@@ -236,15 +237,16 @@ def export_camera_head():
         with torch.no_grad():  # Disable gradients for efficiency
             torch.onnx.export(
                 model, 
-                (dummy_input), 
+                (aggregated_tokens_list), 
                 export_model_path, 
-                opset_version=17, 
+                opset_version=21, 
                 input_names=["aggregated_tokens_list"],
                 output_names=["pose_enc"],
                 dynamic_axes=dynamic_axes, 
             )
 
     print(f"ONNX model exported to: {export_model_path}")
+    torch.cuda.empty_cache()
 
     print("[MDET] Validate exported onnx model")
     try:
@@ -281,6 +283,6 @@ def export_camera_head():
             print(f"[MDET] simplification failed: {e}")
 
 if __name__ == "__main__":
-    export_aggregator()
+    # export_aggregator()
     export_depth_head()
-    export_camera_head()
+    # export_camera_head()

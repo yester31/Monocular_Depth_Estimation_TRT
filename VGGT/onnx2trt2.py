@@ -85,21 +85,9 @@ def get_engine(onnx_file_path, engine_file_path="", precision='fp32', dynamic_in
 
         return engine
 
-def main():
-    save_dir_path = os.path.join(CUR_DIR, 'results')
-    os.makedirs(save_dir_path, exist_ok=True)
-
-    input_h, input_w = 518, 518 # 700, 700
-    target_size = 1024
+def pre_process(raw_image, target_size, input_h, input_w):
     original_coords = []  # Renamed from position_info to be more descriptive
-
-    # Input
-    image_file_name = 'example.jpg'
-    image_path = os.path.join(CUR_DIR, '..', 'data', image_file_name)
-    raw_image = cv2.imread(image_path)
-    print('[MDET] Pre process')
     height, width = raw_image.shape[:2]
-    print(f"[MDET] original image size : {height, width}")
     img = cv2.cvtColor(raw_image, cv2.COLOR_BGR2RGB) 
     # Make the image square by padding the shorter dimension
     max_dim = max(width, height)
@@ -118,20 +106,38 @@ def main():
     # Create a new black square image and paste original
     padding = [0, 0, 0]
     img = cv2.copyMakeBorder(img, top, top, left, left, cv2.BORDER_CONSTANT, value=padding)
+
     # Resize to target size
-    rgb = cv2.resize(img, (target_size, target_size), interpolation=cv2.INTER_CUBIC)
+    img = cv2.resize(img, (target_size, target_size), interpolation=cv2.INTER_CUBIC)
+    
     # Convert to tensor
-    rgb = torch.from_numpy(rgb.transpose((2, 0, 1))).float() / 255.0
-    rgb = rgb.unsqueeze(0)
-    batch_images = F.interpolate(rgb, size=(input_h, input_w), mode="bilinear", align_corners=False)
+    img = torch.from_numpy(img.transpose((2, 0, 1))).float() / 255.0
+    img = img.unsqueeze(0)
+    batch_images = F.interpolate(img, size=(input_h, input_w), mode="bilinear", align_corners=False)
     batch_images = batch_images.unsqueeze(0)
-    batch_images = batch_images.cpu().numpy()
+    return batch_images.cpu().numpy(), x1, y1, x2, y2
+
+def main():
+    save_dir_path = os.path.join(CUR_DIR, 'results')
+    os.makedirs(save_dir_path, exist_ok=True)
+
+    # Input
+    target_size = 1024
+    input_h, input_w = 518, 518
+    image_path = os.path.join(CUR_DIR, '..', 'data', 'example.jpg')
+    image_file_name = os.path.splitext(os.path.basename(image_path))[0]
+
+    raw_image = cv2.imread(image_path)
+    height, width = raw_image.shape[:2]
+    print(f"[MDET] original image size : {height, width}")
+
+    print('[MDET] Pre process')
+    batch_images, x1, y1, x2, y2 = pre_process(raw_image, target_size, input_h, input_w)
 
     # Model and engine paths
     onnx_dtype_fp16 = True
     precision = "fp16"  # Choose 'fp32' or 'fp16'
     model_name = f"vggt_aggregator_{input_h}x{input_w}"
-    model_name = f"{model_name}_fp16" if onnx_dtype_fp16 else model_name    
     onnx_model_path = os.path.join(CUR_DIR, 'onnx', model_name, f'{model_name}.onnx')
     engine_file_path = os.path.join(CUR_DIR, 'engine', f'{model_name}_{precision}.engine')
     os.makedirs(os.path.dirname(engine_file_path), exist_ok=True)
@@ -141,58 +147,102 @@ def main():
     onnx_model_path2 = os.path.join(CUR_DIR, 'onnx', model_name2, f'{model_name2}.onnx')
     engine_file_path2 = os.path.join(CUR_DIR, 'engine', f'{model_name2}_{precision}.engine')
 
-    precision3 = "fp32"  # Choose 'fp32' or 'fp16'
     model_name3 = f"vggt_camera_head_{input_h}x{input_w}"
     model_name3 = f"{model_name3}_fp16" if onnx_dtype_fp16 else model_name3    
     onnx_model_path3 = os.path.join(CUR_DIR, 'onnx', model_name3, f'{model_name3}.onnx')
-    engine_file_path3 = os.path.join(CUR_DIR, 'engine', f'{model_name3}_{precision3}.engine')
+    engine_file_path3 = os.path.join(CUR_DIR, 'engine', f'{model_name3}_{precision}.engine')
 
     engine = get_engine(onnx_model_path, engine_file_path, precision)
-    context = engine.create_execution_context()
-
     engine2 = get_engine(onnx_model_path2, engine_file_path2, precision)
-    context2 = engine2.create_execution_context()
+    engine3 = get_engine(onnx_model_path3, engine_file_path3, precision)
 
-    engine3 = get_engine(onnx_model_path3, engine_file_path3, precision3)
+    context = engine.create_execution_context()
+    context2 = engine2.create_execution_context()
     context3 = engine3.create_execution_context()
 
-    depth_shape = (input_h, input_w, 1)
+    depth_shape = (input_h, input_w)
     # aggregated_tokens_list_shape = (24, 1, 1, 1374, 2048)
     pose_enc_shape = (1, 1, 9)
     try:
         inputs, outputs, bindings, stream = common.allocate_buffers(engine)
-        inputs[0].host = batch_images   
-        trt_outputs = common.do_inference(context, engine=engine, bindings=bindings, inputs=inputs, outputs=outputs, stream=stream)
-        torch.cuda.synchronize()
-
         inputs2, outputs2, bindings2, stream2 = common.allocate_buffers(engine2)
-        inputs2[0].host = outputs[0].host
-        trt_outputs2 = common.do_inference(context2, engine=engine2, bindings=bindings2, inputs=inputs2, outputs=outputs2, stream=stream2)
-        torch.cuda.synchronize()
-
         inputs3, outputs3, bindings3, stream3 = common.allocate_buffers(engine3)
-        inputs3[0].host = outputs[0].host
-        trt_outputs3 = common.do_inference(context3, engine=engine3, bindings=bindings3, inputs=inputs3, outputs=outputs3, stream=stream3)
-        torch.cuda.synchronize()
+
+        for i in range(engine.num_io_tensors):
+            context.set_tensor_address(engine.get_tensor_name(i), bindings[i])
+        for i in range(engine2.num_io_tensors):
+            context2.set_tensor_address(engine2.get_tensor_name(i), bindings2[i])
+        for i in range(engine3.num_io_tensors):
+            context3.set_tensor_address(engine3.get_tensor_name(i), bindings3[i])
+
+        # Transfer input data to the GPU.
+        kind_h2d = cudart.cudaMemcpyKind.cudaMemcpyHostToDevice
+        kind_d2h = cudart.cudaMemcpyKind.cudaMemcpyDeviceToHost
+        kind_d2d = cudart.cudaMemcpyKind.cudaMemcpyDeviceToDevice
+
+        # Warm-up      
+        for _ in range(20):  
+            inputs[0].host = batch_images
+            context.execute_async_v3(stream_handle=stream)
+            context2.execute_async_v3(stream_handle=stream)
+            context3.execute_async_v3(stream_handle=stream)
+            cuda_call(cudart.cudaStreamSynchronize(stream)) # Synchronize the stream
+
+        # Inference loop
+        iteration = 100
+        dur_time = 0
+        for _ in range(iteration):
+            begin = time.time()
+
+            inputs[0].host = batch_images
+            cuda_call(cudart.cudaMemcpyAsync(inputs[0].device, inputs[0].host, inputs[0].nbytes, kind_h2d, stream))
+            context.execute_async_v3(stream_handle=stream)
+
+            cuda_call(cudart.cudaMemcpyAsync(inputs2[0].device, outputs[0].device, outputs[0].nbytes, kind_d2d, stream))
+            context2.execute_async_v3(stream_handle=stream)
+            cuda_call(cudart.cudaMemcpyAsync(outputs2[0].host, outputs2[0].device, outputs2[0].nbytes, kind_d2h, stream))
+
+            cuda_call(cudart.cudaMemcpyAsync(inputs3[0].device, outputs[0].device, outputs[0].nbytes, kind_d2d, stream))
+            context3.execute_async_v3(stream_handle=stream)
+            cuda_call(cudart.cudaMemcpyAsync(outputs3[0].host, outputs3[0].device, outputs3[0].nbytes, kind_d2h, stream))
+            cuda_call(cudart.cudaStreamSynchronize(stream)) # Synchronize the stream
+
+            dur_time += time.time() - begin
+        # ===================================================================
+        # Results
+        print(f'[MDET] {iteration} iterations time: {dur_time:.4f} [sec]')
+        avg_time = dur_time / iteration
+        print(f'[MDET] Average FPS: {1 / avg_time:.2f} [fps]')
+        print(f'[MDET] Average inference time: {avg_time * 1000:.2f} [msec]')
+
+        if 0 :
+            # aggregator
+            inputs[0].host = batch_images   
+            trt_outputs = common.do_inference(context, engine=engine, bindings=bindings, inputs=inputs, outputs=outputs, stream=stream)
+            
+            # depth_head
+            inputs2[0].host = outputs[0].host
+            trt_outputs2 = common.do_inference(context2, engine=engine2, bindings=bindings2, inputs=inputs2, outputs=outputs2, stream=stream2)
+            
+            # camera_head
+            inputs3[0].host = outputs[0].host
+            trt_outputs3 = common.do_inference(context3, engine=engine3, bindings=bindings3, inputs=inputs3, outputs=outputs3, stream=stream3)
 
         print('[MDET] Post process')
-        depth_map = trt_outputs2[0].reshape(depth_shape)# [518, 518, 1]
+        depth_map = outputs2[0].host.reshape(depth_shape) # [518, 518, 1]
+        depth_conf = outputs2[1].host.reshape(depth_shape) # [518, 518, 1]
         print(f'[MDET] max : {depth_map.max():0.5f} , min : {depth_map.min():0.5f}')
 
-        pose_enc = torch.from_numpy(trt_outputs3[0].reshape(pose_enc_shape))
+        depth_map = cv2.resize(depth_map, (target_size, target_size), cv2.INTER_LINEAR)
+        depth_map = depth_map[int(y1):int(y2), int(x1):int(x2),...] # remove paddings
+        depth_map = depth_map[None, :, :, None]
+        
+        pose_enc = torch.from_numpy(outputs3[0].host.reshape(pose_enc_shape))
         print(f'[MDET] pose_enc : \n {pose_enc}')
-
         extrinsic, intrinsic = pose_encoding_to_extri_intri(pose_enc, (input_h, input_w))
-
-        depth_map = cv2.resize(depth_map, (target_size, target_size), interpolation=cv2.INTER_CUBIC) # [1024, 1024]
-        depth_map = depth_map[int(y1):int(y2), int(x1):int(x2),...] # remove paddings # [768, 1024]
-        depth_map = depth_map[None, :, :, None] # [1, 768, 1024, 1]
-
-        point_map_by_unprojection = unproject_depth_map_to_point_map(depth_map, extrinsic.squeeze(0), intrinsic.squeeze(0))
-
+        world_points = unproject_depth_map_to_point_map(depth_map, extrinsic.squeeze(0), intrinsic.squeeze(0))
 
     finally:
-        # 명시적으로 자원 해제
         del context
         del engine
 
@@ -213,24 +263,34 @@ def main():
     color_depth_bgr = cv2.resize(color_depth_bgr, (width, height), cv2.INTER_LINEAR)
 
     # save colored depth image 
-    output_file_depth = os.path.join(save_dir_path, os.path.splitext(image_file_name)[0] + f'_{model_name}_trt2.jpg')
+    output_file_depth = os.path.join(save_dir_path, f"{image_file_name}_vggt_{input_h}x{input_w}_trt2.jpg")
     cv2.imwrite(output_file_depth, color_depth_bgr)
 
     # save_npz
-    output_file_npz = os.path.join(save_dir_path, os.path.splitext(image_file_name)[0] + f'_{model_name}_trt2')
+    output_file_npz = os.path.join(save_dir_path, f"{image_file_name}_vggt_{input_h}x{input_w}_trt2")
     np.savez_compressed(output_file_npz, depth=depth_map)
 
     # save point cloud 
     rgb_image = cv2.cvtColor(raw_image, cv2.COLOR_BGR2RGB) 
     rgb_resized_img = cv2.resize(rgb_image, (depth_map.shape[1], depth_map.shape[0]), cv2.INTER_LINEAR)
-    points = np.stack(point_map_by_unprojection, axis=-1).reshape(-1, 3)
+    points = np.stack(world_points, axis=-1).reshape(-1, 3)
     colors = np.array(rgb_resized_img).reshape(-1, 3) / 255.0
+
+    if 0 :
+        conf_flat = depth_conf.reshape(-1)
+        init_conf_threshold = 50.0
+        init_threshold_val = np.percentile(conf_flat, init_conf_threshold)
+        init_conf_mask = (conf_flat >= init_threshold_val) & (conf_flat > 0.1)
+        scene_center = np.mean(points, axis=0)
+        points_centered = points - scene_center
+        points = points_centered[init_conf_mask]
+
     # Create the point cloud and save it to the output directory
     pcd = o3d.geometry.PointCloud()
     pcd.points = o3d.utility.Vector3dVector(points)
     pcd.colors = o3d.utility.Vector3dVector(colors)
-    o3d.io.write_point_cloud(os.path.join(save_dir_path, os.path.splitext(image_file_name)[0] + "_vggt_trt.ply"), pcd)
-    o3d.visualization.draw_geometries([pcd])
+    o3d.io.write_point_cloud(os.path.join(save_dir_path, f"{image_file_name}_vggt_{input_h}x{input_w}_trt2.ply"), pcd)
+    # o3d.visualization.draw_geometries([pcd])
 
     common.free_buffers(inputs, outputs, stream)
 
