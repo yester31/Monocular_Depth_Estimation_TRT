@@ -147,6 +147,7 @@ def main():
         vis.create_window(window_name="Real-time Point Cloud", width=960, height=540)
     
     dur_time = 0
+    dur_time2 = 0
     # Load or build the TensorRT engine and do inference
     with get_engine(onnx_model_path, engine_file_path, precision) as engine, \
             engine.create_execution_context() as context:
@@ -183,32 +184,34 @@ def main():
             mask = torch.from_numpy(trt_outputs[2].reshape(output_shape['mask']))
             metric_scale = torch.from_numpy(trt_outputs[3].reshape(output_shape['metric_scale']))
             
-            if mask is not None:
-                mask_binary = mask > 0.5
-            else:
-                mask_binary = None
+            if 0 :
+                if mask is not None:
+                    mask_binary = mask > 0.5
+                else:
+                    mask_binary = None
 
-            focal, shift = recover_focal_shift(points, mask_binary)
-            aspect_ratio = input_image.shape[3] / input_image.shape[2]
-            fx, fy = focal / 2 * (1 + aspect_ratio ** 2) ** 0.5 / aspect_ratio, focal / 2 * (1 + aspect_ratio ** 2) ** 0.5 
-            intrinsics = utils3d.torch.intrinsics_from_focal_center(fx, fy, 0.5, 0.5)
-            points[..., 2] += shift[..., None, None]
-            if mask_binary is not None:
-                mask_binary &= points[..., 2] > 0        # in case depth is contains negative values (which should never happen in practice)
-            depth = points[..., 2].clone()
-            points = utils3d.torch.depth_to_points(depth, intrinsics=intrinsics)
+                focal, shift = recover_focal_shift(points, mask_binary)
+                aspect_ratio = input_image.shape[3] / input_image.shape[2]
+                fx, fy = focal / 2 * (1 + aspect_ratio ** 2) ** 0.5 / aspect_ratio, focal / 2 * (1 + aspect_ratio ** 2) ** 0.5 
+                intrinsics = utils3d.torch.intrinsics_from_focal_center(fx, fy, 0.5, 0.5)
+                points[..., 2] += shift[..., None, None]
+                if mask_binary is not None:
+                    mask_binary &= points[..., 2] > 0        # in case depth is contains negative values (which should never happen in practice)
+                depth = points[..., 2].clone()
+                points = utils3d.torch.depth_to_points(depth, intrinsics=intrinsics)
+                intrinsics = intrinsics.numpy().squeeze(0)
 
             # Apply metric scale
             if metric_scale is not None:
                 if points is not None:
                     points *= metric_scale[:, None, None, None]
 
-            # Apply mask
-            if mask_binary is not None:
-                points = torch.where(mask_binary[..., None], points, torch.inf) if points is not None else None
-        
+            if 0 :
+                # Apply mask
+                if mask_binary is not None:
+                    points = torch.where(mask_binary[..., None], points, torch.inf) if points is not None else None
+            
             points = points.numpy().squeeze(0)
-            intrinsics = intrinsics.numpy().squeeze(0)
 
             # original size
             # points = cv2.resize(points, (ori_shape[1], ori_shape[0]), cv2.INTER_LINEAR)
@@ -222,6 +225,7 @@ def main():
             filtered_points = points[mask]
             filtered_colors = colors[mask]
             print(f'count : {idx}')
+            dur_time2 += time.time() - begin
 
             # ----- update point cloud (viser) -----
             if vis_flag == 'viser':
@@ -288,6 +292,11 @@ def main():
         avg_time = dur_time / iteration
         print(f'[MDET] Average FPS: {1 / avg_time:.2f} [fps]')
         print(f'[MDET] Average inference time: {avg_time * 1000:.2f} [msec]')
+
+        print(f'[MDET] {iteration} iterations time ({input_h, input_w}): {dur_time2:.4f} [sec]')
+        avg_time2 = dur_time2 / iteration
+        print(f'[MDET] Average FPS: {1 / avg_time2:.2f} [fps]')
+        print(f'[MDET] Average inference time: {avg_time2 * 1000:.2f} [msec]')
 
     common.free_buffers(inputs, outputs, stream)
 
