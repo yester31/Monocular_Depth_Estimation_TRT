@@ -1,5 +1,5 @@
 # Depth Anything V3
-- **[Depth Anything V3](https://arxiv.org/abs/2406.09414)**
+- **[Depth Anything V3](https://arxiv.org/pdf/2511.10647)**
 - **[Depth Anything V3 official GitHub](https://github.com/ByteDance-Seed/Depth-Anything-3)**
 - 2d image -> depth
 
