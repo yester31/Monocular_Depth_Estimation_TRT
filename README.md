@@ -46,12 +46,6 @@ Each model directory contains a `README.md` file with detailed instructions.
 | **VGGT** | [TensorRT Conversion](VGGT/README.md) | Depth |
 | **StreamVGGT** | [TensorRT Conversion](StreamVGGT/README.md) | Depth |
 | **Depth Anything V3** | [TensorRT Conversion](Depth_Anything_V3/README.md) | Depth |
-
+| **Metric Anything** | [TensorRT Conversion](Metric_Anything/README.md) | Depth |
 ---
 
-## 3. To-Do List for Project Improvement
-
-- [ ] **Unified Inference Script:** Create a single inference script that accepts the model name as an argument to improve user experience.
-- [ ] **Summarize Performance Analysis:** Add a table to the main `README.md` that summarizes the performance of all models (including input resolution, precision, and hardware details) for easy comparison.
-- [ ] **Docker Support:** Add a `Dockerfile` to facilitate the environment setup and ensure reproducibility.
----

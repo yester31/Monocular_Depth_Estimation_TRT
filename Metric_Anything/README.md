@@ -32,7 +32,7 @@
     ```
     python metric_anything/models/student_pointmap/infer.py \
         --input metric_anything/models/student_pointmap/example_images \
-        --output metric_anything/models/student_pointmap/output_infer \
+        --output results/student_pointmap \
         --weights checkpoints/student_pointmap.pt \
         --save_glb \
         --save_ply
@@ -44,7 +44,11 @@
     cd ..
     python infer.py
     ```
-
+- 518 x 518 input
+- 100 iterations time : 53.1731 [sec]
+- Average FPS: 1.88 [fps]
+- Average inference time: 531.73 [msec]
+- max : 3.540 , min : 0.906
 
 ## How to Run (TensorRT)
 
@@ -56,8 +60,14 @@
 2. build tensorrt model and run
     ```
     conda activate trte
+    pip install git+https://github.com/EasternJournalist/utils3d.git@3fab839f0be9931dac7c8488eb0e1600c236e183
+    pip install trimesh
     python onnx2trt.py
     ```
-
+- 518 x 518 input
+- 100 iterations time : 20.3727 [sec]
+- Average FPS: 4.91 [fps]
+- Average inference time: 203.73 [msec]
+- max : 3.526 , min : 0.904
 
 **[Back](../README.md)** 
