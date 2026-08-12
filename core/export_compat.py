@@ -131,9 +131,19 @@ def no_mono_sky_postprocess(net_class):
     `depth` and `sky` as separate outputs, so a caller that wants the sky fill
     can do it on the host with the full depth map and no sampling at all.
 
-    The output does change: sky pixels keep their predicted depth instead of
-    being flattened to the non-sky maximum. Measured before adopting -- see
-    probe_sky.py.
+    **The output does change on images that contain sky**: those pixels keep
+    their predicted depth instead of being flattened to the non-sky maximum.
+
+    Measured on data/example.jpg and the difference was 0.000000 across every
+    pixel -- but that does not validate the patch. That photo has no sky, so
+    the pass returns early at
+
+        if (~non_sky_mask).sum() <= 10: return output
+
+    and never runs. The measurement shows the benchmark image is unaffected,
+    nothing more. An outdoor photo would differ, and there is no reference to
+    compare against there either, because the step samples 100000 random
+    indices and does not reproduce itself between runs.
     """
     real = net_class._process_mono_sky_estimation
     net_class._process_mono_sky_estimation = lambda self, output: output

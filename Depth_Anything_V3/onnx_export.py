@@ -11,7 +11,12 @@ from typing import *
 import torch
 from torch import nn
 
+import sys
+sys.path.insert(1, os.path.join(sys.path[0], ".."))  # repo root, for core
+
 from depth_anything_3.api import DepthAnything3
+from depth_anything_3.model.da3 import DepthAnything3Net
+from core.export_compat import no_mono_sky_postprocess
 
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -64,8 +69,10 @@ def main ():
 
     dummy_input = torch.randn((batch_size, 3, input_h, input_w), requires_grad=False).to(DEVICE)
 
-    # Export the model to ONNX format
-    with torch.no_grad():  # Disable gradients for efficiency
+    # Export the model to ONNX format.
+    # The sky pass cannot be traced -- boolean-mask indexing, randint, quantile
+    # -- and is post-process rather than network. See core/export_compat.py.
+    with torch.no_grad(), no_mono_sky_postprocess(DepthAnything3Net):
         torch.onnx.export(
             wrapper_model, 
             dummy_input,     
