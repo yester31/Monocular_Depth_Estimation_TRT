@@ -66,7 +66,10 @@ CAVEAT = {
     "unidepth_v2": "metric scale ~3.1x upstream at 518x518 (D11)",
     "unik3d": "metric scale 3.15x upstream at 518x518 (D11)",
     "metric3d_v2": "output is canonical depth, not metres (D12)",
-    "metric_anything": "stretched to square; intrinsics use aspect 1.0 (D13)",
+    # D13 is fixed -- it now runs at 388x518 like moge_2 -- so what remains is
+    # the assumption that fix carries, not the defect it replaced.
+    "metric_anything": "388x518 assumes a 4:3 source, as moge_2 does (D13)",
+    "moge_2": "388x518 assumes a 4:3 source",
 }
 
 
@@ -134,6 +137,20 @@ def render(runs):
         lines += ["> **Mixed hardware.** The rows below were not all measured "
                   "on the same GPU, so they are not comparable. Rerun on one "
                   "machine before reading anything into the ranking.", ""]
+
+    # Precision is in every row, but a reader scanning the ms column will not
+    # notice that one model ran at a different one. Say it once, at the top.
+    by_prec = defaultdict(list)
+    for r in runs:
+        by_prec[r.get("precision", "?")].append(r["model"])
+    if len(by_prec) > 1:
+        odd = sorted(by_prec, key=lambda p: len(by_prec[p]))[:-1]
+        detail = "; ".join(
+            f"{p}: " + ", ".join(f"`{m}`" for m in sorted(set(by_prec[p])))
+            for p in odd)
+        lines += [f"> **Mixed precision.** Most rows are "
+                  f"{sorted(by_prec, key=lambda p: -len(by_prec[p]))[0]}, "
+                  f"but {detail}. Compare within a precision, not across.", ""]
 
     # Group by profile, then input size. Latency across different input sizes
     # is not a like-for-like comparison.
