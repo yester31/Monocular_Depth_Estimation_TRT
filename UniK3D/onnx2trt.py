@@ -48,19 +48,33 @@ def main():
     save_dir_path = os.path.join(CUR_DIR, 'results')
     os.makedirs(save_dir_path, exist_ok=True)
 
-    # Profile. Must match onnx_export.py — the engine input shape is static.
+    # 518x518, the size every model in this repo uses so their speeds compare.
     #
-    #   bench   518x518, the size every model here uses so speeds compare.
-    #           Reaching a square from a 4:3 source means stretching.
-    #   native  aspect preserved, as upstream unik3d.infer() does (it pads to a
-    #           ratio bound and rounds to a multiple of 14). Pinned to the 4:3
-    #           of data/example.jpg -> 518x700.
+    # WARNING: the metric depth from this engine is NOT comparable to upstream.
     #
-    # This model outputs a point map, so a stretched input distorts geometry
-    # rather than just the picture — the camera is effectively given the wrong
-    # aspect. That is why native exists here at all.
-    profile = 'bench'   # 'bench' or 'native'
-    input_h, input_w = (518, 518) if profile == 'bench' else (518, 700)
+    # unik3d picks its own input size from the image (see the commented block
+    # below): aspect preserved, pixel count clamped to 200k-600k, multiple of
+    # 14. Given the original 3024x2268 it chooses 896x672. Pre-resizing to
+    # 518x518 does not hand it a smaller image — it tells the model "518x518 is
+    # the native resolution", and the model infers focal length from that.
+    # Since it feeds that estimate straight into depth, the metric values move:
+    #
+    #   fed to model    metric scale vs upstream   AbsRel   structure corr
+    #   896x672                          1.18x      17.9%          0.9961
+    #   518x700                          1.75x      75.6%          0.8968
+    #   518x518 (here)                   3.15x     217.5%          0.7210
+    #
+    # Measured on RTX 3080 with data/example.jpg. Note the structure survives —
+    # after dividing out the scale the error is 5.6% — so relative depth is
+    # usable; only the absolute metres are wrong.
+    #
+    # Not corrected here, because there is no fixed size that would fix it: the
+    # model's choice depends on the source aspect ratio, so a static engine
+    # would need one build per aspect. Use PyTorch when the metric values
+    # matter. depth_anything_v2, depth_pro and moge_2 were checked and do not
+    # behave this way (scale stays within 1.05x).
+    input_h = 518 # 1036
+    input_w = 518 # 1386
 
     # Input
     image_file_name = 'example.jpg'
@@ -70,12 +84,15 @@ def main():
     resize_factors = (w/input_w, h/input_h)
 
     print(f'[MDET] original shape : {raw_image.shape}')
-    print(f'[MDET] profile : {profile} -> {input_h}x{input_w}')
     raw_image = cv2.resize(raw_image, (input_w, input_h))
     image = cv2.cvtColor(raw_image, cv2.COLOR_BGR2RGB).astype(np.float32) 
     rgb = torch.from_numpy(image).permute(2, 0, 1) # C, H, W
     rgb = rgb.unsqueeze(0)
     rgb = TF.normalize(rgb.float() / 255.0, mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225),)
+    # What upstream unik3d.infer() does instead of the plain resize above.
+    # Deliberately not used: new_H/new_W depend on the source aspect ratio, so
+    # the input shape would vary per image and a static TensorRT engine cannot
+    # accept that. This is the cost recorded in the WARNING at the top of main().
     '''
         B, _, H, W = rgb.shape
         ratio_bounds =  [0.5, 2.5]

@@ -48,23 +48,31 @@ def main():
     save_dir_path = os.path.join(CUR_DIR, 'results')
     os.makedirs(save_dir_path, exist_ok=True)
 
+    # 518x518, the size every model in this repo uses so their speeds compare.
+    #
+    # WARNING: the metric depth from this engine is NOT comparable to upstream.
+    #
+    # UniDepthV2 carries the same shape_constraints as unik3d — aspect
+    # preserved, pixels clamped to 200k-600k, multiple of 14 — and resizes
+    # internally. Given the original 3024x2268 it chooses 896x672. Pre-resizing
+    # to 518x518 tells the model that 518x518 IS the native resolution, and it
+    # infers focal length accordingly:
+    #
+    #   fed to model      inferred fx
+    #   original                2859.4
+    #   518x700                  627.6
+    #   518x518 (here)           551.1
+    #
+    # Metric depth is tied to focal length, so the depth values move with it.
+    # unik3d, which shares this design, measures 3.15x upstream at 518x518.
+    #
+    # Not corrected here: the model's choice depends on the source aspect
+    # ratio, so a static engine would need one build per aspect. Use PyTorch
+    # when the metric values matter. See docs/model_contracts.md 5.7 —
+    # depth_anything_v2, depth_pro and moge_2 were checked and stay within
+    # 1.05x, so this is specific to these two models.
     input_h = 518 # 1036
     input_w = 518 # 1386
-
-    # Profile. Must match onnx_export.py — the engine input shape is static.
-    #
-    #   bench   518x518, the size every model here uses so speeds compare.
-    #           Reaching a square from a 4:3 source means stretching.
-    #   native  aspect preserved, as upstream UniDepthV2 does (long-edge resize
-    #           with padding). Pinned to the 4:3 of data/example.jpg -> 518x700.
-    #
-    # This model outputs a point map and camera intrinsics, both of which are
-    # tied to the aspect ratio, so a stretched input distorts geometry and not
-    # only the picture. postprocess_intrinsics() below rescales by
-    # resize_factors, but it cannot undo what the network already inferred from
-    # a wrongly-shaped image.
-    profile = 'bench'   # 'bench' or 'native'
-    input_h, input_w = (518, 518) if profile == 'bench' else (518, 700)
 
     # Input
     image_file_name = 'example.jpg'

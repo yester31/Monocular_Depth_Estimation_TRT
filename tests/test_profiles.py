@@ -53,8 +53,17 @@ PAIRS = [
     "Uni_Depth_V2", "UniK3D", "VGGT",
 ]
 
-# models offering both profiles
-PROFILED = ["Depth_Anything_AC", "Uni_Depth_V2", "UniK3D"]
+# Models offering both a bench and a native profile.
+#
+# Only depth_anything_ac qualifies. unidepth_v2 and unik3d were tried and
+# reverted: they pick their own input size from the source aspect ratio, so no
+# single native size exists — see the WARNING at the top of their onnx2trt.py
+# and docs/model_contracts.md 5.7. They ship bench only.
+PROFILED = ["Depth_Anything_AC"]
+
+# Models pinned to 518x518 with no native variant, where the metric output is
+# known to differ from upstream. Each must say so in its own source.
+BENCH_ONLY_WITH_CAVEAT = ["Uni_Depth_V2", "UniK3D"]
 
 
 def test_export_and_trt_agree():
@@ -85,6 +94,25 @@ def test_bench_is_518_square():
         code = code_of(f"{model}/onnx2trt.py")
         m = re.search(r"\(518,\s*518\)\s*if\s*profile\s*==\s*'bench'", code)
         check(f"{model} bench is 518x518", bool(m))
+
+
+def test_bench_only_models_document_the_caveat():
+    """A model whose metric output does not match upstream must say so where a
+    reader will see it, not only in the docs."""
+    for model in BENCH_ONLY_WITH_CAVEAT:
+        for script in ("onnx_export.py", "onnx2trt.py"):
+            src = open(os.path.join(ROOT, model, script), encoding="utf-8").read()
+            if script == "onnx2trt.py":
+                check(f"{model}/{script} warns about metric depth",
+                      "WARNING" in src and "metric" in src.lower())
+            else:
+                check(f"{model}/{script} points at the explanation",
+                      "onnx2trt.py" in src)
+        # and the profile switch really is gone
+        for script in ("onnx_export.py", "onnx2trt.py"):
+            src = open(os.path.join(ROOT, model, script), encoding="utf-8").read()
+            check(f"{model}/{script} has no profile switch",
+                  not re.search(r"^\s*profile\s*=\s*'", src, re.M))
 
 
 def test_moge_regression():
