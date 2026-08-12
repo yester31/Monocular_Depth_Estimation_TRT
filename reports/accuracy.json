@@ -1,0 +1,265 @@
+[
+  {
+    "model": "depth_anything_ac",
+    "precision": "fp16",
+    "onnx": "Depth_Anything_AC\\onnx\\depth_anything_AC_vits_518x518_dynamo.onnx",
+    "outputs": [
+      {
+        "index": 0,
+        "size": 268324,
+        "rel_mean": 0.0008431721898126468,
+        "abs_rel": 0.0025007749934794934,
+        "rmse": 0.0034110740442312103,
+        "max_abs": 0.05675232410430908,
+        "corr": 0.9999973935943046,
+        "scale": 1.0002621901216633
+      }
+    ],
+    "worst_rel": 0.0008431721898126468,
+    "verdict": "ok"
+  },
+  {
+    "model": "depth_anything_v2",
+    "precision": "fp16",
+    "onnx": "Depth_Anything_V2\\onnx\\depth_anything_v2_vits_518x518_metric_hypersim_dynamo_sim.onnx",
+    "outputs": [
+      {
+        "index": 0,
+        "size": 268324,
+        "rel_mean": 0.0012006466872595202,
+        "abs_rel": 0.0012366636669246507,
+        "rmse": 0.0023353353124816946,
+        "max_abs": 0.021845698356628418,
+        "corr": 0.999980347971513,
+        "scale": 0.9997735256779453
+      }
+    ],
+    "worst_rel": 0.0012006466872595202,
+    "verdict": "ok"
+  },
+  {
+    "model": "depth_anything_v3",
+    "precision": "fp16",
+    "onnx": "Depth_Anything_V3\\onnx\\DA3METRIC-LARGE_518x518_sim.onnx",
+    "outputs": [
+      {
+        "index": 0,
+        "size": 268324,
+        "rel_mean": 0.0011252689450060012,
+        "abs_rel": 0.0012232241274989278,
+        "rmse": 0.0010119710691332252,
+        "max_abs": 0.032332420349121094,
+        "corr": 0.9999974907159718,
+        "scale": 0.9991067852448077
+      },
+      {
+        "index": 1,
+        "size": 268324,
+        "rel_mean": 0.07843022723774457,
+        "abs_rel": 0.25926425283207866,
+        "rmse": 0.0046867659685984825,
+        "max_abs": 0.011990666389465332,
+        "corr": 0.9979045278578637,
+        "scale": 1.0037449494677515
+      }
+    ],
+    "worst_rel": 0.07843022723774457,
+    "verdict": "FAIL"
+  },
+  {
+    "model": "depth_pro",
+    "precision": "fp16",
+    "onnx": "Depth_Pro\\onnx\\depth_pro_1536x1536_dynamo.onnx",
+    "outputs": [
+      {
+        "index": 0,
+        "size": 2359296,
+        "rel_mean": 0.002029825645981993,
+        "abs_rel": 0.0023109208406719597,
+        "rmse": 0.002395762253652724,
+        "max_abs": 0.012151718139648438,
+        "corr": 0.999993814037902,
+        "scale": 0.9983188718170048
+      },
+      {
+        "index": 1,
+        "size": 1,
+        "rel_mean": 0.00016084365886083935,
+        "abs_rel": 0.00016084365886083935,
+        "rmse": 0.00778961181640625,
+        "max_abs": 0.00778961181640625,
+        "corr": NaN,
+        "scale": 1.0001608436588607
+      }
+    ],
+    "worst_rel": 0.002029825645981993,
+    "verdict": "ok"
+  },
+  {
+    "model": "distill_any_depth",
+    "precision": "fp16",
+    "onnx": "Distill_Any_Depth\\onnx\\distill_any_depth_small_518x518_dynamo_sim.onnx",
+    "outputs": [
+      {
+        "index": 0,
+        "size": 268324,
+        "rel_mean": 0.0009502234685922834,
+        "abs_rel": 0.0018833066309841464,
+        "rmse": 0.004296869905465774,
+        "max_abs": 0.0946052074432373,
+        "corr": 0.9999961704439598,
+        "scale": 1.0003611117748747
+      }
+    ],
+    "worst_rel": 0.0009502234685922834,
+    "verdict": "ok"
+  },
+  {
+    "model": "metric3d_v2",
+    "precision": "fp32",
+    "onnx": "Metric3D_V2\\onnx\\metric3d_vitl_616x1064.onnx",
+    "outputs": [
+      {
+        "index": 0,
+        "size": 655424,
+        "rel_mean": 0.006219259660557587,
+        "abs_rel": 0.007662552469779244,
+        "rmse": 0.2658848284138015,
+        "max_abs": 35.93766784667969,
+        "corr": 0.9996078735098178,
+        "scale": 0.9971648611950786
+      }
+    ],
+    "worst_rel": 0.006219259660557587,
+    "verdict": "ok"
+  },
+  {
+    "model": "metric_anything",
+    "precision": "fp16",
+    "onnx": "Metric_Anything\\onnx\\metric_anything_388x518.onnx",
+    "outputs": [
+      {
+        "index": 0,
+        "size": 602952,
+        "rel_mean": 0.0005140830278133466,
+        "abs_rel": 0.0009040284294132451,
+        "rmse": 0.0005266236210037291,
+        "max_abs": 0.02592158317565918,
+        "corr": 0.999999782199841,
+        "scale": 0.9997875461256761
+      },
+      {
+        "index": 1,
+        "size": 200984,
+        "rel_mean": 1.871727037798272e-07,
+        "abs_rel": 1.8717722410518394e-07,
+        "rmse": 5.253870703450012e-07,
+        "max_abs": 1.3589859008789062e-05,
+        "corr": 0.9991978595649798,
+        "scale": 1.0000000545001966
+      },
+      {
+        "index": 2,
+        "size": 1,
+        "rel_mean": 0.0031739344828606493,
+        "abs_rel": 0.0031739344828606493,
+        "rmse": 0.003976941108703613,
+        "max_abs": 0.003976941108703613,
+        "corr": NaN,
+        "scale": 0.9968260655171393
+      }
+    ],
+    "worst_rel": 0.0031739344828606493,
+    "verdict": "ok"
+  },
+  {
+    "model": "moge_2",
+    "precision": "fp16",
+    "onnx": "MoGe_2\\onnx\\moge-2_vits_normal_388x518_dynamo_sim.onnx",
+    "outputs": [
+      {
+        "index": 0,
+        "size": 602952,
+        "rel_mean": 0.0003885616699878881,
+        "abs_rel": 0.000658249195388299,
+        "rmse": 0.00033141097670028876,
+        "max_abs": 0.006984353065490723,
+        "corr": 0.9999998533280479,
+        "scale": 0.9999751143390105
+      },
+      {
+        "index": 1,
+        "size": 602952,
+        "rel_mean": 0.0016236277786039906,
+        "abs_rel": 0.019340046805487638,
+        "rmse": 0.0012897017649437744,
+        "max_abs": 0.011851564049720764,
+        "corr": 0.9999972475342358,
+        "scale": 1.0000023601740018
+      },
+      {
+        "index": 2,
+        "size": 200984,
+        "rel_mean": 3.6987485795883585e-07,
+        "abs_rel": 3.7031347777049055e-07,
+        "rmse": 1.7542568020204447e-06,
+        "max_abs": 0.00028246641159057617,
+        "corr": 0.9999831788091793,
+        "scale": 1.0000000134062839
+      },
+      {
+        "index": 3,
+        "size": 1,
+        "rel_mean": 0.0006324742564274033,
+        "abs_rel": 0.0006324742564274033,
+        "rmse": 0.0007215738296508789,
+        "max_abs": 0.0007215738296508789,
+        "corr": NaN,
+        "scale": 1.0006324742564274
+      }
+    ],
+    "worst_rel": 0.0016236277786039906,
+    "verdict": "ok"
+  },
+  {
+    "model": "streamvggt",
+    "skip": "Fail: [ONNXRuntimeError] : 1 : FAIL : Load model from C:\\Users\\soy\\mde_trt\\work\\StreamVGGT\\onnx\\streamvggt_only_depth_518x518_fp16\\streamvggt_only_depth_518x518_fp16.onnx failed:Type Error: Type parameter (T) of Optype (Einsum) bound to different types (tensor(float) and tensor(double) in node (/depth_head/Einsum_9)."
+  },
+  {
+    "model": "unidepth_v2",
+    "skip": "Fail: [ONNXRuntimeError] : 1 : FAIL : Load model from C:\\Users\\soy\\mde_trt\\work\\Uni_Depth_V2\\onnx\\uni_depth_v2_vitb_518x518.onnx failed:Type Error: Type parameter (T) of Optype (LayerNormalization) bound to different types (tensor(double) and tensor(float) in node (/pixel_decoder/depth_layer/prompt_camera.3/layers.0/norm_attnctx/LayerNormalization)."
+  },
+  {
+    "model": "unik3d",
+    "precision": "fp16",
+    "onnx": "UniK3D\\onnx\\unik3d_vitb_518x518_dynamo.onnx",
+    "outputs": [
+      {
+        "index": 0,
+        "size": 804972,
+        "rel_mean": 0.0032600034382231527,
+        "abs_rel": 0.0033995762991858493,
+        "rmse": 0.005346648582834657,
+        "max_abs": 0.13631927967071533,
+        "corr": 0.9999972781118899,
+        "scale": 0.9968008734121618
+      },
+      {
+        "index": 1,
+        "size": 268324,
+        "rel_mean": 0.00924078690096111,
+        "abs_rel": 0.009513615448973115,
+        "rmse": 0.00031263117061697314,
+        "max_abs": 0.010880574584007263,
+        "corr": 0.9997542384452561,
+        "scale": 1.0025681493692105
+      }
+    ],
+    "worst_rel": 0.00924078690096111,
+    "verdict": "ok"
+  },
+  {
+    "model": "vggt",
+    "skip": "Fail: [ONNXRuntimeError] : 1 : FAIL : Load model from C:\\Users\\soy\\mde_trt\\work\\VGGT\\onnx\\vggt_only_depth_518x518_fp16\\vggt_only_depth_518x518_fp16.onnx failed:Type Error: Type parameter (T) of Optype (Einsum) bound to different types (tensor(float) and tensor(double) in node (/depth_head/Einsum_9)."
+  }
+]
