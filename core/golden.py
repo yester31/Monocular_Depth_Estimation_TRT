@@ -99,12 +99,25 @@ def load_reference(path):
 
 
 def compare(ref: Dict[str, np.ndarray], got: Dict[str, np.ndarray],
-            valid_mask: Optional[np.ndarray] = None) -> dict:
-    """Per-output difference metrics.
+            valid_mask: Optional[np.ndarray] = None, depth_metrics: bool = True) -> dict:
+    """Per-output difference metrics. Inputs must already be the same shape.
 
     NaN/Inf are excluded pairwise rather than propagated — several models emit
     Inf for invalid pixels by design, and a single Inf would otherwise swamp
     every statistic.
+
+    Two families of number come out of this:
+
+    `rel_mean` is mean|a-b| / mean|a| — one ratio for the whole map. It is
+    cheap and never divides by a small value, but it cannot tell a constant
+    scale factor from a broken structure, and it exceeds 100% as soon as the
+    values roughly double.
+
+    `abs_rel`, `rmse` and `delta1` are the standard depth-estimation metrics,
+    computed per pixel, so they are comparable with what papers report.
+    `delta1` in particular says something `rel_mean` cannot: the fraction of
+    pixels within a factor of 1.25. Pixels at or below `eps` are dropped from
+    these, since dividing by them is meaningless.
     """
     report = {}
     for name in sorted(set(ref) | set(got)):
@@ -129,9 +142,10 @@ def compare(ref: Dict[str, np.ndarray], got: Dict[str, np.ndarray],
             report[name] = {"status": "no_finite_overlap"}
             continue
 
-        d = np.abs(a[finite] - b[finite])
-        scale = np.abs(a[finite]).mean()
-        report[name] = {
+        av, bv = a[finite], b[finite]
+        d = np.abs(av - bv)
+        scale = np.abs(av).mean()
+        entry = {
             "status": "ok",
             "compared": n,
             "excluded": int(a.size - n),
@@ -140,7 +154,41 @@ def compare(ref: Dict[str, np.ndarray], got: Dict[str, np.ndarray],
             "rel_mean": float(d.mean() / scale) if scale > 0 else None,
             "identical": bool(d.max() == 0),
         }
+
+        if depth_metrics:
+            eps = 1e-6
+            pos = (av > eps) & (bv > eps)
+            k = int(pos.sum())
+            if k:
+                ap, bp = av[pos], bv[pos]
+                rel = np.abs(ap - bp) / ap
+                ratio = np.maximum(ap / bp, bp / ap)
+                entry.update({
+                    "abs_rel": float(rel.mean()),
+                    "abs_rel_median": float(np.median(rel)),
+                    "rmse": float(np.sqrt(((ap - bp) ** 2).mean())),
+                    "delta1": float((ratio < 1.25).mean()),
+                    "positive": k,
+                })
+        report[name] = entry
     return report
+
+
+def best_scale(ref: np.ndarray, got: np.ndarray,
+               valid_mask: Optional[np.ndarray] = None) -> float:
+    """Least-squares factor s minimising |ref - s*got|.
+
+    Metric models infer focal length from the input, so feeding a different
+    resolution shifts every depth by roughly a constant. Dividing that out
+    separates "the scale moved" from "the geometry changed" — on unik3d at
+    518x518 it turns a 215% error into 5.6%.
+    """
+    a, b = np.asarray(ref, np.float64), np.asarray(got, np.float64)
+    m = np.isfinite(a) & np.isfinite(b)
+    if valid_mask is not None and valid_mask.shape == a.shape:
+        m &= valid_mask.astype(bool)
+    denom = float((b[m] * b[m]).sum())
+    return float((a[m] * b[m]).sum() / denom) if denom > 0 else 1.0
 
 
 def format_report(report: dict, indent="  ") -> str:
@@ -155,4 +203,7 @@ def format_report(report: dict, indent="  ") -> str:
         excl = f"  (excluded {r['excluded']})" if r["excluded"] else ""
         lines.append(f"{indent}{name:<22} max {r['max_abs']:.4e}  "
                      f"mean {r['mean_abs']:.4e}{rel}{excl}")
+        if "abs_rel" in r:
+            lines.append(f"{indent}{'':22} AbsRel {r['abs_rel'] * 100:.2f}%  "
+                         f"RMSE {r['rmse']:.4f}  d1 {r['delta1'] * 100:.1f}%")
     return "\n".join(lines)

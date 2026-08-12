@@ -8,7 +8,9 @@ import tempfile
 import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from core.golden import compare, format_report, load_reference, save_reference  # noqa: E402
+from core.golden import (  # noqa: E402
+    best_scale, compare, format_report, load_reference, save_reference,
+)
 
 _failures = []
 
@@ -94,6 +96,47 @@ def test_valid_mask():
     rep = compare({"d": a}, {"d": b}, valid_mask=mask)
     check("masked region ignored", rep["d"]["max_abs"] == 0.0, str(rep["d"]["max_abs"]))
     check("mask limits count", rep["d"]["compared"] == 8, str(rep["d"]["compared"]))
+
+
+def test_depth_metrics():
+    """AbsRel / RMSE / delta1 alongside the aggregate ratio."""
+    a = np.full((10, 10), 2.0)
+    b = np.full((10, 10), 2.2)            # every pixel 10% high
+    r = compare({"d": a}, {"d": b})["d"]
+    check("abs_rel is per-pixel", abs(r["abs_rel"] - 0.1) < 1e-9, str(r["abs_rel"]))
+    check("rmse", abs(r["rmse"] - 0.2) < 1e-9, str(r["rmse"]))
+    check("delta1 all within 1.25", r["delta1"] == 1.0, str(r["delta1"]))
+
+    c = np.full((10, 10), 6.0)            # 3x -> outside 1.25
+    r2 = compare({"d": a}, {"d": c})["d"]
+    check("delta1 catches 3x", r2["delta1"] == 0.0, str(r2["delta1"]))
+    check("rel_mean exceeds 100%", r2["rel_mean"] > 1.0, str(r2["rel_mean"]))
+
+
+def test_depth_metrics_skip_nonpositive():
+    """Dividing by a zero depth is meaningless, so those pixels are dropped."""
+    a = np.array([[1.0, 0.0], [2.0, -1.0]])
+    b = np.array([[1.1, 0.0], [2.2, -1.0]])
+    r = compare({"d": a}, {"d": b})["d"]
+    check("only positive pixels used", r["positive"] == 2, str(r.get("positive")))
+    check("abs_rel unaffected by zeros", abs(r["abs_rel"] - 0.1) < 1e-9, str(r["abs_rel"]))
+
+
+def test_best_scale():
+    """A pure scale change should be recoverable exactly."""
+    rng = np.random.default_rng(1)
+    a = rng.random((50, 50)) + 0.5
+    b = a * 3.15
+    s = best_scale(a, b)
+    check("scale recovered", abs(s - 1 / 3.15) < 1e-9, str(s))
+    resid = np.abs(a - s * b).mean() / np.abs(a).mean()
+    check("residual ~0 after scaling", resid < 1e-12, str(resid))
+
+    # a change that is NOT pure scale must leave a residual
+    c = a * 3.15 + rng.random((50, 50)) * 0.5
+    s2 = best_scale(a, c)
+    resid2 = np.abs(a - s2 * c).mean() / np.abs(a).mean()
+    check("structural change survives scaling", resid2 > 0.01, str(resid2))
 
 
 def test_format_report():
