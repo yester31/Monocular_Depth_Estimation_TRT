@@ -24,10 +24,22 @@ conda activate trte
 # Install the required libraries
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
 pip install tensorrt-cu12
+pip install "cuda-python<13"
 pip install onnx
 pip install opencv-python
 pip install matplotlib
 ```
+
+> **`cuda-python` must be pinned below 13.** `common_runtime.py` needs the CUDA
+> driver/runtime bindings. Version 13 removed the top-level
+> `from cuda import cuda, cudart`, and its `cuda-bindings` wheel does not always
+> ship `cuda.bindings.driver` / `.runtime` either, so a plain
+> `pip install cuda-python` leaves the runtime unusable.
+>
+> Likewise install **`tensorrt-cu12`**, not the `tensorrt` metapackage — that one
+> currently pulls a CUDA 13 build which fails on drivers below 580 with
+> `createInferBuilder: Error Code 6: CUDA initialization failure with error: 35`.
+> Check your driver with `nvidia-smi`.
 
 ## 2. Supported Models
 

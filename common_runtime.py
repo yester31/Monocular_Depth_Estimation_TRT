@@ -20,7 +20,23 @@ from typing import Optional, List, Union
 
 import numpy as np
 import tensorrt as trt
-from cuda import cuda, cudart
+
+try:
+    # cuda-python < 13
+    from cuda import cuda, cudart
+except ImportError:
+    try:
+        # Newer layout, when cuda-bindings ships the driver/runtime modules
+        from cuda.bindings import driver as cuda, runtime as cudart
+    except ImportError as exc:  # pragma: no cover - environment guard
+        raise ImportError(
+            "Could not import the CUDA driver/runtime bindings.\n"
+            "cuda-python 13 removed the top-level `from cuda import cuda, cudart`, "
+            "and its cuda-bindings wheel does not always ship the driver/runtime "
+            "modules either.\n"
+            "Install the 12.x line instead:\n"
+            '    pip install "cuda-python<13"'
+        ) from exc
 
 def check_cuda_err(err):
     if isinstance(err, cuda.CUresult):
@@ -46,11 +62,14 @@ class HostDeviceMem:
         dtype = dtype or np.dtype(np.uint8)
         nbytes = size * dtype.itemsize
         host_mem = cuda_call(cudart.cudaMallocHost(nbytes))
-        if dtype == np.float16:
-            dtype = np.float32  # workaround
-        pointer_type = ctypes.POINTER(np.ctypeslib.as_ctypes_type(dtype))
 
-        self._host = np.ctypeslib.as_array(ctypes.cast(host_mem, pointer_type), (size,))
+        # Wrap the allocation as raw bytes first, then re-interpret. Going
+        # straight through np.ctypeslib.as_ctypes_type() fails for float16
+        # (no ctypes equivalent); the previous workaround cast the pointer to
+        # float32 and built a `size`-element array, which addressed 2x the
+        # bytes actually allocated.
+        byte_ptr = ctypes.cast(host_mem, ctypes.POINTER(ctypes.c_uint8))
+        self._host = np.ctypeslib.as_array(byte_ptr, (nbytes,)).view(dtype)
         self._device = cuda_call(cudart.cudaMalloc(nbytes))
         self._nbytes = nbytes
 
@@ -89,6 +108,24 @@ class HostDeviceMem:
         cuda_call(cudart.cudaFreeHost(self.host.ctypes.data))
 
 
+def _resolve_shape_override(binding, shape, size, output_shape):
+    """Return the shape to allocate for `binding`, or None to keep the engine's.
+
+    `output_shape` may be:
+      * a dict  {binding_name: shape}  — looked up by name
+      * a single shape                 — applied only when the engine's own
+                                         shape is unusable (dynamic or volume<=1)
+    """
+    if output_shape is None:
+        return None
+
+    if isinstance(output_shape, dict):
+        return output_shape.get(binding)
+
+    engine_shape_usable = all(s >= 0 for s in shape) and size > 1
+    return None if engine_shape_usable else output_shape
+
+
 # Allocates all buffers required for an engine, i.e. host/device inputs/outputs.
 # If engine uses dynamic shapes, specify a profile to find the maximum input & output size.
 def allocate_buffers(engine: trt.ICudaEngine, output_shape:np.ndarray = None, profile_idx: Optional[int] = None):
@@ -107,21 +144,16 @@ def allocate_buffers(engine: trt.ICudaEngine, output_shape:np.ndarray = None, pr
                 "but no profile was specified.")
         
         size = trt.volume(shape)
-        if binding == 'pts_3d':
-            size = trt.volume(output_shape)
-        if binding == 'confidence':
-            size = trt.volume(output_shape)
-        if size == 1 and binding == 'output':
-            size = trt.volume(output_shape)
-        if output_shape is not None and binding == 'points':
-            size = trt.volume(output_shape['points'])
-        if output_shape is not None and binding == 'normal':
-            size = trt.volume(output_shape['normal'])
-        if output_shape is not None and binding == 'mask':
-            size = trt.volume(output_shape['mask'])
-        if output_shape is not None and binding == 'metric_scale':
-            size = trt.volume(output_shape['metric_scale'])
-            
+
+        # Some ONNX graphs report a degenerate or partially dynamic shape for an
+        # output, so the caller may supply the true shape. Previously this was a
+        # list of hardcoded binding names (pts_3d, confidence, points, normal,
+        # mask, metric_scale, output) which silently did nothing for any other
+        # model. Resolve it by name instead.
+        override = _resolve_shape_override(binding, shape, size, output_shape)
+        if override is not None:
+            size = trt.volume(override)
+
         trt_type = engine.get_tensor_dtype(binding)
 
         # Allocate host and device buffers
