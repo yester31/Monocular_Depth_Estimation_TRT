@@ -282,6 +282,28 @@ Phase 1의 B5·B6·B8이 여기에 자연히 흡수된다.
 - `wmic` 없음. `where /R` 는 매우 느림
 - 여러 줄 스크립트는 `scp` 로 올린 뒤 실행하는 편이 안전
 
+#### 함정: bash 큰따옴표 안의 `\\$`
+
+Windows 경로를 bash에서 조립할 때 **변수 확장이 조용히 막힌다.**
+
+```bash
+target="C:\\Users\\soy\\conda_envs\\${e}"   # -> C:\Users\soy\conda_envs${e}
+```
+
+`\\` 가 백슬래시 하나로 축약된 뒤 남은 `\$` 가 이스케이프된 달러가 되어
+`${e}` 가 리터럴로 남는다. 오류 없이 지나가므로 알아채기 어렵다.
+
+실제로 이 때문에 conda 환경 3개가 `C:\Users\soy\conda_envs${e}` 한 폴더에
+연달아 덮어쓰기로 만들어졌고, `conda env list` 를 보고서야 발견했다.
+
+```bash
+BASE='C:\Users\soy\conda_envs'
+target="${BASE}"'\'"${e}"        # 백슬래시를 확장 바깥에 둔다
+```
+
+같은 이유로 `for r in "a b"; do set -- $r; ... "$X\\$2"` 형태도 깨진다.
+**경로를 조립했으면 실행 전에 `ssh newpc "echo $target"` 으로 확인할 것.**
+
 노트북(3060 6GB)이 아니라 데스크탑을 쓰는 이유: 엔진 빌드 메모리 여유, 발열 스로틀이 적어
 벤치마크 신뢰도가 높음. `depth_pro`(1536²)는 6GB에서 OOM 가능성이 있다.
 
