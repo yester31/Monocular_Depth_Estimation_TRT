@@ -65,20 +65,31 @@ pip install matplotlib
 
 Each model directory contains a `README.md` file with detailed instructions.
 
-| Model Name | Link to TensorRT Conversion | Main Outputs | Upstream License |
-| :--- | :--- | :--- | :--- |
-| **Depth Anything V2** | [TensorRT Conversion](Depth_Anything_V2/README.md) | Depth | Apache-2.0 (code) / **CC BY-NC 4.0** (Base, Large weights) |
-| **Distill Any Depth** | [TensorRT Conversion](Distill_Any_Depth/README.md) | Depth | MIT |
-| **Depth Anything AC** | [TensorRT Conversion](Depth_Anything_AC/README.md) | Depth | **No license file** |
-| **Depth Pro** | [TensorRT Conversion](Depth_Pro/README.md) | Depth | Apple Sample Code License |
-| **Uni Depth V2** | [TensorRT Conversion](Uni_Depth_V2/README.md) | Depth | **CC BY-NC 4.0** |
-| **Metric3D V2** | [TensorRT Conversion](Metric3D_V2/README.md) | Depth | BSD-2-Clause |
-| **UniK3D** | [TensorRT Conversion](UniK3D/README.md) | Depth | **CC BY-NC-SA 4.0** |
-| **MoGe-2** | [TensorRT Conversion](MoGe_2/README.md) | Depth | MIT |
-| **VGGT** | [TensorRT Conversion](VGGT/README.md) | Depth | VGGT License (Meta custom) |
-| **StreamVGGT** | [TensorRT Conversion](StreamVGGT/README.md) | Depth | **CC BY-NC-SA 4.0** |
-| **Depth Anything V3** | [TensorRT Conversion](Depth_Anything_V3/README.md) | Depth | Apache-2.0 |
-| **Metric Anything** | [TensorRT Conversion](Metric_Anything/README.md) | Depth | Apache-2.0 |
+Speeds are in [reports/comparison.md](reports/comparison.md), generated from
+measurements rather than typed in. Input size is part of each row, because
+three of these models do not run at 518 and attention cost grows faster than
+pixel count — see that file before ranking anything.
+
+**"Depth" is not one thing.** These models return different quantities, and a
+few need a caveat that travels with the number:
+
+| Model Name | Link to TensorRT Conversion | Input | Output | Upstream License |
+| :--- | :--- | :--- | :--- | :--- |
+| **Depth Anything V2** | [TensorRT Conversion](Depth_Anything_V2/README.md) | 518×518 | Metric (hypersim) by default; relative checkpoint also ships | Apache-2.0 (code) / **CC BY-NC 4.0** (Base, Large weights) |
+| **Distill Any Depth** | [TensorRT Conversion](Distill_Any_Depth/README.md) | 518×518 | Relative | MIT |
+| **Depth Anything AC** | [TensorRT Conversion](Depth_Anything_AC/README.md) | 518×518 | Relative | **No license file** |
+| **Depth Pro** | [TensorRT Conversion](Depth_Pro/README.md) | **1536×1536** | Metric + focal length | Apple Sample Code License |
+| **Uni Depth V2** | [TensorRT Conversion](Uni_Depth_V2/README.md) | 518×518 | Point map + intrinsics — **metric scale off ~3.1×, see D11** | **CC BY-NC 4.0** |
+| **Metric3D V2** | [TensorRT Conversion](Metric3D_V2/README.md) | **616×1064** | **Canonical depth, not metres — see D12** | BSD-2-Clause |
+| **UniK3D** | [TensorRT Conversion](UniK3D/README.md) | 518×518 | Point map + intrinsics — **metric scale 3.15× off, see D11** | **CC BY-NC-SA 4.0** |
+| **MoGe-2** | [TensorRT Conversion](MoGe_2/README.md) | **388×518** | Point map + metric scale | MIT |
+| **VGGT** | [TensorRT Conversion](VGGT/README.md) | 518×518 | Geometry; scale unknown | VGGT License (Meta custom) |
+| **StreamVGGT** | [TensorRT Conversion](StreamVGGT/README.md) | 518×518 | Geometry; scale unknown | **CC BY-NC-SA 4.0** |
+| **Depth Anything V3** | [TensorRT Conversion](Depth_Anything_V3/README.md) | 518×518 | Relative + sky mask | Apache-2.0 |
+| **Metric Anything** | [TensorRT Conversion](Metric_Anything/README.md) | **388×518** | Point map + metric scale | Apache-2.0 |
+
+The D-numbers refer to [docs/model_contracts.md](docs/model_contracts.md),
+which records what was measured and how.
 
 ## 3. Licensing
 
