@@ -64,4 +64,13 @@ python onnx2trt.py
 - Average FPS: 6.09 [fps]
 - Average inference time: 164.29 [msec]
 
+## License
+
+| Item | License |
+| :--- | :--- |
+| Upstream code ([YvanYin/Metric3D](https://github.com/YvanYin/Metric3D)) | BSD-2-Clause |
+| Conversion scripts in this folder | MIT (this repository) |
+
+Upstream licences verified 2026-07-31. This table is a convenience summary — the upstream LICENSE file is authoritative.
+
 **[Back](../README.md)** 

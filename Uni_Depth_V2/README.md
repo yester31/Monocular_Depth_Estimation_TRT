@@ -62,4 +62,15 @@ python onnx2trt.py
 - Average FPS: 36.86 [fps]
 - Average inference time: 27.13 [msec]
 
+## License
+
+| Item | License |
+| :--- | :--- |
+| Upstream code ([lpiccinelli-eth/UniDepth](https://github.com/lpiccinelli-eth/UniDepth)) | **CC BY-NC 4.0 — non-commercial** |
+| Conversion scripts in this folder | MIT (this repository) |
+
+> **Note.** Non-commercial use only.
+
+Upstream licences verified 2026-07-31. This table is a convenience summary — the upstream LICENSE file is authoritative.
+
 **[Back](../README.md)** 

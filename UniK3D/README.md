@@ -77,4 +77,16 @@ python onnx2trt.py
 - Average FPS: 30.23 [fps]
 - Average inference time: 33.08 [msec]
 
+## License
+
+| Item | License |
+| :--- | :--- |
+| Upstream code ([lpiccinelli-eth/UniK3D](https://github.com/lpiccinelli-eth/UniK3D)) | **CC BY-NC-SA 4.0 — non-commercial** |
+| Checkpoints — `lpiccinelli/unik3d-*` | No licence declared on HuggingFace; assume the repository licence applies |
+| Conversion scripts in this folder | MIT (this repository) |
+
+> **Note.** Non-commercial only, and ShareAlike: derivative works must carry the same licence.
+
+Upstream licences verified 2026-07-31. This table is a convenience summary — the upstream LICENSE file is authoritative.
+
 **[Back](../README.md)** 

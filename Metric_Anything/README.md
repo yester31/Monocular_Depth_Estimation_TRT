@@ -70,4 +70,14 @@
 - Average inference time: 203.73 [msec]
 - max : 3.526 , min : 0.904
 
+## License
+
+| Item | License |
+| :--- | :--- |
+| Upstream code ([metric-anything/metric-anything](https://github.com/metric-anything/metric-anything)) | Apache-2.0 |
+| Checkpoints — `yjh001/metricanything_student_*` | Apache-2.0 |
+| Conversion scripts in this folder | MIT (this repository) |
+
+Upstream licences verified 2026-07-31. This table is a convenience summary — the upstream LICENSE file is authoritative.
+
 **[Back](../README.md)** 

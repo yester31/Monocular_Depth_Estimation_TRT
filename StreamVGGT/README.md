@@ -65,4 +65,16 @@ python onnx2trt.py
 - Average FPS: 5.77 [fps]
 - Average Latency: 173.17 [msec]
 
+## License
+
+| Item | License |
+| :--- | :--- |
+| Upstream code ([wzzheng/StreamVGGT](https://github.com/wzzheng/StreamVGGT)) | **CC BY-NC-SA 4.0 — non-commercial** |
+| Checkpoints — `lch01/StreamVGGT` | **CC BY-NC 4.0 — non-commercial** |
+| Conversion scripts in this folder | MIT (this repository) |
+
+> **Note.** Non-commercial only, and ShareAlike: derivative works must carry the same licence.
+
+Upstream licences verified 2026-07-31. This table is a convenience summary — the upstream LICENSE file is authoritative.
+
 **[Back](../README.md)** 

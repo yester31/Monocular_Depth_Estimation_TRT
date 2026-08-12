@@ -75,4 +75,15 @@ python onnx2trt.py
 - [MDET] Average inference time: 7.51 [msec]
 - [MDET] max : 6.09375 , min : 0.00100
 
+## License
+
+| Item | License |
+| :--- | :--- |
+| Upstream code ([HVision-NKU/DepthAnythingAC](https://github.com/HVision-NKU/DepthAnythingAC)) | **No license file** — all rights reserved by default |
+| Conversion scripts in this folder | MIT (this repository) |
+
+> **Note.** The upstream repository ships no LICENSE file. Absent an explicit grant, the default is "all rights reserved": there is no permission to use, copy, modify or redistribute it. Ask the authors before using this beyond private experimentation.
+
+Upstream licences verified 2026-07-31. This table is a convenience summary — the upstream LICENSE file is authoritative.
+
 **[Back](../README.md)** 

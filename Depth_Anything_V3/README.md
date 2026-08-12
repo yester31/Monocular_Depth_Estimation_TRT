@@ -64,4 +64,14 @@
 - [DA3-ROS2-CPP-TensorRT](https://github.com/ika-rwth-aachen/ros2-depth-anything-v3-trt)
 
 
+## License
+
+| Item | License |
+| :--- | :--- |
+| Upstream code ([ByteDance-Seed/Depth-Anything-3](https://github.com/ByteDance-Seed/Depth-Anything-3)) | Apache-2.0 |
+| Checkpoints — `depth-anything/DA3METRIC-LARGE` | Apache-2.0 |
+| Conversion scripts in this folder | MIT (this repository) |
+
+Upstream licences verified 2026-07-31. This table is a convenience summary — the upstream LICENSE file is authoritative.
+
 **[Back](../README.md)** 

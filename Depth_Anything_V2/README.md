@@ -80,4 +80,17 @@ pip install open3d
 python onnx2trt_pointcloud.py
 ```
 
+## License
+
+| Item | License |
+| :--- | :--- |
+| Upstream code ([DepthAnything/Depth-Anything-V2](https://github.com/DepthAnything/Depth-Anything-V2)) | Apache-2.0 |
+| Checkpoints — `vits` (Small, incl. metric Hypersim/VKITTI) | Apache-2.0 |
+| Checkpoints — `vitb` / `vitl` (Base / Large) | **CC BY-NC 4.0 — non-commercial** |
+| Conversion scripts in this folder | MIT (this repository) |
+
+> **Note.** The code is Apache-2.0, but only the **Small** checkpoints are. The Base and Large weights on HuggingFace are CC BY-NC 4.0, so a commercial deployment must stay on `vits`.
+
+Upstream licences verified 2026-07-31. This table is a convenience summary — the upstream LICENSE file is authoritative.
+
 **[Back](../README.md)** 

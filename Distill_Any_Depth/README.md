@@ -84,4 +84,14 @@ python onnx2trt.py
 - Average FPS: 121.36 [fps]
 - Average inference time: 8.24 [msec]
 
+## License
+
+| Item | License |
+| :--- | :--- |
+| Upstream code ([Westlake-AGI-Lab/Distill-Any-Depth](https://github.com/Westlake-AGI-Lab/Distill-Any-Depth)) | MIT |
+| Checkpoints — `xingyang1/Distill-Any-Depth` | Apache-2.0 |
+| Conversion scripts in this folder | MIT (this repository) |
+
+Upstream licences verified 2026-07-31. This table is a convenience summary — the upstream LICENSE file is authoritative.
+
 **[Back](../README.md)** 

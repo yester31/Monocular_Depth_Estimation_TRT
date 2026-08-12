@@ -91,4 +91,14 @@
     ```
 
 
+## License
+
+| Item | License |
+| :--- | :--- |
+| Upstream code ([microsoft/MoGe](https://github.com/microsoft/MoGe)) | MIT |
+| Checkpoints — `Ruicheng/moge-2-*` | MIT |
+| Conversion scripts in this folder | MIT (this repository) |
+
+Upstream licences verified 2026-07-31. This table is a convenience summary — the upstream LICENSE file is authoritative.
+
 **[Back](../README.md)** 

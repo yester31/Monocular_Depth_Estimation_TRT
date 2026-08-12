@@ -33,19 +33,37 @@ pip install matplotlib
 
 Each model directory contains a `README.md` file with detailed instructions.
 
-| Model Name | Link to TensorRT Conversion | Main Outputs |
-| :--- | :--- | :--- |
-| **Depth Anything V2** | [TensorRT Conversion](Depth_Anything_V2/README.md) | Depth |
-| **Distill Any Depth** | [TensorRT Conversion](Distill_Any_Depth/README.md) | Depth |
-| **Depth Anything AC** | [TensorRT Conversion](Depth_Anything_AC/README.md) | Depth |
-| **Depth Pro** | [TensorRT Conversion](Depth_Pro/README.md) | Depth |
-| **Uni Depth V2** | [TensorRT Conversion](Uni_Depth_V2/README.md) | Depth |
-| **Metric3D V2** | [TensorRT Conversion](Metric3D_V2/README.md) | Depth |
-| **UniK3D** | [TensorRT Conversion](UniK3D/README.md) | Depth |
-| **MoGe-2** | [TensorRT Conversion](MoGe_2/README.md) | Depth |
-| **VGGT** | [TensorRT Conversion](VGGT/README.md) | Depth |
-| **StreamVGGT** | [TensorRT Conversion](StreamVGGT/README.md) | Depth |
-| **Depth Anything V3** | [TensorRT Conversion](Depth_Anything_V3/README.md) | Depth |
-| **Metric Anything** | [TensorRT Conversion](Metric_Anything/README.md) | Depth |
+| Model Name | Link to TensorRT Conversion | Main Outputs | Upstream License |
+| :--- | :--- | :--- | :--- |
+| **Depth Anything V2** | [TensorRT Conversion](Depth_Anything_V2/README.md) | Depth | Apache-2.0 (code) / **CC BY-NC 4.0** (Base, Large weights) |
+| **Distill Any Depth** | [TensorRT Conversion](Distill_Any_Depth/README.md) | Depth | MIT |
+| **Depth Anything AC** | [TensorRT Conversion](Depth_Anything_AC/README.md) | Depth | **No license file** |
+| **Depth Pro** | [TensorRT Conversion](Depth_Pro/README.md) | Depth | Apple Sample Code License |
+| **Uni Depth V2** | [TensorRT Conversion](Uni_Depth_V2/README.md) | Depth | **CC BY-NC 4.0** |
+| **Metric3D V2** | [TensorRT Conversion](Metric3D_V2/README.md) | Depth | BSD-2-Clause |
+| **UniK3D** | [TensorRT Conversion](UniK3D/README.md) | Depth | **CC BY-NC-SA 4.0** |
+| **MoGe-2** | [TensorRT Conversion](MoGe_2/README.md) | Depth | MIT |
+| **VGGT** | [TensorRT Conversion](VGGT/README.md) | Depth | VGGT License (Meta custom) |
+| **StreamVGGT** | [TensorRT Conversion](StreamVGGT/README.md) | Depth | **CC BY-NC-SA 4.0** |
+| **Depth Anything V3** | [TensorRT Conversion](Depth_Anything_V3/README.md) | Depth | Apache-2.0 |
+| **Metric Anything** | [TensorRT Conversion](Metric_Anything/README.md) | Depth | Apache-2.0 |
+
+## 3. Licensing
+
+The conversion scripts in this repository are MIT (see [LICENSE](LICENSE)). **The upstream models
+are not.** Each model's `README.md` carries a `## License` table covering both the upstream code and
+its checkpoints, which do not always match — Depth Anything V2 is Apache-2.0 but its Base and Large
+weights are CC BY-NC 4.0.
+
+Before using any model commercially, check that model's table. In particular:
+
+- **Non-commercial:** Uni Depth V2, UniK3D, StreamVGGT, and the Depth Anything V2 Base/Large weights.
+- **No license file at all:** Depth Anything AC — no usage rights are granted by default.
+- **Custom licenses:** Depth Pro (Apple Sample Code License), VGGT (Meta's own license with an
+  Acceptable Use Policy).
+
+Upstream licences verified 2026-07-31 against the GitHub and HuggingFace APIs. The upstream LICENSE
+file is always authoritative.
+
 ---
 

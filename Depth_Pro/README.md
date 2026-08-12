@@ -83,4 +83,15 @@ python onnx2trt_webcam.py
 python onnx2trt_pointcloud.py
 ```
 
+## License
+
+| Item | License |
+| :--- | :--- |
+| Upstream code ([apple/ml-depth-pro](https://github.com/apple/ml-depth-pro)) | Apple Sample Code License (not an OSI license) |
+| Conversion scripts in this folder | MIT (this repository) |
+
+> **Note.** Apple grants a personal, non-exclusive licence to use, reproduce, modify and redistribute, provided the copyright notice and disclaimers are kept in full. Read the upstream LICENSE before redistributing.
+
+Upstream licences verified 2026-07-31. This table is a convenience summary — the upstream LICENSE file is authoritative.
+
 **[Back](../README.md)** 

@@ -73,4 +73,15 @@ python onnx2trt.py
 - Average inference time: 139.78 [msec]
 - max : 1.90231 , min : 0.68998
 
+## License
+
+| Item | License |
+| :--- | :--- |
+| Upstream code ([facebookresearch/vggt](https://github.com/facebookresearch/vggt)) | VGGT License (Meta custom, not an OSI license) |
+| Conversion scripts in this folder | MIT (this repository) |
+
+> **Note.** Meta ships a bespoke licence with an Acceptable Use Policy attached. Read the upstream LICENSE.txt before any redistribution or production use.
+
+Upstream licences verified 2026-07-31. This table is a convenience summary — the upstream LICENSE file is authoritative.
+
 **[Back](../README.md)** 
