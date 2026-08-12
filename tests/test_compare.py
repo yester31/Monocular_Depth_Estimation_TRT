@@ -9,7 +9,8 @@ import os
 import sys
 import tempfile
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, ROOT)
 from core.bench import Bench, save  # noqa: E402
 from compare import FOLDER, KIND, render  # noqa: E402
 from core.bench import load_all  # noqa: E402
@@ -126,6 +127,60 @@ def test_folder_overrides_are_still_needed():
               os.path.isdir(os.path.join(root, folder)), folder)
         check(f"{key} override is not redundant", folder.lower() != key,
               f"{folder} already lowercases to {key} - drop the entry")
+
+
+def test_readmes_are_up_to_date():
+    """The READMEs carry generated numbers, so they can go stale silently.
+
+    This is the whole point of the markers: every figure a reader sees came
+    from a result file. A README that quotes a measurement by hand is wrong
+    from the next run onward, which is what the twelve of them used to do.
+    """
+    import subprocess
+    r = subprocess.run([sys.executable, os.path.join(ROOT, "compare.py"), "--check"],
+                       capture_output=True, text=True, cwd=ROOT)
+    check("compare.py --check passes", r.returncode == 0,
+          (r.stdout + r.stderr).strip()[-400:])
+
+
+def test_every_model_readme_has_markers():
+    """A model folder whose README has no BENCH block would quietly never show
+    a measurement, and compare.py would not complain loudly enough."""
+    for d in sorted(os.listdir(ROOT)):
+        p = os.path.join(ROOT, d, "onnx2trt.py")
+        if not os.path.isfile(p):
+            continue
+        readme = os.path.join(ROOT, d, "README.md")
+        check(f"{d}/README.md exists", os.path.isfile(readme))
+        if not os.path.isfile(readme):
+            continue
+        src = open(readme, encoding="utf-8").read()
+        check(f"{d}/README.md has BENCH markers",
+              "<!-- BENCH:BEGIN -->" in src and "<!-- BENCH:END -->" in src)
+
+
+def test_generated_block_is_replaced_not_appended():
+    """inject() must overwrite the previous block, or every regeneration would
+    stack another copy underneath the last."""
+    from compare import BEGIN, END, inject
+    import tempfile
+    with tempfile.TemporaryDirectory() as td:
+        p = os.path.join(td, "R.md")
+        open(p, "w").write(f"top\n{BEGIN}\nold numbers\n{END}\nbottom\n")
+        out = inject(p, "new numbers")
+        check("old block gone", "old numbers" not in out, out)
+        check("new block present", "new numbers" in out)
+        check("surrounding text kept", out.startswith("top") and out.endswith("bottom\n"))
+        check("exactly one block", out.count(BEGIN) == 1 and out.count(END) == 1)
+
+
+def test_inject_reports_missing_markers():
+    from compare import inject
+    import tempfile
+    with tempfile.TemporaryDirectory() as td:
+        p = os.path.join(td, "R.md")
+        open(p, "w").write("no markers here\n")
+        check("returns None rather than guessing", inject(p, "x") is None)
 
 
 if __name__ == "__main__":
