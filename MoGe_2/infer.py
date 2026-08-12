@@ -121,7 +121,11 @@ def main():
             mask_binary &= points[..., 2] > 0        # in case depth is contains negative values (which should never happen in practice)
         depth = points[..., 2].clone()
 
-        points = utils3d.torch.depth_to_points(depth, intrinsics=intrinsics)
+        # depth_map_to_point_map, not depth_to_points. The latter does not
+        # exist in the utils3d commit both MoGe and Metric Anything pin
+        # (3fab839f); Metric_Anything/onnx2trt.py already calls the right
+        # one. Same signature, so this is a rename.
+        points = utils3d.torch.depth_map_to_point_map(depth, intrinsics=intrinsics)
 
         # Apply metric scale
         if metric_scale is not None:
