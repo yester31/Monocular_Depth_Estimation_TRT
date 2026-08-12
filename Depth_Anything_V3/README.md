@@ -32,6 +32,26 @@
     pip install onnxscript
     ```
 
+> **gsplat is not needed for the ONNX path.** Verified 2026-08-13: it is only
+> used for 3DGS rendering and its absence produces a warning at import, not an
+> error:
+>
+> ```
+> [WARN ] Dependency `gsplat` is required for rendering 3DGS.
+> ```
+>
+> Skipping it avoids building from a git commit against a CUDA toolchain.
+> `xformers` can be skipped too — the other models here run with
+> `XFORMERS_DISABLED=1`.
+>
+> **Do not install with `--no-deps`.** `depth_anything_3.api` pulls a long
+> chain at import — omegaconf, moviepy, addict, plyfile, pycolmap, trimesh,
+> evo — and each one only reveals itself as the next `ModuleNotFoundError`.
+> Install the declared dependencies, then reinstall CUDA torch **last** with
+> `--force-reinstall`: several of them depend on a bare `torch` and will have
+> replaced it with a CPU wheel, and without the flag pip reports the CUDA
+> install as "already satisfied".
+
 2. download pretrained checkpoints.
     ```
     mkdir -p depth-anything/DA3METRIC-LARGE
