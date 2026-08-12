@@ -334,6 +334,10 @@ resize_factors = (w/518, h/518)     # intrinsics 보정용
 | **D12** | **문서화 필요** | `metric3d_v2` 출력은 metric 이 아니라 **canonical** 깊이다.<br>de-canonical 변환이 `onnx2trt.py` 에는 아예 없고 `infer.py` 에는 `if 0:` 로 꺼져 있다 |
 | **D13** | **실측으로 확정 → 수정됨** | `metric_anything` 이 518×518 stretch 후 `aspect_ratio=1.0` 으로 intrinsics 를 만들어<br>4:3 사진에 **정사각 화각**(fov_x = fov_y = 49.62°)을 부여했다.<br>`moge_2` 와 같은 388×518 로 변경 |
 | D14 | **수정됨** | `depth_pro` 의 벤치마크 루프가 후처리를 포함해 측정하고 있었다.<br>다른 모델은 전부 추론만 잰다 → Phase 3 에서 정리 |
+| D15 | **수정됨** | `onnx2trt.py` 3개가 쓰지도 않는 업스트림 패키지를 하드 import.<br>제거 후 12개 중 10개가 순정 `trte` 에서 동작 |
+| D16 | **수정됨** | 실제로 돌려보니 스크립트 6개가 실행조차 안 됐다 (아래 표) |
+| **D17** | **내 오진 → 정정** | vggt/streamvggt 를 "export 불가"로 보고했으나,<br>**두 파일 상단 `### NOTICE ###` 에 손편집 지시가 이미 있었다.**<br>그걸 안 따르고 실패한 것. 손편집을 자동화(`core/export_compat`)로 대체 |
+| D18 | **수정됨** | `moge_2` 가 `utils3d` 함수 2개를 옛 이름으로 호출<br>(`depth_to_points`, 그리고 메시 블록의 3개) |
 
 ### 종횡비 — bench / native 두 프로필
 
@@ -818,6 +822,58 @@ AST 로 확인한 결과 **셋 다 한 번도 호출되지 않는다.**
 베껴 오면 라이선스·유지보수·정확도 위험이 한꺼번에 생긴다. 12개 중 2개면
 "모델별 규칙 유지" 범위 안이다. 근본 해결은 후처리를 ONNX 그래프에 넣는 쪽이고,
 그건 Phase 5 과제다.
+
+### D17 — "export 안 된다"는 내 오진이었다 (2026-08-13)
+
+`vggt`·`streamvggt` 를 "어느 exporter 로도 안 된다"고 보고했다. **틀렸다.**
+
+두 `onnx_export.py` 맨 위에 이미 이렇게 적혀 있었다:
+
+```
+### NOTICE ###
+# Before exporting to onnx, edit line 55 in vggt/vggt/layers/rope.py.
+    # positions = torch.cartesian_prod(y_coords, x_coords)   <- 원본
+    yy = y_coords.unsqueeze(1).expand(-1, x_coords.size(0))
+    xx = x_coords.unsqueeze(0).expand(y_coords.size(0), -1)
+    positions = torch.stack([yy.reshape(-1), xx.reshape(-1)], dim=1)
+```
+
+`cartesian_prod` 이 TorchScript exporter 에 없다는 걸 이미 파악하고 대체 코드까지
+적어둔 것이다. **나는 그 지시를 따르지 않고 돌린 뒤 모델 탓을 했다.**
+
+더 나빴던 건 그 반응으로 dynamo 로 바꾼 것이다. 원래 겪지 않아도 될 문제를
+새로 만들었다 — dynamo 는 같은 `rope.py` 의 `int(positions.max())` 에서
+`.item()` 때문에 unbacked 심볼 `u0` 를 만든다. VGGT 는 원래 exporter 로 되돌렸다.
+
+#### 조치 — 손편집을 자동화로 대체
+
+`core/export_compat.no_cartesian_prod()` 가 export 중에만 적용한다.
+업스트림 클론 손편집은:
+
+- 다음에 스크립트를 그냥 돌리는 사람 눈에 안 보인다
+- 클론에서 `git pull` 한 번이면 사라진다
+- 적용됐는지 아무도 검사하지 않는다
+- 실패가 **5GB 체크포인트를 이미 로드한 뒤** 나온다
+
+#### 함정 — 같은 파일이 두 번 로드된다
+
+첫 시도는 패치를 넣고도 똑같이 실패했다. 원인:
+
+```
+same module object : False
+same class object  : False
+outer file: ...\vggt\vggt\layers\rope.py
+inner file: ...\vggt\vggt\layers\rope.py
+```
+
+클론 루트와 내부 패키지 **둘 다 `__init__.py` 가 없어서** 네임스페이스 조각이고,
+`rope.py` 가 `vggt.layers.rope` 와 `vggt.vggt.layers.rope` 두 이름으로 각각
+로드된다. export 스크립트는 한쪽을, **모델은 다른 쪽을** 쓴다.
+그래서 패치가 조용히 아무 일도 안 했다.
+
+지금은 헬퍼가 로드된 `PositionGetter` 를 전부 찾아 **객체 식별자로 중복 제거**해
+모두 패치한다. `sys.path` 문제(D16)도 같은 뿌리다 — 두 조각이 병합돼야
+업스트림의 절대 import 가 풀린다.
 
 ### D16 — 실제로 돌려봤더니 스크립트 3개가 아예 실행조차 안 됐다
 

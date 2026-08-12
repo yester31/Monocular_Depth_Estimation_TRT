@@ -1,6 +1,11 @@
 # by yhpark 2026-1-26
 # Depth Anything V3 TensorRT model generation
 import os
+# xformers pulls in triton at import, and triton has no Windows build:
+#     ModuleNotFoundError: No module named 'triton'
+# The same guard MoGe_2 and Metric3D_V2 already use. Must run before
+# anything imports the model.
+os.environ['XFORMERS_DISABLED'] = '1'
 import sys
 sys.path.insert(1, os.path.join(sys.path[0], ".."))
 
