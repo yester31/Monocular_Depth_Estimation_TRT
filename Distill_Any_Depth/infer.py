@@ -16,7 +16,13 @@ CUR_DIR = os.path.dirname(os.path.abspath(__file__))
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print(f"[MDET] using device: {DEVICE}")
 
-def set_model(encoder='vits', input_h=518, input_w=518, dtype: torch.dtype = torch.float32):
+# `encoder` here is the upstream checkpoint name -- small / base / large /
+# Large-2w-iter -- not a ViT size. The default was 'vits', which no caller ever
+# passes and which cannot work: it builds arch_name 'depthanything-vits' and
+# falls through to NotImplementedError. It is also the directory name on
+# HuggingFace, so checkpoint/small/model.safetensors is where the README's
+# download lands.
+def set_model(encoder='small', input_h=518, input_w=518, dtype: torch.dtype = torch.float32):
     checkpoint_path = f'{CUR_DIR}/Distill-Any-Depth/checkpoint/{encoder}/model.safetensors'       
     arch_name = f"depthanything-{encoder}" # 'depthanything-large', 'depthanything-base', 'depthanything-small'
 

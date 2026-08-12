@@ -36,6 +36,23 @@ cd ..
 pip install -e .
 ```
 
+> **Detectron2 is not needed for the ONNX path.** Building it wants a CUDA
+> toolchain and is awkward on Windows. Verified on 2026-08-13: with
+> `pip install -e . --no-deps` and nothing else from `requirements.txt`,
+>
+> ```
+> from distillanydepth.modeling.archs.dam.dam import DepthAnything
+> ```
+>
+> imports cleanly. What it does need beyond torch is `timm`, `safetensors`,
+> `huggingface_hub`, `diffusers` and `transformers` — `diffusers`, not
+> detectron2, is what the import actually fails on without.
+>
+> Install the model's own dependencies **before** CUDA torch, and pass
+> `--force-reinstall` on the torch line. `timm` depends on a bare `torch`, so
+> it pulls a CPU wheel, and without the flag pip reports the CUDA install as
+> "already satisfied" and leaves `2.13.0+cpu` in place.
+
 2. download pretrained checkpoints.
 ```
 mkdir -p checkpoint/small
