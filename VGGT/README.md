@@ -3,6 +3,14 @@
 - **[VGGT official GitHub](https://github.com/facebookresearch/vggt)**
 - 2d image -> depth, (point cloud, extrinsic, intrinsic, Camera pose)
 
+> **Benchmark numbers below are historical and not comparable across models.**
+> They were taken before the timing loop was unified, when warmup varied
+> between 5 and 20, `depth_pro` timed its post-process inside the loop, and
+> nothing recorded the GPU, driver or TensorRT version. Current results live
+> in [reports/comparison.md](../reports/comparison.md), generated from
+> `reports/bench/*.json` by `compare.py`. These lines are replaced as each
+> model is re-measured.
+
 ## How to Run (Pytorch)
 
 1. set up a virtual environment.
