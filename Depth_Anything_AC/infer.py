@@ -4,7 +4,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 import cv2
 import time
-import shutil
+import contextlib
 
 import torch
 import torch.nn.functional as F
@@ -18,20 +18,36 @@ DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print(f"[MDET] using device: {DEVICE}")
 
 
-def copy_checkpoints():
-    src = f'{CUR_DIR}/DepthAnythingAC/checkpoints'
-    dst = f'{CUR_DIR}/checkpoints'
+@contextlib.contextmanager
+def upstream_cwd():
+    """Construct the model with DepthAnythingAC/ as the working directory.
 
+    Upstream's `dpt.py` builds the DINOv2 backbone through its vendored
+    torchhub, which loads the weights from the *relative* path
+    `checkpoints/dinov2_vits14/dinov2_vits14_pretrain.pth`. So the model can
+    only be built from that directory, no matter where the script lives.
+
+    infer.py used to work around this by copying the entire checkpoints tree
+    up one level (copy_checkpoints below) before building. onnx_export.py
+    calls set_model() without that side effect, so it died with
+    FileNotFoundError on the dinov2 weights. Setting the directory for the
+    duration of the call is cheaper than duplicating 100 MB of weights and
+    works from any caller.
+    """
+    prev = os.getcwd()
+    os.chdir(os.path.join(CUR_DIR, 'DepthAnythingAC'))
     try:
-        if not os.path.exists(dst):
-            shutil.copytree(src, dst)
-            print("Copy completed.")
-        else:
-            print("Destination already exists. Skipping copy.")
-    except FileNotFoundError:
-        print("Source folder does not exist. Cannot copy.")
-    except Exception as e:
-        print("An error occurred:", e)
+        yield
+    finally:
+        os.chdir(prev)
+
+
+# copy_checkpoints() lived here. It duplicated the whole DepthAnythingAC/
+# checkpoints tree one level up so the relative DINOv2 path would resolve with
+# this directory as the working directory. upstream_cwd() does the same job
+# without copying 100 MB, and works for onnx_export.py too, which never called
+# it. Removed along with main()'s call to it.
+
 
 def infer_performace(model, input_size=518):
 
@@ -84,12 +100,15 @@ def set_model(encoder='vits', dtype: torch.dtype = torch.float32):
         'vits': {'encoder': 'vits', 'features': 64, 'out_channels': [48, 96, 192, 384], 'version': 'v2'}
     }
  
-    model = DepthAnything_AC(model_configs[encoder])
-    # Absolute, like every other model here. This was relative, so the script
-    # only worked when run from its own directory — it breaks as soon as a
-    # runner invokes it from the repository root.
-    checkpoint = torch.load(f'{CUR_DIR}/checkpoints/depth_anything_AC_{encoder}.pth',
-                            map_location='cpu')
+    # Absolute path, and it points into the upstream clone, which is where the
+    # README's huggingface-cli download puts the weights. The wrapper handles
+    # the DINOv2 backbone, whose path upstream resolves against the working
+    # directory.
+    with upstream_cwd():
+        model = DepthAnything_AC(model_configs[encoder])
+        checkpoint = torch.load(
+            f'{CUR_DIR}/DepthAnythingAC/checkpoints/depth_anything_AC_{encoder}.pth',
+            map_location='cpu')
     model.load_state_dict(checkpoint, strict=False)
     model.to(DEVICE).eval()
 
@@ -99,7 +118,6 @@ def set_model(encoder='vits', dtype: torch.dtype = torch.float32):
     return model
 
 def main():
-    copy_checkpoints()
     save_dir_path = os.path.join(CUR_DIR, 'results')
     os.makedirs(save_dir_path, exist_ok=True)
 
