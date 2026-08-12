@@ -81,8 +81,14 @@ def main():
     # Model and engine paths
     onnx_dtype_fp16 = True
     precision = "fp16"  # Choose 'fp32' or 'fp16'
+    # Must match onnx_export.py, including dynamo: the exporter is part of
+    # the filename because the two exporters emit different graphs.
+    dynamic = False    # False
+    dynamo = True      # True or False
     model_name = f"vggt_only_depth_{input_h}x{input_w}"
-    model_name = f"{model_name}_fp16" if onnx_dtype_fp16 else model_name    
+    model_name = f"{model_name}_dynamic" if dynamic else model_name
+    model_name = f"{model_name}_dynamo" if dynamo else model_name
+    model_name = f"{model_name}_fp16" if onnx_dtype_fp16 else model_name
     onnx_model_path = os.path.join(CUR_DIR, 'onnx', model_name, f'{model_name}.onnx')
     engine_file_path = os.path.join(CUR_DIR, 'engine', f'{model_name}_{precision}.engine')
     os.makedirs(os.path.dirname(engine_file_path), exist_ok=True)

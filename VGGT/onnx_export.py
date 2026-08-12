@@ -79,7 +79,13 @@ def main():
     model.eval().to(DEVICE)
 
     dynamic = False    # False
-    dynamo = False     # False
+    # True. The TorchScript exporter has no symbolic for aten::cartesian_prod
+    # at any opset, and VGGT's positional encoding uses it:
+    #   UnsupportedOperatorError: Exporting the operator 'aten::cartesian_prod'
+    #   to ONNX opset version 17 is not supported
+    # torch.export decomposes it, so the dynamo path works. onnx2trt.py must
+    # carry the same flag -- it is part of the filename.
+    dynamo = True      # True or False
     onnx_sim = False    # False
     model_name = f"vggt_only_depth_{input_h}x{input_w}"
     model_name = f"{model_name}_dynamic" if dynamic else model_name

@@ -61,6 +61,23 @@ pip install matplotlib
 > running `onnx_export.py`. `torch.onnx` prints a ✅ that cp949 cannot encode,
 > and the export dies with `UnicodeEncodeError` after doing all the work.
 
+`moge_2` and `metric_anything` need two more packages here, because their
+post-process calls MoGe's `recover_focal_shift` rather than reading it off the
+engine (see `docs/model_contracts.md` D15):
+
+```bash
+pip install trimesh
+pip install "utils3d @ git+https://github.com/EasternJournalist/utils3d.git@3fab839f0be9931dac7c8488eb0e1600c236e183"
+```
+
+> **`utils3d` must be that commit, not the PyPI release.** Both upstreams pin
+> it exactly. The PyPI package of the same name has a different API and fails
+> only in post-process, after the engine has been built and benchmarked:
+>
+> ```
+> AttributeError: module 'utils3d' has no attribute 'torch'
+> ```
+
 ## 2. Supported Models
 
 Each model directory contains a `README.md` file with detailed instructions.
