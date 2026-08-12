@@ -23,15 +23,11 @@ TRT_LOGGER.min_severity = trt.Logger.Severity.INFO
 
     
 def preprocess_image(image, target_size=518):
-    """Preprocess input image"""
+    """Preprocess input image.
 
-    # Scale to 0-1 before applying the ImageNet statistics. This step was
-    # missing, so 0-255 values were shifted by a mean of 0.485 and divided by a
-    # std of 0.229 -- the network saw inputs roughly 255x too large. Upstream
-    # (DepthAnythingAC tools/infer.py) does `.astype(np.float32) / 255.0` here;
-    # the rest of this function already matches it line for line.
-    image = image.astype(np.float32) / 255.0
-
+    Takes an RGB float image already scaled to 0-1 — the caller does the
+    cvtColor and the /255 (see main()). Do not divide again here.
+    """
     h, w = image.shape[:2]
     scale = target_size / min(h, w)
     new_h, new_w = int(h * scale), int(w * scale)
