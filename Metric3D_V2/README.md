@@ -64,6 +64,33 @@ python onnx2trt.py
 - Average FPS: 6.09 [fps]
 - Average inference time: 164.29 [msec]
 
+## Note — the output is canonical depth, not metric depth
+
+Metric3D trains on every dataset re-projected onto a single virtual camera of
+focal length 1000px. The network predicts in that camera's frame, and upstream
+converts back at the very end:
+
+```python
+canonical_to_real_scale = real_focal_length * scale / 1000.0
+pred_depth = pred_depth * canonical_to_real_scale   # metres from here on
+```
+
+**The scripts here stop before that line**, because `real_focal_length` is not
+known for an arbitrary image. `infer.py` keeps the block behind `if 0:` with
+four candidate values that were tried and abandoned. Supply your own focal
+length (EXIF, calibration, or another model's estimate) if you need metres.
+
+Measured: the keep-ratio resize factor swings 4.4x across input sizes
+(0.2716 → 1.1892) while the depth stays within scale 1.00–1.12. That
+invariance is the signature of an output not yet tied to a real camera.
+
+Practical effect — do not put this model in the same "metric" column as
+`depth_pro` or `unidepth_v2` in a comparison table. See
+[docs/model_contracts.md](../docs/model_contracts.md) D12 and §5.7.
+
+Also note this folder uses **616×1064**, upstream's own size for the ViT
+models, not the repo-wide 518 comparison size.
+
 ## License
 
 | Item | License |

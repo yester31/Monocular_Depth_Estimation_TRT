@@ -31,8 +31,30 @@ def main():
     save_dir_path = os.path.join(CUR_DIR, 'results')
     os.makedirs(save_dir_path, exist_ok=True)
 
+    # WARNING: what comes out of here is canonical depth, NOT metric depth.
+    #
+    # Metric3D trains every dataset re-projected onto one virtual camera of
+    # focal length 1000px. The network therefore predicts in that camera's
+    # frame, and upstream converts back at the end:
+    #
+    #     canonical_to_real_scale = real_focal_length * scale / 1000.0
+    #     pred_depth = pred_depth * canonical_to_real_scale
+    #
+    # That step is missing below, because real_focal_length is unknown for an
+    # arbitrary image. infer.py has the same block behind `if 0:` with four
+    # candidate values tried and abandoned, one of them borrowed from
+    # depth_pro. Supply the real focal length (EXIF, calibration, or another
+    # model's estimate) if you need metres.
+    #
+    # Measured consequence: the keep-ratio factor below moves 0.2716 -> 1.1892
+    # across input sizes, a 4.4x swing, yet the output barely changes (scale
+    # 1.00-1.12). Invariance to input size is exactly what "not yet tied to a
+    # real camera" looks like. See docs/model_contracts.md D12 and 5.7.
+    #
+    # 616x1064 is upstream's own size for the ViT models, so this script is
+    # already native; it does not use the repo-wide 518 bench size.
     input_h = 616
-    input_w = 1064 
+    input_w = 1064
 
     # Input
     image_file_name = 'example.jpg'
@@ -129,6 +151,8 @@ def main():
     # upsample to original size
     pred_depth = torch.nn.functional.interpolate(pred_depth[None, None, :, :], rgb_origin.shape[:2], mode='bilinear').squeeze()
     ###################### canonical camera space ######################
+    # Still canonical here. The de-canonical transform would go on this line;
+    # see the WARNING at the top of main() for why it does not.
     pred_depth = torch.clamp(pred_depth, 0, 300)
     pred_depth = pred_depth.numpy()
     print(f'[MDET] max : {pred_depth.max():0.5f} , min : {pred_depth.min():0.5f}')
