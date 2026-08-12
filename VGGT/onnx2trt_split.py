@@ -1,4 +1,9 @@
 # by yhpark 2025-8-5
+#
+# Builds and runs the three engines produced by onnx_export_split.py
+# (aggregator -> depth_head -> camera_head). onnx2trt.py is the single-engine
+# alternative. Which is faster has not been measured; see VGGT/README.md.
+# (Was onnx2trt2.py — the numeric suffix read like a revision.)
 import os
 import sys
 sys.path.insert(1, os.path.join(sys.path[0], ".."))

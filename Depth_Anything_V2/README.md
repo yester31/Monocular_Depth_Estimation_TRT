@@ -46,7 +46,7 @@ cd ..
 python infer.py
 ```
 - 518 x 518 input
-- see results/example_vits_Torch.png    
+- writes `results/example_vits_Torch.png`    
 - 20 iterations time: 0.3925 [sec]
 - Average FPS: 50.95 [fps]
 - Average inference time: 19.63 [msec] 
@@ -68,7 +68,7 @@ python onnx2trt.py
 // a file 'depth_anything_v2_vits.engine' will be generated in engine directory.
 ```
 - 518 x 518 input
-- see results/example_vits_TRT.jpg  
+- writes `results/example_vits_TRT.jpg`  
 - 100 iterations time: 0.8135 [sec]
 - Average FPS: 122.92 [fps]
 - Average inference time: 8.14 [msec]

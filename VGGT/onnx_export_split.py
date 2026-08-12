@@ -1,4 +1,15 @@
 # by yhpark 2025-8-5
+#
+# Split export: VGGT as three engines instead of one.
+#
+#   aggregator   images                 -> aggregated_tokens_list
+#   depth_head   aggregated_tokens_list -> depth, depth_conf
+#   camera_head  aggregated_tokens_list -> pose_enc
+#
+# onnx_export.py is the single-engine alternative and emits depth only. This
+# path gives confidence and camera pose as well, and lets the heavy aggregator
+# run once while heads are swapped. Both work; see VGGT/README.md.
+# (Was onnx_export2.py — the numeric suffix read like a revision.)
 import os
 import torch
 import onnx

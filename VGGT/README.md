@@ -73,6 +73,37 @@ python onnx2trt.py
 - Average inference time: 139.78 [msec]
 - max : 1.90231 , min : 0.68998
 
+## Two engine layouts
+
+VGGT can be converted either way. Both work.
+
+| | scripts | engines | outputs |
+| :--- | :--- | :--- | :--- |
+| **single** | `onnx_export.py` + `onnx2trt.py` | 1 | `depth` |
+| **split** | `onnx_export_split.py` + `onnx2trt_split.py` | 3 | `depth`, `depth_conf`, `pose_enc` |
+
+`single` wraps the model in `VGGTDepthOnlyWrapper` and keeps just the depth
+head. `split` exports the aggregator and each head separately:
+
+```
+aggregator   images                 -> aggregated_tokens_list
+depth_head   aggregated_tokens_list -> depth, depth_conf
+camera_head  aggregated_tokens_list -> pose_enc
+```
+
+`split` gives confidence and camera pose in addition to depth, and lets the
+heavy aggregator run once while heads are swapped. It also pays three engine
+launches per frame instead of one.
+
+**Which is faster has not been measured.** Until it is, `single` is the default
+because it is what the numbers above were produced with.
+
+```
+python onnx_export_split.py
+conda activate trte
+python onnx2trt_split.py
+```
+
 ## License
 
 | Item | License |

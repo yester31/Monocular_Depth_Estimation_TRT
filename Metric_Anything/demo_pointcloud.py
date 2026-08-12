@@ -1,3 +1,7 @@
+# Point cloud / mesh output demo — writes .glb, .ply and a colourised depth plot.
+# Not a performance script: infer_performace() is defined but its call at the
+# bottom is commented out. For speed numbers use infer.py.
+# (Was infer0.py; the name read like an older revision of infer.py, which it is not.)
 import argparse
 import itertools
 import json
