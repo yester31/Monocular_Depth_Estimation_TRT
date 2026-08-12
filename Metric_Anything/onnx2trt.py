@@ -142,7 +142,8 @@ def main():
         # compare.py can build the table without anyone retyping a number.
         bench.record('metric_anything', samples, warmup=warmup, precision=precision,
                      profile='bench', input_h=new_height, input_w=new_width,
-                     engine_path=engine_file_path)
+                     engine_path=engine_file_path,
+                     model_input=batch_images)
 
         # # Reshape output
         points = torch.from_numpy(trt_outputs[0].reshape(output_shape["points"]))

@@ -246,16 +246,34 @@ REPORTS = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "reports", "bench")
 
 
+INPUTS = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "reports", "inputs")
+
+
 def record(model: str, samples_ms, *, outputs: Optional[Dict[str, np.ndarray]] = None,
+           model_input: Optional[np.ndarray] = None,
            out_dir: Optional[str] = None, echo: bool = True, **kw) -> Bench:
     """Print the usual [MDET] lines and write the result file. One call per script.
 
     Every onnx2trt.py ends with this, so adding a field to the record format
     reaches all models at once instead of twelve near-identical edits.
+
+    `model_input` is the exact array handed to the engine. It is saved so
+    verify_accuracy.py can feed the ONNX graph the identical tensor: comparing
+    an engine against PyTorch conflates preprocessing, exporter and fp16 into
+    one number, whereas comparing it against its own ONNX at fp32 isolates
+    what TensorRT did.
     """
     b = Bench(model=model, samples_ms=list(samples_ms), **kw)
     if outputs:
         b.outputs = summarize_outputs(outputs)
+    if model_input is not None:
+        os.makedirs(INPUTS, exist_ok=True)
+        path = os.path.join(INPUTS, f"{model}.npy")
+        np.save(path, np.ascontiguousarray(model_input))
+        if echo:
+            print(f"[MDET] input -> {os.path.basename(path)} "
+                  f"{tuple(np.shape(model_input))} {np.asarray(model_input).dtype}")
     if echo:
         print(b.report())
     path = save(b, out_dir or REPORTS)

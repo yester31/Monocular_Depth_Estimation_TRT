@@ -133,7 +133,8 @@ def main():
                      profile='native', input_h=img_size, input_w=img_size,
                      engine_path=engine_file_path,
                      outputs={'depth': depth, 'f_px': f_px},
-                     notes='1536x1536 is upstream fixed; no 518 bench profile exists')
+                     notes='1536x1536 is upstream fixed; no 518 bench profile exists',
+                     model_input=x)
 
     common.free_buffers(inputs, outputs, stream)
 

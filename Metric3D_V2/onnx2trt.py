@@ -144,7 +144,8 @@ def main():
         # compare.py can build the table without anyone retyping a number.
         bench.record('metric3d_v2', samples, warmup=warmup, precision=precision,
                      profile='native', input_h=input_h, input_w=input_w,
-                     engine_path=engine_file_path, outputs={'depth': pred_depth})
+                     engine_path=engine_file_path, outputs={'depth': pred_depth},
+                     model_input=batch_images)
     # ===================================================================
     print('[MDET] Post process')
     # Metric Depth Estimation

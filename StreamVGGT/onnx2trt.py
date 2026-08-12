@@ -132,7 +132,8 @@ def main():
         # compare.py can build the table without anyone retyping a number.
         bench.record('streamvggt', samples, warmup=warmup, precision=precision,
                      profile='bench', input_h=input_h, input_w=input_w,
-                     engine_path=engine_file_path, outputs={'depth': depth})
+                     engine_path=engine_file_path, outputs={'depth': depth},
+                     model_input=batch_images)
         print(f'[MDET] max : {depth.max():0.5f} , min : {depth.min():0.5f}')
     
     # ===================================================================

@@ -151,7 +151,8 @@ def main():
                      input_h=input_h, input_w=input_w,
                      engine_path=engine_file_path, outputs={'depth': depth},
                      notes=f"encoder={encoder}, "
-                           f"weights={'metric_' + dataset if metric_model else 'relative'}")
+                           f"weights={'metric_' + dataset if metric_model else 'relative'}",
+                     model_input=batch_images)
         print(f'[MDET] max : {depth.max():0.5f} , min : {depth.min():0.5f}')
 
     # ===================================================================

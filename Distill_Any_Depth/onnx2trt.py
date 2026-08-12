@@ -126,7 +126,8 @@ def main():
         bench.record('distill_any_depth', samples, warmup=warmup,
                      precision=precision, profile='bench', input_h=input_h,
                      input_w=input_w, engine_path=engine_file_path,
-                     outputs={'depth': depth})
+                     outputs={'depth': depth},
+                     model_input=batch_images)
         print(f'[MDET] max : {depth.max():0.5f} , min : {depth.min():0.5f}')
     
     # ===================================================================
