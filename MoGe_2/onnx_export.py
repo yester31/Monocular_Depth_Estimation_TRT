@@ -86,7 +86,11 @@ def main ():
             export_model_path,
             input_names=['image'],
             output_names=['points', 'normal', 'mask', 'metric_scale'],
-            opset_version=20
+            opset_version=20,
+            # Explicit. `dynamo` already decides the filename suffix, but it
+            # was never passed here, so the exporter was whatever torch
+            # defaulted to. The name matched reality only by luck.
+            dynamo=dynamo,
         )
     print(f"ONNX model exported to: {export_model_path}")
 

@@ -117,8 +117,14 @@ def main():
     encoder = 'vitb'    # 'vits' or 'vitb'  or 'vitl' 
     dynamic = False      # False
     onnx_sim = False     # True or False
+    # The dynamo exporter is what produces a working graph for this
+    # model, so it is named. It used to be left to torch's default,
+    # which meant the filename recorded nothing about how the ONNX was
+    # produced -- and the two exporters emit different graphs.
+    dynamo = True        # True or False
     model_name = f"unik3d_{encoder}_{input_h}x{input_w}"
     model_name = f"{model_name}_dynamic" if dynamic else model_name
+    model_name = f"{model_name}_dynamo" if dynamo else model_name
     model_name = f"{model_name}_sim" if onnx_sim else model_name
     onnx_model_path = os.path.join(CUR_DIR, 'onnx', f'{model_name}.onnx')
     engine_file_path = os.path.join(CUR_DIR, 'engine', f'{model_name}_{precision}.engine')

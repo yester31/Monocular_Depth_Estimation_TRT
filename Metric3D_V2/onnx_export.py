@@ -41,7 +41,17 @@ def main ():
     model.to(DEVICE)
 
     onnx_sim = True     # True or False
+    # Passed to torch.onnx.export explicitly. It used to be omitted, which
+    # meant the exporter was whatever the installed torch defaulted to -- and
+    # that default has since flipped to dynamo, so this script started failing
+    # on a model it had exported fine for a year:
+    #   GuardOnDataDependentSymNode: Could not guard on data-dependent
+    #   expression Eq(u0, 1)
+    # False keeps the TorchScript exporter this graph was written for, and the
+    # name stays suffix-free to match.
+    dynamo = False      # True or False
     model_name = f"metric3d_{encoder}_{input_h}x{input_w}"
+    model_name = f"{model_name}_dynamo" if dynamo else model_name
     export_model_path = os.path.join(save_path, f'{model_name}.onnx')
 
     print('[MDET] Export the model to onnx format')
@@ -58,7 +68,8 @@ def main ():
             input_names=["image"],
             output_names=["pred_depth"],
             opset_version=17,
-            do_constant_folding=False
+            do_constant_folding=False,
+            dynamo=dynamo,
         )
         print(f"[MDET] onnx model exported to: {export_model_path}")
 

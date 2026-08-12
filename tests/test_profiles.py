@@ -259,6 +259,33 @@ def test_model_name_resolves_the_same():
               f"export={e!r} trt={t!r}")
 
 
+def test_exporter_choice_is_explicit():
+    """Every onnx_export.py must pass `dynamo=` to torch.onnx.export.
+
+    Omitting it takes whatever the installed torch defaults to, and that
+    default has flipped to the dynamo exporter. Three scripts were relying on
+    it. Metric3D_V2 simply started failing on a graph it had exported for a
+    year:
+
+        GuardOnDataDependentSymNode: Could not guard on data-dependent
+        expression Eq(u0, 1)
+
+    MoGe_2 was worse: `dynamo = True` already decided its filename suffix but
+    was never handed to the exporter, so the name agreed with reality only
+    because torch's default happened to match. The two exporters emit
+    different graphs, and the filename is how a stale ONNX gets noticed.
+    """
+    for model in PAIRS + ["Depth_Pro"]:
+        path = os.path.join(ROOT, model, "onnx_export.py")
+        if not os.path.exists(path):
+            continue
+        src = open(path, encoding="utf-8").read()
+        check(f"{model} passes dynamo= explicitly",
+              re.search(r"\bdynamo\s*=", src) and "dynamo=" in
+              re.sub(r"\s+", "", src).split("torch.onnx.export(")[-1][:400],
+              "torch.onnx.export takes torch's default exporter")
+
+
 def test_moge_regression():
     """The mismatch that motivated this file."""
     exp, trt = code_of("MoGe_2/onnx_export.py"), code_of("MoGe_2/onnx2trt.py")
