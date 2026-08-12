@@ -9,7 +9,6 @@ sys.path.insert(1, os.path.join(sys.path[0], "StreamVGGT/src"))
 # repo root, for core.export_compat
 sys.path.insert(1, os.path.join(sys.path[0], ".."))
 from StreamVGGT.src.streamvggt.models.streamvggt import StreamVGGT
-from StreamVGGT.src.streamvggt.layers.rope import PositionGetter
 from core.export_compat import no_cartesian_prod
 
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -98,7 +97,7 @@ def main ():
                 }
     # Export the model to ONNX format
     with (torch.amp.autocast(device_type=DEVICE.type, dtype=dtype),
-          no_cartesian_prod(PositionGetter)):
+          no_cartesian_prod()):
         with torch.no_grad():  # Disable gradients for efficiency
             torch.onnx.export(
                 model, 

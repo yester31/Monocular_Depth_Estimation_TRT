@@ -13,8 +13,27 @@ undone by `git pull` in the clone, and nothing checks that it was done.
 """
 
 import contextlib
+import sys
 
 import torch
+
+
+def _loaded_position_getters():
+    """Every distinct PositionGetter class currently in sys.modules.
+
+    Deduplicated by identity, not by name: the whole point is that the same
+    source file can be loaded twice under different module names and produce
+    two classes that are not each other.
+    """
+    found, seen = [], set()
+    for name, mod in list(sys.modules.items()):
+        if not name.endswith(".rope") or mod is None:
+            continue
+        cls = getattr(mod, "PositionGetter", None)
+        if isinstance(cls, type) and id(cls) not in seen:
+            seen.add(id(cls))
+            found.append(cls)
+    return found
 
 
 @contextlib.contextmanager
@@ -41,9 +60,27 @@ def no_cartesian_prod(*classes):
     y with every x, which is what the expand-and-stack produces, so the values
     are identical -- verified on the real model, see probe_rope.py.
 
-    Pass the PositionGetter classes to patch; VGGT and StreamVGGT each vendor
-    their own copy of rope.py.
+    Pass nothing and every loaded PositionGetter is patched. That default
+    matters here. VGGT's clone root and its inner package are **both**
+    namespace portions, so `vggt.layers.rope` and `vggt.vggt.layers.rope` are
+    two distinct module objects holding two distinct classes -- loaded from
+    the same file:
+
+        same module object : False
+        same class object  : False
+        outer file: ...\\vggt\\vggt\\layers\\rope.py
+        inner file: ...\\vggt\\vggt\\layers\\rope.py
+
+    The export script reaches the class by one spelling and the model by the
+    other, so patching the one you imported silently does nothing and the
+    export fails exactly as if no patch were applied.
     """
+    if not classes:
+        classes = _loaded_position_getters()
+        if not classes:
+            raise RuntimeError(
+                "no PositionGetter found in sys.modules — import the model "
+                "before entering no_cartesian_prod()")
     def patched_call(self, batch_size, height, width, device):
         if (height, width) not in self.position_cache:
             y_coords = torch.arange(height, device=device)

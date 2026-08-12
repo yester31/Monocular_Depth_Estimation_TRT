@@ -13,7 +13,6 @@ import onnx
 from onnxsim import simplify
 
 from vggt.vggt.models.vggt import VGGT
-from vggt.vggt.layers.rope import PositionGetter
 from core.export_compat import no_cartesian_prod
 
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -108,7 +107,7 @@ def main():
                 }
     # Export the model to ONNX format
     with (torch.amp.autocast(device_type=DEVICE.type, dtype=dtype),
-          no_cartesian_prod(PositionGetter)):
+          no_cartesian_prod()):
         with torch.no_grad():  # Disable gradients for efficiency
             torch.onnx.export(
                 model, 

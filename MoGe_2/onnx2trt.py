@@ -206,6 +206,27 @@ def main():
     plt.savefig(f'{save_prefix}_depth_bar.jpg', bbox_inches='tight', pad_inches=0.1, dpi=300)
     plt.close()
 
+    # Everything below writes a textured mesh, and it is off by default because
+    # it does not run against the utils3d commit MoGe pins (3fab839f). Three
+    # names it calls were renamed upstream, with different signatures:
+    #
+    #   depth_edge  -> depth_map_edge
+    #   image_uv    -> uv_map
+    #   image_mesh  -> build_mesh_from_map     (returns a different tuple)
+    #
+    # So this was written against some other utils3d than the one MoGe asks
+    # for. Porting it means re-deriving the mesh construction, which cannot be
+    # checked by reading -- it needs the output looked at. Left intact and
+    # disabled rather than half-translated, since a mesh that builds but is
+    # subtly wrong is worse than one that does not build.
+    #
+    # None of this affects the benchmark: bench.record() has already written
+    # the result by this point. MoGe_2/onnx2trt_pointcloud.py is the dedicated
+    # geometry script and carries the same calls, so it needs the same port.
+    export_mesh = False
+    if not export_mesh:
+        return
+
     depth = cv2.resize(depth, (ori_shape[1], ori_shape[0]), cv2.INTER_LINEAR)
     normal = cv2.resize(normal, (ori_shape[1], ori_shape[0]), cv2.INTER_LINEAR)
     points = cv2.resize(points, (ori_shape[1], ori_shape[0]), cv2.INTER_LINEAR)
