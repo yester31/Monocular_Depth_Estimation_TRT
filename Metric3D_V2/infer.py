@@ -10,6 +10,7 @@ import torch.nn.functional as F
 
 import sys
 sys.path.insert(1, os.path.join(sys.path[0], "Metric3D"))
+import mmcv_compat  # noqa: F401  — must precede hubconf; see the module docstring
 from Metric3D.hubconf import *
 
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))

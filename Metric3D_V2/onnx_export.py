@@ -10,6 +10,7 @@ import torch.nn as nn
 
 import sys
 sys.path.insert(1, os.path.join(sys.path[0], "Metric3D"))
+import mmcv_compat  # noqa: F401  — must precede hubconf; see the module docstring
 from Metric3D.hubconf import *
 from Metric3D.onnx.metric3d_onnx_export import *
 

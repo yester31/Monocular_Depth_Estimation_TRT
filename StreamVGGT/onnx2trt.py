@@ -150,7 +150,13 @@ def main():
 
     color_depth = (cmap(inverse_depth_normalized)[..., :3] * 255).astype(np.uint8)
     color_depth_bgr = cv2.cvtColor(color_depth, cv2.COLOR_RGB2BGR)    
-    color_depth_bgr = cv2.resize(color_depth_bgr, (int(original_coord[4]), int(original_coord[5])), cv2.INTER_LINEAR)
+    # original_coords, not original_coord — the singular name never existed, so
+    # this line raised NameError after the whole inference had already run.
+    # [4] and [5] are the source width and height recorded during preprocessing.
+    color_depth_bgr = cv2.resize(
+        color_depth_bgr,
+        (int(original_coords[0][4]), int(original_coords[0][5])),
+        interpolation=cv2.INTER_LINEAR)
 
     # save colored depth image 
     cv2.imwrite(output_file_depth, color_depth_bgr)

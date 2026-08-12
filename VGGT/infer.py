@@ -1,5 +1,11 @@
 # by yhpark 2025-8-1
 import os
+import sys
+# The clone root must be on sys.path, not just importable as vggt.vggt:
+# upstream's models/vggt.py imports its siblings absolutely
+# (`from vggt.models.aggregator import Aggregator`), so without this the
+# import below fails with "No module named 'vggt.models'".
+sys.path.insert(1, os.path.join(sys.path[0], "vggt"))
 import time
 from matplotlib import pyplot as plt
 import numpy as np

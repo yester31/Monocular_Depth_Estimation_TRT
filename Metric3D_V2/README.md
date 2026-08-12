@@ -31,6 +31,20 @@ pip install -r requirements_v1.txt
 
 ```
 
+> **`requirements_v2.txt` does not install on Windows.** It pins
+> `torch==2.0.1`, which resolves against nothing usable with a current CUDA
+> build, and the whole file fails as one unit. Install what the scripts here
+> actually need individually instead: `torch`, `torchvision`, `timm`,
+> `onnx`, `onnxsim`, `opencv-python`, `matplotlib`.
+>
+> **`mmcv` is not needed either.** Metric3D's `mono/utils/comm.py` imports
+> `collect_env` and `get_git_hash` from `mmcv.utils` at module scope, which is
+> the mmcv 1.x layout — 2.x moved both into mmengine, and 1.x has no Windows
+> wheel. Both only feed a log line, so `mmcv_compat.py` in this folder
+> supplies them, using mmengine's real versions when mmengine is present and
+> stubs when it is not. `infer.py` and `onnx_export.py` import it before
+> `Metric3D.hubconf`; nothing else is required.
+
 2. run the original pytorch model on test images.
 ```
 python hubconf.py

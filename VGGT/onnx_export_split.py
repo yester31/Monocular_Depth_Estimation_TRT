@@ -11,6 +11,12 @@
 # run once while heads are swapped. Both work; see VGGT/README.md.
 # (Was onnx_export2.py — the numeric suffix read like a revision.)
 import os
+import sys
+# The clone root must be on sys.path, not just importable as vggt.vggt:
+# upstream's models/vggt.py imports its siblings absolutely
+# (`from vggt.models.aggregator import Aggregator`), so without this the
+# import below fails with "No module named 'vggt.models'".
+sys.path.insert(1, os.path.join(sys.path[0], "vggt"))
 import torch
 import onnx
 from onnxsim import simplify

@@ -87,7 +87,7 @@ def main():
     resize_factors = (w/input_w, h/input_h)
 
     print(f'[MDET] original shape : {raw_image.shape}')
-    print(f'[MDET] profile : {profile} -> {input_h}x{input_w}')
+    print(f'[MDET] input size : {input_h}x{input_w}')
     raw_image = cv2.resize(raw_image, (input_w, input_h))
     image = cv2.cvtColor(raw_image, cv2.COLOR_BGR2RGB).astype(np.float32) 
     rgb = torch.from_numpy(image).permute(2, 0, 1) # C, H, W
