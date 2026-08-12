@@ -19,7 +19,7 @@ class MoGeModelWrapper(torch.nn.Module):
         super().__init__()
         self.model = model  # 내부에 모델 보관
 
-    def forward(self, image: torch.Tensor, num_tokens: torch.Tensor) -> Dict[str, torch.Tensor]:
+    def forward(self, image: torch.Tensor, num_tokens: int) -> Dict[str, torch.Tensor]:
         original_interpolate = F.interpolate
 
         def safe_interpolate(*args, **kwargs):
@@ -63,14 +63,28 @@ def main ():
     export_model_path = os.path.join(save_path, f'{model_name}.onnx')
 
     dummy_input = torch.randn((1, 3, input_h, input_w), requires_grad=False).to(DEVICE)
-    dummy_input2 = torch.tensor(num_tokens, dtype=torch.int32).to(DEVICE)
-    # Export the model to ONNX format
+
+    # num_tokens goes in as a plain Python int, not a tensor, so it is folded
+    # into the graph as a constant. Two reasons:
+    #
+    # 1. As a tensor it became a second graph input, and onnx2trt.py only ever
+    #    fills inputs[0]. allocate_buffers() allocates a buffer per input and
+    #    do_inference copies all of them, so the model was being handed
+    #    whatever happened to be in that memory.
+    # 2. MoGe derives its internal resize resolution from num_tokens. With a
+    #    runtime value that resolution is an unbacked symbol, and the dynamo
+    #    export dies inside DINOv2's patch embedding:
+    #        GuardOnDataDependentSymNode: Could not guard on data-dependent
+    #        expression Eq(Mod(u0, 14), 0)
+    #    which is the `H % patch_H == 0` assert unable to see a real height.
+    #
+    # The engine is a fixed 388x518 anyway, so there was nothing to vary.
     with torch.no_grad():  # Disable gradients for efficiency
         torch.onnx.export(
-            wrapped_model, 
-            (dummy_input, dummy_input2),     
+            wrapped_model,
+            (dummy_input, num_tokens),
             export_model_path,
-            input_names=['image', 'num_tokens'],
+            input_names=['image'],
             output_names=['points', 'normal', 'mask', 'metric_scale'],
             opset_version=20
         )

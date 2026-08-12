@@ -394,6 +394,22 @@ cd /d C:\Users\soy\mde_trt\work && git pull C:\Users\soy\mde_trt\mde.bundle refa
 
 측정 결과(`reports/bench/*.json`)는 반대 방향이므로 `scp` 로 회수한다.
 
+**순서를 지킬 것 — 결과 회수가 먼저다.**
+
+```bash
+# 1. 데스크탑 결과를 먼저 가져온다
+scp -i ~/.ssh/id_ed25519_codex_soy \
+    "soy@192.168.0.13:C:/Users/soy/mde_trt/work/reports/bench/*.json" reports/bench/
+# 2. 노트북에서 커밋
+# 3. 그 다음에야 데스크탑을 정리하고 pull
+```
+
+데스크탑의 `reports/bench/` 는 추적 파일과 방금 생성된 미추적 파일이 섞이므로
+`git pull` 이 "untracked working tree files would be overwritten" 로 막힌다.
+여기서 `del /q reports\bench\*.json` 로 뚫으면 **아직 회수하지 않은 측정치가
+같이 날아간다** (실제로 `depth_anything_ac`·`depth_pro` 결과를 한 번 잃었다).
+엔진이 캐시돼 있어 재측정은 빠르지만, 순서를 지키면 겪지 않을 일이다.
+
 **데스크탑 경로**
 
 | | |
