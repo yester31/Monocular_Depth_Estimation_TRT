@@ -40,7 +40,12 @@ def infer_performace(model, input_size=518):
     print(f'[MDET] Average inference time: {avg_time * 1000:.2f} [msec]')
 
 def set_model(encoder='vits', dtype: torch.dtype = torch.float32):
-    model = UniDepthV2.from_pretrained(f"lpiccinelli/unidepth-v2-{encoder}14") 
+    # Same HuggingFace repo the ONNX export pulls from, so the Torch reference
+    # and the exported graph are built from the same weights. onnx_export.py
+    # fetches pytorch_model.bin from this repo id explicitly; from_pretrained
+    # resolves to the same artefact.
+    # (The README's wget instructions are not used by either path — see D10.)
+    model = UniDepthV2.from_pretrained(f"lpiccinelli/unidepth-v2-{encoder}14")
     model.to(DEVICE).eval()
 
     if dtype == torch.half:

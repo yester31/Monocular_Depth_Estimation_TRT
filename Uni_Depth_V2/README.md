@@ -22,13 +22,26 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-2. run the original pytorch model on test images.
+2. checkpoints
+
+No manual download step. Both `infer.py` and `onnx_export.py` pull the weights
+from HuggingFace on first run and cache them:
+
+| script | how |
+| :--- | :--- |
+| `infer.py` | `UniDepthV2.from_pretrained("lpiccinelli/unidepth-v2-<enc>14")` |
+| `onnx_export.py` | `huggingface_hub.hf_hub_download(repo_id="lpiccinelli/unidepth-v2-<enc>14", filename="pytorch_model.bin")` |
+
+Both resolve to the same repository, so the Torch reference and the exported
+graph share weights. Set `HF_HOME` to control where the cache lives.
+
+3. run the original pytorch model on test images.
 ```
 python ./scripts/demo.py
 ```
 # see demo/output.png
 
-3. check pytorch model inference performance
+4. check pytorch model inference performance
 ```
 cd ..
 python infer.py

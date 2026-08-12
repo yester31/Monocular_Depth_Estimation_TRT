@@ -41,8 +41,14 @@ def main ():
 
     # Load model
     num_tokens = 1800 # [1200, 3600]
-    # input_h, input_w = 388, 518 # 291, 518 # 700, 700
-    input_h, input_w = 291, 518 # 700, 700
+    # Must match onnx2trt.py: the model name embeds the resolution, so a
+    # mismatch means onnx2trt.py looks for an ONNX that was never written.
+    # This said 291x518 (16:9) while onnx2trt.py said 388x518 (4:3).
+    #
+    # MoGe sizes its input from the image aspect ratio, so the fixed size we
+    # export has to be chosen for one: 518 on the long side gives 388 for 4:3
+    # and 291 for 16:9. data/example.jpg is 3024x2268, i.e. 4:3.
+    input_h, input_w = 388, 518 # 4:3; use 291, 518 for 16:9
     encoder = 'vits' # 'vitl' or 'vitb', 'vits'
     normal = True # True or False
     model = load_model(encoder, normal)

@@ -60,6 +60,13 @@ def main():
     pad_info = [pad_h_half, pad_h - pad_h_half, pad_w_half, pad_w - pad_w_half]
 
     #### normalize
+    # The comment was here but the normalization was not: the tensor went to
+    # the network as raw 0-255. Upstream hubconf.py applies these statistics
+    # (ImageNet mean/std in 0-255 units, the same constants already used above
+    # as the padding colour).
+    mean = np.array([123.675, 116.28, 103.53], dtype=np.float32)
+    std = np.array([58.395, 57.12, 57.375], dtype=np.float32)
+    rgb = (rgb.astype(np.float32) - mean) / std
     x = np.ascontiguousarray(np.transpose(rgb, (2, 0, 1))[None], dtype=np.float32)
 
     print(f'[MDET] after preprocess shape : {x.shape}')

@@ -85,7 +85,11 @@ def set_model(encoder='vits', dtype: torch.dtype = torch.float32):
     }
  
     model = DepthAnything_AC(model_configs[encoder])
-    checkpoint = torch.load(f'checkpoints/depth_anything_AC_{encoder}.pth', map_location='cpu')
+    # Absolute, like every other model here. This was relative, so the script
+    # only worked when run from its own directory — it breaks as soon as a
+    # runner invokes it from the repository root.
+    checkpoint = torch.load(f'{CUR_DIR}/checkpoints/depth_anything_AC_{encoder}.pth',
+                            map_location='cpu')
     model.load_state_dict(checkpoint, strict=False)
     model.to(DEVICE).eval()
 
