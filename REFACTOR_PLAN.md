@@ -224,6 +224,24 @@ Phase 1의 B5·B6·B8이 여기에 자연히 흡수된다.
 
 ---
 
+## 3.5 골든 기준선 — 검증됨
+
+`core/golden.py` + `tests/test_golden.py`. 실제 모델로 워크플로가 동작함을 확인했다.
+
+**depth_anything_v2 / vits / 518 / RTX 3080** 기준:
+
+| 케이스 | rel. 차이 | 의미 |
+| --- | ---: | --- |
+| 동일 코드 경로 재실행 | **0.0000%** | 비트 단위 일치 |
+| float32 vs float64 (같은 계산) | 0.0026% | **"변화 없음"의 바닥값** |
+| `/255` 누락 = 결함 D4 재현 | **83.25%** | 결함 검출 |
+
+**결함 신호가 dtype 노이즈의 32,643배**다. "의도대로 바뀜"과 "망가짐"을 구분할 수 있다.
+
+주의: `infer_image` 는 uint8 배열을 `/ 255.0` 하므로 numpy가 **float64로 승격**한다
+(네트워크는 float32로 돈다). 따라서 전처리를 float32로 다시 구현하면 0이 아니라
+0.0026% 가 나온다. 이것이 기준선이지 0이 아니다.
+
 ## 4. 검증 전략
 
 12개 모델을 전부 실행할 수 없다(가중치·업스트림 클론 미확보). 따라서 **단계적 golden parity**.
@@ -281,6 +299,26 @@ Phase 1의 B5·B6·B8이 여기에 자연히 흡수된다.
 - `python`, `conda`, `git` 전부 PATH에 없음 → 전체 경로
 - `wmic` 없음. `where /R` 는 매우 느림
 - 여러 줄 스크립트는 `scp` 로 올린 뒤 실행하는 편이 안전
+
+#### 함정: 모델 의존성이 CUDA torch 를 CPU 빌드로 덮어쓴다
+
+**환경 구성 순서를 지켜야 한다.** 대부분의 업스트림이 의존성에 버전 없는 `torch` 를
+적어두므로, torch 를 먼저 설치해도 그 뒤에 `pip install -r requirements.txt` 나
+`pip install -e .` 를 돌리면 pip 가 **PyPI 기본 빌드(CPU 전용)** 로 갈아치운다.
+
+실측: canary 5개 중 `depth-pro`(2.13.0+cpu)와 `vggt`(2.3.1+cpu)가 이렇게 바뀌었다.
+오류 없이 조용히 일어나고, `torch.cuda.is_available()` 이 False 가 되어서야 드러난다.
+
+권장 순서:
+
+```bash
+conda create -p <env> -y python=3.11
+pip install -r <upstream>/requirements.txt      # 모델 의존성 먼저
+pip install --force-reinstall torch torchvision \
+    --index-url https://download.pytorch.org/whl/cu128   # CUDA torch 로 마무리
+```
+
+환경을 만들 때마다 `torch.cuda.is_available()` 을 **반드시 확인**할 것.
 
 #### 함정: bash 큰따옴표 안의 `\\$`
 
