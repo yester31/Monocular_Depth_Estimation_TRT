@@ -49,9 +49,13 @@ def sizes_in(code):
 # models whose two scripts must pin the same size
 PAIRS = [
     "Depth_Anything_V2", "Depth_Anything_AC", "Depth_Anything_V3",
-    "Distill_Any_Depth", "Metric3D_V2", "MoGe_2", "StreamVGGT",
-    "Uni_Depth_V2", "UniK3D", "VGGT",
+    "Distill_Any_Depth", "Metric3D_V2", "Metric_Anything", "MoGe_2",
+    "StreamVGGT", "Uni_Depth_V2", "UniK3D", "VGGT",
 ]
+
+# Depth_Pro is excluded on purpose: it spells its size as `img_size = 1536`
+# for both dimensions rather than input_h/input_w, so sizes_in() finds
+# nothing to compare. Checked separately below.
 
 # Models offering both a bench and a native profile.
 #
@@ -117,6 +121,40 @@ def test_bench_only_models_document_the_caveat():
             src = open(os.path.join(ROOT, model, script), encoding="utf-8").read()
             check(f"{model}/{script} has no profile switch",
                   not re.search(r"^\s*profile\s*=\s*'[a-z]+'\s*(#.*)?$", src, re.M))
+
+
+def test_depth_pro_size():
+    """Depth_Pro uses one `img_size` for both dimensions and takes it from the
+    model on the export side, so it needs its own check rather than an
+    exception in PAIRS.
+
+    What matters is that the size reaches the ONNX filename on both sides.
+    Without it, an export at one size and a load at another does not fail as a
+    missing file -- it builds an engine whose buffers silently disagree.
+    """
+    exp, trt = code_of("Depth_Pro/onnx_export.py"), code_of("Depth_Pro/onnx2trt.py")
+    for name, code in (("export", exp), ("trt", trt)):
+        check(f"Depth_Pro {name} puts the size in the model name",
+              bool(re.search(r'model_name\s*=\s*f?"depth_pro_\{img_size\}x\{img_size\}"',
+                             code)), code[:0])
+    check("Depth_Pro trt pins img_size",
+          bool(re.search(r"^\s*img_size\s*=\s*\d+", trt, re.M)))
+    check("Depth_Pro export takes img_size from the model",
+          "img_size = model.img_size" in exp)
+
+
+def test_metric_anything_keeps_the_source_aspect():
+    """D13: a square input makes the derived intrinsics square, giving a 4:3
+    photo a 1:1 field of view. It must stay rectangular, and match MoGe_2,
+    which runs the identical MoGe post-process."""
+    trt = code_of("Metric_Anything/onnx2trt.py")
+    sizes = set(sizes_in(trt))
+    check("metric_anything is not square",
+          all(h != w for h, w in sizes), str(sorted(sizes)))
+    check("metric_anything matches moge_2",
+          sizes == set(sizes_in(code_of("MoGe_2/onnx2trt.py"))),
+          f"metric_anything={sorted(sizes)} "
+          f"moge_2={sorted(set(sizes_in(code_of('MoGe_2/onnx2trt.py'))))}")
 
 
 def test_moge_regression():

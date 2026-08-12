@@ -72,7 +72,11 @@ def main():
     # Model and engine paths
     precision = "fp16"  # Choose 'fp32' or 'fp16'
     dynamo = True # True or False
-    model_name = "depth_pro_dynamo" if dynamo else "depth_pro"
+    # Must match onnx_export.py, which builds the same name from the model's
+    # own img_size. A mismatch now fails as a missing file instead of a
+    # silently wrong engine.
+    model_name = f"depth_pro_{img_size}x{img_size}"
+    model_name = f"{model_name}_dynamo" if dynamo else model_name
     onnx_model_path = os.path.join(CUR_DIR, 'onnx', f'{model_name}.onnx')
     engine_file_path = os.path.join(CUR_DIR, 'engine', f'{model_name}_{precision}.engine')
     os.makedirs(os.path.dirname(engine_file_path), exist_ok=True)

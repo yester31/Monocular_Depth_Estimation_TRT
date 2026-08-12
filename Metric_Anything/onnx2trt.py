@@ -46,43 +46,9 @@ def preprocess_image(raw_image):
     return image
 
 
-def resize_image(image_rgb, resize_mode=0, resize_to=518):
-    """
-    image resize function
-
-    resize_mode
-    0 : original size
-    1 : resize to 518 x 518
-    2 : resize to 518 (keep aspect ratio)
-    """
-
-    height, width = image_rgb.shape[:2]
-
-    # 0. original size
-    if resize_mode == 0:
-        new_height = height
-        new_width = width
-        print(f"[MDET] original size : {(new_height, new_width)}")
-
-    # 1. resize to 518 x 518
-    elif resize_mode == 1:
-        new_height = resize_to
-        new_width = resize_to
-        print(f"[MDET] resize_to 518x518 : {(new_height, new_width)}")
-
-    # 2. resize to 518 (keep aspect ratio)
-    elif resize_mode == 2:
-        new_height = min(resize_to, int(resize_to * height / width))
-        new_width = min(resize_to, int(resize_to * width / height))
-        print(f"[MDET] resize_to 518 keep aspect ratio : {(new_height, new_width)}")
-
-    else:
-        raise ValueError("resize_mode must be 0, 1, or 2")
-
-    # resize 수행
-    resized_image = cv2.resize(image_rgb, (new_width, new_height), cv2.INTER_AREA)
-
-    return resized_image, (new_height, new_width)
+# resize_image() with its three modes lived here, but a static engine can only
+# use one size, so main() now pins it. infer.py keeps the full version for the
+# PyTorch path, where the size can follow the image.
 
 
 def main():
@@ -98,9 +64,29 @@ def main():
     print(f"[MDET] original image size : {ori_shape}")
     image_rgb = cv2.cvtColor(raw_image, cv2.COLOR_BGR2RGB)
 
-    re_image_rgb, (new_height, new_width) = resize_image(
-        image_rgb, resize_mode=1, resize_to=518
-    )
+    # 388x518, not 518x518. The square stretch fed aspect_ratio = 1.0 into the
+    # intrinsics below and produced a square field of view for a 4:3 photo.
+    # Measured on data/example.jpg:
+    #
+    #   input               fov_x    fov_y   fx      fy
+    #   original 3024x2268  58.37    45.46   0.8952  1.1936   <- 4:3, correct
+    #   388x518             53.37    41.26   0.9947  1.3280   <- 4:3, correct
+    #   518x518 (was)       49.62    49.62   1.0816  1.0816   <- square, wrong
+    #
+    # The depth map survived either way (7.1% vs 12.1% AbsRel, correlation
+    # 0.996+ both), so the damage was confined to the intrinsics and therefore
+    # to the point cloud that demo_pointcloud.py builds from them.
+    #
+    # MoGe_2 runs this identical post-process and already used 388x518, so the
+    # two are now consistent. Pinned rather than derived from the source with
+    # resize_image(mode=2): the engine is static and its filename carries the
+    # size, so deriving it would send a 16:9 photo looking for a 291x518
+    # engine that was never built. That does mean 388x518 assumes a 4:3
+    # source, the same assumption MoGe_2 makes. See docs/model_contracts.md D13.
+    input_h, input_w = 388, 518
+    new_height, new_width = input_h, input_w
+    re_image_rgb = cv2.resize(image_rgb, (input_w, input_h),
+                              interpolation=cv2.INTER_AREA)
 
     input_image = preprocess_image(re_image_rgb)  # Preprocess image
     print(f"[MDET] after preprocess shape : {input_image.shape}")

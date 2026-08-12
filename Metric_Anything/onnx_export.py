@@ -44,8 +44,12 @@ def main():
     save_path = os.path.join(CUR_DIR, "onnx")
     os.makedirs(save_path, exist_ok=True)
 
-    input_h = 518  # 1036
-    input_w = 518  # 1386
+    # 388x518 keeps the 4:3 source aspect, matching MoGe_2 which runs the same
+    # MoGe post-process. It was 518x518, which made the derived intrinsics
+    # square for a 4:3 photo -- see the measurement in onnx2trt.py and
+    # docs/model_contracts.md D13. Must stay equal to the size there.
+    input_h = 388
+    input_w = 518
 
     checkpoint = f"{CUR_DIR}/checkpoints/student_pointmap.pt"
     model = MoGeModel.from_pretrained(checkpoint).to(DEVICE)

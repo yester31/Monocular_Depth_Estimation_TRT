@@ -35,13 +35,19 @@ def main():
     model, _ = set_model(precision=torch.float32)
 
     dynamo = True # True or False
-    model_name = "depth_pro_dynamo" if dynamo else "depth_pro"
+    # The size goes in the filename, as it does for every other model. It used
+    # to be plain "depth_pro", so an export at one size and a load at another
+    # would not fail loudly the way a missing file does -- it would build an
+    # engine whose buffers do not match what onnx2trt.py allocates.
+    img_size = model.img_size
+    model_name = f"depth_pro_{img_size}x{img_size}"
+    model_name = f"{model_name}_dynamo" if dynamo else model_name
     save_path = os.path.join(CUR_DIR, 'onnx')
     os.makedirs(save_path, exist_ok=True)
     export_model_path = os.path.join(save_path, f'{model_name}.onnx')
 
     print('[MDET] Export the model to onnx format')
-    input_size = (1, 3, model.img_size, model.img_size)
+    input_size = (1, 3, img_size, img_size)
     dummy_input = torch.randn(input_size, requires_grad=False).to(DEVICE)  # Create a dummy input
 
     with torch.no_grad():  # Disable gradients for efficiency
