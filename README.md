@@ -23,23 +23,43 @@ conda activate trte
 
 # Install the required libraries
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
-pip install tensorrt-cu12
+pip install "tensorrt-cu12<11"
 pip install "cuda-python<13"
 pip install onnx
 pip install opencv-python
 pip install matplotlib
 ```
 
+> **`tensorrt-cu12` must be pinned below 11.** TensorRT 11 is strongly typed:
+> it removed `BuilderFlag.FP16`, `INT8`, `BF16` and `OBEY_PRECISION_CONSTRAINTS`,
+> along with `builder.platform_has_fast_fp16`. Precision now comes from the
+> types in the ONNX graph rather than from a builder flag. Every script here
+> selects precision with `precision = "fp16"`, so on TensorRT 11 the build
+> fails with:
+>
+> ```
+> AttributeError: type object 'BuilderFlag' has no attribute 'FP16'
+> ```
+>
+> Verified on 11.2.1.2; 10.16.1.11 works. Porting to the strongly-typed API
+> means baking the precision into the ONNX at export time and re-establishing
+> every accuracy baseline, so it is tracked as its own task rather than done
+> in passing.
+>
 > **`cuda-python` must be pinned below 13.** `common_runtime.py` needs the CUDA
 > driver/runtime bindings. Version 13 removed the top-level
 > `from cuda import cuda, cudart`, and its `cuda-bindings` wheel does not always
 > ship `cuda.bindings.driver` / `.runtime` either, so a plain
 > `pip install cuda-python` leaves the runtime unusable.
 >
-> Likewise install **`tensorrt-cu12`**, not the `tensorrt` metapackage — that one
+> Install **`tensorrt-cu12`**, not the `tensorrt` metapackage — that one
 > currently pulls a CUDA 13 build which fails on drivers below 580 with
 > `createInferBuilder: Error Code 6: CUDA initialization failure with error: 35`.
 > Check your driver with `nvidia-smi`.
+>
+> **On a Korean or other non-UTF-8 Windows console**, set `PYTHONUTF8=1` before
+> running `onnx_export.py`. `torch.onnx` prints a ✅ that cp949 cannot encode,
+> and the export dies with `UnicodeEncodeError` after doing all the work.
 
 ## 2. Supported Models
 

@@ -32,7 +32,11 @@ OUT = os.path.join(ROOT, "reports", "comparison.md")
 # docs/model_contracts.md 1; keep the two in step. This lives here rather than
 # in a data file until spec.json lands in Phase 4.
 KIND = {
-    "depth_anything_v2": "relative",
+    # depth_anything_v2 ships both a relative and a metric checkpoint and the
+    # scripts default to metric_model=True with the hypersim (indoor) weights,
+    # so that is what a default build measures. Flip metric_model in
+    # onnx_export.py and onnx2trt.py together for the relative one.
+    "depth_anything_v2": "metric (hypersim) by default",
     "depth_anything_ac": "relative",
     "depth_anything_v3": "relative + sky mask",
     "distill_any_depth": "relative",
@@ -148,6 +152,13 @@ def render(runs):
             lines.append("")
             lines.append(_table(list(_rows(group))))
             lines.append("")
+            # Per-run notes: which encoder, which checkpoint. Two runs of the
+            # same model with different weights are different measurements and
+            # the table has to say so.
+            noted = [(r["model"], r["notes"]) for r in group if r.get("notes")]
+            if noted:
+                lines += [f"- `{m}` -- {n}" for m, n in sorted(set(noted))]
+                lines.append("")
 
         if len(sizes) > 1:
             lines += [

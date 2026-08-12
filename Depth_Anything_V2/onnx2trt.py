@@ -149,7 +149,9 @@ def main():
         bench.record('depth_anything_v2', samples, warmup=warmup,
                      precision=precision, profile='bench',
                      input_h=input_h, input_w=input_w,
-                     engine_path=engine_file_path, outputs={'depth': depth})
+                     engine_path=engine_file_path, outputs={'depth': depth},
+                     notes=f"encoder={encoder}, "
+                           f"weights={'metric_' + dataset if metric_model else 'relative'}")
         print(f'[MDET] max : {depth.max():0.5f} , min : {depth.min():0.5f}')
 
     # ===================================================================
