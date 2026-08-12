@@ -171,7 +171,12 @@ def get_engine(
             # these are. Dropped rather than kept as a no-op.
 
             if precision == "fp16":
-                if builder.platform_has_fast_fp16:
+                # platform_has_fast_fp16 was deprecated in TensorRT 10 and
+                # removed in 11, where reading it raises AttributeError. It was
+                # only ever advisory -- setting the flag on a GPU without fast
+                # fp16 is allowed, TensorRT just may not use it. Default to
+                # True when the attribute is gone.
+                if getattr(builder, "platform_has_fast_fp16", True):
                     config.set_flag(trt.BuilderFlag.FP16)
                     print("[MDET] set fp16 model")
                 else:
