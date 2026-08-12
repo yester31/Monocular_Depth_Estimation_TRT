@@ -26,56 +26,6 @@ print(f"[MDET] using device: {DEVICE}")
 TRT_LOGGER = trt.Logger(trt.Logger.INFO)
 TRT_LOGGER.min_severity = trt.Logger.Severity.INFO
 
-def get_engine(onnx_file_path, engine_file_path="", precision='fp32', dynamic_input_shapes=None):
-    """Load or build a TensorRT engine based on the ONNX model."""
-    def build_engine():
-        with trt.Builder(TRT_LOGGER) as builder, \
-                builder.create_network(0) as network, \
-                builder.create_builder_config() as config, \
-                trt.OnnxParser(network, TRT_LOGGER) as parser, \
-                trt.Runtime(TRT_LOGGER) as runtime:
-            
-            if not os.path.exists(onnx_file_path):
-                raise FileNotFoundError(f"[TRT] ONNX file {onnx_file_path} not found.")
-            parser.parse_from_file(onnx_file_path)
-
-            timing_cache = f"{os.path.dirname(engine_file_path)}/{os.path.splitext(os.path.basename(engine_file_path))[0]}_timing.cache"
-            common.setup_timing_cache(config, timing_cache)
-
-            config.profiling_verbosity = trt.ProfilingVerbosity.DETAILED
-            config.set_memory_pool_limit(trt.MemoryPoolType.WORKSPACE, common.GiB(2))
-            config.set_flag(trt.BuilderFlag.SPARSE_WEIGHTS)
-            if precision == "fp16" and builder.platform_has_fast_fp16:
-                config.set_flag(trt.BuilderFlag.FP16)
-                print(f'[MDET] set fp16 model')
-
-            for i_idx in range(network.num_inputs):
-                print(f'[MDET] input({i_idx}) name: {network.get_input(i_idx).name}, shape= {network.get_input(i_idx).shape}')
-                
-            for o_idx in range(network.num_outputs):
-                print(f'[MDET] output({o_idx}) name: {network.get_output(o_idx).name}, shape= {network.get_output(o_idx).shape}')
-    
-            plan = builder.build_serialized_network(network, config)
-            engine = runtime.deserialize_cuda_engine(plan)
-            common.save_timing_cache(config, timing_cache)
-            with open(engine_file_path, "wb") as f:
-                f.write(plan)
-            
-            return engine
-
-    if os.path.exists(engine_file_path):
-        print(f"[MDET] Load engine from file ({engine_file_path})")
-        with open(engine_file_path, "rb") as f, trt.Runtime(TRT_LOGGER) as runtime:
-            return runtime.deserialize_cuda_engine(f.read())
-    else:
-        print(f'[MDET] Build engine ({engine_file_path})')
-        begin = time.time()
-        engine = build_engine()
-        build_time = time.time() - begin
-        build_time_str = f"{build_time:.2f} [sec]" if build_time < 60 else f"{build_time // 60 :.1f} [min] {build_time % 60 :.2f} [sec]"
-        print(f'[MDET] Engine build done! ({build_time_str})')
-
-        return engine
     
 def main():
 
