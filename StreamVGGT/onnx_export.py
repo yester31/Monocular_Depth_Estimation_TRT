@@ -9,7 +9,8 @@ sys.path.insert(1, os.path.join(sys.path[0], "StreamVGGT/src"))
 # repo root, for core.export_compat
 sys.path.insert(1, os.path.join(sys.path[0], ".."))
 from StreamVGGT.src.streamvggt.models.streamvggt import StreamVGGT
-from core.export_compat import no_cartesian_prod
+from core.export_compat import (no_cartesian_prod,
+                                float32_sincos_pos_embed)
 
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -97,7 +98,8 @@ def main ():
                 }
     # Export the model to ONNX format
     with (torch.amp.autocast(device_type=DEVICE.type, dtype=dtype),
-          no_cartesian_prod()):
+          no_cartesian_prod(),
+          float32_sincos_pos_embed()):
         with torch.no_grad():  # Disable gradients for efficiency
             torch.onnx.export(
                 model, 

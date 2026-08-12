@@ -103,6 +103,65 @@ def no_cartesian_prod(*classes):
 
 
 @contextlib.contextmanager
+def float32_sincos_pos_embed(*modules):
+    """Build VGGT's positional-embedding frequencies in float32, not double.
+
+    `vggt/heads/utils.py:make_sincos_pos_embed` does this:
+
+        omega = torch.arange(embed_dim // 2,
+                             dtype=torch.float32 if device.type == "mps"
+                                   else torch.double, device=device)
+        ...
+        out = torch.einsum("m,d->md", pos, omega)     # pos is float32
+
+    Upstream picks float64 on purpose, for precision in `1 / omega_0 ** omega`,
+    and casts back with `.float()` at the end. PyTorch handles the mixed
+    einsum by type promotion. ONNX cannot: Einsum's type parameter T has to
+    bind to one type, so the exporter emits a graph that onnxruntime refuses
+    to load at all --
+
+        Type Error: Type parameter (T) of Optype (Einsum) bound to different
+        types (tensor(float) and tensor(double)) in node (/depth_head/Einsum_9)
+
+    -- while TensorRT accepts it and, having no fp64, computes in fp32 anyway.
+
+    So the engine was already doing this. Making it explicit costs nothing at
+    runtime and produces a graph other tools can read, which is what made the
+    accuracy check possible in the first place.
+
+    Pass the modules holding the function; VGGT and StreamVGGT each vendor a
+    copy, and the duplicate-namespace problem in no_cartesian_prod applies
+    here too, so pass nothing to patch every loaded copy.
+    """
+    if not modules:
+        modules = [m for name, m in list(sys.modules.items())
+                   if name.endswith("heads.utils") and m is not None
+                   and hasattr(m, "make_sincos_pos_embed")]
+        if not modules:
+            raise RuntimeError(
+                "no make_sincos_pos_embed found in sys.modules — import the "
+                "model before entering float32_sincos_pos_embed()")
+
+    def patched(embed_dim, pos, omega_0=100):
+        assert embed_dim % 2 == 0
+        omega = torch.arange(embed_dim // 2, dtype=torch.float32, device=pos.device)
+        omega /= embed_dim / 2.0
+        omega = 1.0 / omega_0 ** omega
+        pos = pos.reshape(-1).to(torch.float32)
+        out = torch.einsum("m,d->md", pos, omega)
+        return torch.cat([torch.sin(out), torch.cos(out)], dim=1).float()
+
+    originals = [(m, m.make_sincos_pos_embed) for m in modules]
+    for m, _ in originals:
+        m.make_sincos_pos_embed = patched
+    try:
+        yield
+    finally:
+        for m, real in originals:
+            m.make_sincos_pos_embed = real
+
+
+@contextlib.contextmanager
 def no_mono_sky_postprocess(net_class):
     """Drop Depth Anything V3's sky pass from the exported graph.
 
