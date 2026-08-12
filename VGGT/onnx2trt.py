@@ -21,36 +21,44 @@ print(f"[MDET] using device: {DEVICE}")
 TRT_LOGGER = trt.Logger(trt.Logger.INFO)
 
 
-def pre_process(raw_image, target_size, input_h, input_w):
+def pre_process(raw_image, input_h, input_w):
+    """Pad to a square, then resize once to the network size.
+
+    This used to pad, resize to target_size=1024, and only then downscale to
+    518, following upstream's load_and_preprocess_images_square(1024). But that
+    helper exists to feed a 1024 network; here the engine is 518, so the extra
+    hop only costs a full 1024x1024 cubic resize per frame and loses detail
+    through a non-antialiased bilinear downscale. Removing it also puts the
+    coordinates on the same grid as the output, so the crop needs no rescaling.
+    """
     original_coords = []  # Renamed from position_info to be more descriptive
     height, width = raw_image.shape[:2]
-    img = cv2.cvtColor(raw_image, cv2.COLOR_BGR2RGB) 
+    img = cv2.cvtColor(raw_image, cv2.COLOR_BGR2RGB)
     # Make the image square by padding the shorter dimension
     max_dim = max(width, height)
     # Calculate padding
     left = (max_dim - width) // 2
     top = (max_dim - height) // 2
-    # Calculate scale factor for resizing
-    scale = target_size / max_dim
-    # Calculate final coordinates of original image in target space
+    # Scale from the padded square to the network input
+    scale = input_w / max_dim
+    # Final coordinates of the original image inside the network input
     x1 = left * scale
     y1 = top * scale
     x2 = (left + width) * scale
     y2 = (top + height) * scale
     # Store original image coordinates and scale
     original_coords.append(np.array([x1, y1, x2, y2, width, height]))
-    # Create a new black square image and paste original
-    padding = [0, 0, 0]
+    # Pad to a square. Upstream load_fn.py pads WHITE (value=1.0 on a 0-1
+    # tensor); black changes what the network sees wherever the source is not
+    # already square.
+    padding = [255, 255, 255]
     img = cv2.copyMakeBorder(img, top, top, left, left, cv2.BORDER_CONSTANT, value=padding)
 
-    # Resize to target size
-    img = cv2.resize(img, (target_size, target_size), interpolation=cv2.INTER_CUBIC)
+    img = cv2.resize(img, (input_w, input_h), interpolation=cv2.INTER_CUBIC)
 
     # Convert to tensor
     img = torch.from_numpy(img.transpose((2, 0, 1))).float() / 255.0
-    img = img.unsqueeze(0)
-    batch_images = F.interpolate(img, size=(input_h, input_w), mode="bilinear", align_corners=False)
-    batch_images = batch_images.unsqueeze(0)
+    batch_images = img.unsqueeze(0).unsqueeze(0)
     return batch_images.cpu().numpy(), x1, y1, x2, y2
 
 
@@ -59,8 +67,7 @@ def main():
     os.makedirs(save_dir_path, exist_ok=True)
 
     # Input
-    target_size = 1024
-    input_h, input_w = 518, 518 
+    input_h, input_w = 518, 518
     image_path = os.path.join(CUR_DIR, '..', 'data', 'example.jpg')
     image_file_name = os.path.splitext(os.path.basename(image_path))[0]
     raw_image = cv2.imread(image_path)
@@ -68,7 +75,7 @@ def main():
     print(f"[MDET] original image size : {height, width}")
 
     print('[MDET] Pre process')
-    batch_images, x1, y1, x2, y2 = pre_process(raw_image, target_size, input_h, input_w)
+    batch_images, x1, y1, x2, y2 = pre_process(raw_image, input_h, input_w)
 
     # Model and engine paths
     onnx_dtype_fp16 = True
@@ -125,8 +132,9 @@ def main():
     cmap = plt.get_cmap("turbo")
     output_file_depth = os.path.join(save_dir_path, f"{image_file_name}_vggt_{input_h}x{input_w}_trt.jpg")
 
-    depth = cv2.resize(depth, (target_size, target_size), cv2.INTER_LINEAR)
-    depth = depth[int(y1):int(y2), int(x1):int(x2),...] 
+    # The coordinates are already on the output grid, so the upscale to 1024
+    # that used to precede this crop is no longer needed.
+    depth = depth[int(round(y1)):int(round(y2)), int(round(x1)):int(round(x2)), ...] 
     inverse_depth = 1 / depth
     max_invdepth_vizu = min(inverse_depth.max(), 1 / 0.1)
     min_invdepth_vizu = max(1 / 250, inverse_depth.min())

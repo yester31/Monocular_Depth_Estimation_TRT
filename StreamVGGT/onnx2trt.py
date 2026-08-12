@@ -27,7 +27,6 @@ def main():
     os.makedirs(save_dir_path, exist_ok=True)
 
     input_h, input_w = 518, 518 # 700, 700
-    target_size = 1024
     original_coords = []  # Renamed from position_info to be more descriptive
 
     # Input
@@ -46,10 +45,17 @@ def main():
     left = (max_dim - width) // 2
     top = (max_dim - height) // 2
 
-    # Calculate scale factor for resizing
-    scale = target_size / max_dim
+    # Resize straight to the network size. This used to go via target_size=1024
+    # and then downscale to 518, copied from VGGT's
+    # load_and_preprocess_images_square(target_size=1024). StreamVGGT upstream
+    # has no such function -- its load_fn.py only ever uses 518 -- and the extra
+    # hop cannot improve quality: upsampling then downsampling with a
+    # non-antialiased bilinear only loses detail and costs a full 1024x1024
+    # cubic resize per frame. It also left the coordinates on a 1024 grid while
+    # the output was 518, which the postprocess then approximated by halving.
+    scale = input_w / max_dim
 
-    # Calculate final coordinates of original image in target space
+    # Final coordinates of the original image inside the network input
     x1 = left * scale
     y1 = top * scale
     x2 = (left + width) * scale
@@ -58,18 +64,17 @@ def main():
     # Store original image coordinates and scale
     original_coords.append(np.array([x1, y1, x2, y2, width, height]))
 
-    # Create a new black square image and paste original
-    padding = [0, 0, 0]
+    # Pad to a square. Upstream load_fn.py pads WHITE (value=1.0 on a 0-1
+    # tensor); this was black, which is a different input to the network
+    # wherever the source is not already square.
+    padding = [255, 255, 255]
     img = cv2.copyMakeBorder(img, top, top, left, left, cv2.BORDER_CONSTANT, value=padding)
 
-    # Resize to target size
-    rgb = cv2.resize(img, (target_size, target_size), interpolation=cv2.INTER_CUBIC)
+    rgb = cv2.resize(img, (input_w, input_h), interpolation=cv2.INTER_CUBIC)
 
     # Convert to tensor
     rgb = torch.from_numpy(rgb.transpose((2, 0, 1))).float() / 255.0
-    rgb = rgb.unsqueeze(0)
-    batch_images = F.interpolate(rgb, size=(input_h, input_w), mode="bilinear", align_corners=False)
-    batch_images = batch_images.unsqueeze(0)
+    batch_images = rgb.unsqueeze(0).unsqueeze(0)
     batch_images = batch_images.cpu().numpy()
 
     # Model and engine paths
@@ -118,8 +123,13 @@ def main():
         depth = trt_outputs[0].reshape(depth_shape)
         depth = np.squeeze(depth)
 
-        original_coord = original_coords[0]
-        depth = depth[int(original_coord[1]/2) : int(original_coord[3]/2), :]
+        # Crop the padding away. The coordinates are now on the same grid as
+        # the output, so no rescaling is needed; previously they were computed
+        # at 1024 and divided by 2 to reach 518, which is off by 1024/518/2 =
+        # 1.2%. The horizontal crop was also missing entirely, so a landscape
+        # source kept its left and right padding in the result.
+        x1, y1, x2, y2 = original_coords[0][:4]
+        depth = depth[int(round(y1)):int(round(y2)), int(round(x1)):int(round(x2))]
 
         # Results
         print(f'[MDET] {iteration} iterations time: {dur_time:.4f} [sec]')
