@@ -48,7 +48,12 @@ def main ():
     os.makedirs(save_path, exist_ok=True)
 
     # Model preparation
-    input_h, input_w = 518, 518 # 700, 700
+    # Profile. Must match onnx2trt.py.
+    #   bench   518x518, the repo-wide comparison size (stretches a 4:3 source)
+    #   native  518x700, aspect preserved for the 4:3 of data/example.jpg
+    # The resolution is part of the model name, so both engines coexist.
+    profile = 'bench'   # 'bench' or 'native'
+    input_h, input_w = (518, 518) if profile == 'bench' else (518, 700)
     encoder = 'vitb' # 'vits' or 'vitb' or 'vitl'
     with open(f"{CUR_DIR}/UniK3D/configs/eval/{encoder}.json") as f:
         config = json.load(f)

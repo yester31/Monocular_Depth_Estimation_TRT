@@ -315,14 +315,36 @@ resize_factors = (w/518, h/518)     # intrinsics 보정용
 | D1 | **수정됨** | `8eaf8d5` — D3 수정으로 좌표가 출력 격자와 일치, 근사 불필요 |
 | D2 | **수정됨** | `8eaf8d5` — 가로 crop 추가 |
 | D3 | **수정됨** | `8eaf8d5` — 1024 경유 제거, 518 직접 |
-| D4 | **오진 → 되돌림** | `f6ea99d` 에서 `/255` 를 넣었으나 **호출부가 이미 하고 있었다**(중복). 되돌림.<br>실제 결함은 종횡비 stretch(6.03%) 이며 프로필 결정이 필요해 **보류** |
+| D4 | **오진 → 되돌림**<br>**후속 = 프로필로 해결** | `/255` 는 호출부가 이미 하고 있었다(오진, 되돌림).<br>실제 결함인 종횡비 stretch(6.03%)는 **bench/native 두 프로필로 해결** |
 | D5 | **오진 → 되돌림** | 정규화는 `Metric3DExportModel.forward()` 로 **그래프에 이미 있다**.<br>추가하면 이중 적용. 되돌림 |
 | D6 | **수정됨** | `f6ea99d` — export 388×518 로 통일 |
 | D7 | **수정됨** | `8eaf8d5` — 패딩 흰색 |
 | D8 | **수정됨** | `8eaf8d5` — D3 와 함께 제거 |
 | D9 | **수정됨** | `f6ea99d` — 절대경로 |
 | D10 | **철회 — 결함 아님** | README 에 wget 안내가 애초에 없었고(`unik3d` 와 혼동),<br>`from_pretrained` 와 `hf_hub_download` 는 같은 HF 저장소다.<br>README 문서 보완만 유지 |
-| **D11** | **보류** | point map·intrinsics 기하를 바꾸는 변경이라 모델 실행 없이 검증 불가.<br>`unidepth_v2`/`unik3d` 환경·골든 기준선 확보 후 착수 |
+| **D11** | **프로필로 해결** | `unidepth_v2`/`unik3d` 에 bench/native 스위치 추가.<br>기존 동작(bench)은 그대로, native 는 종횡비 보존.<br>**엔진은 아직 안 구움** — 환경 구축 후 실측 필요 |
+
+### 종횡비 — bench / native 두 프로필
+
+D4 후속과 D11 을 같은 방식으로 처리했다. 지우거나 바꾸는 대신 **둘 다 제공**한다.
+
+| 프로필 | 크기 | 성격 |
+| --- | --- | --- |
+| `bench` | **518×518** (전 모델 공통) | 속도 비교용. 4:3 원본을 정사각형으로 늘림 |
+| `native` | **518×700** (4:3 기준) | 업스트림 방식. 종횡비 보존 |
+
+대상: `depth_anything_ac`, `unidepth_v2`, `unik3d`
+(셋 다 규칙 기반이라 native 크기는 기준 종횡비가 필요하다 — `data/example.jpg` 의 4:3)
+
+`onnx_export.py` 와 `onnx2trt.py` 양쪽에 `profile` 변수가 있고 **반드시 같아야 한다.**
+모델 이름에 해상도가 들어가므로 두 엔진이 공존한다.
+`tests/test_profiles.py` 가 두 파일의 크기 일치를 검사한다 — moge_2 처럼
+export 와 실행이 어긋나 존재하지 않는 ONNX 를 찾는 일을 막는다.
+
+**왜 unidepth_v2·unik3d 에서 더 중요한가**: 두 모델은 point map 과 intrinsics 를
+출력한다. 늘어난 입력은 그림만 왜곡하는 게 아니라 **카메라 기하를 틀리게** 만든다.
+`postprocess_intrinsics()` 가 `resize_factors` 로 보정하지만, 네트워크가 이미
+잘못된 비율의 이미지를 보고 추론한 뒤라 완전히 상쇄되지 않는다.
 
 **단위 테스트**: `tests/test_vggt_geometry.py` (D1·D2·D3·D7·D8),
 `tests/test_preprocess.py` (전처리 유형), `tests/test_golden.py` (검증 체계).

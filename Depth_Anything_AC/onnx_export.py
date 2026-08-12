@@ -16,8 +16,14 @@ def main ():
     save_path = os.path.join(CUR_DIR, 'onnx')
     os.makedirs(save_path, exist_ok=True)
 
-    input_h = 518 # 1036
-    input_w = 518 # 1386
+    # Profile. Must match onnx2trt.py.
+    #   bench   518x518, the size every model in this repo uses so that their
+    #           speeds are comparable. Requires stretching a non-square source.
+    #   native  518x700, what upstream produces for a 4:3 image (short side
+    #           518, aspect preserved, rounded to a multiple of 14).
+    # Export both to have both engines; the resolution is part of the name.
+    profile = 'bench'   # 'bench' or 'native'
+    input_h, input_w = (518, 518) if profile == 'bench' else (518, 700)
     encoder = 'vits'    # 'vits'
     model = load_model(encoder=encoder)
 

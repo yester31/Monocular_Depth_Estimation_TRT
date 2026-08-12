@@ -17,8 +17,12 @@ def main ():
     save_path = os.path.join(CUR_DIR, 'onnx')
     os.makedirs(save_path, exist_ok=True)
 
-    input_h = 518 # 1036
-    input_w = 518 # 1386
+    # Profile. Must match onnx2trt.py.
+    #   bench   518x518, the repo-wide comparison size (stretches a 4:3 source)
+    #   native  518x700, aspect preserved for the 4:3 of data/example.jpg
+    # The resolution is part of the model name, so both engines coexist.
+    profile = 'bench'   # 'bench' or 'native'
+    input_h, input_w = (518, 518) if profile == 'bench' else (518, 700)
     encoder = 'vitb' # 'vits' or vitb or vitl
     with open(os.path.join(f"{CUR_DIR}/UniDepth/configs", f"config_v2_{encoder}14.json")) as f:
         config = json.load(f)

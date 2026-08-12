@@ -54,8 +54,19 @@ def main():
     save_dir_path = os.path.join(CUR_DIR, 'results')
     os.makedirs(save_dir_path, exist_ok=True)
 
-    input_h = 518 # 1036
-    input_w = 518 # 1386
+    # Profile. Must match onnx_export.py — the engine input shape is static.
+    #
+    #   bench   518x518. Every model in this repo runs at 518x518 so their
+    #           speeds are comparable. Reaching a square from a 4:3 source
+    #           means stretching, which upstream never does.
+    #   native  what upstream's tools/infer.py produces: short side 518, aspect
+    #           preserved, rounded up to a multiple of 14. Its exact size
+    #           depends on the source aspect ratio, so the engine is pinned to
+    #           the 4:3 of data/example.jpg -> 518x700.
+    #
+    # Measured difference between the two on data/example.jpg: 6.03%.
+    profile = 'bench'   # 'bench' or 'native'
+    input_h, input_w = (518, 518) if profile == 'bench' else (518, 700)
 
     # Input
     image_file_name = 'example.jpg'
@@ -63,7 +74,11 @@ def main():
     raw_image = cv2.imread(image_path)
     h, w = raw_image.shape[:2]
     print(f'[MDET] original shape : {raw_image.shape}')
-    raw_image = cv2.resize(raw_image, (input_w, input_h))
+    print(f'[MDET] profile : {profile} -> {input_h}x{input_w}')
+    if profile == 'bench':
+        # Squash to the square the engine expects. preprocess_image()'s
+        # keep-aspect rule then has nothing left to do.
+        raw_image = cv2.resize(raw_image, (input_w, input_h))
     image = cv2.cvtColor(raw_image, cv2.COLOR_BGR2RGB).astype(np.float32) / 255.0
 
     input_image = preprocess_image(image, input_h)  # Preprocess image
@@ -75,6 +90,8 @@ def main():
     encoder = 'vits'    # 'vits'
     dynamo = True       # True or False
     onnx_sim = False     # True or False
+    # The resolution in the name already distinguishes the two profiles, so
+    # bench and native engines coexist without overwriting each other.
     model_name = f"depth_anything_AC_{encoder}_{input_h}x{input_w}"
     model_name = f"{model_name}_dynamo" if dynamo else model_name
     model_name = f"{model_name}_sim" if onnx_sim else model_name

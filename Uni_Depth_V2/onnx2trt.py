@@ -51,6 +51,21 @@ def main():
     input_h = 518 # 1036
     input_w = 518 # 1386
 
+    # Profile. Must match onnx_export.py — the engine input shape is static.
+    #
+    #   bench   518x518, the size every model here uses so speeds compare.
+    #           Reaching a square from a 4:3 source means stretching.
+    #   native  aspect preserved, as upstream UniDepthV2 does (long-edge resize
+    #           with padding). Pinned to the 4:3 of data/example.jpg -> 518x700.
+    #
+    # This model outputs a point map and camera intrinsics, both of which are
+    # tied to the aspect ratio, so a stretched input distorts geometry and not
+    # only the picture. postprocess_intrinsics() below rescales by
+    # resize_factors, but it cannot undo what the network already inferred from
+    # a wrongly-shaped image.
+    profile = 'bench'   # 'bench' or 'native'
+    input_h, input_w = (518, 518) if profile == 'bench' else (518, 700)
+
     # Input
     image_file_name = 'example.jpg'
     image_path = os.path.join(CUR_DIR, '..', 'data', image_file_name)
@@ -59,6 +74,7 @@ def main():
     resize_factors = (w/input_w, h/input_h)
 
     print(f'[MDET] original shape : {raw_image.shape}')
+    print(f'[MDET] profile : {profile} -> {input_h}x{input_w}')
     raw_image = cv2.resize(raw_image, (input_w, input_h))
     image = cv2.cvtColor(raw_image, cv2.COLOR_BGR2RGB).astype(np.float32) 
     rgb = torch.from_numpy(image).permute(2, 0, 1) # C, H, W
