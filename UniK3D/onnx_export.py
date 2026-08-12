@@ -1,17 +1,55 @@
 # by yhpark 2025-7-31
+import contextlib
 import os
 import torch
+import torch.nn.functional as F
 import onnx
 from onnxsim import simplify
 import json
 
 from UniK3D.unik3d.models.unik3d import UniK3D
-from safetensors.torch import load_file 
+from safetensors.torch import load_file
 
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 #DEVICE = torch.device("cpu")
 print(f"[MDET] using device: {DEVICE}")
+
+@contextlib.contextmanager
+def no_antialias():
+    """Export Resize nodes with antialias=0, which is all TensorRT accepts.
+
+    `decoder.embed_rays()` resamples the camera-ray embedding with
+    `flat_interpolate(..., antialias=True)`. That reaches ONNX as a Resize
+    carrying antialias=1, and the TensorRT parser rejects the whole file:
+
+        UNSUPPORTED_NODE_ATTR: (antialias == 0) && "Antialiasing is not
+        supported currently."
+
+    Measured before doing this, on data/example.jpg at 518x518, PyTorch with
+    and without: the point maps are **bit-identical** -- max absolute
+    difference 0.000000, correlation 1.000000, delta1 100%. PyTorch only
+    antialiases when a resize shrinks an image, and at this input size that
+    one does not shrink, so the flag never does anything.
+
+    That equivalence is tied to the input size. A configuration where the ray
+    resize genuinely downsamples would lose real filtering here, so re-measure
+    with probe_antialias.py before changing the size.
+    """
+    real = F.interpolate
+
+    def patched(*args, **kwargs):
+        kwargs["antialias"] = False
+        return real(*args, **kwargs)
+
+    F.interpolate = patched
+    torch.nn.functional.interpolate = patched
+    try:
+        yield
+    finally:
+        F.interpolate = real
+        torch.nn.functional.interpolate = real
+
 
 class UniK3DONNX(UniK3D):
     def __init__(
@@ -77,15 +115,15 @@ def main ():
         dynamic_axes={"rgbs": {0: "batch", 2: "height", 3: "width"}}
 
     # Export the model to ONNX format
-    with torch.no_grad():  # Disable gradients for efficiency
+    with torch.no_grad(), no_antialias():  # see no_antialias() for why
         torch.onnx.export(
-            model, 
-            dummy_input, 
-            export_model_path, 
-            opset_version=20, 
+            model,
+            dummy_input,
+            export_model_path,
+            opset_version=20,
             input_names=["rgbs"],
             output_names=["pts_3d", "confidence"],
-            dynamic_axes=dynamic_axes, 
+            dynamic_axes=dynamic_axes,
         )
 
     print(f"ONNX model exported to: {export_model_path}")
