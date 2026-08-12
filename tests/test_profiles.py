@@ -157,6 +157,108 @@ def test_metric_anything_keeps_the_source_aspect():
           f"moge_2={sorted(set(sizes_in(code_of('MoGe_2/onnx2trt.py'))))}")
 
 
+def _resolved_name(path, drop_sim):
+    """The model_name string a file actually produces, or None if undecidable.
+
+    Comparing the source lines does not work: the two scripts often reach the
+    same name by different routes (one f-string versus three appends), and
+    that is fine. What matters is the string. So this replays the simple
+    literal assignments and the model_name chain in an empty namespace.
+
+    Returns None when a value comes from something other than a literal --
+    Depth_Pro takes its size from `model.img_size`, which cannot be evaluated
+    without loading the model. Those are checked separately.
+    """
+    import ast as _ast
+    src = open(path, encoding="utf-8").read()
+    tree = _ast.parse(src)
+
+    fn = next((n for n in tree.body
+               if isinstance(n, _ast.FunctionDef) and n.name == "main"), None)
+    if fn is None:
+        return None
+
+    class _Dtypes:
+        """Stand-in for torch, so `dtype = torch.half` and the
+        `... if dtype == torch.half else ...` that follows both resolve.
+        Identity comparison is all these expressions need."""
+        def __getattr__(self, name):
+            return f"<torch.{name}>"
+
+    env, saw_name = {"torch": _Dtypes()}, False
+
+    def value_of(node):
+        """Literal if possible, otherwise evaluate against what we have."""
+        try:
+            return _ast.literal_eval(node)
+        except Exception:
+            # See the note on eval below: repo source, no builtins, only
+            # previously collected literals in scope.
+            return eval(_ast.unparse(node), {"__builtins__": {}}, env)
+
+    for node in fn.body:
+        if not isinstance(node, _ast.Assign) or len(node.targets) != 1:
+            continue
+        target = node.targets[0]
+        if isinstance(target, _ast.Tuple):          # input_h, input_w = 388, 518
+            try:
+                values = value_of(node.value)
+            except Exception:
+                continue
+            names = [e.id for e in target.elts if isinstance(e, _ast.Name)]
+            if len(names) == len(values):
+                env.update(dict(zip(names, values)))
+            continue
+        if not isinstance(target, _ast.Name):
+            continue
+
+        if target.id == "model_name":
+            line = _ast.unparse(node.value)
+            if drop_sim and "_sim" in line:
+                continue                             # trt picks the simplified graph
+            # eval, not ast.literal_eval: the whole point is to resolve an
+            # f-string over previously seen literals, which literal_eval
+            # rejects. The input is this repository's own source, the only
+            # names in scope are the literals collected above, and builtins
+            # are removed -- so nothing here can call out.
+            try:
+                env["model_name"] = eval(line, {"__builtins__": {}}, env)
+            except Exception:
+                return None
+            saw_name = True
+        else:
+            try:
+                env[target.id] = value_of(node.value)
+            except Exception:
+                pass                                 # not resolvable; may not be needed
+
+    return env.get("model_name") if saw_name else None
+
+
+def test_model_name_resolves_the_same():
+    """The ONNX filename is the contract between the two scripts.
+
+    onnx2trt.py loads whatever onnx_export.py wrote, by name. A mismatch is
+    either a confusing missing-file error or, if the names happen to collide,
+    an engine quietly built from the wrong graph. moge_2 hit the first
+    (exported 291x518, loaded 388x518); depth_pro was one edit from the second
+    because its name carried no size at all.
+
+    This also catches the latent case where the two files agree today only
+    because a flag is False on both sides -- flip `dynamo` in onnx_export.py
+    alone and VGGT writes vggt_..._dynamo.onnx while onnx2trt.py still looks
+    for vggt_....onnx.
+    """
+    for model in PAIRS:
+        e = _resolved_name(os.path.join(ROOT, model, "onnx_export.py"), False)
+        t = _resolved_name(os.path.join(ROOT, model, "onnx2trt.py"), True)
+        if e is None or t is None:
+            print(f"  ..    {model} model_name not statically decidable")
+            continue
+        check(f"{model} model_name matches", e == t,
+              f"export={e!r} trt={t!r}")
+
+
 def test_moge_regression():
     """The mismatch that motivated this file."""
     exp, trt = code_of("MoGe_2/onnx_export.py"), code_of("MoGe_2/onnx2trt.py")
