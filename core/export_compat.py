@@ -103,6 +103,47 @@ def no_cartesian_prod(*classes):
 
 
 @contextlib.contextmanager
+def no_mono_sky_postprocess(net_class):
+    """Drop Depth Anything V3's sky pass from the exported graph.
+
+    `DepthAnything3Net._process_mono_sky_estimation` runs after the network
+    and rewrites depth in sky regions:
+
+        non_sky_depth = output.depth[non_sky_mask]     # size depends on data
+        if non_sky_depth.numel() > 100000:
+            idx = torch.randint(0, non_sky_depth.numel(), (100000,), ...)
+            sampled_depth = non_sky_depth[idx]
+        non_sky_max = torch.quantile(sampled_depth, 0.99)
+        ... set sky regions to non_sky_max
+
+    None of that can live in a static graph. The TorchScript exporter says so
+    directly:
+
+        SymbolicValueError: ONNX symbolic expected a constant value of the
+        'high' argument, got ... onnx::ReduceProd
+
+    because `high` is `numel()` of a boolean-masked tensor. Beyond the export,
+    the step draws 100000 random indices, so it is **not deterministic** --
+    two PyTorch runs on the same image disagree in the sky by however much the
+    sampled 99th percentile moves.
+
+    This is post-process, not the network. The export wrapper already returns
+    `depth` and `sky` as separate outputs, so a caller that wants the sky fill
+    can do it on the host with the full depth map and no sampling at all.
+
+    The output does change: sky pixels keep their predicted depth instead of
+    being flattened to the non-sky maximum. Measured before adopting -- see
+    probe_sky.py.
+    """
+    real = net_class._process_mono_sky_estimation
+    net_class._process_mono_sky_estimation = lambda self, output: output
+    try:
+        yield
+    finally:
+        net_class._process_mono_sky_estimation = real
+
+
+@contextlib.contextmanager
 def static_rope_max_position(max_position: int, *classes):
     """Give VGGT-family RoPE a constant table size instead of reading one.
 
