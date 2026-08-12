@@ -291,6 +291,23 @@ resize_factors = (w/518, h/518)     # intrinsics 보정용
 
 코드로 확인 완료. 추정이 아니다. **모든 항목은 업스트림 코드와 대조해 판정했다.**
 
+### 조사 방법에 대한 교훈
+
+**11건 중 3건이 오진이었다** (D4, D5, D10). 모두 같은 원인이다 —
+**함수 하나만 보고 판단**했고, 호출부와 export 래퍼를 보지 않았다.
+
+| 오진 | 놓친 것 |
+| --- | --- |
+| D4 | `preprocess_image()` 에 `/255` 가 없지만 **호출부가 이미 한다** |
+| D5 | `onnx2trt.py` 에 정규화가 없지만 **ONNX 그래프 안에 있다** (`Metric3DExportModel`) |
+| D10 | README 에 wget 이 있다고 봤으나 **다른 모델과 혼동** |
+
+셋 다 grep 기반 초기 조사의 산물이다. 이후 규칙:
+
+1. **전체 흐름을 읽는다** — `imread` 부터 텐서까지, 함수 경계를 넘어서
+2. **export 래퍼를 확인한다** — 전처리가 그래프에 들어갔을 수 있다
+3. **가능하면 모델을 돌려 확인한다** — D4 는 실행해 보고서야 드러났다
+
 ### 수정 현황 (2026-08-12)
 
 | # | 상태 | 커밋 |
@@ -299,12 +316,12 @@ resize_factors = (w/518, h/518)     # intrinsics 보정용
 | D2 | **수정됨** | `8eaf8d5` — 가로 crop 추가 |
 | D3 | **수정됨** | `8eaf8d5` — 1024 경유 제거, 518 직접 |
 | D4 | **오진 → 되돌림** | `f6ea99d` 에서 `/255` 를 넣었으나 **호출부가 이미 하고 있었다**(중복). 되돌림.<br>실제 결함은 종횡비 stretch(6.03%) 이며 프로필 결정이 필요해 **보류** |
-| D5 | **수정됨** | `f6ea99d` — mean/std 정규화 추가 |
+| D5 | **오진 → 되돌림** | 정규화는 `Metric3DExportModel.forward()` 로 **그래프에 이미 있다**.<br>추가하면 이중 적용. 되돌림 |
 | D6 | **수정됨** | `f6ea99d` — export 388×518 로 통일 |
 | D7 | **수정됨** | `8eaf8d5` — 패딩 흰색 |
 | D8 | **수정됨** | `8eaf8d5` — D3 와 함께 제거 |
 | D9 | **수정됨** | `f6ea99d` — 절대경로 |
-| D10 | **수정됨** | `f6ea99d` — README 를 실제 동작에 맞춤 |
+| D10 | **철회 — 결함 아님** | README 에 wget 안내가 애초에 없었고(`unik3d` 와 혼동),<br>`from_pretrained` 와 `hf_hub_download` 는 같은 HF 저장소다.<br>README 문서 보완만 유지 |
 | **D11** | **보류** | point map·intrinsics 기하를 바꾸는 변경이라 모델 실행 없이 검증 불가.<br>`unidepth_v2`/`unik3d` 환경·골든 기준선 확보 후 착수 |
 
 **단위 테스트**: `tests/test_vggt_geometry.py` (D1·D2·D3·D7·D8),
@@ -414,11 +431,19 @@ upstream (keep ratio -> 518x700)
 repo     (stretch to 518x518)      rel 6.03%
 ```
 
-### D5 — metric3d_v2 정규화 누락
+### D5 — ~~metric3d_v2 정규화 누락~~ → **오진. 그래프 안에 있었다**
 
-업스트림(`hubconf.py`)은 `mean=[123.675,116.28,103.53]`, `std=[58.395,57.12,57.375]`로 정규화한다.
-이 저장소는 **패딩 값으로만 그 상수를 쓰고 정규화는 하지 않는다.**
-`onnx_export.py`에도 정규화 래퍼가 없다.
+**정정 (2026-08-12).** `onnx2trt.py` 에 정규화가 없는 것은 맞지만, **있으면 안 된다.**
+
+`onnx_export.py:38` 이 모델을 `Metric3DExportModel` 로 감싸고, 그 `forward()` 의
+첫 줄이 `image = self.normalize_image(image)` 다 (업스트림 `onnx/metric3d_onnx_export.py`).
+`mean=[123.675,116.28,103.53]`, `std=[58.395,57.12,57.375]` 가 **ONNX 그래프에 박혀 있고**,
+따라서 엔진은 정규화되지 않은 0~255 입력을 기대한다.
+
+`onnx2trt.py` 에서 정규화하면 **이중 적용**이 된다.
+
+초기 조사에서 `onnx_export.py` 를 `mean|std` 로만 grep 해 아무것도 못 찾았고,
+래퍼 클래스가 별도 파일에서 import 되는 것을 놓쳤다.
 
 ### D6 — moge_2 export/실행 해상도 불일치
 
@@ -473,17 +498,18 @@ resize_factors = (w/input_w, h/input_h)
 **수정 후 실측 목적**: 차이가 크면 기존 벤치마크에서 이 두 모델의 품질 수치가
 부당하게 낮았다는 뜻이므로, 그 사실을 비교표에 남긴다.
 
-### D10 — unidepth_v2 가중치 경로가 3중으로 어긋남
+### D10 — ~~unidepth_v2 가중치 경로 불일치~~ → **결함 아님**
 
-| 위치 | 무엇을 쓰나 |
-| --- | --- |
-| README | `wget` 안내 — **어디서도 쓰이지 않음** |
-| `onnx_export.py:28` | `hf_hub_download(repo_id="lpiccinelli/unidepth-v2-{enc}14", filename="pytorch_model.bin")` |
-| `infer.py:43` | `UniDepthV2.from_pretrained("lpiccinelli/unidepth-v2-{enc}14")` |
+**철회 (2026-08-12).** 두 가지를 잘못 봤다.
 
-export와 infer가 서로 다른 방식으로 받으므로 **가중치가 동일하다는 보장이 없다.**
-Torch 기준 출력과 ONNX/TRT 출력을 비교하는 검증 자체가 무의미해질 수 있다.
-README의 wget 안내는 사용자를 헛수고시킨다.
+1. "README 의 wget 안내가 안 쓰인다" — **README 에 wget 안내가 애초에 없다.**
+   초기 조사에서 `unik3d`(wget 3개 있음)와 혼동했다.
+2. `infer.py` 의 `from_pretrained("lpiccinelli/unidepth-v2-{enc}14")` 와
+   `onnx_export.py` 의 `hf_hub_download(repo_id="lpiccinelli/unidepth-v2-{enc}14", ...)` 는
+   **같은 HuggingFace 저장소를 가리킨다.** API 만 다를 뿐 같은 가중치다.
+
+남은 것은 문서 부재뿐이다 — README 에 가중치를 어떻게 얻는지 설명이 없었다.
+설명을 추가했으나 이는 결함 수정이 아니라 문서 보완이다.
 
 ### D9 — depth_anything_ac 가 상대경로로 체크포인트를 읽는다
 
