@@ -253,11 +253,69 @@
   },
   {
     "model": "streamvggt",
-    "skip": "Fail: [ONNXRuntimeError] : 1 : FAIL : Load model from C:\\Users\\soy\\mde_trt\\work\\StreamVGGT\\onnx\\streamvggt_only_depth_518x518_fp16\\streamvggt_only_depth_518x518_fp16.onnx failed:Type Error: Type parameter (T) of Optype (Einsum) bound to different types (tensor(float) and tensor(double) in node (/depth_head/Einsum_9)."
+    "precision": "fp16",
+    "onnx": "StreamVGGT\\onnx\\streamvggt_only_depth_518x518_fp16\\streamvggt_only_depth_518x518_fp16.onnx",
+    "outputs": [
+      {
+        "index": 0,
+        "size": 268324,
+        "ref_mag": 0.900916540403551,
+        "rel_mean": 0.0006862124724258122,
+        "abs_rel": 0.0006609273261807046,
+        "rmse": 0.0009780434683635847,
+        "max_abs": 0.02286088466644287,
+        "corr": 0.9999891773180931,
+        "scale": 1.0003303761852267,
+        "verdict": "ok"
+      }
+    ],
+    "worst_rel": 0.0006862124724258122,
+    "verdict": "ok"
   },
   {
     "model": "unidepth_v2",
-    "skip": "Fail: [ONNXRuntimeError] : 1 : FAIL : Load model from C:\\Users\\soy\\mde_trt\\work\\Uni_Depth_V2\\onnx\\uni_depth_v2_vitb_518x518.onnx failed:Type Error: Type parameter (T) of Optype (LayerNormalization) bound to different types (tensor(double) and tensor(float) in node (/pixel_decoder/depth_layer/prompt_camera.3/layers.0/norm_attnctx/LayerNormalization)."
+    "precision": "fp16",
+    "onnx": "Uni_Depth_V2\\onnx\\uni_depth_v2_vitb_518x518.onnx",
+    "outputs": [
+      {
+        "index": 0,
+        "size": 804972,
+        "ref_mag": 0.7702741399353079,
+        "rel_mean": 0.0045749667669209015,
+        "abs_rel": 0.004726676389823869,
+        "rmse": 0.006373094946712235,
+        "max_abs": 0.24310457706451416,
+        "corr": 0.9999948542807318,
+        "scale": 0.9954963193275148,
+        "verdict": "ok"
+      },
+      {
+        "index": 1,
+        "size": 268324,
+        "ref_mag": 0.7556336436757383,
+        "rel_mean": 0.00920615289547422,
+        "abs_rel": 0.0042773630275184295,
+        "rmse": 0.12164183131427035,
+        "max_abs": 15.322723388671875,
+        "corr": 0.9934137064220094,
+        "scale": 0.995891551564989,
+        "verdict": "ok"
+      },
+      {
+        "index": 2,
+        "size": 9,
+        "ref_mag": 182.3643595377604,
+        "rel_mean": 0.0003587854977027576,
+        "abs_rel": 0.00022328913331790416,
+        "rmse": 0.18010030576757022,
+        "max_abs": 0.33599853515625,
+        "corr": 0.9999999599470282,
+        "scale": 0.9995999961152803,
+        "verdict": "ok"
+      }
+    ],
+    "worst_rel": 0.00920615289547422,
+    "verdict": "ok"
   },
   {
     "model": "unik3d",
@@ -294,6 +352,23 @@
   },
   {
     "model": "vggt",
-    "skip": "Fail: [ONNXRuntimeError] : 1 : FAIL : Load model from C:\\Users\\soy\\mde_trt\\work\\VGGT\\onnx\\vggt_only_depth_518x518_fp16\\vggt_only_depth_518x518_fp16.onnx failed:Type Error: Type parameter (T) of Optype (Einsum) bound to different types (tensor(float) and tensor(double) in node (/depth_head/Einsum_9)."
+    "precision": "fp16",
+    "onnx": "VGGT\\onnx\\vggt_only_depth_518x518_fp16\\vggt_only_depth_518x518_fp16.onnx",
+    "outputs": [
+      {
+        "index": 0,
+        "size": 268324,
+        "ref_mag": 1.068344940914161,
+        "rel_mean": 0.0010398406713943394,
+        "abs_rel": 0.0010711367463919189,
+        "rmse": 0.001558169436498455,
+        "max_abs": 0.05174374580383301,
+        "corr": 0.999984691902779,
+        "scale": 0.9994842372824778,
+        "verdict": "ok"
+      }
+    ],
+    "worst_rel": 0.0010398406713943394,
+    "verdict": "ok"
   }
 ]

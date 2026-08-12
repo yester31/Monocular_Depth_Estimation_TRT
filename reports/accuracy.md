@@ -8,18 +8,23 @@ This isolates what TensorRT and fp16 did. It is **not** a comparison against PyT
 | --- | --- | --- | --- | ---: | ---: | ---: | ---: | ---: |
 | WARN | `depth_anything_v3` | fp16 | 1   | 6.57e-06   | 7.8430% | 0.012    | 0.997905 | 1.0037 |
 | ok   | `unik3d`            | fp16 | 1   | 0.02308    | 0.9241% | 0.0109   | 0.999754 | 1.0026 |
+| ok   | `unidepth_v2`       | fp16 | 1   | 0.7556     | 0.9206% | 15.3     | 0.993414 | 0.9959 |
 | ok   | `metric3d_v2`       | fp32 | 0   | 2.077      | 0.6219% | 35.9     | 0.999608 | 0.9972 |
+| ok   | `unidepth_v2`       | fp16 | 0   | 0.7703     | 0.4575% | 0.243    | 0.999995 | 0.9955 |
 | ok   | `unik3d`            | fp16 | 0   | 0.8716     | 0.3260% | 0.136    | 0.999997 | 0.9968 |
 | ok   | `metric_anything`   | fp16 | 2   | 1.253      | 0.3174% | 0.00398  | -        | 0.9968 |
 | ok   | `depth_pro`         | fp16 | 0   | 1.03       | 0.2030% | 0.0122   | 0.999994 | 0.9983 |
 | ok   | `moge_2`            | fp16 | 1   | 0.4947     | 0.1624% | 0.0119   | 0.999997 | 1.0000 |
 | ok   | `depth_anything_v2` | fp16 | 0   | 1.532      | 0.1201% | 0.0218   | 0.999980 | 0.9998 |
 | ok   | `depth_anything_v3` | fp16 | 0   | 0.7335     | 0.1125% | 0.0323   | 0.999997 | 0.9991 |
+| ok   | `vggt`              | fp16 | 0   | 1.068      | 0.1040% | 0.0517   | 0.999985 | 0.9995 |
 | ok   | `distill_any_depth` | fp16 | 0   | 3.241      | 0.0950% | 0.0946   | 0.999996 | 1.0004 |
 | ok   | `depth_anything_ac` | fp16 | 0   | 3.023      | 0.0843% | 0.0568   | 0.999997 | 1.0003 |
+| ok   | `streamvggt`        | fp16 | 0   | 0.9009     | 0.0686% | 0.0229   | 0.999989 | 1.0003 |
 | ok   | `moge_2`            | fp16 | 3   | 1.141      | 0.0632% | 0.000722 | -        | 1.0006 |
 | ok   | `metric_anything`   | fp16 | 0   | 0.5704     | 0.0514% | 0.0259   | 1.000000 | 0.9998 |
 | ok   | `moge_2`            | fp16 | 0   | 0.4902     | 0.0389% | 0.00698  | 1.000000 | 1.0000 |
+| ok   | `unidepth_v2`       | fp16 | 2   | 182.4      | 0.0359% | 0.336    | 1.000000 | 0.9996 |
 | ok   | `depth_pro`         | fp16 | 1   | 48.43      | 0.0161% | 0.00779  | -        | 1.0002 |
 | ok   | `metric_anything`   | fp16 | 1   | 1          | 0.0000% | 1.36e-05 | 0.999198 | 1.0000 |
 | ok   | `moge_2`            | fp16 | 2   | 0.9999     | 0.0000% | 0.000282 | 0.999983 | 1.0000 |
@@ -29,9 +34,3 @@ One row per model output, worst first.
 **Reading `rel`.** It is the mean absolute difference divided by the mean magnitude of the reference, so an output whose values sit near zero inflates it for free. Flagged above 1% and failed above 5%, but only when the correlation also drops below 0.99 — otherwise a large `rel` on a small-valued map is fp16 noise, not a broken engine. `ref |mean|` is there so that judgement can be checked.
 
 `scale` is the least-squares factor between the two. A value away from 1.0000 means the engine is off by a constant, which is a different failure from noise.
-
-## Not checked
-
-- `streamvggt` — Fail: [ONNXRuntimeError] : 1 : FAIL : Load model from C:\Users\soy\mde_trt\work\StreamVGGT\onnx\streamvggt_only_depth_518x518_fp16\streamvggt_only_depth_518x518_fp16.onnx failed:Type Error: Type parameter (T) of Optype (Einsum) bound to different types (tensor(float) and tensor(double) in node (/depth_head/Einsum_9).
-- `unidepth_v2` — Fail: [ONNXRuntimeError] : 1 : FAIL : Load model from C:\Users\soy\mde_trt\work\Uni_Depth_V2\onnx\uni_depth_v2_vitb_518x518.onnx failed:Type Error: Type parameter (T) of Optype (LayerNormalization) bound to different types (tensor(double) and tensor(float) in node (/pixel_decoder/depth_layer/prompt_camera.3/layers.0/norm_attnctx/LayerNormalization).
-- `vggt` — Fail: [ONNXRuntimeError] : 1 : FAIL : Load model from C:\Users\soy\mde_trt\work\VGGT\onnx\vggt_only_depth_518x518_fp16\vggt_only_depth_518x518_fp16.onnx failed:Type Error: Type parameter (T) of Optype (Einsum) bound to different types (tensor(float) and tensor(double) in node (/depth_head/Einsum_9).
