@@ -6,22 +6,25 @@ from onnxsim import simplify
 
 import sys
 sys.path.insert(1, os.path.join(sys.path[0], "StreamVGGT/src"))
+# repo root, for core.export_compat
+sys.path.insert(1, os.path.join(sys.path[0], ".."))
 from StreamVGGT.src.streamvggt.models.streamvggt import StreamVGGT
+from StreamVGGT.src.streamvggt.layers.rope import PositionGetter
+from core.export_compat import no_cartesian_prod
 
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print(f"[MDET] using device: {DEVICE}")   
 
-### NOTICE ###
-# Before exporting to onnx, edit line 39 in StreamVGGT/src/streamvggt/layers/rope.py.
-'''
-    # Comment out line 39
-    # positions = torch.cartesian_prod(y_coords, x_coords) # <- original 39 line
-    # Add the three lines below
-    yy = y_coords.unsqueeze(1).expand(-1, x_coords.size(0))  # [H, W]
-    xx = x_coords.unsqueeze(0).expand(y_coords.size(0), -1)  # [H, W]
-    positions = torch.stack([yy.reshape(-1), xx.reshape(-1)], dim=1)  # [H*W, 2] 
-'''
+# The `### NOTICE ###` that stood here told the reader to edit
+# StreamVGGT/src/streamvggt/layers/rope.py by hand before exporting, replacing
+# torch.cartesian_prod with an expand-and-stack, because the TorchScript
+# exporter has no symbolic for aten::cartesian_prod.
+#
+# core.export_compat.no_cartesian_prod does that automatically now. A hand-edit
+# to a cloned upstream is invisible to whoever runs the script next, is undone
+# by a git pull in the clone, and nothing checks it was applied -- running
+# without it fails with UnsupportedOperatorError partway through the export.
 class SVGGTDepthOnlyWrapper(StreamVGGT):
     def __init__(self):
         super().__init__()
@@ -94,7 +97,8 @@ def main ():
                 # "depth_conf": {0: "batch"},
                 }
     # Export the model to ONNX format
-    with torch.amp.autocast(device_type=DEVICE.type, dtype=dtype):
+    with (torch.amp.autocast(device_type=DEVICE.type, dtype=dtype),
+          no_cartesian_prod(PositionGetter)):
         with torch.no_grad():  # Disable gradients for efficiency
             torch.onnx.export(
                 model, 
@@ -105,7 +109,7 @@ def main ():
                 #output_names=["pose_enc", "depth", "depth_conf"],
                 output_names=["depth"],
                 dynamic_axes=dynamic_axes, 
-                # dynamo=dynamo,
+                dynamo=dynamo,
                 # dynamic_shapes=dynamic_shapes,
             )
 

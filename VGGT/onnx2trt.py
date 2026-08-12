@@ -84,7 +84,7 @@ def main():
     # Must match onnx_export.py, including dynamo: the exporter is part of
     # the filename because the two exporters emit different graphs.
     dynamic = False    # False
-    dynamo = True      # True or False
+    dynamo = False     # True or False
     model_name = f"vggt_only_depth_{input_h}x{input_w}"
     model_name = f"{model_name}_dynamic" if dynamic else model_name
     model_name = f"{model_name}_dynamo" if dynamo else model_name

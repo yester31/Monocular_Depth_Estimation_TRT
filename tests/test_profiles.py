@@ -279,10 +279,12 @@ def test_exporter_choice_is_explicit():
         path = os.path.join(ROOT, model, "onnx_export.py")
         if not os.path.exists(path):
             continue
-        src = open(path, encoding="utf-8").read()
-        check(f"{model} passes dynamo= explicitly",
-              re.search(r"\bdynamo\s*=", src) and "dynamo=" in
-              re.sub(r"\s+", "", src).split("torch.onnx.export(")[-1][:400],
+        # code_of strips comments. Reading the raw source instead let
+        # StreamVGGT pass with `# dynamo=dynamo,` commented out inside the
+        # call, which is exactly the bug this is meant to catch.
+        src = code_of(f"{model}/onnx_export.py")
+        call = re.sub(r"\s+", "", src).split("torch.onnx.export(")[-1][:400]
+        check(f"{model} passes dynamo= explicitly", "dynamo=" in call,
               "torch.onnx.export takes torch's default exporter")
 
 

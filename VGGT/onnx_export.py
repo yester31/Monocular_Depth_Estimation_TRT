@@ -6,26 +6,29 @@ import sys
 # (`from vggt.models.aggregator import Aggregator`), so without this the
 # import below fails with "No module named 'vggt.models'".
 sys.path.insert(1, os.path.join(sys.path[0], "vggt"))
+# repo root, for core.export_compat
+sys.path.insert(1, os.path.join(sys.path[0], ".."))
 import torch
 import onnx
 from onnxsim import simplify
 
 from vggt.vggt.models.vggt import VGGT
+from vggt.vggt.layers.rope import PositionGetter
+from core.export_compat import no_cartesian_prod
 
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print(f"[MDET] using device: {DEVICE}")   
 
-### NOTICE ###
-# Before exporting to onnx, edit line 55 in vggt/vggt/layers/rope.py.
-'''
-    # Comment out line 55
-    # positions = torch.cartesian_prod(y_coords, x_coords) # <- original 55 line
-    # Add the three lines below
-    yy = y_coords.unsqueeze(1).expand(-1, x_coords.size(0))  # [H, W]
-    xx = x_coords.unsqueeze(0).expand(y_coords.size(0), -1)  # [H, W]
-    positions = torch.stack([yy.reshape(-1), xx.reshape(-1)], dim=1)  # [H*W, 2] 
-'''
+# The `### NOTICE ###` that stood here told the reader to edit
+# vggt/vggt/layers/rope.py by hand before exporting, replacing
+# torch.cartesian_prod with an expand-and-stack, because the TorchScript
+# exporter has no symbolic for aten::cartesian_prod.
+#
+# core.export_compat.no_cartesian_prod does that automatically now. A hand-edit
+# to a cloned upstream is invisible to whoever runs the script next, is undone
+# by a git pull in the clone, and nothing checks it was applied -- running
+# without it fails with UnsupportedOperatorError partway through the export.
 class VGGTDepthOnlyWrapper(VGGT):
     def __init__(self):
         super().__init__()
@@ -79,13 +82,7 @@ def main():
     model.eval().to(DEVICE)
 
     dynamic = False    # False
-    # True. The TorchScript exporter has no symbolic for aten::cartesian_prod
-    # at any opset, and VGGT's positional encoding uses it:
-    #   UnsupportedOperatorError: Exporting the operator 'aten::cartesian_prod'
-    #   to ONNX opset version 17 is not supported
-    # torch.export decomposes it, so the dynamo path works. onnx2trt.py must
-    # carry the same flag -- it is part of the filename.
-    dynamo = True      # True or False
+    dynamo = False     # True or False
     onnx_sim = False    # False
     model_name = f"vggt_only_depth_{input_h}x{input_w}"
     model_name = f"{model_name}_dynamic" if dynamic else model_name
@@ -110,7 +107,8 @@ def main():
                 # "depth_conf": {0: "batch"},
                 }
     # Export the model to ONNX format
-    with torch.amp.autocast(device_type=DEVICE.type, dtype=dtype):
+    with (torch.amp.autocast(device_type=DEVICE.type, dtype=dtype),
+          no_cartesian_prod(PositionGetter)):
         with torch.no_grad():  # Disable gradients for efficiency
             torch.onnx.export(
                 model, 
