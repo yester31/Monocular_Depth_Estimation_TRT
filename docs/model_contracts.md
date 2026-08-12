@@ -819,6 +819,49 @@ AST 로 확인한 결과 **셋 다 한 번도 호출되지 않는다.**
 "모델별 규칙 유지" 범위 안이다. 근본 해결은 후처리를 ONNX 그래프에 넣는 쪽이고,
 그건 Phase 5 과제다.
 
+### D16 — 실제로 돌려봤더니 스크립트 3개가 아예 실행조차 안 됐다
+
+데스크탑에서 12개 모델을 빌드하기 시작하자마자 나온 것들이다. **읽어서는
+안 나왔고, 돌리니까 즉시 나왔다.**
+
+| 파일 | 증상 | 원인 |
+| --- | --- | --- |
+| `Uni_Depth_V2/onnx2trt.py` | `NameError: 'profile'` | **내가 만든 것.** D11 되돌릴 때 대입문만 지우고 그걸 쓰는 `print` 를 남겼다 |
+| `StreamVGGT/onnx2trt.py` | `NameError: 'original_coord'` | 오타. 변수는 `original_coords`(리스트)다. **추론이 다 끝난 뒤** 마지막 줄에서 터진다 |
+| `VGGT/onnx_export.py`<br>`VGGT/onnx_export_split.py`<br>`VGGT/infer.py` | `No module named 'vggt.models'` | 업스트림 `models/vggt.py` 가 형제 모듈을 절대 import 한다.<br>클론 루트가 `sys.path` 에 있어야 하는데 `onnx2trt_split.py` 만 그 줄을 갖고 있었다 |
+| `Depth_Anything_AC/onnx_export.py` | `FileNotFoundError` (dinov2) | `infer.py` 의 `main()` 만 `copy_checkpoints()` 를 호출했다.<br>export 는 그 부수효과 없이 `set_model()` 을 부른다 |
+| `UniK3D/onnx2trt.py` | ONNX 파싱 실패 | `Resize` 의 `antialias=1` — TensorRT 미지원 |
+| `Metric3D_V2/onnx_export.py` | `No module named 'mmcv'` | mmcv 1.x 레이아웃. Windows 휠 없음 |
+
+`tests/test_undefined_names.py` 를 추가해 `NameError` 부류를 정적으로 잡는다.
+이 스크립트들은 모델 패키지와 GPU 없이는 import 조차 안 되므로, 그냥 두면
+**ONNX 를 뽑고 엔진을 몇 분 굽고 난 뒤에야** 드러난다.
+
+만드는 과정에서 왜 이런 검사가 보통 여기서 무용한지도 드러났다 —
+모든 `onnx2trt.py` 가 `from common import *` 라 이름 공간이 가려진다.
+그래서 import 하지 않고 **로컬 모듈을 파싱**하고(공용 `common.py` 는
+TensorRT 를 요구해서 노트북에서 import 불가), `try`/`if` 블록 안까지 내려간다.
+`common_runtime.py` 가 CUDA 바인딩을 `try` 안에서 import 하기 때문에,
+최상위만 훑으면 `cudart` 를 미정의로 오탐한다.
+
+#### 환경 쪽에서 나온 것 — TensorRT 11 은 이 저장소를 빌드할 수 없다
+
+README 의 `pip install tensorrt-cu12` 가 오늘 설치하는 것은 **11.2** 이고,
+그 환경에서는 **어떤 엔진도 안 만들어진다.**
+
+| 제거된 것 | 대체 |
+| --- | --- |
+| `BuilderFlag.FP16` / `INT8` / `BF16` | ONNX 그래프의 타입 (strongly typed) |
+| `BuilderFlag.OBEY_PRECISION_CONSTRAINTS` | 동일 |
+| `builder.platform_has_fast_fp16` | 없음 (조언용이었음) |
+
+`10.16.1.11` 로 고정했다. strongly-typed API 로 옮기려면 export 시점에 정밀도를
+그래프에 박고 **정확도 기준선을 전부 다시 잡아야** 하므로 별도 과제다.
+
+Windows 한글 콘솔(cp949)도 걸린다 — `torch.onnx` 가 찍는 ✅ 를 인코딩하지 못해
+`UnicodeEncodeError` 로 죽는다. **일을 다 한 뒤에** 죽는 게 특히 나쁘다.
+`PYTHONUTF8=1` 로 해결.
+
 ---
 
 ## 6. Torch 경로 vs TRT 경로 불일치 (확인됨)
