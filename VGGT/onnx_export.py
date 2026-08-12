@@ -42,7 +42,31 @@ class VGGTDepthOnlyWrapper(VGGT):
                 )
         return depth
 
-def main ():
+
+def load_vggt_weights():
+    """Prefer vggt/checkpoints/model.pt, fall back to the HuggingFace URL.
+
+    Every other model in this repository reads a checkpoint from a path under
+    its own folder; VGGT alone went straight to torch.hub every time. That is
+    a 4.7 GB download, and a truncated one is not detected until it fails deep
+    inside the unzip:
+
+        PytorchStreamReader failed reading zip archive: failed finding central
+        directory
+
+    torch.hub caches by filename, so a partial download stays broken until it
+    is deleted by hand. Reading the local copy when it exists avoids both.
+    """
+    local = os.path.join(CUR_DIR, "vggt", "checkpoints", "model.pt")
+    if os.path.isfile(local):
+        print(f"[MDET] weights: {local}")
+        return torch.load(local, map_location="cpu")
+    url = "https://huggingface.co/facebook/VGGT-1B/resolve/main/model.pt"
+    print(f"[MDET] weights: {url} (no local copy; ~4.7 GB)")
+    return torch.hub.load_state_dict_from_url(url)
+
+
+def main():
     print('[MDET] Load model')
     save_path = os.path.join(CUR_DIR, 'onnx')
     os.makedirs(save_path, exist_ok=True)
@@ -51,8 +75,7 @@ def main ():
     # Model preparation
     input_h, input_w = 518, 518
     model = VGGTDepthOnlyWrapper()
-    _URL = "https://huggingface.co/facebook/VGGT-1B/resolve/main/model.pt"
-    model.load_state_dict(torch.hub.load_state_dict_from_url(_URL))
+    model.load_state_dict(load_vggt_weights())
     model.eval().to(DEVICE)
 
     dynamic = False    # False

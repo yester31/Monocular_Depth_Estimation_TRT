@@ -63,6 +63,30 @@ def infer_performace(model, input_h=518, input_w=518):
     print(f'[MDET] Average FPS: {1 / avg_time:.2f} [fps]')
     print(f'[MDET] Average inference time: {avg_time * 1000:.2f} [msec]')
 
+
+def load_vggt_weights():
+    """Prefer vggt/checkpoints/model.pt, fall back to the HuggingFace URL.
+
+    Every other model in this repository reads a checkpoint from a path under
+    its own folder; VGGT alone went straight to torch.hub every time. That is
+    a 4.7 GB download, and a truncated one is not detected until it fails deep
+    inside the unzip:
+
+        PytorchStreamReader failed reading zip archive: failed finding central
+        directory
+
+    torch.hub caches by filename, so a partial download stays broken until it
+    is deleted by hand. Reading the local copy when it exists avoids both.
+    """
+    local = os.path.join(CUR_DIR, "vggt", "checkpoints", "model.pt")
+    if os.path.isfile(local):
+        print(f"[MDET] weights: {local}")
+        return torch.load(local, map_location="cpu")
+    url = "https://huggingface.co/facebook/VGGT-1B/resolve/main/model.pt"
+    print(f"[MDET] weights: {url} (no local copy; ~4.7 GB)")
+    return torch.hub.load_state_dict_from_url(url)
+
+
 def main():
 
     save_dir_path = os.path.join(CUR_DIR, 'results')
@@ -74,8 +98,7 @@ def main():
     original_coords = []  # Renamed from position_info to be more descriptive
 
     model = VGGT()
-    _URL = "https://huggingface.co/facebook/VGGT-1B/resolve/main/model.pt"
-    model.load_state_dict(torch.hub.load_state_dict_from_url(_URL))
+    model.load_state_dict(load_vggt_weights())
     model.eval()
     model = model.to(DEVICE)
 
