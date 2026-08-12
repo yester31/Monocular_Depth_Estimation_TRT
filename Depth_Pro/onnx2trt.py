@@ -7,6 +7,7 @@ sys.path.insert(1, os.path.join(sys.path[0], ".."))
 import tensorrt as trt
 import common
 from common import *
+from core import bench
 
 import torch
 from torchvision.transforms import (
@@ -29,7 +30,10 @@ TRT_LOGGER.min_severity = trt.Logger.Severity.INFO
     
 def main():
 
-    iteration = 20
+    # 100/20 like every other model. This used to be 20 iterations, too few
+    # for a meaningful p99 -- at ~1536x1536 the run still finishes in seconds.
+    iteration = 100
+    warmup = 20
     img_size = 1536
     interpolation_mode = "bilinear"
 
@@ -85,43 +89,47 @@ def main():
 
         inputs[0].host = x
 
-        # Warm-up      
-        for _ in range(5):  
-            common.do_inference(context, engine=engine, bindings=bindings, inputs=inputs, outputs=outputs, stream=stream)
-        torch.cuda.synchronize()
+        # Warm-up and timed loop both live in core/bench.py so every model
+        # measures the same thing. warmup is 20 everywhere now; it used to vary
+        # between 5 and 20, which alone made two models' numbers incomparable.
+        #
+        # The post-process below used to sit INSIDE this loop, so depth_pro's
+        # published figure was inference plus a CPU torch pass that includes an
+        # interpolate from 1536x1536 up to the source resolution. No other model
+        # timed its post-process, which made depth_pro look far slower than it
+        # is. It now runs once, after timing, like everywhere else.
+        trt_outputs, samples = bench.measure(
+            lambda: common.do_inference(context, engine=engine, bindings=bindings,
+                                        inputs=inputs, outputs=outputs, stream=stream),
+            warmup=warmup, iterations=iteration)
 
-        # Inference loop
-        dur_time = 0
-        for _ in range(iteration):
-            begin = time.time()
-            trt_outputs = common.do_inference(context, engine=engine, bindings=bindings, inputs=inputs, outputs=outputs, stream=stream)
-            
-            canonical_inverse_depth = torch.from_numpy(trt_outputs[0].reshape(output_shapes))
-            fov_deg = torch.from_numpy(trt_outputs[1])
+        # ===================================================================
+        print('[MDET] Post process')
+        canonical_inverse_depth = torch.from_numpy(trt_outputs[0].reshape(output_shapes))
+        fov_deg = torch.from_numpy(trt_outputs[1])
 
-            if f_px0 is None:
-                f_px = 0.5 * W / torch.tan(0.5 * torch.deg2rad(fov_deg.to(torch.float)))
-            else :
-                f_px = f_px0
+        if f_px0 is None:
+            f_px = 0.5 * W / torch.tan(0.5 * torch.deg2rad(fov_deg.to(torch.float)))
+        else :
+            f_px = f_px0
 
-            inverse_depth = canonical_inverse_depth * (W / f_px)
-            f_px = f_px.squeeze()
+        inverse_depth = canonical_inverse_depth * (W / f_px)
+        f_px = f_px.squeeze()
 
-            if resize:
-                inverse_depth = torch.nn.functional.interpolate(
-                    inverse_depth, size=(H, W), mode=interpolation_mode, align_corners=False
-                )
+        if resize:
+            inverse_depth = torch.nn.functional.interpolate(
+                inverse_depth, size=(H, W), mode=interpolation_mode, align_corners=False
+            )
 
-            depth = 1.0 / torch.clamp(inverse_depth, min=1e-4, max=1e4)
-            
-            torch.cuda.synchronize()
-            dur_time += time.time() - begin
+        depth = 1.0 / torch.clamp(inverse_depth, min=1e-4, max=1e4)
 
-        # Results
-        print(f'[MDET] {iteration} iterations time ({x.shape}): {dur_time:.4f} [sec]')
-        avg_time = dur_time / iteration
-        print(f'[MDET] Average FPS: {1 / avg_time:.2f} [fps]')
-        print(f'[MDET] Average inference time: {avg_time * 1000:.2f} [msec]')
+        # Results - printed as before, and written to reports/bench/ so
+        # compare.py can build the table without anyone retyping a number.
+        bench.record('depth_pro', samples, warmup=warmup, precision=precision,
+                     profile='native', input_h=img_size, input_w=img_size,
+                     engine_path=engine_file_path,
+                     outputs={'depth': depth, 'f_px': f_px},
+                     notes='1536x1536 is upstream fixed; no 518 bench profile exists')
 
     common.free_buffers(inputs, outputs, stream)
 

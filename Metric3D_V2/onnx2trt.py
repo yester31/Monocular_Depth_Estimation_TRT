@@ -14,6 +14,7 @@ import numpy as np
 import time
 import common
 from common import *
+from core import bench
 
 from unidepth.models.unidepthv2.unidepthv2 import get_paddings, get_resize_factor
 
@@ -112,7 +113,7 @@ def main():
     dynamic_input_shapes = None
 
     iteration = 100
-    dur_time = 0
+    warmup = 20
     # Load or build the TensorRT engine and do inference
     with get_engine(onnx_model_path, engine_file_path, precision, dynamic_input_shapes, obey_precision_constraints=True) as engine, \
             engine.create_execution_context() as context:
@@ -122,27 +123,23 @@ def main():
         
         #context.set_input_shape('input', batch_images.shape)
 
-        # Warm-up      
-        for _ in range(10):  
-            common.do_inference(context, engine=engine, bindings=bindings, inputs=inputs, outputs=outputs, stream=stream)
-        torch.cuda.synchronize()
-
-        # Inference loop
-        for _ in range(iteration):
-            begin = time.time()
-            trt_outputs = common.do_inference(context, engine=engine, bindings=bindings, inputs=inputs, outputs=outputs, stream=stream)
-            torch.cuda.synchronize()
-            dur_time += time.time() - begin
+        # Warm-up and timed loop both live in core/bench.py so every model
+        # measures the same thing. warmup is 20 everywhere now; it used to vary
+        # between 5 and 20, which alone made two models' numbers incomparable.
+        trt_outputs, samples = bench.measure(
+            lambda: common.do_inference(context, engine=engine, bindings=bindings,
+                                        inputs=inputs, outputs=outputs, stream=stream),
+            warmup=warmup, iterations=iteration)
 
         # ===================================================================
         print('[MDET] Post process')
         pred_depth = torch.from_numpy(trt_outputs[0].reshape(output_shape)).squeeze()
         
-        # Results
-        print(f'[MDET] {iteration} iterations time: {dur_time:.4f} [sec]')
-        avg_time = dur_time / iteration
-        print(f'[MDET] Average FPS: {1 / avg_time:.2f} [fps]')
-        print(f'[MDET] Average inference time: {avg_time * 1000:.2f} [msec]')
+        # Results - printed as before, and written to reports/bench/ so
+        # compare.py can build the table without anyone retyping a number.
+        bench.record('metric3d_v2', samples, warmup=warmup, precision=precision,
+                     profile='native', input_h=input_h, input_w=input_w,
+                     engine_path=engine_file_path, outputs={'depth': pred_depth})
     # ===================================================================
     print('[MDET] Post process')
     # Metric Depth Estimation

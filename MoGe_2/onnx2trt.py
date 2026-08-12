@@ -19,6 +19,7 @@ from PIL import Image
 
 import common
 from common import *
+from core import bench
 
 import json
 from MoGe.moge.utils.geometry_torch import recover_focal_shift
@@ -78,7 +79,7 @@ def main():
     print(f'[MDET] trt input shape : {input_shape}')
 
     iteration = 100
-    dur_time = 0
+    warmup = 20
     # Load or build the TensorRT engine and do inference
     with get_engine(onnx_model_path, engine_file_path, precision) as engine, \
             engine.create_execution_context() as context:
@@ -91,23 +92,19 @@ def main():
         inputs, outputs, bindings, stream = common.allocate_buffers(engine, output_shape, profile_idx=0)
         inputs[0].host = batch_images
                 
-        # Warm-up      
-        for _ in range(20):  
-            common.do_inference(context, engine=engine, bindings=bindings, inputs=inputs, outputs=outputs, stream=stream)
-        torch.cuda.synchronize()
+        # Warm-up and timed loop both live in core/bench.py so every model
+        # measures the same thing. warmup is 20 everywhere now; it used to vary
+        # between 5 and 20, which alone made two models' numbers incomparable.
+        trt_outputs, samples = bench.measure(
+            lambda: common.do_inference(context, engine=engine, bindings=bindings,
+                                        inputs=inputs, outputs=outputs, stream=stream),
+            warmup=warmup, iterations=iteration)
 
-        # Inference loop
-        for _ in range(iteration):
-            begin = time.time()
-            trt_outputs = common.do_inference(context, engine=engine, bindings=bindings, inputs=inputs, outputs=outputs, stream=stream)
-            torch.cuda.synchronize()
-            dur_time += time.time() - begin
-
-        # Results
-        print(f'[MDET] {iteration} iterations time ({input_image.shape[:2]}): {dur_time:.4f} [sec]')
-        avg_time = dur_time / iteration
-        print(f'[MDET] Average FPS: {1 / avg_time:.2f} [fps]')
-        print(f'[MDET] Average inference time: {avg_time * 1000:.2f} [msec]')
+        # Results - printed as before, and written to reports/bench/ so
+        # compare.py can build the table without anyone retyping a number.
+        bench.record('moge_2', samples, warmup=warmup, precision=precision,
+                     profile='bench', input_h=input_h, input_w=input_w,
+                     engine_path=engine_file_path)
 
         # # Reshape output
         points = torch.from_numpy(trt_outputs[0].reshape(output_shape['points']))

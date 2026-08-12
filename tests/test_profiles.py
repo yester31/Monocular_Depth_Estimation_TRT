@@ -108,11 +108,15 @@ def test_bench_only_models_document_the_caveat():
             else:
                 check(f"{model}/{script} points at the explanation",
                       "onnx2trt.py" in src)
-        # and the profile switch really is gone
+        # and the profile switch really is gone.
+        #
+        # Must be a standalone assignment: `profile='bench'` also appears as a
+        # keyword argument to bench.record(), which is just labelling the
+        # result file and is not a switch that changes the input size.
         for script in ("onnx_export.py", "onnx2trt.py"):
             src = open(os.path.join(ROOT, model, script), encoding="utf-8").read()
             check(f"{model}/{script} has no profile switch",
-                  not re.search(r"^\s*profile\s*=\s*'", src, re.M))
+                  not re.search(r"^\s*profile\s*=\s*'[a-z]+'\s*(#.*)?$", src, re.M))
 
 
 def test_moge_regression():

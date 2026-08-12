@@ -34,13 +34,19 @@ VGGT·StreamVGGT는 `VGGTDepthOnlyWrapper` / `SVGGTDepthOnlyWrapper`로 depth만
 | 종류 | 모델 | 정확도 지표 |
 | --- | --- | --- |
 | relative depth | depth_anything_v2/ac, distill_any_depth | AbsRel, δ1 (스케일 정규화 후) |
-| metric depth | metric3d_v2, depth_pro | AbsRel, RMSE |
+| metric depth | depth_pro | AbsRel, RMSE |
+| **canonical depth** | **metric3d_v2** | 스케일 정규화 후 AbsRel. **미터 아님 — D12** |
 | depth + 부가 | depth_anything_v3 (`sky`) | depth 지표 + mask IoU |
 | point map | unik3d, unidepth_v2, metric_anything, moge_2 | 점별 L2 (valid mask 적용) |
+| geometry (scale 불명) | vggt, streamvggt | 스케일 정규화 후 AbsRel, 상관 |
 | scalar | depth_pro (`fov_deg`), moge_2/metric_anything (`metric_scale`) | 절대·상대 오차 |
 | confidence/mask | unik3d, unidepth_v2, moge_2, metric_anything | IoU |
 
 → **단일 `max|diff|`로는 검증 불가.** 출력 종류별 지표가 필요하다.
+
+`metric3d_v2` 를 `depth_pro` 옆의 "metric" 칸에서 뺐다. 모델 자체는 metric 을
+목표로 하지만, 이 저장소는 de-canonical 변환을 넣지 않아 출력이 canonical 이다.
+같은 칸에 두면 비교표가 거짓말을 한다. 근거는 §5.5 D12.
 
 ---
 
