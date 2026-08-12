@@ -5,6 +5,10 @@ import onnx
 from onnxsim import simplify
 import json
 
+import sys
+sys.path.insert(1, os.path.join(sys.path[0], ".."))  # repo root, for core
+from core.onnx_tools import demote_float64
+
 import huggingface_hub
 from UniDepth.unidepth.models.unidepthv2.export import UniDepthV2ONNX
 
@@ -55,6 +59,20 @@ def main ():
             dynamo=dynamo,
         )
         print(f"[MDET] onnx model exported to: {export_model_path}")
+
+    # The decoder builds coordinate grids in float64 and casts back, so the
+    # exported graph mixes float32 and float64 in one operator and onnxruntime
+    # refuses to load it:
+    #
+    #   Type Error: Type parameter (T) of Optype (LayerNormalization) bound to
+    #   different types (tensor(double) and tensor(float))
+    #
+    # Rewritten rather than patched at the source: there are eleven such sites
+    # across the decoder, against VGGT's one. TensorRT has no fp64 and was
+    # already computing these in fp32, so the engine is unchanged; the file now
+    # says what the engine does, which is what verify_accuracy.py needs to read
+    # it. See core/onnx_tools.py.
+    demote_float64(export_model_path)
 
     print("[MDET] Validate exported onnx model")
     try:
