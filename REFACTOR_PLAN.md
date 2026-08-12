@@ -363,12 +363,47 @@ target="${BASE}"'\'"${e}"        # 백슬래시를 확장 바깥에 둔다
 SSH 경유 편집은 따옴표 문제로 이미 두 차례 실패했다. 반면 모델 환경은 수십 GB이고
 양쪽에 구축할 이유가 없다.
 
-### 동기화 — 네트워크 공유 우선
+### 동기화 — 확정: git bundle (2026-08-13)
 
-1. **(우선) 네트워크 공유** — 데스크탑 저장소를 `\\192.168.0.13\...` 로 마운트.
-   사본이 하나뿐이라 어긋나지 않고, 로컬 편집 도구를 그대로 쓴다. 실행만 SSH.
-2. **(대안) 파일 동기화** — `scp` / `robocopy` 한 줄. 공유 설정이 안 될 때.
-3. git 커밋은 **실험마다가 아니라 Phase 완료 시점에만**.
+네트워크 공유(A)를 먼저 시도했으나 **안 된다.** 데스크탑에는 관리 공유(`C$`,
+`D$`, `E$`)만 있고 일반 공유가 없어서 `\\192.168.0.13\C$\...` 는 자격 증명을
+요구한다. 새 공유를 만들려면 사용자가 데스크탑에서 직접 설정해야 한다.
+
+`git push` 도 실패한다. 원격 셸이 cmd.exe 라서:
+
+1. `git-receive-pack` 이 PATH 에 없다 →
+   `--receive-pack="E:/APPL/UNIX/Git/mingw64/libexec/git-core/git-receive-pack.exe"`
+   (`bin/` 이 아니라 `mingw64/libexec/git-core/` 에 있다)
+2. 그래도 실패한다. git 이 원격 경로를 작은따옴표로 감싸는데 cmd.exe 는
+   그걸 벗기지 않아 `''C:/...''` 가 되어 "does not appear to be a git
+   repository" 가 난다.
+
+**결론: bundle 을 쓴다.** 원격 git 프로토콜을 거치지 않으므로 따옴표 문제가 없다.
+
+```bash
+# 노트북 → 데스크탑
+git bundle create /tmp/mde.bundle refactor/planning
+scp -i ~/.ssh/id_ed25519_codex_soy /tmp/mde.bundle soy@192.168.0.13:C:/Users/soy/mde_trt/mde.bundle
+
+# 데스크탑 (최초 1회)
+git clone -b refactor/planning C:\Users\soy\mde_trt\mde.bundle C:\Users\soy\mde_trt\work
+
+# 데스크탑 (이후)
+cd /d C:\Users\soy\mde_trt\work && git pull C:\Users\soy\mde_trt\mde.bundle refactor/planning
+```
+
+측정 결과(`reports/bench/*.json`)는 반대 방향이므로 `scp` 로 회수한다.
+
+**데스크탑 경로**
+
+| | |
+| --- | --- |
+| 작업 트리 | `C:\Users\soy\mde_trt\work` |
+| 업스트림 클론 | `C:\Users\soy\mde_trt\upstream\<repo>` |
+| 조사용 스크립트 | `C:\Users\soy\mde_trt\*.py` |
+| conda 환경 | `C:\Users\soy\conda_envs\<name>` (`-p` 로 만든 경로 환경) |
+
+git 커밋은 **실험마다가 아니라 Phase 완료 시점에만**.
 
 ### 병행 실행
 

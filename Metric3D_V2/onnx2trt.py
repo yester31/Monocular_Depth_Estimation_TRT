@@ -16,7 +16,12 @@ import common
 from common import *
 from core import bench
 
-from unidepth.models.unidepthv2.unidepthv2 import get_paddings, get_resize_factor
+# Removed: `from unidepth.models.unidepthv2.unidepthv2 import get_paddings,
+# get_resize_factor`. That is UniDepth's code in the Metric3D script, copied
+# in and never called -- this file does its own keep-ratio resize and padding
+# with cv2 below. It was a hard import, so it made this script require the
+# UniDepth package to be installed in the shared trte environment in order to
+# run at all.
 
 
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))

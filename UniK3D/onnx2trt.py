@@ -16,7 +16,11 @@ import common
 from common import *
 from core import bench
 
-from UniK3D.unik3d.models.unik3d import get_paddings, get_resize_factor
+# get_paddings / get_resize_factor were imported here, but the only place they
+# appear is the ''' ''' block in main() showing the upstream resize rule this
+# script deliberately does not use. A hard import for a quoted example meant
+# the shared trte environment had to have the whole UniK3D package installed
+# before this script would run.
 
 
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))

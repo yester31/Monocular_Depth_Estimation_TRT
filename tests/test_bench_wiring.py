@@ -114,6 +114,61 @@ def test_measure_wraps_do_inference_only():
               body.strip()[:160])
 
 
+def test_onnx2trt_runs_in_the_shared_env():
+    """Everything after the ONNX file is meant to run in one `trte` env.
+
+    Three scripts used to break that by importing a model's upstream package
+    at module scope without ever calling it -- Metric3D_V2 imported UniDepth,
+    of all things. A hard import means the script cannot even start unless
+    that package is installed, so the shared environment stops being shared.
+
+    moge_2 and metric_anything are the documented exceptions: they really do
+    call MoGe's recover_focal_shift as post-process.
+    """
+    ALLOWED = {"MoGe_2", "Metric_Anything"}
+    # upstream project roots, not pip packages like utils3d or trimesh
+    UPSTREAM = {"unidepth", "UniDepth", "UniK3D", "unik3d", "MoGe", "moge",
+                "metric_anything", "depth_anything_v2", "vggt", "streamvggt",
+                "Metric3D", "depth_pro", "distillanydepth"}
+
+    for d, _, src in scripts():
+        tree = ast.parse(src)
+        need = set()
+        for n in ast.walk(tree):
+            mods = []
+            if isinstance(n, ast.ImportFrom) and n.module:
+                mods = [n.module]
+            elif isinstance(n, ast.Import):
+                mods = [a.name for a in n.names]
+            need |= {m for m in mods if m.split(".")[0] in UPSTREAM}
+        if d in ALLOWED:
+            check(f"{d} is a known exception", bool(need),
+                  "no upstream import left - drop it from ALLOWED")
+        else:
+            check(f"{d} needs no upstream package", not need, str(sorted(need)))
+
+
+def test_no_unused_upstream_imports():
+    """An upstream import that is never called is pure cost: it pins a package
+    into the shared env for nothing. This is how all three of the above got in."""
+    UPSTREAM = {"unidepth", "UniDepth", "UniK3D", "unik3d", "MoGe", "moge",
+                "metric_anything", "Metric3D", "depth_pro", "distillanydepth"}
+    for d, _, src in scripts():
+        tree = ast.parse(src)
+        bound = {}
+        for n in ast.walk(tree):
+            if isinstance(n, ast.ImportFrom) and n.module \
+                    and n.module.split(".")[0] in UPSTREAM:
+                for a in n.names:
+                    bound[a.asname or a.name] = n.module
+        if not bound:
+            continue
+        used = {n.id for n in ast.walk(tree) if isinstance(n, ast.Name)}
+        dead = sorted(k for k in bound if k not in used)
+        check(f"{d} has no dead upstream import", not dead,
+              f"{dead} from {sorted(set(bound.values()))}")
+
+
 if __name__ == "__main__":
     for fn in [v for k, v in sorted(globals().items()) if k.startswith("test_")]:
         print(f"\n{fn.__name__}")

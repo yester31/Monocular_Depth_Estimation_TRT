@@ -785,6 +785,42 @@ Phase 3 에서 후처리를 루프 밖으로 옮겼다. 함께 정리한 것:
 
 ---
 
+### D15 — `onnx2trt.py` 3개가 쓰지도 않는 업스트림 패키지를 import 했다
+
+"ONNX 이후는 전부 같은 환경(`trte`)" 이 목표인데, 세 파일이 이를 깨고 있었다.
+AST 로 확인한 결과 **셋 다 한 번도 호출되지 않는다.**
+
+| 파일 | import | 실제 사용 |
+| --- | --- | --- |
+| `Metric3D_V2/onnx2trt.py` | `unidepth.models.unidepthv2.unidepthv2` | **없음.** 애초에 다른 모델 코드다 |
+| `Uni_Depth_V2/onnx2trt.py` | `UniDepth.unidepth...` | `''' '''` 주석 블록 안에만 등장 |
+| `UniK3D/onnx2trt.py` | `UniK3D.unik3d.models.unik3d` | `''' '''` 주석 블록 안에만 등장 |
+
+`Metric3D_V2` 는 특히 명백하다 — Metric3D 스크립트에 UniDepth 코드가 들어 있고,
+이 파일은 cv2 로 자체 keep-ratio 리사이즈·패딩을 한다.
+
+셋 다 **하드 import** 라서, `trte` 에 해당 패키지가 없으면 스크립트가 아예
+시작조차 못 한다. 제거했다.
+
+#### 남은 예외 — 2개
+
+제거 후 12개 중 10개가 순정 `trte` 에서 돈다. 남은 둘은 진짜로 필요하다.
+
+| 모델 | 필요한 것 | 이유 |
+| --- | --- | --- |
+| `moge_2` | `MoGe.moge.utils.geometry_torch.recover_focal_shift` | 실제 후처리. 초점거리·shift 복원 |
+| `metric_anything` | 같은 함수 (자체 사본) | 동일 |
+
+`utils3d`·`trimesh` 는 pip 패키지라 `trte` 에 넣으면 되고 문제가 아니다.
+
+**vendoring 하지 않기로 했다.** `recover_focal_shift` 는
+`geometry_numpy.solve_optimal_focal_shift` 등 MoGe 의 수치 해법 체인에 의존한다.
+베껴 오면 라이선스·유지보수·정확도 위험이 한꺼번에 생긴다. 12개 중 2개면
+"모델별 규칙 유지" 범위 안이다. 근본 해결은 후처리를 ONNX 그래프에 넣는 쪽이고,
+그건 Phase 5 과제다.
+
+---
+
 ## 6. Torch 경로 vs TRT 경로 불일치 (확인됨)
 
 | 모델 | Torch | TRT | 영향 |
