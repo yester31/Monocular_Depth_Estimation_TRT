@@ -39,6 +39,17 @@ except ImportError as e:                                      # noqa: BLE001
     HAVE = False
     WHY = str(e)
 
+# The standalone runner at the bottom checks HAVE before doing anything, but
+# pytest calls each test function directly, and without onnx the names imported
+# above do not exist -- so six tests failed with NameError on any machine
+# lacking it, which reads as a broken test rather than an absent dependency.
+try:
+    import pytest
+    pytestmark = pytest.mark.skipif(
+        not HAVE, reason=f"needs onnx and onnxruntime ({WHY if not HAVE else ''})")
+except ImportError:                                           # no pytest either
+    pass
+
 MEAN = [0.485, 0.456, 0.406]
 STD = [0.229, 0.224, 0.225]
 H = W = 8

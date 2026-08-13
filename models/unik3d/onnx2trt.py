@@ -154,18 +154,28 @@ def main():
     iteration = 100
     warmup = 20
     # Load or build the TensorRT engine and do inference
-    # opt_level 5 rather than TensorRT's default 3. Measured 2026-08-13 on the
-    # vits graph: 16.22 ms at level 3 against 14.42 at level 5, with the share
-    # of time in fp32 layers dropping from 87.7% to 67.7%.
+    # Builder settings are left at their defaults here, and that is a result
+    # rather than an omission.
     #
-    # Why this model needs it: the vits and vitb graphs are identical -- 881
-    # nodes, same op counts -- and differ only in tensor sizes. At vitb sizes
-    # TensorRT found fp16 tactics and 18 fusion layers; at vits sizes the
-    # default search gave up on both, so the transformer body grew by 2 ms on a
-    # model with a third of the weights. Searching harder gets some of it back,
-    # and vits at level 5 finally beats vitb's 14.47 ms.
-    with get_engine(onnx_model_path, engine_file_path, precision, dynamic_input_shapes,
-                    opt_level=5) as engine, \
+    # This model looked like it needed opt_level=5: vits ran slower than the
+    # larger vitb from an identical graph -- 881 nodes either way, differing
+    # only in tensor sizes -- with 87.7% of its time in fp32 layers and none of
+    # vitb's 18 fp16 convolution kernels, and level 5 appeared to fix it at
+    # 14.42 ms. It did not. Four builds of this same file, same ONNX, same
+    # options, byte-identical fingerprints, produced 19.04 / 13.35 / 8.41 /
+    # 14.49 ms and engines of 392, 1036 and 385 layers.
+    #
+    # The cause is outside the builder settings: TensorRT picks kernels by
+    # timing candidates on the GPU while it builds, and this card's clock
+    # swings from 210 to 2130 MHz, so those timings are noise. vits sits where
+    # its fp16 and fp32 kernels time within that noise of each other, so the
+    # coin came up differently every build. Pinning the clock
+    # (nvidia-smi -lgc 1800,1800) gave 9.66 / 9.62 / 9.68 ms over three builds.
+    #
+    # So the level stays at the default until an opt-level sweep run under a
+    # pinned clock says otherwise -- which is the first time such a sweep means
+    # anything, because before this its two numbers were two coin flips.
+    with get_engine(onnx_model_path, engine_file_path, precision, dynamic_input_shapes) as engine, \
             engine.create_execution_context() as context:
                 
         inputs, outputs, bindings, stream = common.allocate_buffers(engine, output_shape, profile_idx=0)

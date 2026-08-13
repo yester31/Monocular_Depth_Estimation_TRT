@@ -11,10 +11,17 @@ accuracy check afterwards, because different kernels round differently. On
 unik3d, level 5 moved a fifth of the runtime out of fp32 layers into fp16 ones,
 which is exactly the kind of change that shows up in the last digits.
 
-Why it earns a tool: unik3d on a backbone with a third of the weights came out
-slower than the larger one, and the profile showed why -- the transformer body
-lost its fp16 tactics and its 18 fusion layers, so `gemm` grew by 2 ms on a
-smaller model. That is a search outcome, and the search depth is a dial.
+**Pin the GPU clock before using this, or the numbers below mean nothing.**
+TensorRT chooses kernels by timing candidates on the GPU during the build, so
+on a card whose clock swings between idle and boost the choice is partly noise.
+Four builds of unik3d from the same ONNX with the same options gave 19.04 /
+13.35 / 8.41 / 14.49 ms; three builds with the clock pinned at 1800 MHz gave
+9.66 / 9.62 / 9.68. A sweep run unpinned compares coin flips, and that is
+exactly how this tool first reported a 2 ms win for opt_level 5 that did not
+survive being applied. `nvidia-smi -lgc 1800,1800`, and `-rgc` to release.
+
+Why it still earns a tool: with the clock pinned, a difference between two
+settings is a difference between two settings.
 
 Engines land in engine/tune/ and nothing here writes reports/bench. The
 recorded measurement stays the one the default build produced, so a tuning

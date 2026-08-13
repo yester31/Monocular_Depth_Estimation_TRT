@@ -73,6 +73,11 @@ class Bench:
     # where it was run
     device: str = ""
     driver: str = ""
+    # Graphics clock, and the card's maximum. See collect_env(): this says
+    # whether the clock was pinned, which decides whether the engine that
+    # produced this number can be built again.
+    clock_mhz: int = 0
+    clock_max_mhz: int = 0
     versions: Dict[str, str] = field(default_factory=dict)
     host: str = field(default_factory=platform.node)
 
@@ -277,15 +282,35 @@ def collect_env() -> dict:
         env["tensorrt"] = trt.__version__
     except ImportError:
         pass
+    clock, clock_max = 0, 0
     try:
         import subprocess
-        driver = subprocess.check_output(
-            ["nvidia-smi", "--query-gpu=driver_version", "--format=csv,noheader"],
+        out = subprocess.check_output(
+            ["nvidia-smi",
+             "--query-gpu=driver_version,clocks.gr,clocks.max.gr",
+             "--format=csv,noheader,nounits"],
             stderr=subprocess.DEVNULL, text=True, timeout=10).strip().splitlines()[0]
+        driver, clock, clock_max = (p.strip() for p in out.split(","))
+        clock, clock_max = int(clock), int(clock_max)
     except Exception:
         pass
     env["python"] = platform.python_version()
-    return {"versions": env, "device": device, "driver": driver}
+    # The clock is recorded because it decides which kernels the engine
+    # contains, not just how fast it runs. TensorRT picks tactics by timing
+    # candidates on the GPU during the build; on a card whose clock swings
+    # between idle and boost -- 210 to 2130 MHz here -- those timings are
+    # noise, and the same ONNX with the same options produced engines from
+    # 8.41 to 19.04 ms across four builds of unik3d. Pinning the clock
+    # (nvidia-smi -lgc 1800,1800) brought three consecutive builds to 9.66 /
+    # 9.62 / 9.68 ms.
+    #
+    # Sampled after the timed loop rather than during it, which is enough to
+    # tell the two regimes apart: a pinned clock reads the same value at idle,
+    # while an unpinned one has already fallen back toward 210 MHz by now. So
+    # clock_mhz near clock_max_mhz means pinned, and far below it means the
+    # number came from the noisy regime and is not reproducible.
+    return {"versions": env, "device": device, "driver": driver,
+            "clock_mhz": clock, "clock_max_mhz": clock_max}
 
 
 def save(bench: Bench, out_dir: str) -> str:

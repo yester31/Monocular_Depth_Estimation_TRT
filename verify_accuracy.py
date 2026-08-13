@@ -20,9 +20,13 @@ question about the exporter, and the export-time patches in
 `core/export_compat.py` are each measured against PyTorch where they apply.
 
 usage:
-    python verify_accuracy.py                 # every model with an input file
+    python verify_accuracy.py                 # every model -> reports/accuracy.md
     python verify_accuracy.py depth_anything_v2 unik3d
+                                              # -> reports/accuracy_<models>.md
     python verify_accuracy.py --precision fp32
+
+Naming a subset writes its own file. Only a full run replaces the full table,
+so checking one engine cannot delete the other eleven rows.
 """
 
 import argparse
@@ -248,12 +252,21 @@ def render(results):
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("models", nargs="*", help="default: all with an input file")
-    ap.add_argument("--out", default=OUT)
+    ap.add_argument("--out", default=None)
     ap.add_argument("--json", action="store_true", help="also dump raw numbers")
     ap.add_argument("--from-json", metavar="PATH",
                     help="re-render the report from a previous run, no GPU needed")
     args = ap.parse_args()
 
+    # Checking one model used to overwrite reports/accuracy.md with a table
+    # holding only that model, silently deleting the other eleven rows -- which
+    # happened twice while chasing unik3d. A subset now lands in its own file
+    # unless the caller asks for otherwise, so the full table is only ever
+    # replaced by a full run.
+    if args.out is None:
+        args.out = OUT if not args.models else os.path.join(
+            os.path.dirname(OUT),
+            "accuracy_" + "_".join(sorted(args.models)) + ".md")
     if args.from_json:
         # Re-rendering costs nothing and needs no GPU, so a change to how
         # the verdict is worded does not mean re-running every engine.
