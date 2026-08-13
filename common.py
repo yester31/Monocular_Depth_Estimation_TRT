@@ -15,6 +15,7 @@
 # limitations under the License.
 #
 
+import hashlib
 import os
 import time
 
@@ -157,9 +158,22 @@ def get_engine(
                 errors = "\n".join(str(parser.get_error(i)) for i in range(parser.num_errors))
                 raise RuntimeError(f"[MDET] Failed to parse {onnx_file_path}:\n{errors}")
 
+            # The cache name carries the fingerprint, which carries the ONNX
+            # hash and the builder options. A timing cache is measured tactic
+            # timings, and TensorRT trusts them instead of re-timing -- so a
+            # cache left over from a different graph can make it pick a kernel
+            # that is no longer the fast one, and nothing detects that.
+            #
+            # This is not hypothetical. distill_any_depth shipped an engine
+            # that ran 86.6% of its time in fp32 layers and took 10.02 ms;
+            # deleting the engine and its cache and rebuilding from the same
+            # ONNX with the same options produced a 1.5%-fp32 engine at
+            # 4.31 ms. The fingerprint matched throughout, so the engine was
+            # being reused, and the cache was the only input not covered by it.
+            tag = hashlib.sha256((fingerprint or engine_file_path).encode()).hexdigest()[:12]
             timing_cache = os.path.join(
                 os.path.dirname(engine_file_path),
-                f"{os.path.splitext(os.path.basename(engine_file_path))[0]}_timing.cache",
+                f"{os.path.splitext(os.path.basename(engine_file_path))[0]}_{tag}_timing.cache",
             )
             setup_timing_cache(config, timing_cache)
 
