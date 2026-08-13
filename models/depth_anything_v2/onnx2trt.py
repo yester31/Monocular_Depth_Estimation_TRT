@@ -79,8 +79,8 @@ def main():
     save_dir_path = os.path.join(CUR_DIR, 'results')
     os.makedirs(save_dir_path, exist_ok=True)
 
-    input_h = 518 # 1036
-    input_w = 518 # 1386
+    input_h = 672
+    input_w = 896
 
     # Input
     image_file_name = 'example.jpg'
