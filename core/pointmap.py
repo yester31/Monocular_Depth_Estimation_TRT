@@ -64,6 +64,58 @@ def _downsample_nearest(a, size=DOWNSAMPLE):
     return a[rows][:, cols]
 
 
+_GOLDEN = 0.5 * (3.0 - 5.0 ** 0.5)
+
+
+def _local_minimum(f, x0=0.0, step=0.1, lo=-np.inf, hi=np.inf, tol=1e-7,
+                   max_iter=200):
+    """The minimum of a smooth scalar f nearest x0, without a solver library.
+
+    Upstream runs Levenberg-Marquardt from x0=0, which finds the local minimum
+    on whichever side of 0 the function first descends. That is reproduced
+    here rather than a global search: a global one could return a *better*
+    minimum and therefore a different answer, and the point is to agree.
+
+    Written out because scipy.optimize.least_squares reaches MINPACK through
+    the BLAS, and on this machine that aborts the process once torch has been
+    imported -- the same failure np.linalg.lstsq and np.corrcoef produced. Two
+    bracketing loops and a golden section need no backend.
+    """
+    f0 = f(x0)
+    # Which way is downhill.
+    direction = 0.0
+    for d in (1.0, -1.0):
+        x = min(max(x0 + d * step, lo), hi)
+        if x != x0 and f(x) < f0:
+            direction = d
+            break
+    if direction == 0.0:
+        return x0                                   # already at the bottom
+
+    a, b = x0, min(max(x0 + direction * step, lo), hi)
+    fb = f(b)
+    for _ in range(max_iter):                       # expand until it turns up
+        c = min(max(b + direction * step * 2.0, lo), hi)
+        if c == b:
+            break
+        fc = f(c)
+        if fc >= fb:
+            break
+        a, b, fb = b, c, fc
+        step *= 2.0
+    left, right = (min(a, c), max(a, c))
+    for _ in range(max_iter):                       # golden section
+        if right - left < tol:
+            break
+        m1 = left + _GOLDEN * (right - left)
+        m2 = right - _GOLDEN * (right - left)
+        if f(m1) < f(m2):
+            right = m2
+        else:
+            left = m1
+    return 0.5 * (left + right)
+
+
 def solve_optimal_focal_shift(uv, xyz):
     """min over shift of |f(shift) * xy / (z + shift) - uv|, f in closed form.
 
@@ -72,22 +124,26 @@ def solve_optimal_focal_shift(uv, xyz):
     a one-dimensional solver is enough for something that looks like a
     two-parameter fit.
     """
-    from scipy.optimize import least_squares
+    uv = np.asarray(uv, dtype=np.float64).reshape(-1, 2)
+    xy = np.asarray(xyz, dtype=np.float64)[..., :2].reshape(-1, 2)
+    z = np.asarray(xyz, dtype=np.float64)[..., 2].reshape(-1)
 
-    uv = np.asarray(uv).reshape(-1, 2)
-    xy = np.asarray(xyz)[..., :2].reshape(-1, 2)
-    z = np.asarray(xyz)[..., 2].reshape(-1)
+    def cost(shift):
+        denom = z + shift
+        if not np.all(np.isfinite(denom)) or np.min(np.abs(denom)) < 1e-9:
+            return np.inf
+        xy_proj = xy / denom[:, None]
+        ss = np.square(xy_proj).sum()
+        if ss <= 0:
+            return np.inf
+        f = (xy_proj * uv).sum() / ss
+        return float(np.square(f * xy_proj - uv).sum())
 
-    def residual(shift):
-        xy_proj = xy / (z + shift)[:, None]
-        f = (xy_proj * uv).sum() / np.square(xy_proj).sum()
-        return (f * xy_proj - uv).ravel()
-
-    # x0=0, ftol=1e-3, Levenberg-Marquardt: upstream's settings, not defaults.
-    # A tighter tolerance finds a slightly different shift, so matching it is
-    # part of matching the answer.
-    sol = least_squares(residual, x0=0, ftol=1e-3, method="lm")
-    shift = np.float32(np.squeeze(sol["x"]))
+    # z + shift must stay away from zero, or the projection blows up. Upstream
+    # relies on the optimiser not walking there; the bound makes it explicit.
+    shift = _local_minimum(cost, x0=0.0, lo=-float(z.min()) + 1e-6,
+                           hi=float(np.abs(z).max()) + 1.0)
+    shift = np.float32(shift)
     xy_proj = xy / (z + shift)[:, None]
     focal = (xy_proj * uv).sum() / np.square(xy_proj).sum()
     return shift, focal
