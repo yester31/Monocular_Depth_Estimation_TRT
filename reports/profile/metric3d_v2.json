@@ -2,7 +2,11 @@
   "model": "metric3d_v2",
   "variant": "single",
   "precision": "fp32",
+  "clock_mhz": 1800,
+  "clock_max_mhz": 2130,
   "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\metric3d_v2\\engine\\metric3d_vits_616x1064_fp32.engine",
+  "engine_bytes": 189589372,
+  "engine_mtime": 1786611480,
   "input_shape": [
     1,
     3,
@@ -13,10 +17,11 @@
   "summary": {
     "layers_profiled": 791,
     "layers_in_engine": 791,
-    "profile_total_ms": 61.9552,
-    "benchmark_mean_ms": 62.3672,
-    "top10_share": 0.1731,
+    "profile_total_ms": 61.8778,
+    "benchmark_mean_ms": 62.3851,
+    "top10_share": 0.1733,
     "fp32_output_share": 1.0,
+    "movement_share": 0.0457,
     "layer_types": {
       "NoOp": 134,
       "Reformat": 133,
@@ -44,1729 +49,1735 @@
   "suspects": [],
   "layers": [
     {
-      "name": "__myl_MaxrSubExpSumDivMul_myl8_15",
-      "ms": 1.072777,
-      "calls_per_iter": 1.0,
-      "share": 0.017315
-    },
-    {
-      "name": "__myl_MaxrSubExpSumDivMul_myl8_105",
-      "ms": 1.072777,
-      "calls_per_iter": 1.0,
-      "share": 0.017315
-    },
-    {
-      "name": "__myl_MaxrSubExpSumDivMul_myl8_5",
-      "ms": 1.072572,
-      "calls_per_iter": 1.0,
-      "share": 0.017312
-    },
-    {
-      "name": "__myl_MaxrSubExpSumDivMul_myl8_65",
-      "ms": 1.072538,
-      "calls_per_iter": 1.0,
-      "share": 0.017311
-    },
-    {
       "name": "__myl_MaxrSubExpSumDivMul_myl8_35",
-      "ms": 1.072401,
+      "ms": 1.072879,
       "calls_per_iter": 1.0,
-      "share": 0.017309
+      "share": 0.017339
     },
     {
-      "name": "__myl_MaxrSubExpSumDivMul_myl8_95",
-      "ms": 1.072299,
+      "name": "__myl_MaxrSubExpSumDivMul_myl8_15",
+      "ms": 1.072845,
       "calls_per_iter": 1.0,
-      "share": 0.017308
+      "share": 0.017338
     },
     {
       "name": "__myl_MaxrSubExpSumDivMul_myl8_85",
-      "ms": 1.072196,
+      "ms": 1.072606,
       "calls_per_iter": 1.0,
-      "share": 0.017306
+      "share": 0.017334
     },
     {
-      "name": "__myl_MaxrSubExpSumDivMul_myl8_55",
-      "ms": 1.072094,
+      "name": "__myl_MaxrSubExpSumDivMul_myl8_95",
+      "ms": 1.072606,
       "calls_per_iter": 1.0,
-      "share": 0.017304
-    },
-    {
-      "name": "__myl_MaxrSubExpSumDivMul_myl8_75",
-      "ms": 1.072094,
-      "calls_per_iter": 1.0,
-      "share": 0.017304
+      "share": 0.017334
     },
     {
       "name": "__myl_MaxrSubExpSumDivMul_myl8_45",
-      "ms": 1.071855,
+      "ms": 1.072572,
       "calls_per_iter": 1.0,
-      "share": 0.0173
+      "share": 0.017334
     },
     {
-      "name": "__myl_MaxrSubExpSumDivMul_myl8_25",
-      "ms": 1.071753,
+      "name": "__myl_MaxrSubExpSumDivMul_myl8_105",
+      "ms": 1.072503,
       "calls_per_iter": 1.0,
-      "share": 0.017299
+      "share": 0.017333
     },
     {
       "name": "__myl_MaxrSubExpSumDivMul_myl8_115",
-      "ms": 1.071684,
+      "ms": 1.072196,
       "calls_per_iter": 1.0,
-      "share": 0.017298
+      "share": 0.017328
+    },
+    {
+      "name": "__myl_MaxrSubExpSumDivMul_myl8_75",
+      "ms": 1.072026,
+      "calls_per_iter": 1.0,
+      "share": 0.017325
+    },
+    {
+      "name": "__myl_MaxrSubExpSumDivMul_myl8_65",
+      "ms": 1.071889,
+      "calls_per_iter": 1.0,
+      "share": 0.017323
+    },
+    {
+      "name": "__myl_MaxrSubExpSumDivMul_myl8_25",
+      "ms": 1.071821,
+      "calls_per_iter": 1.0,
+      "share": 0.017322
+    },
+    {
+      "name": "__myl_MaxrSubExpSumDivMul_myl8_5",
+      "ms": 1.071718,
+      "calls_per_iter": 1.0,
+      "share": 0.01732
+    },
+    {
+      "name": "__myl_MaxrSubExpSumDivMul_myl8_55",
+      "ms": 1.071514,
+      "calls_per_iter": 1.0,
+      "share": 0.017317
     },
     {
       "name": "/depth_model/decoder/depth_regressor/depth_regressor.0/Conv + /depth_model/decoder/depth_regressor/depth_regressor.1/Relu || /depth_model/decoder/normal_predictor/normal_predictor.0/Conv + /depth_model/decoder/normal_predictor/normal_predictor.1/Relu",
-      "ms": 1.052297,
+      "ms": 1.051853,
       "calls_per_iter": 1.0,
-      "share": 0.016985
+      "share": 0.016999
     },
     {
       "name": "/depth_model/encoder/blocks.0/blocks.0.11/attn/MatMul_myl8_114",
-      "ms": 0.689289,
+      "ms": 0.689152,
       "calls_per_iter": 1.0,
-      "share": 0.011126
+      "share": 0.011137
     },
     {
       "name": "/depth_model/encoder/blocks.0/blocks.0.10/attn/MatMul_myl8_104",
-      "ms": 0.688572,
+      "ms": 0.689015,
       "calls_per_iter": 1.0,
-      "share": 0.011114
+      "share": 0.011135
     },
     {
       "name": "/depth_model/encoder/blocks.0/blocks.0.9/attn/MatMul_myl8_94",
-      "ms": 0.687616,
+      "ms": 0.688503,
       "calls_per_iter": 1.0,
-      "share": 0.011099
-    },
-    {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.8/attn/MatMul_myl8_84",
-      "ms": 0.687309,
-      "calls_per_iter": 1.0,
-      "share": 0.011094
+      "share": 0.011127
     },
     {
       "name": "/depth_model/encoder/blocks.0/blocks.0.6/attn/MatMul_myl8_64",
-      "ms": 0.687241,
+      "ms": 0.68765,
       "calls_per_iter": 1.0,
-      "share": 0.011093
+      "share": 0.011113
+    },
+    {
+      "name": "/depth_model/encoder/blocks.0/blocks.0.8/attn/MatMul_myl8_84",
+      "ms": 0.687582,
+      "calls_per_iter": 1.0,
+      "share": 0.011112
+    },
+    {
+      "name": "/depth_model/encoder/blocks.0/blocks.0.5/attn/MatMul_myl8_54",
+      "ms": 0.687343,
+      "calls_per_iter": 1.0,
+      "share": 0.011108
+    },
+    {
+      "name": "/depth_model/encoder/blocks.0/blocks.0.4/attn/MatMul_myl8_44",
+      "ms": 0.68707,
+      "calls_per_iter": 1.0,
+      "share": 0.011104
+    },
+    {
+      "name": "/depth_model/encoder/blocks.0/blocks.0.2/attn/MatMul_myl8_24",
+      "ms": 0.686933,
+      "calls_per_iter": 1.0,
+      "share": 0.011101
     },
     {
       "name": "/depth_model/encoder/blocks.0/blocks.0.7/attn/MatMul_myl8_74",
       "ms": 0.686865,
       "calls_per_iter": 1.0,
-      "share": 0.011086
-    },
-    {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.2/attn/MatMul_myl8_24",
-      "ms": 0.686592,
-      "calls_per_iter": 1.0,
-      "share": 0.011082
-    },
-    {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.4/attn/MatMul_myl8_44",
-      "ms": 0.686524,
-      "calls_per_iter": 1.0,
-      "share": 0.011081
-    },
-    {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.5/attn/MatMul_myl8_54",
-      "ms": 0.686524,
-      "calls_per_iter": 1.0,
-      "share": 0.011081
+      "share": 0.0111
     },
     {
       "name": "/depth_model/encoder/blocks.0/blocks.0.3/attn/MatMul_myl8_34",
-      "ms": 0.686387,
+      "ms": 0.68666,
       "calls_per_iter": 1.0,
-      "share": 0.011079
+      "share": 0.011097
     },
     {
       "name": "/depth_model/encoder/blocks.0/blocks.0.1/attn/MatMul_myl8_14",
-      "ms": 0.685875,
+      "ms": 0.686319,
       "calls_per_iter": 1.0,
-      "share": 0.01107
+      "share": 0.011092
     },
     {
       "name": "/depth_model/encoder/blocks.0/blocks.0.0/attn/MatMul_myl8_4",
-      "ms": 0.684851,
+      "ms": 0.685363,
       "calls_per_iter": 1.0,
-      "share": 0.011054
+      "share": 0.011076
     },
     {
       "name": "/depth_model/encoder/blocks.0/blocks.0.11/attn/MatMul_1_myl8_116",
-      "ms": 0.548591,
+      "ms": 0.549137,
       "calls_per_iter": 1.0,
-      "share": 0.008855
+      "share": 0.008875
+    },
+    {
+      "name": "/depth_model/encoder/blocks.0/blocks.0.9/attn/MatMul_1_myl8_96",
+      "ms": 0.548352,
+      "calls_per_iter": 1.0,
+      "share": 0.008862
     },
     {
       "name": "/depth_model/encoder/blocks.0/blocks.0.10/attn/MatMul_1_myl8_106",
-      "ms": 0.548181,
+      "ms": 0.548352,
+      "calls_per_iter": 1.0,
+      "share": 0.008862
+    },
+    {
+      "name": "/depth_model/encoder/blocks.0/blocks.0.6/attn/MatMul_1_myl8_66",
+      "ms": 0.547465,
       "calls_per_iter": 1.0,
       "share": 0.008848
     },
     {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.9/attn/MatMul_1_myl8_96",
-      "ms": 0.547635,
+      "name": "/depth_model/encoder/blocks.0/blocks.0.8/attn/MatMul_1_myl8_86",
+      "ms": 0.547191,
+      "calls_per_iter": 1.0,
+      "share": 0.008843
+    },
+    {
+      "name": "/depth_model/encoder/blocks.0/blocks.0.7/attn/MatMul_1_myl8_76",
+      "ms": 0.547089,
+      "calls_per_iter": 1.0,
+      "share": 0.008841
+    },
+    {
+      "name": "/depth_model/encoder/blocks.0/blocks.0.2/attn/MatMul_1_myl8_26",
+      "ms": 0.547055,
+      "calls_per_iter": 1.0,
+      "share": 0.008841
+    },
+    {
+      "name": "/depth_model/encoder/blocks.0/blocks.0.5/attn/MatMul_1_myl8_56",
+      "ms": 0.546953,
       "calls_per_iter": 1.0,
       "share": 0.008839
     },
     {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.5/attn/MatMul_1_myl8_56",
-      "ms": 0.547089,
-      "calls_per_iter": 1.0,
-      "share": 0.00883
-    },
-    {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.7/attn/MatMul_1_myl8_76",
-      "ms": 0.547021,
-      "calls_per_iter": 1.0,
-      "share": 0.008829
-    },
-    {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.6/attn/MatMul_1_myl8_66",
-      "ms": 0.546987,
-      "calls_per_iter": 1.0,
-      "share": 0.008829
-    },
-    {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.2/attn/MatMul_1_myl8_26",
-      "ms": 0.546816,
-      "calls_per_iter": 1.0,
-      "share": 0.008826
-    },
-    {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.8/attn/MatMul_1_myl8_86",
+      "name": "/depth_model/encoder/blocks.0/blocks.0.4/attn/MatMul_1_myl8_46",
       "ms": 0.546782,
       "calls_per_iter": 1.0,
-      "share": 0.008825
-    },
-    {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.4/attn/MatMul_1_myl8_46",
-      "ms": 0.546509,
-      "calls_per_iter": 1.0,
-      "share": 0.008821
-    },
-    {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.1/attn/MatMul_1_myl8_16",
-      "ms": 0.546236,
-      "calls_per_iter": 1.0,
-      "share": 0.008817
+      "share": 0.008836
     },
     {
       "name": "/depth_model/encoder/blocks.0/blocks.0.3/attn/MatMul_1_myl8_36",
-      "ms": 0.546167,
+      "ms": 0.546748,
       "calls_per_iter": 1.0,
-      "share": 0.008816
+      "share": 0.008836
+    },
+    {
+      "name": "/depth_model/encoder/blocks.0/blocks.0.1/attn/MatMul_1_myl8_16",
+      "ms": 0.546645,
+      "calls_per_iter": 1.0,
+      "share": 0.008834
     },
     {
       "name": "/depth_model/encoder/blocks.0/blocks.0.0/attn/MatMul_1_myl8_6",
-      "ms": 0.545894,
+      "ms": 0.546338,
       "calls_per_iter": 1.0,
-      "share": 0.008811
+      "share": 0.008829
     },
     {
       "name": "/depth_model/decoder/ReduceSum_1",
-      "ms": 0.431479,
+      "ms": 0.431616,
       "calls_per_iter": 1.0,
-      "share": 0.006964
+      "share": 0.006975
     },
     {
       "name": "PWN(/depth_model/decoder/Mul_2)",
-      "ms": 0.425643,
+      "ms": 0.425711,
       "calls_per_iter": 1.0,
-      "share": 0.00687
+      "share": 0.00688
     },
     {
       "name": "/depth_model/decoder/Softmax",
-      "ms": 0.412297,
+      "ms": 0.407654,
       "calls_per_iter": 1.0,
-      "share": 0.006655
+      "share": 0.006588
     },
     {
       "name": "/depth_model/decoder/decoder_mono/upconv_2/way_trunk/conv2/Conv + /depth_model/decoder/decoder_mono/upconv_2/way_trunk/Add",
-      "ms": 0.377719,
+      "ms": 0.378027,
       "calls_per_iter": 1.0,
-      "share": 0.006097
+      "share": 0.006109
     },
     {
       "name": "/depth_model/decoder/decoder_mono/upconv_3/way_trunk/conv2/Conv + /depth_model/decoder/decoder_mono/upconv_3/way_trunk/Add",
-      "ms": 0.377242,
+      "ms": 0.37731,
       "calls_per_iter": 1.0,
-      "share": 0.006089
+      "share": 0.006098
     },
     {
       "name": "/depth_model/decoder/decoder_mono/upconv_2/way_branch/conv2/Conv + /depth_model/decoder/decoder_mono/upconv_2/way_branch/Add",
-      "ms": 0.376661,
+      "ms": 0.376627,
       "calls_per_iter": 1.0,
-      "share": 0.00608
-    },
-    {
-      "name": "/depth_model/decoder/decoder_mono/upconv_3/way_trunk/conv1/Conv + /depth_model/decoder/decoder_mono/upconv_3/way_trunk/act_1/Relu",
-      "ms": 0.346931,
-      "calls_per_iter": 1.0,
-      "share": 0.0056
-    },
-    {
-      "name": "/depth_model/decoder/decoder_mono/upconv_2/way_trunk/conv1/Conv + /depth_model/decoder/decoder_mono/upconv_2/way_trunk/act_1/Relu",
-      "ms": 0.345532,
-      "calls_per_iter": 1.0,
-      "share": 0.005577
+      "share": 0.006087
     },
     {
       "name": "/depth_model/decoder/decoder_mono/upconv_2/way_branch/conv1/Conv + /depth_model/decoder/decoder_mono/upconv_2/way_branch/act_1/Relu",
-      "ms": 0.342562,
+      "ms": 0.349389,
       "calls_per_iter": 1.0,
-      "share": 0.005529
+      "share": 0.005646
+    },
+    {
+      "name": "/depth_model/decoder/decoder_mono/upconv_3/way_trunk/conv1/Conv + /depth_model/decoder/decoder_mono/upconv_3/way_trunk/act_1/Relu",
+      "ms": 0.349047,
+      "calls_per_iter": 1.0,
+      "share": 0.005641
+    },
+    {
+      "name": "/depth_model/decoder/decoder_mono/upconv_2/way_trunk/conv1/Conv + /depth_model/decoder/decoder_mono/upconv_2/way_trunk/act_1/Relu",
+      "ms": 0.345463,
+      "calls_per_iter": 1.0,
+      "share": 0.005583
     },
     {
       "name": "/depth_model/decoder/decoder_mono/upconv_1/way_trunk/conv2/Conv + /depth_model/decoder/decoder_mono/upconv_1/way_trunk/Add",
-      "ms": 0.338125,
+      "ms": 0.337988,
       "calls_per_iter": 1.0,
-      "share": 0.005458
+      "share": 0.005462
     },
     {
       "name": "/depth_model/decoder/decoder_mono/upconv_1/way_branch/conv2/Conv + /depth_model/decoder/decoder_mono/upconv_1/way_branch/Add",
-      "ms": 0.337271,
+      "ms": 0.336998,
       "calls_per_iter": 1.0,
-      "share": 0.005444
+      "share": 0.005446
     },
     {
       "name": "__myl_AddSqrtDivMulMulAddTran_myl18_23",
-      "ms": 0.332663,
+      "ms": 0.326724,
       "calls_per_iter": 1.0,
-      "share": 0.005369
+      "share": 0.00528
     },
     {
       "name": "/depth_model/decoder/decoder_mono/upconv_1/way_trunk/conv1/Conv + /depth_model/decoder/decoder_mono/upconv_1/way_trunk/act_1/Relu",
-      "ms": 0.319795,
+      "ms": 0.319215,
       "calls_per_iter": 1.0,
-      "share": 0.005162
+      "share": 0.005159
     },
     {
       "name": "/depth_model/decoder/decoder_mono/upconv_1/way_branch/conv1/Conv + /depth_model/decoder/decoder_mono/upconv_1/way_branch/act_1/Relu",
-      "ms": 0.318942,
+      "ms": 0.31703,
       "calls_per_iter": 1.0,
-      "share": 0.005148
+      "share": 0.005123
     },
     {
       "name": "/depth_model/decoder/depth_regressor/depth_regressor.2/Conv",
-      "ms": 0.271155,
+      "ms": 0.271326,
       "calls_per_iter": 1.0,
-      "share": 0.004377
-    },
-    {
-      "name": "/depth_model/decoder/context_zqr_convs.0/Conv",
-      "ms": 0.269278,
-      "calls_per_iter": 1.0,
-      "share": 0.004346
+      "share": 0.004385
     },
     {
       "name": "/depth_model/decoder/update_block/flow_head/conv1n_3/Conv + /depth_model/decoder/update_block/flow_head/relu_7/Relu || /depth_model/decoder/update_block/flow_head/conv1d_3/Conv + /depth_model/decoder/update_block/flow_head/relu_6/Relu || /depth_model/decoder/update_block/mask/mask.0/Conv + /depth_model/decoder/update_block/mask/mask.1/Relu",
-      "ms": 0.263066,
+      "ms": 0.266923,
       "calls_per_iter": 1.0,
-      "share": 0.004246
+      "share": 0.004314
     },
     {
-      "name": "/depth_model/decoder/token2feature/read_0/sample/sample.0/Conv",
-      "ms": 0.202308,
+      "name": "/depth_model/decoder/context_zqr_convs.0/Conv",
+      "ms": 0.264329,
+      "calls_per_iter": 1.0,
+      "share": 0.004272
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru08/convz/Conv + /depth_model/decoder/update_block/gru08/Add",
+      "ms": 0.202001,
       "calls_per_iter": 1.0,
       "share": 0.003265
     },
     {
-      "name": "/depth_model/decoder/update_block/gru08/convz/Conv + /depth_model/decoder/update_block/gru08/Add",
-      "ms": 0.200909,
-      "calls_per_iter": 1.0,
-      "share": 0.003243
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru08/convr_3/Conv + /depth_model/decoder/update_block/gru08_3/Add_1",
-      "ms": 0.200294,
-      "calls_per_iter": 1.0,
-      "share": 0.003233
-    },
-    {
       "name": "/depth_model/decoder/update_block/gru08/convr_1/Conv + /depth_model/decoder/update_block/gru08_1/Add_1",
-      "ms": 0.19927,
+      "ms": 0.199612,
       "calls_per_iter": 1.0,
-      "share": 0.003216
+      "share": 0.003226
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru08/convr_2/Conv + /depth_model/decoder/update_block/gru08_2/Add_1",
+      "ms": 0.198895,
+      "calls_per_iter": 1.0,
+      "share": 0.003214
     },
     {
       "name": "/depth_model/decoder/update_block/gru08/convr/Conv + /depth_model/decoder/update_block/gru08/Add_1",
-      "ms": 0.198554,
+      "ms": 0.198622,
       "calls_per_iter": 1.0,
-      "share": 0.003205
+      "share": 0.00321
     },
     {
       "name": "/depth_model/decoder/update_block/gru08/convq/Conv + /depth_model/decoder/update_block/gru08/Add_2",
-      "ms": 0.198485,
+      "ms": 0.198178,
       "calls_per_iter": 1.0,
-      "share": 0.003204
+      "share": 0.003203
     },
     {
       "name": "/depth_model/decoder/update_block/gru08/convz_1/Conv + /depth_model/decoder/update_block/gru08_1/Add",
-      "ms": 0.19753,
+      "ms": 0.197495,
       "calls_per_iter": 1.0,
-      "share": 0.003188
+      "share": 0.003192
     },
     {
       "name": "/depth_model/decoder/update_block/gru08/convq_1/Conv + /depth_model/decoder/update_block/gru08_1/Add_2",
-      "ms": 0.197154,
+      "ms": 0.197222,
+      "calls_per_iter": 1.0,
+      "share": 0.003187
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru08/convr_3/Conv + /depth_model/decoder/update_block/gru08_3/Add_1",
+      "ms": 0.197052,
+      "calls_per_iter": 1.0,
+      "share": 0.003185
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru08/convz_2/Conv + /depth_model/decoder/update_block/gru08_2/Add",
+      "ms": 0.196881,
       "calls_per_iter": 1.0,
       "share": 0.003182
     },
     {
-      "name": "/depth_model/decoder/update_block/gru08/convr_2/Conv + /depth_model/decoder/update_block/gru08_2/Add_1",
-      "ms": 0.196949,
-      "calls_per_iter": 1.0,
-      "share": 0.003179
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru08/convz_2/Conv + /depth_model/decoder/update_block/gru08_2/Add",
-      "ms": 0.196813,
-      "calls_per_iter": 1.0,
-      "share": 0.003177
-    },
-    {
       "name": "/depth_model/decoder/update_block/gru08/convq_2/Conv + /depth_model/decoder/update_block/gru08_2/Add_2",
-      "ms": 0.196403,
+      "ms": 0.196437,
       "calls_per_iter": 1.0,
-      "share": 0.00317
+      "share": 0.003175
     },
     {
       "name": "/depth_model/decoder/update_block/gru08/convz_3/Conv + /depth_model/decoder/update_block/gru08_3/Add",
-      "ms": 0.196198,
+      "ms": 0.196233,
       "calls_per_iter": 1.0,
-      "share": 0.003167
+      "share": 0.003171
     },
     {
       "name": "/depth_model/decoder/update_block/gru08/convq_3/Conv + /depth_model/decoder/update_block/gru08_3/Add_2",
-      "ms": 0.195925,
+      "ms": 0.196198,
       "calls_per_iter": 1.0,
-      "share": 0.003162
+      "share": 0.003171
+    },
+    {
+      "name": "/depth_model/decoder/token2feature/read_0/sample/sample.0/Conv",
+      "ms": 0.193263,
+      "calls_per_iter": 1.0,
+      "share": 0.003123
     },
     {
       "name": "PWN(/depth_model/decoder/Mul)",
       "ms": 0.187494,
       "calls_per_iter": 1.0,
-      "share": 0.003026
+      "share": 0.00303
     },
     {
       "name": "/depth_model/decoder/token2feature/read_1/sample/ConvTranspose + /depth_model/decoder/decoder_mono/upconv_1/way_branch/act/Relu",
-      "ms": 0.182545,
+      "ms": 0.185924,
       "calls_per_iter": 1.0,
-      "share": 0.002946
-    },
-    {
-      "name": "__mye39371+__mye39359+__mye39347_myl8_3",
-      "ms": 0.172066,
-      "calls_per_iter": 1.0,
-      "share": 0.002777
-    },
-    {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.11/mlp/fc1/MatMul_myl8_119",
-      "ms": 0.17152,
-      "calls_per_iter": 1.0,
-      "share": 0.002768
-    },
-    {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.8/mlp/fc1/MatMul_myl8_89",
-      "ms": 0.170189,
-      "calls_per_iter": 1.0,
-      "share": 0.002747
-    },
-    {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.4/mlp/fc1/MatMul_myl8_49",
-      "ms": 0.169438,
-      "calls_per_iter": 1.0,
-      "share": 0.002735
-    },
-    {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.5/mlp/fc1/MatMul_myl8_59",
-      "ms": 0.169267,
-      "calls_per_iter": 1.0,
-      "share": 0.002732
-    },
-    {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.10/mlp/fc1/MatMul_myl8_109",
-      "ms": 0.168926,
-      "calls_per_iter": 1.0,
-      "share": 0.002727
-    },
-    {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.2/mlp/fc1/MatMul_myl8_29",
-      "ms": 0.168585,
-      "calls_per_iter": 1.0,
-      "share": 0.002721
-    },
-    {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.7/mlp/fc1/MatMul_myl8_79",
-      "ms": 0.168107,
-      "calls_per_iter": 1.0,
-      "share": 0.002713
+      "share": 0.003005
     },
     {
       "name": "/depth_model/encoder/blocks.0/blocks.0.10/mlp/fc2/MatMul_myl8_111",
-      "ms": 0.166366,
+      "ms": 0.166741,
       "calls_per_iter": 1.0,
-      "share": 0.002685
+      "share": 0.002695
     },
     {
       "name": "/depth_model/encoder/blocks.0/blocks.0.11/mlp/fc2/MatMul_myl8_121",
-      "ms": 0.16599,
+      "ms": 0.166605,
       "calls_per_iter": 1.0,
-      "share": 0.002679
+      "share": 0.002692
+    },
+    {
+      "name": "/depth_model/encoder/blocks.0/blocks.0.4/mlp/fc2/MatMul_myl8_51",
+      "ms": 0.165888,
+      "calls_per_iter": 1.0,
+      "share": 0.002681
     },
     {
       "name": "/depth_model/encoder/blocks.0/blocks.0.9/mlp/fc2/MatMul_myl8_101",
       "ms": 0.165786,
       "calls_per_iter": 1.0,
-      "share": 0.002676
-    },
-    {
-      "name": "/depth_model/decoder/context_feature_encoder/outputs04.1/outputs04.1.0/conv1/Conv",
-      "ms": 0.165717,
-      "calls_per_iter": 1.0,
-      "share": 0.002675
-    },
-    {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.1/mlp/fc2/MatMul_myl8_21",
-      "ms": 0.165547,
-      "calls_per_iter": 1.0,
-      "share": 0.002672
-    },
-    {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.7/mlp/fc2/MatMul_myl8_81",
-      "ms": 0.165239,
-      "calls_per_iter": 1.0,
-      "share": 0.002667
+      "share": 0.002679
     },
     {
       "name": "/depth_model/encoder/blocks.0/blocks.0.8/mlp/fc2/MatMul_myl8_91",
-      "ms": 0.165035,
+      "ms": 0.165478,
+      "calls_per_iter": 1.0,
+      "share": 0.002674
+    },
+    {
+      "name": "/depth_model/decoder/context_feature_encoder/outputs04.1/outputs04.1.0/conv1/Conv",
+      "ms": 0.165376,
+      "calls_per_iter": 1.0,
+      "share": 0.002673
+    },
+    {
+      "name": "/depth_model/encoder/blocks.0/blocks.0.3/mlp/fc2/MatMul_myl8_41",
+      "ms": 0.164864,
       "calls_per_iter": 1.0,
       "share": 0.002664
     },
     {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.4/mlp/fc2/MatMul_myl8_51",
-      "ms": 0.164898,
+      "name": "/depth_model/encoder/blocks.0/blocks.0.5/mlp/fc2/MatMul_myl8_61",
+      "ms": 0.164864,
+      "calls_per_iter": 1.0,
+      "share": 0.002664
+    },
+    {
+      "name": "/depth_model/encoder/blocks.0/blocks.0.7/mlp/fc2/MatMul_myl8_81",
+      "ms": 0.164762,
+      "calls_per_iter": 1.0,
+      "share": 0.002663
+    },
+    {
+      "name": "/depth_model/encoder/blocks.0/blocks.0.0/mlp/fc2/MatMul_myl8_11",
+      "ms": 0.164693,
       "calls_per_iter": 1.0,
       "share": 0.002662
-    },
-    {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.2/mlp/fc2/MatMul_myl8_31",
-      "ms": 0.164727,
-      "calls_per_iter": 1.0,
-      "share": 0.002659
-    },
-    {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.3/mlp/fc2/MatMul_myl8_41",
-      "ms": 0.164659,
-      "calls_per_iter": 1.0,
-      "share": 0.002658
     },
     {
       "name": "/depth_model/encoder/blocks.0/blocks.0.6/mlp/fc2/MatMul_myl8_71",
       "ms": 0.164659,
       "calls_per_iter": 1.0,
-      "share": 0.002658
+      "share": 0.002661
     },
     {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.0/mlp/fc2/MatMul_myl8_11",
-      "ms": 0.164557,
+      "name": "/depth_model/encoder/blocks.0/blocks.0.2/mlp/fc2/MatMul_myl8_31",
+      "ms": 0.164591,
       "calls_per_iter": 1.0,
-      "share": 0.002656
+      "share": 0.00266
     },
     {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.5/mlp/fc2/MatMul_myl8_61",
-      "ms": 0.164489,
+      "name": "/depth_model/encoder/blocks.0/blocks.0.1/mlp/fc2/MatMul_myl8_21",
+      "ms": 0.164386,
       "calls_per_iter": 1.0,
-      "share": 0.002655
+      "share": 0.002657
     },
     {
       "name": "/depth_model/decoder/context_feature_encoder/outputs04.0/outputs04.0.0/conv1/Conv",
-      "ms": 0.163703,
+      "ms": 0.164113,
       "calls_per_iter": 1.0,
-      "share": 0.002642
+      "share": 0.002652
     },
     {
-      "name": "/depth_model/decoder/update_block/flow_head/conv1n/Conv + /depth_model/decoder/update_block/flow_head/relu_1/Relu || /depth_model/decoder/update_block/flow_head/conv1d/Conv + /depth_model/decoder/update_block/flow_head/relu/Relu",
-      "ms": 0.163567,
+      "name": "/depth_model/encoder/blocks.0/blocks.0.1/mlp/fc1/MatMul_myl8_19",
+      "ms": 0.163601,
       "calls_per_iter": 1.0,
-      "share": 0.00264
+      "share": 0.002644
+    },
+    {
+      "name": "/depth_model/encoder/blocks.0/blocks.0.11/mlp/fc1/MatMul_myl8_119",
+      "ms": 0.163396,
+      "calls_per_iter": 1.0,
+      "share": 0.002641
     },
     {
       "name": "/depth_model/encoder/blocks.0/blocks.0.9/mlp/fc1/MatMul_myl8_99",
-      "ms": 0.162918,
+      "ms": 0.162816,
+      "calls_per_iter": 1.0,
+      "share": 0.002631
+    },
+    {
+      "name": "/depth_model/encoder/blocks.0/blocks.0.10/mlp/fc1/MatMul_myl8_109",
+      "ms": 0.162714,
       "calls_per_iter": 1.0,
       "share": 0.00263
     },
     {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.1/mlp/fc1/MatMul_myl8_19",
-      "ms": 0.162543,
+      "name": "/depth_model/encoder/blocks.0/blocks.0.3/mlp/fc1/MatMul_myl8_39",
+      "ms": 0.162475,
+      "calls_per_iter": 1.0,
+      "share": 0.002626
+    },
+    {
+      "name": "/depth_model/encoder/blocks.0/blocks.0.4/mlp/fc1/MatMul_myl8_49",
+      "ms": 0.162372,
       "calls_per_iter": 1.0,
       "share": 0.002624
     },
     {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.3/mlp/fc1/MatMul_myl8_39",
-      "ms": 0.162509,
+      "name": "/depth_model/encoder/blocks.0/blocks.0.6/mlp/fc1/MatMul_myl8_69",
+      "ms": 0.162304,
       "calls_per_iter": 1.0,
       "share": 0.002623
     },
     {
-      "name": "/depth_model/decoder/update_block/flow_head/conv1n_1/Conv + /depth_model/decoder/update_block/flow_head/relu_3/Relu || /depth_model/decoder/update_block/flow_head/conv1d_1/Conv + /depth_model/decoder/update_block/flow_head/relu_2/Relu",
-      "ms": 0.162236,
+      "name": "/depth_model/encoder/blocks.0/blocks.0.7/mlp/fc1/MatMul_myl8_79",
+      "ms": 0.16227,
       "calls_per_iter": 1.0,
-      "share": 0.002619
+      "share": 0.002622
     },
     {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.6/mlp/fc1/MatMul_myl8_69",
-      "ms": 0.161929,
+      "name": "/depth_model/encoder/blocks.0/blocks.0.5/mlp/fc1/MatMul_myl8_59",
+      "ms": 0.162202,
       "calls_per_iter": 1.0,
-      "share": 0.002614
+      "share": 0.002621
+    },
+    {
+      "name": "/depth_model/encoder/blocks.0/blocks.0.8/mlp/fc1/MatMul_myl8_89",
+      "ms": 0.162099,
+      "calls_per_iter": 1.0,
+      "share": 0.00262
+    },
+    {
+      "name": "/depth_model/encoder/blocks.0/blocks.0.2/mlp/fc1/MatMul_myl8_29",
+      "ms": 0.161997,
+      "calls_per_iter": 1.0,
+      "share": 0.002618
     },
     {
       "name": "/depth_model/encoder/blocks.0/blocks.0.0/mlp/fc1/MatMul_myl8_9",
-      "ms": 0.161758,
+      "ms": 0.161929,
       "calls_per_iter": 1.0,
-      "share": 0.002611
+      "share": 0.002617
+    },
+    {
+      "name": "/depth_model/decoder/update_block/flow_head/conv1n/Conv + /depth_model/decoder/update_block/flow_head/relu_1/Relu || /depth_model/decoder/update_block/flow_head/conv1d/Conv + /depth_model/decoder/update_block/flow_head/relu/Relu",
+      "ms": 0.161485,
+      "calls_per_iter": 1.0,
+      "share": 0.00261
+    },
+    {
+      "name": "/depth_model/decoder/update_block/flow_head/conv1n_1/Conv + /depth_model/decoder/update_block/flow_head/relu_3/Relu || /depth_model/decoder/update_block/flow_head/conv1d_1/Conv + /depth_model/decoder/update_block/flow_head/relu_2/Relu",
+      "ms": 0.16128,
+      "calls_per_iter": 1.0,
+      "share": 0.002606
     },
     {
       "name": "/depth_model/decoder/update_block/flow_head/conv1n_2/Conv + /depth_model/decoder/update_block/flow_head/relu_5/Relu || /depth_model/decoder/update_block/flow_head/conv1d_2/Conv + /depth_model/decoder/update_block/flow_head/relu_4/Relu",
-      "ms": 0.161758,
+      "ms": 0.160734,
       "calls_per_iter": 1.0,
-      "share": 0.002611
+      "share": 0.002598
     },
     {
-      "name": "/depth_model/decoder/update_block/gru16/convr_7/Conv + /depth_model/decoder/update_block/gru16_7/Add_1",
-      "ms": 0.156911,
+      "name": "/depth_model/decoder/update_block/gru16/convr_6/Conv + /depth_model/decoder/update_block/gru16_6/Add_1",
+      "ms": 0.158003,
+      "calls_per_iter": 1.0,
+      "share": 0.002553
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru16/convr_4/Conv + /depth_model/decoder/update_block/gru16_4/Add_1",
+      "ms": 0.157764,
+      "calls_per_iter": 1.0,
+      "share": 0.00255
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru16/convr_3/Conv + /depth_model/decoder/update_block/gru16_3/Add_1",
+      "ms": 0.156945,
+      "calls_per_iter": 1.0,
+      "share": 0.002536
+    },
+    {
+      "name": "__mye39371+__mye39359+__mye39347_myl8_3",
+      "ms": 0.156706,
       "calls_per_iter": 1.0,
       "share": 0.002533
     },
     {
-      "name": "/depth_model/decoder/update_block/gru16/convr_2/Conv + /depth_model/decoder/update_block/gru16_2/Add_1",
-      "ms": 0.156843,
-      "calls_per_iter": 1.0,
-      "share": 0.002532
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru16/convr_6/Conv + /depth_model/decoder/update_block/gru16_6/Add_1",
-      "ms": 0.15558,
-      "calls_per_iter": 1.0,
-      "share": 0.002511
-    },
-    {
       "name": "/depth_model/decoder/update_block/gru16/convr/Conv + /depth_model/decoder/update_block/gru16/Add_1",
-      "ms": 0.155034,
+      "ms": 0.156467,
       "calls_per_iter": 1.0,
-      "share": 0.002502
+      "share": 0.002529
     },
     {
-      "name": "/depth_model/decoder/update_block/gru16/convr_3/Conv + /depth_model/decoder/update_block/gru16_3/Add_1",
-      "ms": 0.154965,
+      "name": "/depth_model/decoder/update_block/gru16/convr_2/Conv + /depth_model/decoder/update_block/gru16_2/Add_1",
+      "ms": 0.156023,
+      "calls_per_iter": 1.0,
+      "share": 0.002521
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru16/convz_2/Conv + /depth_model/decoder/update_block/gru16_2/Add",
+      "ms": 0.155273,
+      "calls_per_iter": 1.0,
+      "share": 0.002509
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru16/convz_3/Conv + /depth_model/decoder/update_block/gru16_3/Add",
+      "ms": 0.155102,
+      "calls_per_iter": 1.0,
+      "share": 0.002507
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru16/convr_7/Conv + /depth_model/decoder/update_block/gru16_7/Add_1",
+      "ms": 0.154761,
       "calls_per_iter": 1.0,
       "share": 0.002501
     },
     {
+      "name": "/depth_model/decoder/update_block/gru16/convz_7/Conv + /depth_model/decoder/update_block/gru16_7/Add",
+      "ms": 0.153873,
+      "calls_per_iter": 1.0,
+      "share": 0.002487
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru16/convz_6/Conv + /depth_model/decoder/update_block/gru16_6/Add",
+      "ms": 0.153634,
+      "calls_per_iter": 1.0,
+      "share": 0.002483
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru16/convz/Conv + /depth_model/decoder/update_block/gru16/Add",
+      "ms": 0.153498,
+      "calls_per_iter": 1.0,
+      "share": 0.002481
+    },
+    {
       "name": "/depth_model/decoder/update_block/gru16/convq/Conv + /depth_model/decoder/update_block/gru16/Add_2",
-      "ms": 0.153395,
+      "ms": 0.153293,
       "calls_per_iter": 1.0,
-      "share": 0.002476
+      "share": 0.002477
     },
     {
-      "name": "/depth_model/decoder/update_block/gru16/convq_2/Conv + /depth_model/decoder/update_block/gru16_2/Add_2",
-      "ms": 0.153156,
+      "name": "/depth_model/decoder/update_block/gru16/convr_5/Conv + /depth_model/decoder/update_block/gru16_5/Add_1",
+      "ms": 0.153293,
       "calls_per_iter": 1.0,
-      "share": 0.002472
+      "share": 0.002477
     },
     {
-      "name": "/depth_model/decoder/update_block/gru16/convz_3/Conv + /depth_model/decoder/update_block/gru16_3/Add",
-      "ms": 0.15302,
+      "name": "/depth_model/decoder/update_block/gru16/convz_4/Conv + /depth_model/decoder/update_block/gru16_4/Add",
+      "ms": 0.152132,
       "calls_per_iter": 1.0,
-      "share": 0.00247
+      "share": 0.002459
     },
     {
-      "name": "/depth_model/decoder/update_block/gru16/convq_3/Conv + /depth_model/decoder/update_block/gru16_3/Add_2",
-      "ms": 0.152781,
-      "calls_per_iter": 1.0,
-      "share": 0.002466
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru16/convz_2/Conv + /depth_model/decoder/update_block/gru16_2/Add",
-      "ms": 0.152439,
-      "calls_per_iter": 1.0,
-      "share": 0.00246
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru16/convr_1/Conv + /depth_model/decoder/update_block/gru16_1/Add_1",
-      "ms": 0.152201,
+      "name": "/depth_model/decoder/update_block/gru16/convz_5/Conv + /depth_model/decoder/update_block/gru16_5/Add",
+      "ms": 0.15203,
       "calls_per_iter": 1.0,
       "share": 0.002457
     },
     {
-      "name": "/depth_model/decoder/update_block/gru16/convz_6/Conv + /depth_model/decoder/update_block/gru16_6/Add",
-      "ms": 0.151825,
-      "calls_per_iter": 1.0,
-      "share": 0.002451
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru16/convz_7/Conv + /depth_model/decoder/update_block/gru16_7/Add",
-      "ms": 0.151757,
+      "name": "/depth_model/decoder/update_block/gru16/convq_1/Conv + /depth_model/decoder/update_block/gru16_1/Add_2",
+      "ms": 0.151552,
       "calls_per_iter": 1.0,
       "share": 0.002449
     },
     {
-      "name": "/depth_model/decoder/update_block/gru16/convr_4/Conv + /depth_model/decoder/update_block/gru16_4/Add_1",
-      "ms": 0.151279,
+      "name": "/depth_model/decoder/update_block/gru16/convr_1/Conv + /depth_model/decoder/update_block/gru16_1/Add_1",
+      "ms": 0.151313,
       "calls_per_iter": 1.0,
-      "share": 0.002442
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru16/convq_5/Conv + /depth_model/decoder/update_block/gru16_5/Add_2",
-      "ms": 0.150972,
-      "calls_per_iter": 1.0,
-      "share": 0.002437
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru16/convr_5/Conv + /depth_model/decoder/update_block/gru16_5/Add_1",
-      "ms": 0.150733,
-      "calls_per_iter": 1.0,
-      "share": 0.002433
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru16/convq_4/Conv + /depth_model/decoder/update_block/gru16_4/Add_2",
-      "ms": 0.15063,
-      "calls_per_iter": 1.0,
-      "share": 0.002431
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru16/convz/Conv + /depth_model/decoder/update_block/gru16/Add",
-      "ms": 0.15046,
-      "calls_per_iter": 1.0,
-      "share": 0.002429
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru16/convq_6/Conv + /depth_model/decoder/update_block/gru16_6/Add_2",
-      "ms": 0.150255,
-      "calls_per_iter": 1.0,
-      "share": 0.002425
+      "share": 0.002445
     },
     {
       "name": "/depth_model/decoder/update_block/gru16/convz_1/Conv + /depth_model/decoder/update_block/gru16_1/Add",
-      "ms": 0.150084,
+      "ms": 0.149436,
       "calls_per_iter": 1.0,
-      "share": 0.002422
+      "share": 0.002415
     },
     {
-      "name": "/depth_model/decoder/update_block/gru16/convq_1/Conv + /depth_model/decoder/update_block/gru16_1/Add_2",
-      "ms": 0.15005,
+      "name": "/depth_model/decoder/update_block/gru16/convq_2/Conv + /depth_model/decoder/update_block/gru16_2/Add_2",
+      "ms": 0.149094,
       "calls_per_iter": 1.0,
-      "share": 0.002422
+      "share": 0.002409
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru16/convq_3/Conv + /depth_model/decoder/update_block/gru16_3/Add_2",
+      "ms": 0.148685,
+      "calls_per_iter": 1.0,
+      "share": 0.002403
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru16/convq_5/Conv + /depth_model/decoder/update_block/gru16_5/Add_2",
+      "ms": 0.148446,
+      "calls_per_iter": 1.0,
+      "share": 0.002399
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru16/convq_4/Conv + /depth_model/decoder/update_block/gru16_4/Add_2",
+      "ms": 0.148241,
+      "calls_per_iter": 1.0,
+      "share": 0.002396
     },
     {
       "name": "/depth_model/decoder/update_block/gru16/convq_7/Conv + /depth_model/decoder/update_block/gru16_7/Add_2",
-      "ms": 0.149948,
+      "ms": 0.147729,
       "calls_per_iter": 1.0,
-      "share": 0.00242
+      "share": 0.002387
     },
     {
-      "name": "/depth_model/decoder/update_block/gru16/convz_4/Conv + /depth_model/decoder/update_block/gru16_4/Add",
-      "ms": 0.149504,
+      "name": "/depth_model/decoder/update_block/gru16/convq_6/Conv + /depth_model/decoder/update_block/gru16_6/Add_2",
+      "ms": 0.147661,
       "calls_per_iter": 1.0,
-      "share": 0.002413
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru16/convz_5/Conv + /depth_model/decoder/update_block/gru16_5/Add",
-      "ms": 0.149163,
-      "calls_per_iter": 1.0,
-      "share": 0.002408
-    },
-    {
-      "name": "/depth_model/encoder/patch_embed/proj/Conv",
-      "ms": 0.136363,
-      "calls_per_iter": 1.0,
-      "share": 0.002201
-    },
-    {
-      "name": "__mye40636+__mye40624+__mye40612_myl8_113",
-      "ms": 0.132642,
-      "calls_per_iter": 1.0,
-      "share": 0.002141
-    },
-    {
-      "name": "__mye39486+__mye39474+__mye39462_myl8_13",
-      "ms": 0.132471,
-      "calls_per_iter": 1.0,
-      "share": 0.002138
+      "share": 0.002386
     },
     {
       "name": "/depth_model/decoder/token2feature/read_0/readoper/project_patch/MatMul+/depth_model/decoder/token2feature/read_1/readoper/project_patch/MatMul+/depth_model/decoder/token2feature/read_2/readoper/project_patch/MatMul_myl8_126",
-      "ms": 0.132369,
+      "ms": 0.137967,
       "calls_per_iter": 1.0,
-      "share": 0.002137
+      "share": 0.00223
     },
     {
-      "name": "__mye40061+__mye40049+__mye40037_myl8_63",
-      "ms": 0.131618,
+      "name": "/depth_model/encoder/patch_embed/proj/Conv",
+      "ms": 0.135953,
       "calls_per_iter": 1.0,
-      "share": 0.002124
-    },
-    {
-      "name": "__mye39716+__mye39704+__mye39692_myl8_33",
-      "ms": 0.131584,
-      "calls_per_iter": 1.0,
-      "share": 0.002124
-    },
-    {
-      "name": "__mye40406+__mye40394+__mye40382_myl8_93",
-      "ms": 0.131447,
-      "calls_per_iter": 1.0,
-      "share": 0.002122
-    },
-    {
-      "name": "__mye39601+__mye39589+__mye39577_myl8_23",
-      "ms": 0.131311,
-      "calls_per_iter": 1.0,
-      "share": 0.002119
-    },
-    {
-      "name": "__mye40521+__mye40509+__mye40497_myl8_103",
-      "ms": 0.131209,
-      "calls_per_iter": 1.0,
-      "share": 0.002118
-    },
-    {
-      "name": "__mye39831+__mye39819+__mye39807_myl8_43",
-      "ms": 0.130765,
-      "calls_per_iter": 1.0,
-      "share": 0.002111
-    },
-    {
-      "name": "__mye39946+__mye39934+__mye39922_myl8_53",
-      "ms": 0.130662,
-      "calls_per_iter": 1.0,
-      "share": 0.002109
+      "share": 0.002197
     },
     {
       "name": "__mye40176+__mye40164+__mye40152_myl8_73",
-      "ms": 0.130662,
+      "ms": 0.13213,
       "calls_per_iter": 1.0,
-      "share": 0.002109
+      "share": 0.002135
+    },
+    {
+      "name": "__mye39946+__mye39934+__mye39922_myl8_53",
+      "ms": 0.131994,
+      "calls_per_iter": 1.0,
+      "share": 0.002133
+    },
+    {
+      "name": "__mye40636+__mye40624+__mye40612_myl8_113",
+      "ms": 0.131959,
+      "calls_per_iter": 1.0,
+      "share": 0.002133
+    },
+    {
+      "name": "__mye39716+__mye39704+__mye39692_myl8_33",
+      "ms": 0.131857,
+      "calls_per_iter": 1.0,
+      "share": 0.002131
+    },
+    {
+      "name": "__mye39601+__mye39589+__mye39577_myl8_23",
+      "ms": 0.131823,
+      "calls_per_iter": 1.0,
+      "share": 0.00213
     },
     {
       "name": "__mye40291+__mye40279+__mye40267_myl8_83",
-      "ms": 0.130662,
+      "ms": 0.131721,
       "calls_per_iter": 1.0,
-      "share": 0.002109
+      "share": 0.002129
+    },
+    {
+      "name": "__mye39831+__mye39819+__mye39807_myl8_43",
+      "ms": 0.131686,
+      "calls_per_iter": 1.0,
+      "share": 0.002128
+    },
+    {
+      "name": "__mye40061+__mye40049+__mye40037_myl8_63",
+      "ms": 0.131686,
+      "calls_per_iter": 1.0,
+      "share": 0.002128
+    },
+    {
+      "name": "__mye40521+__mye40509+__mye40497_myl8_103",
+      "ms": 0.131618,
+      "calls_per_iter": 1.0,
+      "share": 0.002127
+    },
+    {
+      "name": "__mye40406+__mye40394+__mye40382_myl8_93",
+      "ms": 0.131516,
+      "calls_per_iter": 1.0,
+      "share": 0.002125
+    },
+    {
+      "name": "__mye39486+__mye39474+__mye39462_myl8_13",
+      "ms": 0.130458,
+      "calls_per_iter": 1.0,
+      "share": 0.002108
     },
     {
       "name": "/depth_model/decoder/decoder_mono/upconv_2/out_conv/Conv + /depth_model/decoder/decoder_mono/upconv_1/Add + /depth_model/decoder/decoder_mono/upconv_1/way_trunk/act/Relu",
-      "ms": 0.127249,
+      "ms": 0.129809,
       "calls_per_iter": 1.0,
-      "share": 0.002054
+      "share": 0.002098
     },
     {
       "name": "/depth_model/decoder/token2feature/read_0/Resize",
-      "ms": 0.123631,
+      "ms": 0.123529,
       "calls_per_iter": 1.0,
-      "share": 0.001995
+      "share": 0.001996
     },
     {
       "name": "/depth_model/decoder/decoder_mono/upconv_1/out_conv/Conv",
-      "ms": 0.121754,
+      "ms": 0.121924,
       "calls_per_iter": 1.0,
-      "share": 0.001965
+      "share": 0.00197
     },
     {
       "name": "/depth_model/decoder/context_feature_encoder/outputs08.0/outputs08.0.0/conv1/Conv",
-      "ms": 0.119398,
+      "ms": 0.120661,
       "calls_per_iter": 1.0,
-      "share": 0.001927
+      "share": 0.00195
     },
     {
       "name": "/depth_model/decoder/context_feature_encoder/outputs08.1/outputs08.1.0/conv1/Conv",
-      "ms": 0.11578,
+      "ms": 0.11561,
       "calls_per_iter": 1.0,
-      "share": 0.001869
-    },
-    {
-      "name": "/depth_model/decoder/context_feature_encoder/outputs04.0/outputs04.0.1/Conv",
-      "ms": 0.110046,
-      "calls_per_iter": 1.0,
-      "share": 0.001776
-    },
-    {
-      "name": "PWN(PWN(/Sub), PWN(/Div))",
-      "ms": 0.107506,
-      "calls_per_iter": 1.0,
-      "share": 0.001735
+      "share": 0.001868
     },
     {
       "name": "/depth_model/decoder/context_zqr_convs.1/Conv",
-      "ms": 0.105643,
+      "ms": 0.108578,
       "calls_per_iter": 1.0,
-      "share": 0.001705
+      "share": 0.001755
     },
     {
-      "name": "/depth_model/decoder/context_feature_encoder/outputs04.0/outputs04.0.0/conv2/Conv",
-      "ms": 0.098304,
+      "name": "PWN(PWN(/Sub), PWN(/Div))",
+      "ms": 0.106635,
       "calls_per_iter": 1.0,
-      "share": 0.001587
+      "share": 0.001723
     },
     {
-      "name": "/depth_model/decoder/context_feature_encoder/outputs04.1/outputs04.1.1/Conv + /depth_model/decoder/Relu",
-      "ms": 0.097997,
+      "name": "/depth_model/decoder/context_feature_encoder/outputs04.0/outputs04.0.1/Conv",
+      "ms": 0.09786,
       "calls_per_iter": 1.0,
       "share": 0.001582
     },
     {
-      "name": "/depth_model/decoder/context_feature_encoder/outputs04.1/outputs04.1.0/conv2/Conv",
-      "ms": 0.09728,
+      "name": "/depth_model/decoder/context_feature_encoder/outputs04.0/outputs04.0.0/conv2/Conv",
+      "ms": 0.097826,
       "calls_per_iter": 1.0,
-      "share": 0.00157
+      "share": 0.001581
+    },
+    {
+      "name": "/depth_model/decoder/context_feature_encoder/outputs04.1/outputs04.1.1/Conv + /depth_model/decoder/Relu",
+      "ms": 0.097212,
+      "calls_per_iter": 1.0,
+      "share": 0.001571
+    },
+    {
+      "name": "/depth_model/decoder/context_feature_encoder/outputs04.1/outputs04.1.0/conv2/Conv",
+      "ms": 0.095812,
+      "calls_per_iter": 1.0,
+      "share": 0.001548
     },
     {
       "name": "/depth_model/decoder/Softmax_1",
-      "ms": 0.093798,
+      "ms": 0.094003,
       "calls_per_iter": 1.0,
-      "share": 0.001514
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru32/convr_5/Conv + /depth_model/decoder/update_block/gru32_5/Add_1",
-      "ms": 0.085675,
-      "calls_per_iter": 1.0,
-      "share": 0.001383
-    },
-    {
-      "name": "/depth_model/decoder/update_block/mask/mask.2/Conv + /depth_model/decoder/update_block_11/Constant_13_output_0 + ONNXTRT_Broadcast_1946 + /depth_model/decoder/update_block_11/Mul",
-      "ms": 0.083012,
-      "calls_per_iter": 1.0,
-      "share": 0.00134
+      "share": 0.001519
     },
     {
       "name": "__myl_AddSqrtDivMulMulAddTran_myl18_11",
-      "ms": 0.080691,
+      "ms": 0.090692,
       "calls_per_iter": 1.0,
-      "share": 0.001302
+      "share": 0.001466
     },
     {
-      "name": "/depth_model/decoder/context_feature_encoder/outputs16.1/outputs16.1.0/conv1/Conv",
-      "ms": 0.079019,
+      "name": "/depth_model/decoder/update_block/mask/mask.2/Conv + /depth_model/decoder/update_block_11/Constant_13_output_0 + ONNXTRT_Broadcast_1946 + /depth_model/decoder/update_block_11/Mul",
+      "ms": 0.083183,
       "calls_per_iter": 1.0,
-      "share": 0.001275
+      "share": 0.001344
     },
     {
       "name": "/depth_model/decoder/update_block/gru32/convr_2/Conv + /depth_model/decoder/update_block/gru32_2/Add_1",
-      "ms": 0.078165,
+      "ms": 0.078234,
       "calls_per_iter": 1.0,
-      "share": 0.001262
+      "share": 0.001264
     },
     {
-      "name": "/depth_model/decoder/decoder_mono/upconv_1/Resize",
-      "ms": 0.076254,
+      "name": "/depth_model/decoder/context_feature_encoder/outputs16.0/outputs16.0.0/conv1/Conv",
+      "ms": 0.076356,
       "calls_per_iter": 1.0,
-      "share": 0.001231
+      "share": 0.001234
     },
     {
       "name": "/depth_model/decoder/normal_predictor/normal_predictor.2/Conv + /depth_model/decoder/normal_predictor/normal_predictor.3/Relu",
-      "ms": 0.075776,
+      "ms": 0.076117,
       "calls_per_iter": 1.0,
-      "share": 0.001223
+      "share": 0.00123
     },
     {
-      "name": "__myl_Tran_myl31_81",
-      "ms": 0.075503,
+      "name": "/depth_model/decoder/context_feature_encoder/outputs16.1/outputs16.1.0/conv1/Conv",
+      "ms": 0.076015,
       "calls_per_iter": 1.0,
-      "share": 0.001219
+      "share": 0.001228
+    },
+    {
+      "name": "/depth_model/decoder/decoder_mono/upconv_1/Resize",
+      "ms": 0.076015,
+      "calls_per_iter": 1.0,
+      "share": 0.001228
+    },
+    {
+      "name": "/depth_model/decoder/decoder_mono/upconv_3/out_conv/Conv + /depth_model/decoder/decoder_mono/upconv_2/Add + /depth_model/decoder/decoder_mono/upconv_2/way_trunk/act/Relu",
+      "ms": 0.075571,
+      "calls_per_iter": 1.0,
+      "share": 0.001221
     },
     {
       "name": "/depth_model/decoder/ReduceSum",
-      "ms": 0.075332,
+      "ms": 0.075264,
       "calls_per_iter": 1.0,
       "share": 0.001216
     },
     {
-      "name": "/depth_model/decoder/context_feature_encoder/outputs16.0/outputs16.0.0/conv1/Conv",
-      "ms": 0.075298,
-      "calls_per_iter": 1.0,
-      "share": 0.001215
-    },
-    {
       "name": "/depth_model/decoder/normal_predictor/normal_predictor.4/Conv + /depth_model/decoder/normal_predictor/normal_predictor.5/Relu",
-      "ms": 0.07482,
+      "ms": 0.074786,
       "calls_per_iter": 1.0,
-      "share": 0.001208
+      "share": 0.001209
     },
     {
-      "name": "/depth_model/decoder/decoder_mono/upconv_3/out_conv/Conv + /depth_model/decoder/decoder_mono/upconv_2/Add + /depth_model/decoder/decoder_mono/upconv_2/way_trunk/act/Relu",
-      "ms": 0.074684,
+      "name": "/depth_model/decoder/update_block/gru32/convr_5/Conv + /depth_model/decoder/update_block/gru32_5/Add_1",
+      "ms": 0.071817,
       "calls_per_iter": 1.0,
-      "share": 0.001205
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru32/convr_8/Conv + /depth_model/decoder/update_block/gru32_8/Add_1",
-      "ms": 0.071236,
-      "calls_per_iter": 1.0,
-      "share": 0.00115
+      "share": 0.001161
     },
     {
       "name": "/depth_model/decoder/token2feature/read_3/readoper/project_patch/MatMul_myl31_8",
-      "ms": 0.069871,
+      "ms": 0.071339,
       "calls_per_iter": 1.0,
-      "share": 0.001128
+      "share": 0.001153
+    },
+    {
+      "name": "__myl_Tran_myl31_81",
+      "ms": 0.0711,
+      "calls_per_iter": 1.0,
+      "share": 0.001149
+    },
+    {
+      "name": "__myl_MeanSubMulMean_myl31_78",
+      "ms": 0.069973,
+      "calls_per_iter": 1.0,
+      "share": 0.001131
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru32/convr_8/Conv + /depth_model/decoder/update_block/gru32_8/Add_1",
+      "ms": 0.068164,
+      "calls_per_iter": 1.0,
+      "share": 0.001102
+    },
+    {
+      "name": "/depth_model/decoder/update_block/flow_head/conv2d_1/Conv",
+      "ms": 0.067482,
+      "calls_per_iter": 1.0,
+      "share": 0.001091
     },
     {
       "name": "__myl_AddSqrtDivMulMulAddTran_myl31_73",
-      "ms": 0.068471,
-      "calls_per_iter": 1.0,
-      "share": 0.001105
-    },
-    {
-      "name": "__myl_DivErfAddMulMul_myl8_20",
-      "ms": 0.06813,
-      "calls_per_iter": 1.0,
-      "share": 0.0011
-    },
-    {
-      "name": "__myl_ReplAddDivErfAddMulMulTran_myl31_12",
-      "ms": 0.067106,
+      "ms": 0.067038,
       "calls_per_iter": 1.0,
       "share": 0.001083
     },
     {
-      "name": "__myl_DivErfAddMulMul_myl8_50",
-      "ms": 0.066287,
+      "name": "__myl_ReluAddRelu_myl31_76",
+      "ms": 0.066867,
       "calls_per_iter": 1.0,
-      "share": 0.00107
+      "share": 0.001081
     },
     {
-      "name": "__myl_DivErfAddMulMul_myl8_110",
-      "ms": 0.066287,
+      "name": "__myl_DivErfAddMulMul_myl8_30",
+      "ms": 0.066458,
       "calls_per_iter": 1.0,
-      "share": 0.00107
+      "share": 0.001074
     },
     {
-      "name": "__myl_MeanSubMulMean_myl31_78",
-      "ms": 0.06615,
+      "name": "__myl_DivErfAddMulMul_myl8_60",
+      "ms": 0.066321,
       "calls_per_iter": 1.0,
-      "share": 0.001068
-    },
-    {
-      "name": "__myl_DivErfAddMulMul_myl8_80",
-      "ms": 0.066116,
-      "calls_per_iter": 1.0,
-      "share": 0.001067
-    },
-    {
-      "name": "__myl_DivErfAddMulMul_myl8_90",
-      "ms": 0.066082,
-      "calls_per_iter": 1.0,
-      "share": 0.001067
+      "share": 0.001072
     },
     {
       "name": "__myl_DivErfAddMulMul_myl8_120",
+      "ms": 0.066219,
+      "calls_per_iter": 1.0,
+      "share": 0.00107
+    },
+    {
+      "name": "__myl_DivErfAddMulMul_myl8_70",
+      "ms": 0.066185,
+      "calls_per_iter": 1.0,
+      "share": 0.00107
+    },
+    {
+      "name": "__myl_DivErfAddMulMul_myl8_50",
+      "ms": 0.06615,
+      "calls_per_iter": 1.0,
+      "share": 0.001069
+    },
+    {
+      "name": "__myl_DivErfAddMulMul_myl8_40",
       "ms": 0.066048,
+      "calls_per_iter": 1.0,
+      "share": 0.001067
+    },
+    {
+      "name": "__myl_DivErfAddMulMul_myl8_110",
+      "ms": 0.066014,
+      "calls_per_iter": 1.0,
+      "share": 0.001067
+    },
+    {
+      "name": "__myl_DivErfAddMulMul_myl8_20",
+      "ms": 0.06598,
       "calls_per_iter": 1.0,
       "share": 0.001066
     },
     {
-      "name": "__myl_DivErfAddMulMul_myl8_30",
-      "ms": 0.065911,
+      "name": "__myl_DivErfAddMulMul_myl8_90",
+      "ms": 0.065877,
       "calls_per_iter": 1.0,
-      "share": 0.001064
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru32/convr_1/Conv + /depth_model/decoder/update_block/gru32_1/Add_1",
-      "ms": 0.065775,
-      "calls_per_iter": 1.0,
-      "share": 0.001062
-    },
-    {
-      "name": "__myl_DivErfAddMulMul_myl8_100",
-      "ms": 0.065741,
-      "calls_per_iter": 1.0,
-      "share": 0.001061
-    },
-    {
-      "name": "__myl_DivErfAddMulMul_myl8_40",
-      "ms": 0.065707,
-      "calls_per_iter": 1.0,
-      "share": 0.001061
-    },
-    {
-      "name": "__myl_DivErfAddMulMul_myl8_60",
-      "ms": 0.065638,
-      "calls_per_iter": 1.0,
-      "share": 0.001059
-    },
-    {
-      "name": "__myl_DivErfAddMulMul_myl8_10",
-      "ms": 0.065536,
-      "calls_per_iter": 1.0,
-      "share": 0.001058
-    },
-    {
-      "name": "__myl_DivErfAddMulMul_myl8_70",
-      "ms": 0.065502,
-      "calls_per_iter": 1.0,
-      "share": 0.001057
+      "share": 0.001065
     },
     {
       "name": "/depth_model/decoder/update_block/flow_head/conv2d/Conv",
-      "ms": 0.065365,
+      "ms": 0.065877,
       "calls_per_iter": 1.0,
-      "share": 0.001055
+      "share": 0.001065
     },
     {
-      "name": "/depth_model/decoder/update_block/flow_head/conv2d_3/Conv",
-      "ms": 0.065297,
+      "name": "__myl_DivErfAddMulMul_myl8_80",
+      "ms": 0.065775,
       "calls_per_iter": 1.0,
-      "share": 0.001054
+      "share": 0.001063
     },
     {
-      "name": "__myl_ReluAddRelu_myl31_76",
-      "ms": 0.065092,
+      "name": "__myl_DivErfAddMulMul_myl8_10",
+      "ms": 0.065673,
       "calls_per_iter": 1.0,
-      "share": 0.001051
+      "share": 0.001061
     },
     {
-      "name": "__myl_AddSqrtDivMulMulAddTran_myl31_79",
-      "ms": 0.063863,
+      "name": "__myl_DivErfAddMulMul_myl8_100",
+      "ms": 0.065638,
       "calls_per_iter": 1.0,
-      "share": 0.001031
+      "share": 0.001061
     },
     {
       "name": "__myl_Tran_myl31_77",
-      "ms": 0.063693,
+      "ms": 0.06499,
       "calls_per_iter": 1.0,
-      "share": 0.001028
+      "share": 0.00105
     },
     {
-      "name": "/depth_model/decoder/update_block/flow_head/conv2d_1/Conv",
-      "ms": 0.063454,
+      "name": "__myl_Resh_myl8_130",
+      "ms": 0.064273,
       "calls_per_iter": 1.0,
-      "share": 0.001024
+      "share": 0.001039
     },
     {
-      "name": "__myl_AddSqrtDivMulMulAddTran_myl31_70",
-      "ms": 0.063317,
+      "name": "/depth_model/decoder/update_block/gru08/Concat_output_0 copy",
+      "ms": 0.063249,
       "calls_per_iter": 1.0,
       "share": 0.001022
+    },
+    {
+      "name": "__myl_MeanSubMulMean_myl31_82",
+      "ms": 0.063113,
+      "calls_per_iter": 1.0,
+      "share": 0.00102
     },
     {
       "name": "/depth_model/decoder/update_block/flow_head/conv2d_2/Conv",
       "ms": 0.063078,
       "calls_per_iter": 1.0,
-      "share": 0.001018
+      "share": 0.001019
     },
     {
-      "name": "__myl_Resh_myl8_130",
-      "ms": 0.062942,
+      "name": "__myl_ReplAddDivErfAddMulMulTran_myl31_12",
+      "ms": 0.062839,
       "calls_per_iter": 1.0,
       "share": 0.001016
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32/convr_11/Conv + /depth_model/decoder/update_block/gru32_11/Add_1",
-      "ms": 0.062396,
+      "name": "/depth_model/encoder/blocks.0/blocks.0.1/attn/proj/MatMul_myl8_17",
+      "ms": 0.062464,
       "calls_per_iter": 1.0,
-      "share": 0.001007
+      "share": 0.001009
     },
     {
-      "name": "__myl_MeanSubMulMean_myl31_82",
-      "ms": 0.061201,
+      "name": "__myl_AddSqrtDivMulMulAddTran_myl31_18",
+      "ms": 0.062191,
       "calls_per_iter": 1.0,
-      "share": 0.000988
-    },
-    {
-      "name": "/depth_model/decoder/Div_2_output_0 copy",
-      "ms": 0.06045,
-      "calls_per_iter": 1.0,
-      "share": 0.000976
-    },
-    {
-      "name": "__myl_MeanSubMulMean_myl31_72",
-      "ms": 0.060245,
-      "calls_per_iter": 1.0,
-      "share": 0.000972
+      "share": 0.001005
     },
     {
       "name": "/depth_model/decoder/update_block_2/Resize",
-      "ms": 0.060211,
+      "ms": 0.060689,
       "calls_per_iter": 1.0,
-      "share": 0.000972
+      "share": 0.000981
     },
     {
       "name": "/depth_model/decoder/update_block/flow_head/conv2n/Conv",
-      "ms": 0.060041,
+      "ms": 0.060006,
       "calls_per_iter": 1.0,
-      "share": 0.000969
+      "share": 0.00097
+    },
+    {
+      "name": "/depth_model/decoder/Div_2_output_0 copy",
+      "ms": 0.059904,
+      "calls_per_iter": 1.0,
+      "share": 0.000968
     },
     {
       "name": "/depth_model/decoder/update_block/flow_head/conv2n_1/Conv",
-      "ms": 0.059085,
+      "ms": 0.059767,
       "calls_per_iter": 1.0,
-      "share": 0.000954
+      "share": 0.000966
     },
     {
       "name": "/depth_model/decoder/update_block/flow_head/conv2n_2/Conv",
-      "ms": 0.058914,
+      "ms": 0.059119,
+      "calls_per_iter": 1.0,
+      "share": 0.000955
+    },
+    {
+      "name": "/depth_model/encoder/blocks.0/blocks.0.11/attn/proj/MatMul_myl8_117",
+      "ms": 0.058948,
+      "calls_per_iter": 1.0,
+      "share": 0.000953
+    },
+    {
+      "name": "__myl_AddSqrtDivMulMulAddTran_myl31_79",
+      "ms": 0.058846,
       "calls_per_iter": 1.0,
       "share": 0.000951
     },
     {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.7/attn/proj/MatMul_myl8_77",
-      "ms": 0.058846,
-      "calls_per_iter": 1.0,
-      "share": 0.00095
-    },
-    {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.11/attn/proj/MatMul_myl8_117",
-      "ms": 0.058778,
+      "name": "/depth_model/decoder/update_block/flow_head/conv2n_3/Conv",
+      "ms": 0.058709,
       "calls_per_iter": 1.0,
       "share": 0.000949
     },
     {
-      "name": "/depth_model/decoder/update_block/flow_head/conv2n_3/Conv",
-      "ms": 0.058675,
-      "calls_per_iter": 1.0,
-      "share": 0.000947
-    },
-    {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.3/attn/proj/MatMul_myl8_37",
-      "ms": 0.058573,
+      "name": "/depth_model/decoder/update_block_10/AveragePool",
+      "ms": 0.05847,
       "calls_per_iter": 1.0,
       "share": 0.000945
     },
     {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.8/attn/proj/MatMul_myl8_87",
-      "ms": 0.058505,
+      "name": "__myl_AddSqrtDivMulMulAddTran_myl31_70",
+      "ms": 0.058436,
       "calls_per_iter": 1.0,
       "share": 0.000944
     },
     {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.1/attn/proj/MatMul_myl8_17",
-      "ms": 0.05847,
+      "name": "/depth_model/decoder/update_block/flow_head/conv2d_3/Conv",
+      "ms": 0.058334,
       "calls_per_iter": 1.0,
-      "share": 0.000944
+      "share": 0.000943
     },
     {
       "name": "/depth_model/encoder/blocks.0/blocks.0.10/attn/proj/MatMul_myl8_107",
-      "ms": 0.058266,
+      "ms": 0.058163,
       "calls_per_iter": 1.0,
       "share": 0.00094
     },
     {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.6/attn/proj/MatMul_myl8_67",
-      "ms": 0.057924,
+      "name": "/depth_model/encoder/blocks.0/blocks.0.5/attn/proj/MatMul_myl8_57",
+      "ms": 0.058027,
       "calls_per_iter": 1.0,
-      "share": 0.000935
-    },
-    {
-      "name": "/depth_model/decoder/update_block_10/AveragePool",
-      "ms": 0.057822,
-      "calls_per_iter": 1.0,
-      "share": 0.000933
+      "share": 0.000938
     },
     {
       "name": "/depth_model/encoder/blocks.0/blocks.0.9/attn/proj/MatMul_myl8_97",
-      "ms": 0.057754,
+      "ms": 0.058027,
       "calls_per_iter": 1.0,
-      "share": 0.000932
+      "share": 0.000938
     },
     {
       "name": "/depth_model/encoder/blocks.0/blocks.0.2/attn/proj/MatMul_myl8_27",
-      "ms": 0.057719,
+      "ms": 0.057958,
       "calls_per_iter": 1.0,
-      "share": 0.000932
+      "share": 0.000937
     },
     {
-      "name": "/depth_model/decoder/Transpose_1 + /depth_model/decoder/Reshape_8",
-      "ms": 0.057685,
+      "name": "/depth_model/encoder/blocks.0/blocks.0.8/attn/proj/MatMul_myl8_87",
+      "ms": 0.057958,
+      "calls_per_iter": 1.0,
+      "share": 0.000937
+    },
+    {
+      "name": "/depth_model/encoder/blocks.0/blocks.0.3/attn/proj/MatMul_myl8_37",
+      "ms": 0.057924,
+      "calls_per_iter": 1.0,
+      "share": 0.000936
+    },
+    {
+      "name": "/depth_model/encoder/blocks.0/blocks.0.7/attn/proj/MatMul_myl8_77",
+      "ms": 0.05789,
+      "calls_per_iter": 1.0,
+      "share": 0.000936
+    },
+    {
+      "name": "/depth_model/encoder/blocks.0/blocks.0.4/attn/proj/MatMul_myl8_47",
+      "ms": 0.057822,
+      "calls_per_iter": 1.0,
+      "share": 0.000934
+    },
+    {
+      "name": "/depth_model/encoder/blocks.0/blocks.0.0/attn/proj/MatMul_myl8_7",
+      "ms": 0.057617,
       "calls_per_iter": 1.0,
       "share": 0.000931
     },
     {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.4/attn/proj/MatMul_myl8_47",
+      "name": "/depth_model/encoder/blocks.0/blocks.0.6/attn/proj/MatMul_myl8_67",
       "ms": 0.057583,
       "calls_per_iter": 1.0,
-      "share": 0.000929
+      "share": 0.000931
     },
     {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.5/attn/proj/MatMul_myl8_57",
+      "name": "/depth_model/decoder/Transpose_1 + /depth_model/decoder/Reshape_8",
       "ms": 0.057583,
       "calls_per_iter": 1.0,
-      "share": 0.000929
+      "share": 0.000931
     },
     {
-      "name": "/depth_model/encoder/blocks.0/blocks.0.0/attn/proj/MatMul_myl8_7",
-      "ms": 0.057412,
+      "name": "/depth_model/decoder/update_block/gru32/convr_11/Conv + /depth_model/decoder/update_block/gru32_11/Add_1",
+      "ms": 0.056764,
       "calls_per_iter": 1.0,
-      "share": 0.000927
-    },
-    {
-      "name": "__myl_AddSqrtDivMulMulAddTran_myl31_18",
-      "ms": 0.056491,
-      "calls_per_iter": 1.0,
-      "share": 0.000912
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru08/Concat_output_0 copy",
-      "ms": 0.055671,
-      "calls_per_iter": 1.0,
-      "share": 0.000899
+      "share": 0.000917
     },
     {
       "name": "__myl_Tran_myl31_68",
-      "ms": 0.05533,
+      "ms": 0.056115,
       "calls_per_iter": 1.0,
-      "share": 0.000893
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru32_9/Concat_output_0 copy (1)",
-      "ms": 0.055091,
-      "calls_per_iter": 1.0,
-      "share": 0.000889
+      "share": 0.000907
     },
     {
       "name": "__myl_ReluAddRelu_myl31_87",
-      "ms": 0.054921,
+      "ms": 0.055535,
       "calls_per_iter": 1.0,
-      "share": 0.000886
+      "share": 0.000897
+    },
+    {
+      "name": "__myl_MeanSubMulMean_myl31_72",
+      "ms": 0.055194,
+      "calls_per_iter": 1.0,
+      "share": 0.000892
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru32/convr_1/Conv + /depth_model/decoder/update_block/gru32_1/Add_1",
+      "ms": 0.054716,
+      "calls_per_iter": 1.0,
+      "share": 0.000884
     },
     {
       "name": "/depth_model/decoder/context_feature_encoder/outputs04.0/outputs04.0.0/downsample/downsample.0/Conv",
-      "ms": 0.053658,
+      "ms": 0.05417,
       "calls_per_iter": 1.0,
-      "share": 0.000866
+      "share": 0.000875
     },
     {
-      "name": "__myl_AddSqrtDivMulMulAddTran_myl31_83",
-      "ms": 0.053555,
+      "name": "__myl_Tran_myl18_21",
+      "ms": 0.05335,
       "calls_per_iter": 1.0,
-      "share": 0.000864
+      "share": 0.000862
     },
     {
       "name": "__myl_MeanSubMulMean_myl18_26",
       "ms": 0.052599,
       "calls_per_iter": 1.0,
-      "share": 0.000849
-    },
-    {
-      "name": "/depth_model/decoder/context_feature_encoder/outputs04.1/outputs04.1.0/downsample/downsample.0/Conv",
-      "ms": 0.052361,
-      "calls_per_iter": 1.0,
-      "share": 0.000845
+      "share": 0.00085
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to /depth_model/decoder/depth_regressor/depth_regressor.0/Conv + /depth_model/decoder/depth_regressor/depth_regressor.1/Relu || /depth_model/decoder/normal_predictor/normal_predictor.0/Conv + /depth_model/decoder/normal_predictor/normal_predictor.1/Relu",
-      "ms": 0.052326,
+      "ms": 0.052463,
       "calls_per_iter": 1.0,
-      "share": 0.000845
+      "share": 0.000848
     },
     {
-      "name": "__myl_MeanSubMulMean_myl31_69",
-      "ms": 0.050005,
+      "name": "/depth_model/decoder/context_feature_encoder/outputs04.1/outputs04.1.0/downsample/downsample.0/Conv",
+      "ms": 0.052429,
       "calls_per_iter": 1.0,
-      "share": 0.000807
+      "share": 0.000847
+    },
+    {
+      "name": "PWN(PWN(/depth_model/decoder/update_block/gru08_1/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru08_1/Tanh), PWN(/depth_model/decoder/update_block/gru08_1/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru08_1/Constant_output_0 + ONNXTRT_Broadcast_1580, PWN(/depth_model/decoder/update_block/gru08_1/Sub)), PWN(/depth_model/decoder/update_block/gru08_1/Mul_1)), PWN(/depth_model/decoder/update_block/gru08_1/Add_3))))",
+      "ms": 0.050074,
+      "calls_per_iter": 1.0,
+      "share": 0.000809
     },
     {
       "name": "/depth_model/decoder/decoder_mono/upconv_2/Resize",
       "ms": 0.050005,
       "calls_per_iter": 1.0,
-      "share": 0.000807
+      "share": 0.000808
     },
     {
       "name": "PWN(PWN(/depth_model/decoder/update_block/gru08/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru08/Tanh), PWN(/depth_model/decoder/update_block/gru08/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru08/Constant_output_0 + ONNXTRT_Broadcast_1398, PWN(/depth_model/decoder/update_block/gru08/Sub)), PWN(/depth_model/decoder/update_block/gru08/Mul_1)), PWN(/depth_model/decoder/update_block/gru08/Add_3))))",
-      "ms": 0.049937,
-      "calls_per_iter": 1.0,
-      "share": 0.000806
-    },
-    {
-      "name": "PWN(PWN(/depth_model/decoder/update_block/gru08_1/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru08_1/Tanh), PWN(/depth_model/decoder/update_block/gru08_1/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru08_1/Constant_output_0 + ONNXTRT_Broadcast_1580, PWN(/depth_model/decoder/update_block/gru08_1/Sub)), PWN(/depth_model/decoder/update_block/gru08_1/Mul_1)), PWN(/depth_model/decoder/update_block/gru08_1/Add_3))))",
-      "ms": 0.049869,
+      "ms": 0.049835,
       "calls_per_iter": 1.0,
       "share": 0.000805
     },
     {
       "name": "PWN(PWN(/depth_model/decoder/update_block/gru08_2/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru08_2/Tanh), PWN(/depth_model/decoder/update_block/gru08_2/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru08_2/Constant_output_0 + ONNXTRT_Broadcast_1762, PWN(/depth_model/decoder/update_block/gru08_2/Sub)), PWN(/depth_model/decoder/update_block/gru08_2/Mul_1)), PWN(/depth_model/decoder/update_block/gru08_2/Add_3))))",
-      "ms": 0.049766,
+      "ms": 0.049835,
       "calls_per_iter": 1.0,
-      "share": 0.000803
+      "share": 0.000805
+    },
+    {
+      "name": "__myl_Tran_myl31_71",
+      "ms": 0.04963,
+      "calls_per_iter": 1.0,
+      "share": 0.000802
     },
     {
       "name": "PWN(PWN(/depth_model/decoder/update_block/gru08_3/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru08_3/Tanh), PWN(/depth_model/decoder/update_block/gru08_3/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru08_3/Constant_output_0 + ONNXTRT_Broadcast_1944, PWN(/depth_model/decoder/update_block/gru08_3/Sub)), PWN(/depth_model/decoder/update_block/gru08_3/Mul_1)), PWN(/depth_model/decoder/update_block/gru08_3/Add_3))))",
       "ms": 0.049562,
       "calls_per_iter": 1.0,
-      "share": 0.0008
+      "share": 0.000801
     },
     {
-      "name": "/depth_model/decoder/update_block_10/Resize_1_output_0 copy",
-      "ms": 0.049527,
+      "name": "/depth_model/decoder/update_block/gru32/convz/Conv + /depth_model/decoder/update_block/gru32/Add",
+      "ms": 0.049289,
       "calls_per_iter": 1.0,
-      "share": 0.000799
-    },
-    {
-      "name": "__myl_Tran_myl31_71",
-      "ms": 0.049323,
-      "calls_per_iter": 1.0,
-      "share": 0.000796
-    },
-    {
-      "name": "/depth_model/decoder/update_block_7/AveragePool",
-      "ms": 0.047548,
-      "calls_per_iter": 1.0,
-      "share": 0.000767
-    },
-    {
-      "name": "/depth_model/decoder/update_block_4/AveragePool",
-      "ms": 0.047411,
-      "calls_per_iter": 1.0,
-      "share": 0.000765
+      "share": 0.000797
     },
     {
       "name": "__myl_Tran_myl18_25",
-      "ms": 0.04649,
+      "ms": 0.048879,
       "calls_per_iter": 1.0,
-      "share": 0.00075
+      "share": 0.00079
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32/Concat_output_0 copy (1)",
-      "ms": 0.044646,
+      "name": "/depth_model/decoder/update_block_7/AveragePool",
+      "ms": 0.048162,
       "calls_per_iter": 1.0,
-      "share": 0.000721
+      "share": 0.000778
     },
     {
-      "name": "__myl_Tran_myl18_21",
-      "ms": 0.044407,
+      "name": "__myl_AddSqrtDivMulMulAddTran_myl31_83",
+      "ms": 0.048026,
       "calls_per_iter": 1.0,
-      "share": 0.000717
+      "share": 0.000776
+    },
+    {
+      "name": "__myl_MeanSubMulMean_myl31_69",
+      "ms": 0.047377,
+      "calls_per_iter": 1.0,
+      "share": 0.000766
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru32_9/Concat_output_0 copy (1)",
+      "ms": 0.046148,
+      "calls_per_iter": 1.0,
+      "share": 0.000746
     },
     {
       "name": "__myl_Relu_myl31_13",
-      "ms": 0.044271,
+      "ms": 0.045227,
       "calls_per_iter": 1.0,
-      "share": 0.000715
+      "share": 0.000731
+    },
+    {
+      "name": "/depth_model/decoder/update_block_4/AveragePool",
+      "ms": 0.045158,
+      "calls_per_iter": 1.0,
+      "share": 0.00073
+    },
+    {
+      "name": "/depth_model/decoder/update_block_10/Resize_1_output_0 copy",
+      "ms": 0.044578,
+      "calls_per_iter": 1.0,
+      "share": 0.00072
     },
     {
       "name": "/depth_model/decoder/normal_predictor/normal_predictor.6/Conv",
-      "ms": 0.04393,
+      "ms": 0.043998,
       "calls_per_iter": 1.0,
-      "share": 0.000709
+      "share": 0.000711
     },
     {
-      "name": "/depth_model/decoder/context_feature_encoder/outputs08.0/outputs08.0.0/conv2/Conv",
-      "ms": 0.042871,
+      "name": "/depth_model/decoder/update_block_11/Resize_1_output_0 copy",
+      "ms": 0.043964,
       "calls_per_iter": 1.0,
-      "share": 0.000692
+      "share": 0.00071
     },
     {
-      "name": "PWN(/depth_model/decoder/Add_9)",
-      "ms": 0.042701,
+      "name": "/depth_model/decoder/update_block/gru32_6/Concat_output_0 copy (1)",
+      "ms": 0.043247,
       "calls_per_iter": 1.0,
-      "share": 0.000689
+      "share": 0.000699
     },
     {
-      "name": "/depth_model/decoder/update_block/gru08_2/Concat_output_0 copy",
-      "ms": 0.042496,
+      "name": "__myl_Resh_myl8_125",
+      "ms": 0.043042,
       "calls_per_iter": 1.0,
-      "share": 0.000686
-    },
-    {
-      "name": "/depth_model/decoder/context_feature_encoder/outputs08.0/outputs08.0.1/Conv",
-      "ms": 0.041847,
-      "calls_per_iter": 1.0,
-      "share": 0.000675
+      "share": 0.000696
     },
     {
       "name": "__myl_AddSqrtDivMulMulAddTran_myl18_27",
-      "ms": 0.041574,
+      "ms": 0.042394,
       "calls_per_iter": 1.0,
-      "share": 0.000671
+      "share": 0.000685
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru08_2/Concat_output_0 copy",
+      "ms": 0.042291,
+      "calls_per_iter": 1.0,
+      "share": 0.000683
     },
     {
       "name": "/depth_model/decoder/context_feature_encoder/outputs08.1/outputs08.1.1/Conv + /depth_model/decoder/Relu_1",
-      "ms": 0.041574,
+      "ms": 0.042086,
       "calls_per_iter": 1.0,
-      "share": 0.000671
+      "share": 0.00068
     },
     {
-      "name": "/depth_model/decoder/update_block/gru16_3/Concat_output_0 copy",
+      "name": "/depth_model/decoder/context_feature_encoder/outputs08.0/outputs08.0.0/conv2/Conv",
       "ms": 0.041472,
+      "calls_per_iter": 1.0,
+      "share": 0.00067
+    },
+    {
+      "name": "/depth_model/decoder/context_feature_encoder/outputs08.1/outputs08.1.0/conv2/Conv",
+      "ms": 0.04137,
       "calls_per_iter": 1.0,
       "share": 0.000669
     },
     {
-      "name": "/depth_model/decoder/context_feature_encoder/outputs08.1/outputs08.1.0/conv2/Conv",
-      "ms": 0.040789,
+      "name": "/depth_model/decoder/context_feature_encoder/outputs08.0/outputs08.0.1/Conv",
+      "ms": 0.041335,
       "calls_per_iter": 1.0,
-      "share": 0.000658
+      "share": 0.000668
+    },
+    {
+      "name": "/depth_model/decoder/update_block_7/Resize_1_output_0 copy",
+      "ms": 0.040653,
+      "calls_per_iter": 1.0,
+      "share": 0.000657
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru32/Concat_output_0 copy (1)",
+      "ms": 0.04038,
+      "calls_per_iter": 1.0,
+      "share": 0.000653
     },
     {
       "name": "/depth_model/decoder/update_block_8/Resize_1_output_0 copy",
-      "ms": 0.039902,
+      "ms": 0.040346,
+      "calls_per_iter": 1.0,
+      "share": 0.000652
+    },
+    {
+      "name": "__myl_MulAddMeanSubMulMean_myl8_122",
+      "ms": 0.039868,
       "calls_per_iter": 1.0,
       "share": 0.000644
     },
     {
-      "name": "__myl_MulAddMeanSubMulMean_myl8_122",
-      "ms": 0.039697,
+      "name": "PWN(/depth_model/decoder/Add_9)",
+      "ms": 0.039765,
       "calls_per_iter": 1.0,
-      "share": 0.000641
+      "share": 0.000643
     },
     {
       "name": "PWN(PWN(/depth_model/decoder/update_block/gru08/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru08/Mul))",
-      "ms": 0.039049,
+      "ms": 0.039219,
+      "calls_per_iter": 1.0,
+      "share": 0.000634
+    },
+    {
+      "name": "PWN(PWN(/depth_model/decoder/update_block/gru08_2/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru08_2/Mul))",
+      "ms": 0.039117,
+      "calls_per_iter": 1.0,
+      "share": 0.000632
+    },
+    {
+      "name": "PWN(PWN(/depth_model/decoder/update_block/gru08_1/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru08_1/Mul))",
+      "ms": 0.039083,
+      "calls_per_iter": 1.0,
+      "share": 0.000632
+    },
+    {
+      "name": "PWN(PWN(/depth_model/decoder/update_block/gru08_3/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru08_3/Mul))",
+      "ms": 0.039083,
+      "calls_per_iter": 1.0,
+      "share": 0.000632
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru08_1/Concat_output_0 copy",
+      "ms": 0.03898,
       "calls_per_iter": 1.0,
       "share": 0.00063
     },
     {
-      "name": "PWN(PWN(/depth_model/decoder/update_block/gru08_1/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru08_1/Mul))",
-      "ms": 0.03881,
+      "name": "/depth_model/decoder/update_block_4/Resize_1_output_0 copy",
+      "ms": 0.03782,
       "calls_per_iter": 1.0,
-      "share": 0.000626
+      "share": 0.000611
     },
     {
-      "name": "PWN(PWN(/depth_model/decoder/update_block/gru08_3/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru08_3/Mul))",
-      "ms": 0.03881,
-      "calls_per_iter": 1.0,
-      "share": 0.000626
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru08_1/Concat_output_0 copy",
-      "ms": 0.038741,
-      "calls_per_iter": 1.0,
-      "share": 0.000625
-    },
-    {
-      "name": "PWN(PWN(/depth_model/decoder/update_block/gru08_2/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru08_2/Mul))",
-      "ms": 0.038741,
-      "calls_per_iter": 1.0,
-      "share": 0.000625
-    },
-    {
-      "name": "__myl_Resh_myl8_125",
-      "ms": 0.038298,
-      "calls_per_iter": 1.0,
-      "share": 0.000618
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru32/convz/Conv + /depth_model/decoder/update_block/gru32/Add",
-      "ms": 0.038263,
-      "calls_per_iter": 1.0,
-      "share": 0.000618
-    },
-    {
-      "name": "PWN(/depth_model/decoder/Tanh)",
-      "ms": 0.037615,
+      "name": "/depth_model/decoder/update_block/gru16_3/Concat_output_0 copy",
+      "ms": 0.037547,
       "calls_per_iter": 1.0,
       "share": 0.000607
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32_6/Concat_output_0 copy (1)",
-      "ms": 0.037069,
+      "name": "/depth_model/decoder/update_block/Resize_1_output_0 copy",
+      "ms": 0.036659,
       "calls_per_iter": 1.0,
-      "share": 0.000598
+      "share": 0.000592
     },
     {
-      "name": "__myl_MeanSubMulMean_myl18_22",
-      "ms": 0.036625,
+      "name": "/depth_model/decoder/update_block_3/AveragePool",
+      "ms": 0.036591,
       "calls_per_iter": 1.0,
       "share": 0.000591
     },
     {
-      "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_6/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_6/Tanh), PWN(/depth_model/decoder/update_block/gru32_6/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_6/Constant_output_0 + ONNXTRT_Broadcast_1582, PWN(/depth_model/decoder/update_block/gru32_6/Sub)), PWN(/depth_model/decoder/update_block/gru32_6/Mul_1)), PWN(/depth_model/decoder/update_block/gru32_6/Add_3))))",
-      "ms": 0.036523,
-      "calls_per_iter": 1.0,
-      "share": 0.00059
-    },
-    {
-      "name": "/depth_model/decoder/context_feature_encoder/outputs08.1/outputs08.1.0/downsample/downsample.0/Conv",
-      "ms": 0.036284,
-      "calls_per_iter": 1.0,
-      "share": 0.000586
-    },
-    {
-      "name": "/depth_model/decoder/update_block/Resize_2_output_0 copy",
+      "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_3/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_3/Tanh), PWN(/depth_model/decoder/update_block/gru32_3/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_3/Constant_output_0 + ONNXTRT_Broadcast_1400, PWN(/depth_model/decoder/update_block/gru32_3/Sub)), PWN(/depth_model/decoder/update_block/gru32_3/Mul_1)), PWN(/depth_model/decoder/update_block/gru32_3/Add_3))))",
       "ms": 0.036147,
+      "calls_per_iter": 1.0,
+      "share": 0.000584
+    },
+    {
+      "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_8",
+      "ms": 0.036079,
       "calls_per_iter": 1.0,
       "share": 0.000583
     },
     {
-      "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_8",
-      "ms": 0.036045,
+      "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_118",
+      "ms": 0.036079,
       "calls_per_iter": 1.0,
-      "share": 0.000582
+      "share": 0.000583
     },
     {
       "name": "__myl_ConcConcAddSlicSlicConcMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_2",
       "ms": 0.036011,
       "calls_per_iter": 1.0,
-      "share": 0.000581
+      "share": 0.000582
     },
     {
-      "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_18",
-      "ms": 0.035806,
+      "name": "__myl_MeanSubMulMean_myl18_22",
+      "ms": 0.03584,
+      "calls_per_iter": 1.0,
+      "share": 0.000579
+    },
+    {
+      "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_48",
+      "ms": 0.035738,
       "calls_per_iter": 1.0,
       "share": 0.000578
     },
     {
-      "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_118",
-      "ms": 0.035738,
+      "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_78",
+      "ms": 0.035703,
       "calls_per_iter": 1.0,
       "share": 0.000577
     },
     {
-      "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_58",
-      "ms": 0.035533,
+      "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_38",
+      "ms": 0.035669,
       "calls_per_iter": 1.0,
-      "share": 0.000574
+      "share": 0.000576
+    },
+    {
+      "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_58",
+      "ms": 0.035635,
+      "calls_per_iter": 1.0,
+      "share": 0.000576
+    },
+    {
+      "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_68",
+      "ms": 0.035635,
+      "calls_per_iter": 1.0,
+      "share": 0.000576
     },
     {
       "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_88",
-      "ms": 0.035533,
+      "ms": 0.035635,
       "calls_per_iter": 1.0,
-      "share": 0.000574
+      "share": 0.000576
     },
     {
-      "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_108",
-      "ms": 0.035533,
+      "name": "/depth_model/decoder/update_block_5/Resize_1_output_0 copy",
+      "ms": 0.035601,
       "calls_per_iter": 1.0,
-      "share": 0.000574
+      "share": 0.000575
     },
     {
       "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_28",
+      "ms": 0.035533,
+      "calls_per_iter": 1.0,
+      "share": 0.000574
+    },
+    {
+      "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_98",
       "ms": 0.035499,
+      "calls_per_iter": 1.0,
+      "share": 0.000574
+    },
+    {
+      "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_18",
+      "ms": 0.035465,
       "calls_per_iter": 1.0,
       "share": 0.000573
     },
     {
-      "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_38",
-      "ms": 0.035465,
-      "calls_per_iter": 1.0,
-      "share": 0.000572
-    },
-    {
-      "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_78",
+      "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_108",
       "ms": 0.03543,
       "calls_per_iter": 1.0,
-      "share": 0.000572
+      "share": 0.000573
     },
     {
-      "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_98",
-      "ms": 0.03543,
+      "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_6/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_6/Tanh), PWN(/depth_model/decoder/update_block/gru32_6/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_6/Constant_output_0 + ONNXTRT_Broadcast_1582, PWN(/depth_model/decoder/update_block/gru32_6/Sub)), PWN(/depth_model/decoder/update_block/gru32_6/Mul_1)), PWN(/depth_model/decoder/update_block/gru32_6/Add_3))))",
+      "ms": 0.035191,
       "calls_per_iter": 1.0,
-      "share": 0.000572
+      "share": 0.000569
     },
     {
-      "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_48",
-      "ms": 0.035396,
+      "name": "__myl_Tran_myl18_17",
+      "ms": 0.035055,
       "calls_per_iter": 1.0,
-      "share": 0.000571
-    },
-    {
-      "name": "/depth_model/decoder/update_block_4/Resize_1_output_0 copy",
-      "ms": 0.035396,
-      "calls_per_iter": 1.0,
-      "share": 0.000571
-    },
-    {
-      "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_68",
-      "ms": 0.035328,
-      "calls_per_iter": 1.0,
-      "share": 0.00057
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru16_4/Concat_output_0 copy",
-      "ms": 0.035294,
-      "calls_per_iter": 1.0,
-      "share": 0.00057
-    },
-    {
-      "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_52",
-      "ms": 0.034782,
-      "calls_per_iter": 1.0,
-      "share": 0.000561
-    },
-    {
-      "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_62",
-      "ms": 0.034782,
-      "calls_per_iter": 1.0,
-      "share": 0.000561
-    },
-    {
-      "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_12",
-      "ms": 0.034679,
-      "calls_per_iter": 1.0,
-      "share": 0.00056
-    },
-    {
-      "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_72",
-      "ms": 0.034679,
-      "calls_per_iter": 1.0,
-      "share": 0.00056
-    },
-    {
-      "name": "/depth_model/decoder/update_block/Resize_1_output_0 copy",
-      "ms": 0.034679,
-      "calls_per_iter": 1.0,
-      "share": 0.00056
-    },
-    {
-      "name": "/depth_model/decoder/update_block_11/Resize_1_output_0 copy",
-      "ms": 0.034679,
-      "calls_per_iter": 1.0,
-      "share": 0.00056
+      "share": 0.000567
     },
     {
       "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_22",
-      "ms": 0.034645,
+      "ms": 0.035021,
       "calls_per_iter": 1.0,
-      "share": 0.000559
+      "share": 0.000566
+    },
+    {
+      "name": "PWN(/depth_model/decoder/Tanh)",
+      "ms": 0.034953,
+      "calls_per_iter": 1.0,
+      "share": 0.000565
+    },
+    {
+      "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_62",
+      "ms": 0.034816,
+      "calls_per_iter": 1.0,
+      "share": 0.000563
+    },
+    {
+      "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_32",
+      "ms": 0.034782,
+      "calls_per_iter": 1.0,
+      "share": 0.000562
     },
     {
       "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_42",
-      "ms": 0.034645,
+      "ms": 0.034782,
       "calls_per_iter": 1.0,
-      "share": 0.000559
-    },
-    {
-      "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_112",
-      "ms": 0.034645,
-      "calls_per_iter": 1.0,
-      "share": 0.000559
+      "share": 0.000562
     },
     {
       "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_92",
-      "ms": 0.034611,
+      "ms": 0.034714,
       "calls_per_iter": 1.0,
-      "share": 0.000559
+      "share": 0.000561
+    },
+    {
+      "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_102",
+      "ms": 0.034645,
+      "calls_per_iter": 1.0,
+      "share": 0.00056
     },
     {
       "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_82",
       "ms": 0.034577,
       "calls_per_iter": 1.0,
-      "share": 0.000558
+      "share": 0.000559
     },
     {
-      "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_102",
+      "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_112",
       "ms": 0.034577,
       "calls_per_iter": 1.0,
-      "share": 0.000558
+      "share": 0.000559
     },
     {
-      "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_32",
-      "ms": 0.034543,
+      "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_72",
+      "ms": 0.034475,
       "calls_per_iter": 1.0,
-      "share": 0.000558
+      "share": 0.000557
     },
     {
-      "name": "/depth_model/decoder/context_feature_encoder/outputs08.0/outputs08.0.0/downsample/downsample.0/Conv",
+      "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_52",
+      "ms": 0.034441,
+      "calls_per_iter": 1.0,
+      "share": 0.000557
+    },
+    {
+      "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl8_12",
       "ms": 0.034406,
       "calls_per_iter": 1.0,
-      "share": 0.000555
+      "share": 0.000556
     },
     {
-      "name": "__myl_Tran_myl18_13",
+      "name": "/depth_model/decoder/update_block/Resize_2_output_0 copy",
       "ms": 0.033997,
       "calls_per_iter": 1.0,
       "share": 0.000549
@@ -1775,274 +1786,292 @@
       "name": "__myl_Relu_myl18_24",
       "ms": 0.033724,
       "calls_per_iter": 1.0,
-      "share": 0.000544
+      "share": 0.000545
     },
     {
-      "name": "/depth_model/decoder/update_block/gru08_3/Concat_output_0 copy",
-      "ms": 0.033246,
+      "name": "/depth_model/decoder/context_zqr_convs.2/Conv",
+      "ms": 0.033519,
       "calls_per_iter": 1.0,
-      "share": 0.000537
+      "share": 0.000542
     },
     {
-      "name": "/depth_model/decoder/update_block_7/Resize_1_output_0 copy",
-      "ms": 0.033178,
+      "name": "__myl_MeanSubMulMean_myl31_21",
+      "ms": 0.033314,
       "calls_per_iter": 1.0,
-      "share": 0.000536
+      "share": 0.000538
     },
     {
-      "name": "/depth_model/decoder/update_block_6/AveragePool",
-      "ms": 0.033109,
+      "name": "/depth_model/decoder/update_block_11/Resize_2_output_0 copy",
+      "ms": 0.033041,
       "calls_per_iter": 1.0,
       "share": 0.000534
     },
     {
-      "name": "/depth_model/decoder/context_zqr_convs.2/Conv",
-      "ms": 0.032973,
+      "name": "/depth_model/decoder/context_feature_encoder/outputs08.0/outputs08.0.0/downsample/downsample.0/Conv",
+      "ms": 0.032768,
       "calls_per_iter": 1.0,
-      "share": 0.000532
+      "share": 0.00053
     },
     {
-      "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_3/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_3/Tanh), PWN(/depth_model/decoder/update_block/gru32_3/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_3/Constant_output_0 + ONNXTRT_Broadcast_1400, PWN(/depth_model/decoder/update_block/gru32_3/Sub)), PWN(/depth_model/decoder/update_block/gru32_3/Mul_1)), PWN(/depth_model/decoder/update_block/gru32_3/Add_3))))",
-      "ms": 0.032905,
+      "name": "/depth_model/decoder/context_feature_encoder/outputs08.1/outputs08.1.0/downsample/downsample.0/Conv",
+      "ms": 0.032631,
       "calls_per_iter": 1.0,
-      "share": 0.000531
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru08_1/Concat_output_0 copy (1)",
-      "ms": 0.032734,
-      "calls_per_iter": 1.0,
-      "share": 0.000528
+      "share": 0.000527
     },
     {
       "name": "/depth_model/decoder/update_block/gru08/Concat_output_0 copy (1)",
-      "ms": 0.032597,
-      "calls_per_iter": 1.0,
-      "share": 0.000526
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru16_1/Concat_output_0 copy",
       "ms": 0.032563,
       "calls_per_iter": 1.0,
       "share": 0.000526
     },
     {
-      "name": "/depth_model/decoder/update_block/gru08_2/Concat_output_0 copy (1)",
+      "name": "/depth_model/decoder/update_block/gru08_1/Concat_output_0 copy (1)",
+      "ms": 0.032563,
+      "calls_per_iter": 1.0,
+      "share": 0.000526
+    },
+    {
+      "name": "/depth_model/decoder/update_block_5/Resize_2_output_0 copy",
       "ms": 0.032427,
       "calls_per_iter": 1.0,
-      "share": 0.000523
+      "share": 0.000524
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru08_2/Concat_output_0 copy (1)",
+      "ms": 0.03229,
+      "calls_per_iter": 1.0,
+      "share": 0.000522
     },
     {
       "name": "/depth_model/decoder/update_block/gru08_3/Concat_output_0 copy (1)",
-      "ms": 0.032256,
+      "ms": 0.03229,
+      "calls_per_iter": 1.0,
+      "share": 0.000522
+    },
+    {
+      "name": "__myl_Tran_myl18_13",
+      "ms": 0.032222,
       "calls_per_iter": 1.0,
       "share": 0.000521
     },
     {
-      "name": "Reformatting CopyNode for Output Tensor 0 to PWN(/depth_model/decoder/Tanh_1)",
-      "ms": 0.031949,
+      "name": "/depth_model/decoder/update_block/gru08_3/Concat_output_0 copy",
+      "ms": 0.032154,
       "calls_per_iter": 1.0,
-      "share": 0.000516
+      "share": 0.00052
     },
     {
-      "name": "/depth_model/decoder/Split_1",
-      "ms": 0.031744,
+      "name": "/depth_model/decoder/update_block/gru16_6/Concat_output_0 copy",
+      "ms": 0.032119,
       "calls_per_iter": 1.0,
-      "share": 0.000512
+      "share": 0.000519
     },
     {
-      "name": "/depth_model/decoder/update_block_5/Resize_2_output_0 copy",
-      "ms": 0.031095,
+      "name": "/depth_model/decoder/update_block_6/AveragePool",
+      "ms": 0.031607,
       "calls_per_iter": 1.0,
-      "share": 0.000502
+      "share": 0.000511
     },
     {
-      "name": "/depth_model/decoder/update_block_5/Resize_1_output_0 copy",
-      "ms": 0.030549,
+      "name": "/depth_model/decoder/update_block/gru16_2/Concat_output_0 copy",
+      "ms": 0.030925,
       "calls_per_iter": 1.0,
-      "share": 0.000493
+      "share": 0.0005
     },
     {
-      "name": "/depth_model/decoder/update_block/gru08_2/Mul_output_0 copy",
+      "name": "/depth_model/decoder/update_block/gru32/convz_2/Conv + /depth_model/decoder/update_block/gru32_2/Add",
+      "ms": 0.030857,
+      "calls_per_iter": 1.0,
+      "share": 0.000499
+    },
+    {
+      "name": "/depth_model/decoder/update_block_9/AveragePool",
       "ms": 0.030447,
       "calls_per_iter": 1.0,
-      "share": 0.000491
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru32/convz_1/Conv + /depth_model/decoder/update_block/gru32_1/Add",
-      "ms": 0.030413,
-      "calls_per_iter": 1.0,
-      "share": 0.000491
-    },
-    {
-      "name": "/depth_model/decoder/update_block_8/Resize_2_output_0 copy",
-      "ms": 0.030208,
-      "calls_per_iter": 1.0,
-      "share": 0.000488
+      "share": 0.000492
     },
     {
       "name": "/depth_model/decoder/update_block/gru08_1/Mul_output_0 copy",
+      "ms": 0.030106,
+      "calls_per_iter": 1.0,
+      "share": 0.000487
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru08_2/Mul_output_0 copy",
+      "ms": 0.030106,
+      "calls_per_iter": 1.0,
+      "share": 0.000487
+    },
+    {
+      "name": "/depth_model/decoder/update_block_2/Resize_output_0 copy",
+      "ms": 0.030071,
+      "calls_per_iter": 1.0,
+      "share": 0.000486
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru08/Mul_output_0 copy",
+      "ms": 0.030037,
+      "calls_per_iter": 1.0,
+      "share": 0.000485
+    },
+    {
+      "name": "/depth_model/decoder/context_feature_encoder/outputs16.1/outputs16.1.0/downsample/downsample.0/Conv",
       "ms": 0.030003,
+      "calls_per_iter": 1.0,
+      "share": 0.000485
+    },
+    {
+      "name": "/depth_model/decoder/update_block_8/Resize_2_output_0 copy",
+      "ms": 0.029969,
       "calls_per_iter": 1.0,
       "share": 0.000484
     },
     {
-      "name": "/depth_model/decoder/update_block_9/AveragePool",
-      "ms": 0.029935,
-      "calls_per_iter": 1.0,
-      "share": 0.000483
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru08/Mul_output_0 copy",
-      "ms": 0.029901,
-      "calls_per_iter": 1.0,
-      "share": 0.000483
-    },
-    {
-      "name": "/depth_model/decoder/update_block_11/Resize_2_output_0 copy",
-      "ms": 0.029901,
-      "calls_per_iter": 1.0,
-      "share": 0.000483
-    },
-    {
       "name": "/depth_model/decoder/update_block/gru08_3/Mul_output_0 copy",
-      "ms": 0.029901,
-      "calls_per_iter": 1.0,
-      "share": 0.000483
-    },
-    {
-      "name": "/depth_model/decoder/update_block_2/Resize_1_output_0 copy",
-      "ms": 0.029867,
+      "ms": 0.029833,
       "calls_per_iter": 1.0,
       "share": 0.000482
     },
     {
-      "name": "/depth_model/decoder/update_block/gru16_2/Concat_output_0 copy",
-      "ms": 0.02973,
-      "calls_per_iter": 1.0,
-      "share": 0.00048
-    },
-    {
-      "name": "__myl_Tran_myl18_17",
-      "ms": 0.029628,
-      "calls_per_iter": 1.0,
-      "share": 0.000478
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru32/convz_8/Conv + /depth_model/decoder/update_block/gru32_8/Add",
-      "ms": 0.029559,
+      "name": "/depth_model/decoder/update_block/gru32/convr_6/Conv + /depth_model/decoder/update_block/gru32_6/Add_1",
+      "ms": 0.029525,
       "calls_per_iter": 1.0,
       "share": 0.000477
-    },
-    {
-      "name": "/depth_model/decoder/context_feature_encoder/outputs16.1/outputs16.1.0/downsample/downsample.0/Conv",
-      "ms": 0.029389,
-      "calls_per_iter": 1.0,
-      "share": 0.000474
     },
     {
       "name": "/depth_model/decoder/Split_1_1188",
       "ms": 0.029389,
       "calls_per_iter": 1.0,
-      "share": 0.000474
+      "share": 0.000475
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32/convr_9/Conv + /depth_model/decoder/update_block/gru32_9/Add_1",
+      "name": "Reformatting CopyNode for Output Tensor 0 to PWN(/depth_model/decoder/Tanh_1)",
+      "ms": 0.029116,
+      "calls_per_iter": 1.0,
+      "share": 0.000471
+    },
+    {
+      "name": "__myl_MeanSubMulMean_myl18_6",
       "ms": 0.029082,
       "calls_per_iter": 1.0,
-      "share": 0.000469
+      "share": 0.00047
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32/convz_5/Conv + /depth_model/decoder/update_block/gru32_5/Add",
-      "ms": 0.029047,
+      "name": "/depth_model/decoder/update_block/gru32/convz_1/Conv + /depth_model/decoder/update_block/gru32_1/Add",
+      "ms": 0.029082,
       "calls_per_iter": 1.0,
-      "share": 0.000469
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru16_7/Concat_output_0 copy",
-      "ms": 0.028945,
-      "calls_per_iter": 1.0,
-      "share": 0.000467
-    },
-    {
-      "name": "/depth_model/decoder/update_block_3/AveragePool",
-      "ms": 0.028638,
-      "calls_per_iter": 1.0,
-      "share": 0.000462
+      "share": 0.00047
     },
     {
       "name": "/depth_model/decoder/update_block/gru32/convr_3/Conv + /depth_model/decoder/update_block/gru32_3/Add_1",
-      "ms": 0.028604,
+      "ms": 0.028843,
       "calls_per_iter": 1.0,
-      "share": 0.000462
+      "share": 0.000466
     },
     {
-      "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_9/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_9/Tanh), PWN(/depth_model/decoder/update_block/gru32_9/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_9/Constant_output_0 + ONNXTRT_Broadcast_1764, PWN(/depth_model/decoder/update_block/gru32_9/Sub)), PWN(/depth_model/decoder/update_block/gru32_9/Mul_1)), PWN(/depth_model/decoder/update_block/gru32_9/Add_3))))",
-      "ms": 0.02857,
+      "name": "/depth_model/decoder/update_block/gru32/convr/Conv + /depth_model/decoder/update_block/gru32/Add_1",
+      "ms": 0.02874,
       "calls_per_iter": 1.0,
-      "share": 0.000461
+      "share": 0.000464
     },
     {
-      "name": "/depth_model/decoder/update_block/gru16_5/Concat_output_0 copy",
+      "name": "/depth_model/decoder/update_block/gru32/convr_9/Conv + /depth_model/decoder/update_block/gru32_9/Add_1",
       "ms": 0.028535,
       "calls_per_iter": 1.0,
       "share": 0.000461
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32/convz_3/Conv + /depth_model/decoder/update_block/gru32_3/Add",
+      "name": "/depth_model/decoder/update_block/gru32/Add_3_output_0 copy",
       "ms": 0.028467,
+      "calls_per_iter": 1.0,
+      "share": 0.00046
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru16_1/Concat_output_0 copy",
+      "ms": 0.028399,
       "calls_per_iter": 1.0,
       "share": 0.000459
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32/convr/Conv + /depth_model/decoder/update_block/gru32/Add_1",
-      "ms": 0.028399,
+      "name": "__myl_Relu_myl18_28",
+      "ms": 0.028331,
       "calls_per_iter": 1.0,
       "share": 0.000458
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32/convz_11/Conv + /depth_model/decoder/update_block/gru32_11/Add",
-      "ms": 0.028399,
-      "calls_per_iter": 1.0,
-      "share": 0.000458
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru32/convz_6/Conv + /depth_model/decoder/update_block/gru32_6/Add",
-      "ms": 0.028297,
+      "name": "/depth_model/decoder/update_block/gru32/convz_3/Conv + /depth_model/decoder/update_block/gru32_3/Add",
+      "ms": 0.028262,
       "calls_per_iter": 1.0,
       "share": 0.000457
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32/convz_2/Conv + /depth_model/decoder/update_block/gru32_2/Add",
+      "name": "/depth_model/decoder/update_block/gru32/convz_9/Conv + /depth_model/decoder/update_block/gru32_9/Add",
+      "ms": 0.028262,
+      "calls_per_iter": 1.0,
+      "share": 0.000457
+    },
+    {
+      "name": "/depth_model/decoder/Split_1",
+      "ms": 0.028194,
+      "calls_per_iter": 1.0,
+      "share": 0.000456
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru32/convq_1/Conv + /depth_model/decoder/update_block/gru32_1/Add_2",
       "ms": 0.02816,
       "calls_per_iter": 1.0,
       "share": 0.000455
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32/convr_6/Conv + /depth_model/decoder/update_block/gru32_6/Add_1",
-      "ms": 0.028092,
+      "name": "/depth_model/decoder/update_block/gru16_4/Concat_output_0 copy",
+      "ms": 0.02816,
       "calls_per_iter": 1.0,
-      "share": 0.000453
+      "share": 0.000455
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32/convz_4/Conv + /depth_model/decoder/update_block/gru32_4/Add",
+      "name": "/depth_model/decoder/update_block/gru32/convr_7/Conv + /depth_model/decoder/update_block/gru32_7/Add_1",
+      "ms": 0.028092,
+      "calls_per_iter": 1.0,
+      "share": 0.000454
+    },
+    {
+      "name": "/depth_model/decoder/update_block_2/Resize_1_output_0 copy",
       "ms": 0.028058,
       "calls_per_iter": 1.0,
       "share": 0.000453
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32/convz_10/Conv + /depth_model/decoder/update_block/gru32_10/Add",
+      "name": "/depth_model/decoder/update_block/gru32/convz_7/Conv + /depth_model/decoder/update_block/gru32_7/Add",
+      "ms": 0.028058,
+      "calls_per_iter": 1.0,
+      "share": 0.000453
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru32/convz_4/Conv + /depth_model/decoder/update_block/gru32_4/Add",
       "ms": 0.028023,
+      "calls_per_iter": 1.0,
+      "share": 0.000453
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru32/convq_10/Conv + /depth_model/decoder/update_block/gru32_10/Add_2",
+      "ms": 0.028023,
+      "calls_per_iter": 1.0,
+      "share": 0.000453
+    },
+    {
+      "name": "/depth_model/decoder/token2feature/read_0/readoper/project_learn/MatMul+/depth_model/decoder/token2feature/read_1/readoper/project_learn/MatMul+/depth_model/decoder/token2feature/read_2/readoper/project_learn/MatMul_myl8_124",
+      "ms": 0.027955,
       "calls_per_iter": 1.0,
       "share": 0.000452
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32/convz_9/Conv + /depth_model/decoder/update_block/gru32_9/Add",
-      "ms": 0.027921,
+      "name": "/depth_model/decoder/update_block/gru32/convq_4/Conv + /depth_model/decoder/update_block/gru32_4/Add_2",
+      "ms": 0.027955,
       "calls_per_iter": 1.0,
-      "share": 0.000451
+      "share": 0.000452
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32/convr_10/Conv + /depth_model/decoder/update_block/gru32_10/Add_1",
+      "name": "/depth_model/decoder/update_block/gru32/convz_6/Conv + /depth_model/decoder/update_block/gru32_6/Add",
       "ms": 0.027921,
       "calls_per_iter": 1.0,
       "share": 0.000451
@@ -2051,241 +2080,205 @@
       "name": "__myl_AddSqrtDivMulMulAddSlicReshSlicResh_myl8_123",
       "ms": 0.027887,
       "calls_per_iter": 1.0,
-      "share": 0.00045
+      "share": 0.000451
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32/convq_1/Conv + /depth_model/decoder/update_block/gru32_1/Add_2",
-      "ms": 0.027887,
+      "name": "/depth_model/decoder/update_block/gru32/convz_10/Conv + /depth_model/decoder/update_block/gru32_10/Add",
+      "ms": 0.027853,
       "calls_per_iter": 1.0,
       "share": 0.00045
     },
     {
-      "name": "/depth_model/decoder/update_block/gru16_6/Concat_output_0 copy",
-      "ms": 0.027887,
-      "calls_per_iter": 1.0,
-      "share": 0.00045
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru32/convq_10/Conv + /depth_model/decoder/update_block/gru32_10/Add_2",
-      "ms": 0.027819,
-      "calls_per_iter": 1.0,
-      "share": 0.000449
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru32/convq_4/Conv + /depth_model/decoder/update_block/gru32_4/Add_2",
-      "ms": 0.027785,
+      "name": "__myl_AddSqrtDivMulMulAddTran_myl31_35",
+      "ms": 0.02775,
       "calls_per_iter": 1.0,
       "share": 0.000448
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32/convq_9/Conv + /depth_model/decoder/update_block/gru32_9/Add_2",
-      "ms": 0.027716,
+      "name": "/depth_model/decoder/update_block/gru32/convr_4/Conv + /depth_model/decoder/update_block/gru32_4/Add_1",
+      "ms": 0.02775,
       "calls_per_iter": 1.0,
-      "share": 0.000447
+      "share": 0.000448
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32/convr_7/Conv + /depth_model/decoder/update_block/gru32_7/Add_1",
+      "name": "/depth_model/decoder/update_block/gru32/convz_5/Conv + /depth_model/decoder/update_block/gru32_5/Add",
+      "ms": 0.027716,
+      "calls_per_iter": 1.0,
+      "share": 0.000448
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru32/convr_10/Conv + /depth_model/decoder/update_block/gru32_10/Add_1",
+      "ms": 0.027716,
+      "calls_per_iter": 1.0,
+      "share": 0.000448
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru32/convq_7/Conv + /depth_model/decoder/update_block/gru32_7/Add_2",
       "ms": 0.027682,
       "calls_per_iter": 1.0,
       "share": 0.000447
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32/convr_4/Conv + /depth_model/decoder/update_block/gru32_4/Add_1",
-      "ms": 0.027648,
-      "calls_per_iter": 1.0,
-      "share": 0.000446
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru32/convq_7/Conv + /depth_model/decoder/update_block/gru32_7/Add_2",
-      "ms": 0.027648,
-      "calls_per_iter": 1.0,
-      "share": 0.000446
-    },
-    {
-      "name": "__myl_Relu_myl18_28",
+      "name": "/depth_model/decoder/update_block/gru32/convq_3/Conv + /depth_model/decoder/update_block/gru32_3/Add_2",
       "ms": 0.027614,
       "calls_per_iter": 1.0,
       "share": 0.000446
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32/convq_3/Conv + /depth_model/decoder/update_block/gru32_3/Add_2",
-      "ms": 0.027546,
+      "name": "/depth_model/decoder/update_block/gru32/convq_9/Conv + /depth_model/decoder/update_block/gru32_9/Add_2",
+      "ms": 0.027614,
       "calls_per_iter": 1.0,
-      "share": 0.000445
+      "share": 0.000446
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32/convz_7/Conv + /depth_model/decoder/update_block/gru32_7/Add",
+      "name": "/depth_model/decoder/update_block/gru32/convq_6/Conv + /depth_model/decoder/update_block/gru32_6/Add_2",
+      "ms": 0.02758,
+      "calls_per_iter": 1.0,
+      "share": 0.000446
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru32/convz_11/Conv + /depth_model/decoder/update_block/gru32_11/Add",
       "ms": 0.027477,
       "calls_per_iter": 1.0,
       "share": 0.000444
     },
     {
       "name": "/depth_model/decoder/update_block/gru32/convq/Conv + /depth_model/decoder/update_block/gru32/Add_2",
-      "ms": 0.027341,
+      "ms": 0.027409,
       "calls_per_iter": 1.0,
-      "share": 0.000441
+      "share": 0.000443
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32/convq_6/Conv + /depth_model/decoder/update_block/gru32_6/Add_2",
-      "ms": 0.027341,
-      "calls_per_iter": 1.0,
-      "share": 0.000441
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru32/convq_5/Conv + /depth_model/decoder/update_block/gru32_5/Add_2",
+      "name": "/depth_model/decoder/update_block/gru32/convz_8/Conv + /depth_model/decoder/update_block/gru32_8/Add",
       "ms": 0.027273,
+      "calls_per_iter": 1.0,
+      "share": 0.000441
+    },
+    {
+      "name": "/depth_model/decoder/Split_1_1190",
+      "ms": 0.027238,
       "calls_per_iter": 1.0,
       "share": 0.00044
     },
     {
-      "name": "/depth_model/decoder/Split_1_1190",
-      "ms": 0.027102,
+      "name": "/depth_model/decoder/update_block_7/Resize_output_0 copy",
+      "ms": 0.02717,
       "calls_per_iter": 1.0,
-      "share": 0.000437
+      "share": 0.000439
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32/convq_2/Conv + /depth_model/decoder/update_block/gru32_2/Add_2",
-      "ms": 0.026965,
+      "name": "/depth_model/decoder/update_block/gru32/convq_11/Conv + /depth_model/decoder/update_block/gru32_11/Add_2",
+      "ms": 0.027136,
+      "calls_per_iter": 1.0,
+      "share": 0.000439
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru32/convq_8/Conv + /depth_model/decoder/update_block/gru32_8/Add_2",
+      "ms": 0.027102,
+      "calls_per_iter": 1.0,
+      "share": 0.000438
+    },
+    {
+      "name": "PWN(PWN(PWN(PWN(PWN(/depth_model/decoder/Constant_39_output_0 + ONNXTRT_Broadcast_1105, PWN(/depth_model/decoder/Pow_1)), PWN(PWN(/depth_model/decoder/Constant_38_output_0 + ONNXTRT_Broadcast_1103, PWN(/depth_model/decoder/Pow)), PWN(/depth_model/decoder/Add_1))), PWN(PWN(/depth_model/decoder/Constant_40_output_0 + ONNXTRT_Broadcast_1107, PWN(/depth_model/decoder/Pow_2)), PWN(/depth_model/decoder/Add_2))), PWN(/depth_model/decoder/Sqrt)), /depth_model/decoder/Constant_41_output_0 + ONNXTRT_Broadcast_1109 + /depth_model/decoder/Add_3)",
+      "ms": 0.026897,
       "calls_per_iter": 1.0,
       "share": 0.000435
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32/convq_8/Conv + /depth_model/decoder/update_block/gru32_8/Add_2",
-      "ms": 0.026897,
-      "calls_per_iter": 1.0,
-      "share": 0.000434
-    },
-    {
-      "name": "/depth_model/decoder/update_block_7/Resize_output_0 copy",
+      "name": "/depth_model/decoder/update_block/gru32/convq_2/Conv + /depth_model/decoder/update_block/gru32_2/Add_2",
       "ms": 0.026863,
       "calls_per_iter": 1.0,
       "share": 0.000434
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32/convq_11/Conv + /depth_model/decoder/update_block/gru32_11/Add_2",
-      "ms": 0.026829,
+      "name": "/depth_model/decoder/update_block/gru32/convq_5/Conv + /depth_model/decoder/update_block/gru32_5/Add_2",
+      "ms": 0.026863,
       "calls_per_iter": 1.0,
-      "share": 0.000433
-    },
-    {
-      "name": "/depth_model/decoder/update_block_11/Resize_output_0 copy",
-      "ms": 0.026453,
-      "calls_per_iter": 1.0,
-      "share": 0.000427
-    },
-    {
-      "name": "/depth_model/decoder/update_block_2/Resize_output_0 copy",
-      "ms": 0.026283,
-      "calls_per_iter": 1.0,
-      "share": 0.000424
-    },
-    {
-      "name": "__myl_MeanSubMulMean_myl31_21",
-      "ms": 0.025839,
-      "calls_per_iter": 1.0,
-      "share": 0.000417
-    },
-    {
-      "name": "/depth_model/decoder/context_feature_encoder/outputs16.0/outputs16.0.0/downsample/downsample.0/Conv",
-      "ms": 0.025805,
-      "calls_per_iter": 1.0,
-      "share": 0.000417
+      "share": 0.000434
     },
     {
       "name": "PWN(PWN(/depth_model/decoder/Elu), /depth_model/decoder/Constant_42_output_0 + ONNXTRT_Broadcast_1111 + /depth_model/decoder/Add_4 + /depth_model/decoder/Constant_43_output_0 + ONNXTRT_Broadcast_1113 + /depth_model/decoder/Add_5)",
-      "ms": 0.025771,
+      "ms": 0.026726,
       "calls_per_iter": 1.0,
-      "share": 0.000416
+      "share": 0.000432
     },
     {
-      "name": "/depth_model/decoder/token2feature/read_0/readoper/project_learn/MatMul+/depth_model/decoder/token2feature/read_1/readoper/project_learn/MatMul+/depth_model/decoder/token2feature/read_2/readoper/project_learn/MatMul_myl8_124",
-      "ms": 0.025702,
+      "name": "/depth_model/decoder/update_block/gru16_7/Concat_output_0 copy",
+      "ms": 0.026556,
       "calls_per_iter": 1.0,
-      "share": 0.000415
+      "share": 0.000429
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru16_5/Concat_output_0 copy",
+      "ms": 0.026317,
+      "calls_per_iter": 1.0,
+      "share": 0.000425
+    },
+    {
+      "name": "/depth_model/decoder/context_feature_encoder/outputs16.0/outputs16.0.0/downsample/downsample.0/Conv",
+      "ms": 0.025975,
+      "calls_per_iter": 1.0,
+      "share": 0.00042
+    },
+    {
+      "name": "/depth_model/decoder/update_block/Resize_2",
+      "ms": 0.025463,
+      "calls_per_iter": 1.0,
+      "share": 0.000412
     },
     {
       "name": "__myl_ReplAddDivErfAddMulMulTran_myl8_131",
-      "ms": 0.025463,
-      "calls_per_iter": 1.0,
-      "share": 0.000411
-    },
-    {
-      "name": "PWN(/depth_model/decoder/Div_3)",
-      "ms": 0.025463,
-      "calls_per_iter": 1.0,
-      "share": 0.000411
-    },
-    {
-      "name": "__myl_IotaCastReshIotaCastReshAddCastAddCastSubReplReplConcReplReplConcGathGathTran_myl515_1",
-      "ms": 0.025122,
-      "calls_per_iter": 1.0,
-      "share": 0.000405
-    },
-    {
-      "name": "__myl_AddSqrtDivMulMulAddTran_myl31_35",
-      "ms": 0.02502,
+      "ms": 0.024986,
       "calls_per_iter": 1.0,
       "share": 0.000404
     },
     {
-      "name": "/depth_model/decoder/Sub_7_output_0 copy",
-      "ms": 0.024917,
+      "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_9/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_9/Tanh), PWN(/depth_model/decoder/update_block/gru32_9/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_9/Constant_output_0 + ONNXTRT_Broadcast_1764, PWN(/depth_model/decoder/update_block/gru32_9/Sub)), PWN(/depth_model/decoder/update_block/gru32_9/Mul_1)), PWN(/depth_model/decoder/update_block/gru32_9/Add_3))))",
+      "ms": 0.024986,
+      "calls_per_iter": 1.0,
+      "share": 0.000404
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru16/Concat_output_0 copy",
+      "ms": 0.024951,
+      "calls_per_iter": 1.0,
+      "share": 0.000403
+    },
+    {
+      "name": "PWN(/depth_model/decoder/Div_3)",
+      "ms": 0.024883,
       "calls_per_iter": 1.0,
       "share": 0.000402
     },
     {
-      "name": "/depth_model/decoder/update_block_4/Resize_output_0 copy",
-      "ms": 0.024542,
+      "name": "__myl_IotaCastReshIotaCastReshAddCastAddCastSubReplReplConcReplReplConcGathGathTran_myl515_1",
+      "ms": 0.024747,
       "calls_per_iter": 1.0,
-      "share": 0.000396
+      "share": 0.0004
     },
     {
-      "name": "/depth_model/decoder/update_block_5/Cast_3_output_0 copy",
-      "ms": 0.024439,
-      "calls_per_iter": 1.0,
-      "share": 0.000394
-    },
-    {
-      "name": "__myl_Tran_myl31_45",
-      "ms": 0.024405,
+      "name": "/depth_model/decoder/update_block_8/Resize_2",
+      "ms": 0.024371,
       "calls_per_iter": 1.0,
       "share": 0.000394
     },
     {
-      "name": "/depth_model/decoder/update_block_5/Resize_output_0 copy",
-      "ms": 0.024303,
+      "name": "__myl_Tran_myl31_38",
+      "ms": 0.024269,
       "calls_per_iter": 1.0,
       "share": 0.000392
     },
     {
-      "name": "/depth_model/decoder/update_block_8/Resize_2",
-      "ms": 0.024098,
+      "name": "__myl_ReplAddDivErfAddMulMulTranCast_myl8_127",
+      "ms": 0.02403,
       "calls_per_iter": 1.0,
-      "share": 0.000389
+      "share": 0.000388
     },
     {
-      "name": "/depth_model/decoder/update_block/Resize_2",
-      "ms": 0.023962,
+      "name": "__myl_ReshMulSumResh_myl31_9",
+      "ms": 0.023825,
       "calls_per_iter": 1.0,
-      "share": 0.000387
-    },
-    {
-      "name": "/depth_model/decoder/update_block_8/Resize_1",
-      "ms": 0.023962,
-      "calls_per_iter": 1.0,
-      "share": 0.000387
-    },
-    {
-      "name": "__myl_Tran_myl31_38",
-      "ms": 0.023791,
-      "calls_per_iter": 1.0,
-      "share": 0.000384
-    },
-    {
-      "name": "__myl_MeanSubMulMean_myl31_15",
-      "ms": 0.023723,
-      "calls_per_iter": 1.0,
-      "share": 0.000383
+      "share": 0.000385
     },
     {
       "name": "/depth_model/decoder/update_block_5/Resize_2",
@@ -2294,130 +2287,118 @@
       "share": 0.000383
     },
     {
-      "name": "__myl_ReplAddDivErfAddMulMulTranCast_myl8_127",
-      "ms": 0.023586,
+      "name": "/depth_model/decoder/update_block_11/Resize_2",
+      "ms": 0.023484,
       "calls_per_iter": 1.0,
-      "share": 0.000381
+      "share": 0.00038
     },
     {
-      "name": "/depth_model/decoder/update_block/Resize_output_0 copy",
-      "ms": 0.023415,
-      "calls_per_iter": 1.0,
-      "share": 0.000378
-    },
-    {
-      "name": "/depth_model/decoder/update_block_10/Resize_output_0 copy",
-      "ms": 0.023381,
+      "name": "__myl_MeanSubMulMean_myl18_18",
+      "ms": 0.023347,
       "calls_per_iter": 1.0,
       "share": 0.000377
     },
     {
-      "name": "/depth_model/decoder/update_block_11/Resize_2",
-      "ms": 0.023313,
+      "name": "/depth_model/decoder/update_block_8/Resize_output_0 copy",
+      "ms": 0.023245,
       "calls_per_iter": 1.0,
       "share": 0.000376
     },
     {
-      "name": "__myl_MeanSubMulMean_myl31_48",
+      "name": "/depth_model/decoder/update_block/Resize_1",
       "ms": 0.023177,
       "calls_per_iter": 1.0,
-      "share": 0.000374
-    },
-    {
-      "name": "__myl_AddSqrtDivMulMulAddTran_myl31_59",
-      "ms": 0.023177,
-      "calls_per_iter": 1.0,
-      "share": 0.000374
+      "share": 0.000375
     },
     {
       "name": "/depth_model/decoder/update_block_2/AveragePool",
+      "ms": 0.023074,
+      "calls_per_iter": 1.0,
+      "share": 0.000373
+    },
+    {
+      "name": "__myl_AddSqrtDivMulMulAddTran_myl31_24",
       "ms": 0.023006,
       "calls_per_iter": 1.0,
-      "share": 0.000371
+      "share": 0.000372
     },
     {
-      "name": "PWN(/depth_model/decoder/Sub_6)",
-      "ms": 0.022972,
-      "calls_per_iter": 1.0,
-      "share": 0.000371
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru16/Concat_output_0 copy",
-      "ms": 0.022835,
-      "calls_per_iter": 1.0,
-      "share": 0.000369
-    },
-    {
-      "name": "__myl_MeanSubMulMean_myl31_34",
+      "name": "/depth_model/decoder/update_block/Cast_3_output_0 copy",
       "ms": 0.022801,
       "calls_per_iter": 1.0,
       "share": 0.000368
     },
     {
-      "name": "/depth_model/decoder/context_feature_encoder/outputs16.1/outputs16.1.1/Conv + /depth_model/decoder/Relu_2",
-      "ms": 0.022733,
+      "name": "/depth_model/decoder/update_block_11/Resize_output_0 copy",
+      "ms": 0.022699,
       "calls_per_iter": 1.0,
       "share": 0.000367
     },
     {
+      "name": "/depth_model/decoder/Sub_6_output_0 copy",
+      "ms": 0.022494,
+      "calls_per_iter": 1.0,
+      "share": 0.000364
+    },
+    {
+      "name": "/depth_model/decoder/context_feature_encoder/outputs16.1/outputs16.1.1/Conv + /depth_model/decoder/Relu_2",
+      "ms": 0.022391,
+      "calls_per_iter": 1.0,
+      "share": 0.000362
+    },
+    {
+      "name": "__myl_AddSqrtDivMulMulAddTran_myl31_59",
+      "ms": 0.022323,
+      "calls_per_iter": 1.0,
+      "share": 0.000361
+    },
+    {
       "name": "__myl_TranResh_myl8_0",
-      "ms": 0.022221,
+      "ms": 0.022118,
       "calls_per_iter": 1.0,
-      "share": 0.000359
+      "share": 0.000357
     },
     {
-      "name": "/depth_model/decoder/Expand",
-      "ms": 0.022153,
+      "name": "/depth_model/decoder/Sub_7_output_0 copy",
+      "ms": 0.021982,
       "calls_per_iter": 1.0,
-      "share": 0.000358
+      "share": 0.000355
     },
     {
-      "name": "__myl_ReshTran_myl8_1",
-      "ms": 0.02205,
-      "calls_per_iter": 1.0,
-      "share": 0.000356
-    },
-    {
-      "name": "__myl_MeanSubMulMean_myl31_64",
-      "ms": 0.021879,
+      "name": "/depth_model/decoder/update_block/gru32_11/Mul_output_0 copy",
+      "ms": 0.021845,
       "calls_per_iter": 1.0,
       "share": 0.000353
     },
     {
-      "name": "/depth_model/decoder/update_block_8/Resize_output_0 copy",
+      "name": "__myl_ReshTran_myl8_1",
       "ms": 0.021811,
       "calls_per_iter": 1.0,
       "share": 0.000352
     },
     {
       "name": "/depth_model/decoder/update_block/gru16/Concat_output_0 copy (1)",
-      "ms": 0.021675,
+      "ms": 0.021606,
       "calls_per_iter": 1.0,
-      "share": 0.00035
+      "share": 0.000349
     },
     {
-      "name": "__myl_ReplAddDivErfAddMulMulTran_myl8_129",
-      "ms": 0.021436,
+      "name": "/depth_model/decoder/update_block/gru16_3/Concat_output_0 copy (1)",
+      "ms": 0.021538,
       "calls_per_iter": 1.0,
-      "share": 0.000346
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru16_4/Concat_output_0 copy (1)",
-      "ms": 0.021436,
-      "calls_per_iter": 1.0,
-      "share": 0.000346
+      "share": 0.000348
     },
     {
       "name": "PWN(PWN(/depth_model/decoder/update_block/gru16/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru16/Tanh), PWN(/depth_model/decoder/update_block/gru16/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru16/Constant_output_0 + ONNXTRT_Broadcast_1290, PWN(/depth_model/decoder/update_block/gru16/Sub)), PWN(/depth_model/decoder/update_block/gru16/Mul_1)), PWN(/depth_model/decoder/update_block/gru16/Add_3))))",
-      "ms": 0.021402,
+      "ms": 0.021504,
       "calls_per_iter": 1.0,
-      "share": 0.000345
+      "share": 0.000348
     },
     {
-      "name": "__myl_AddSqrtDivMulMulAddTran_myl18_19",
-      "ms": 0.021367,
+      "name": "/depth_model/decoder/update_block/gru16_2/Concat_output_0 copy (1)",
+      "ms": 0.021402,
       "calls_per_iter": 1.0,
-      "share": 0.000345
+      "share": 0.000346
     },
     {
       "name": "/depth_model/decoder/update_block/gru16_1/Concat_output_0 copy (1)",
@@ -2426,94 +2407,76 @@
       "share": 0.000345
     },
     {
-      "name": "/depth_model/decoder/update_block/gru16_5/Concat_output_0 copy (1)",
+      "name": "/depth_model/decoder/update_block/gru16_6/Concat_output_0 copy (1)",
       "ms": 0.021367,
       "calls_per_iter": 1.0,
       "share": 0.000345
     },
     {
-      "name": "/depth_model/decoder/update_block/gru16_2/Concat_output_0 copy (1)",
-      "ms": 0.021333,
+      "name": "/depth_model/decoder/update_block/gru16_7/Concat_output_0 copy (1)",
+      "ms": 0.021367,
       "calls_per_iter": 1.0,
-      "share": 0.000344
+      "share": 0.000345
     },
     {
-      "name": "/depth_model/decoder/update_block/gru16_6/Concat_output_0 copy (1)",
+      "name": "/depth_model/decoder/update_block/gru16_4/Concat_output_0 copy (1)",
+      "ms": 0.021333,
+      "calls_per_iter": 1.0,
+      "share": 0.000345
+    },
+    {
+      "name": "__myl_ReplAddDivErfAddMulMulTran_myl8_129",
       "ms": 0.021299,
       "calls_per_iter": 1.0,
       "share": 0.000344
     },
     {
-      "name": "/depth_model/decoder/update_block/gru16_3/Concat_output_0 copy (1)",
-      "ms": 0.021265,
+      "name": "/depth_model/decoder/update_block/gru16_5/Concat_output_0 copy (1)",
+      "ms": 0.021299,
       "calls_per_iter": 1.0,
-      "share": 0.000343
+      "share": 0.000344
     },
     {
-      "name": "/depth_model/decoder/update_block/gru16_7/Concat_output_0 copy (1)",
-      "ms": 0.021265,
-      "calls_per_iter": 1.0,
-      "share": 0.000343
-    },
-    {
-      "name": "/depth_model/decoder/Sub_6_output_0 copy",
+      "name": "/depth_model/decoder/Expand",
       "ms": 0.021094,
+      "calls_per_iter": 1.0,
+      "share": 0.000341
+    },
+    {
+      "name": "PWN(PWN(/depth_model/decoder/update_block/gru16_6/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru16_6/Tanh), PWN(/depth_model/decoder/update_block/gru16_6/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru16_6/Constant_output_0 + ONNXTRT_Broadcast_1836, PWN(/depth_model/decoder/update_block/gru16_6/Sub)), PWN(/depth_model/decoder/update_block/gru16_6/Mul_1)), PWN(/depth_model/decoder/update_block/gru16_6/Add_3))))",
+      "ms": 0.021026,
       "calls_per_iter": 1.0,
       "share": 0.00034
     },
     {
-      "name": "/depth_model/decoder/update_block_2/Resize_1",
-      "ms": 0.021026,
+      "name": "PWN(PWN(/depth_model/decoder/update_block/gru16_4/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru16_4/Tanh), PWN(/depth_model/decoder/update_block/gru16_4/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru16_4/Constant_output_0 + ONNXTRT_Broadcast_1654, PWN(/depth_model/decoder/update_block/gru16_4/Sub)), PWN(/depth_model/decoder/update_block/gru16_4/Mul_1)), PWN(/depth_model/decoder/update_block/gru16_4/Add_3))))",
+      "ms": 0.020821,
       "calls_per_iter": 1.0,
-      "share": 0.000339
+      "share": 0.000336
     },
     {
-      "name": "PWN(PWN(/depth_model/decoder/update_block/gru16_6/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru16_6/Tanh), PWN(/depth_model/decoder/update_block/gru16_6/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru16_6/Constant_output_0 + ONNXTRT_Broadcast_1836, PWN(/depth_model/decoder/update_block/gru16_6/Sub)), PWN(/depth_model/decoder/update_block/gru16_6/Mul_1)), PWN(/depth_model/decoder/update_block/gru16_6/Add_3))))",
-      "ms": 0.020992,
-      "calls_per_iter": 1.0,
-      "share": 0.000339
-    },
-    {
-      "name": "__myl_MeanSubMulMean_myl18_18",
-      "ms": 0.020924,
-      "calls_per_iter": 1.0,
-      "share": 0.000338
-    },
-    {
-      "name": "PWN(PWN(/depth_model/decoder/update_block/gru16_2/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru16_2/Tanh), PWN(/depth_model/decoder/update_block/gru16_2/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru16_2/Constant_output_0 + ONNXTRT_Broadcast_1472, PWN(/depth_model/decoder/update_block/gru16_2/Sub)), PWN(/depth_model/decoder/update_block/gru16_2/Mul_1)), PWN(/depth_model/decoder/update_block/gru16_2/Add_3))))",
-      "ms": 0.020855,
-      "calls_per_iter": 1.0,
-      "share": 0.000337
-    },
-    {
-      "name": "__myl_AddSqrtDivMulMulAddTran_myl18_7",
+      "name": "/depth_model/decoder/update_block_8/Resize_1",
       "ms": 0.020787,
       "calls_per_iter": 1.0,
       "share": 0.000336
     },
     {
-      "name": "PWN(PWN(/depth_model/decoder/update_block/gru16_4/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru16_4/Tanh), PWN(/depth_model/decoder/update_block/gru16_4/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru16_4/Constant_output_0 + ONNXTRT_Broadcast_1654, PWN(/depth_model/decoder/update_block/gru16_4/Sub)), PWN(/depth_model/decoder/update_block/gru16_4/Mul_1)), PWN(/depth_model/decoder/update_block/gru16_4/Add_3))))",
-      "ms": 0.020753,
+      "name": "PWN(PWN(/depth_model/decoder/update_block/gru16_2/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru16_2/Tanh), PWN(/depth_model/decoder/update_block/gru16_2/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru16_2/Constant_output_0 + ONNXTRT_Broadcast_1472, PWN(/depth_model/decoder/update_block/gru16_2/Sub)), PWN(/depth_model/decoder/update_block/gru16_2/Mul_1)), PWN(/depth_model/decoder/update_block/gru16_2/Add_3))))",
+      "ms": 0.020651,
       "calls_per_iter": 1.0,
-      "share": 0.000335
+      "share": 0.000334
     },
     {
-      "name": "__myl_MeanSubMulMean_myl31_56",
-      "ms": 0.020173,
+      "name": "PWN(/depth_model/decoder/Sub_6)",
+      "ms": 0.02048,
       "calls_per_iter": 1.0,
-      "share": 0.000326
+      "share": 0.000331
     },
     {
-      "name": "/depth_model/decoder/update_block/Cast_3_output_0 copy",
-      "ms": 0.020139,
+      "name": "__myl_MeanSubMulMean_myl31_64",
+      "ms": 0.020241,
       "calls_per_iter": 1.0,
-      "share": 0.000325
-    },
-    {
-      "name": "PWN(/depth_model/decoder/Div_2)",
-      "ms": 0.020105,
-      "calls_per_iter": 1.0,
-      "share": 0.000325
+      "share": 0.000327
     },
     {
       "name": "PWN(PWN(/depth_model/decoder/update_block/gru16_7/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru16_7/Tanh), PWN(/depth_model/decoder/update_block/gru16_7/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru16_7/Constant_output_0 + ONNXTRT_Broadcast_1908, PWN(/depth_model/decoder/update_block/gru16_7/Sub)), PWN(/depth_model/decoder/update_block/gru16_7/Mul_1)), PWN(/depth_model/decoder/update_block/gru16_7/Add_3))))",
@@ -2522,200 +2485,266 @@
       "share": 0.000324
     },
     {
-      "name": "PWN(PWN(/depth_model/decoder/update_block/gru16_1/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru16_1/Tanh), PWN(/depth_model/decoder/update_block/gru16_1/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru16_1/Constant_output_0 + ONNXTRT_Broadcast_1362, PWN(/depth_model/decoder/update_block/gru16_1/Sub)), PWN(/depth_model/decoder/update_block/gru16_1/Mul_1)), PWN(/depth_model/decoder/update_block/gru16_1/Add_3))))",
-      "ms": 0.019866,
+      "name": "/depth_model/decoder/context_feature_encoder/outputs16.0/outputs16.0.0/conv2/Conv",
+      "ms": 0.020036,
       "calls_per_iter": 1.0,
-      "share": 0.000321
+      "share": 0.000324
     },
     {
-      "name": "__myl_AddSqrtDivMulMulAddTran_myl18_15",
+      "name": "/depth_model/decoder/update_block_5/Cast_3_output_0 copy",
+      "ms": 0.020002,
+      "calls_per_iter": 1.0,
+      "share": 0.000323
+    },
+    {
+      "name": "__myl_Tran_myl31_14",
       "ms": 0.019695,
       "calls_per_iter": 1.0,
       "share": 0.000318
     },
     {
-      "name": "/depth_model/decoder/Sub_5_output_0 copy",
+      "name": "PWN(PWN(/depth_model/decoder/update_block/gru16_1/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru16_1/Tanh), PWN(/depth_model/decoder/update_block/gru16_1/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru16_1/Constant_output_0 + ONNXTRT_Broadcast_1362, PWN(/depth_model/decoder/update_block/gru16_1/Sub)), PWN(/depth_model/decoder/update_block/gru16_1/Mul_1)), PWN(/depth_model/decoder/update_block/gru16_1/Add_3))))",
+      "ms": 0.019695,
+      "calls_per_iter": 1.0,
+      "share": 0.000318
+    },
+    {
+      "name": "__myl_Relu_myl8_132",
       "ms": 0.019661,
+      "calls_per_iter": 1.0,
+      "share": 0.000318
+    },
+    {
+      "name": "__myl_Tran_myl31_53",
+      "ms": 0.019627,
       "calls_per_iter": 1.0,
       "share": 0.000317
     },
     {
-      "name": "PWN(PWN(/depth_model/decoder/update_block/gru16_3/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru16_3/Tanh), PWN(/depth_model/decoder/update_block/gru16_3/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru16_3/Constant_output_0 + ONNXTRT_Broadcast_1544, PWN(/depth_model/decoder/update_block/gru16_3/Sub)), PWN(/depth_model/decoder/update_block/gru16_3/Mul_1)), PWN(/depth_model/decoder/update_block/gru16_3/Add_3))))",
+      "name": "/depth_model/decoder/update_block_5/Resize_output_0 copy",
       "ms": 0.019524,
       "calls_per_iter": 1.0,
-      "share": 0.000315
+      "share": 0.000316
     },
     {
-      "name": "/depth_model/decoder/context_feature_encoder/outputs16.0/outputs16.0.1/Conv",
-      "ms": 0.019354,
+      "name": "__myl_MeanSubMulMean_myl31_30",
+      "ms": 0.019456,
       "calls_per_iter": 1.0,
-      "share": 0.000312
+      "share": 0.000314
+    },
+    {
+      "name": "PWN(PWN(/depth_model/decoder/update_block/gru16_3/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru16_3/Tanh), PWN(/depth_model/decoder/update_block/gru16_3/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru16_3/Constant_output_0 + ONNXTRT_Broadcast_1544, PWN(/depth_model/decoder/update_block/gru16_3/Sub)), PWN(/depth_model/decoder/update_block/gru16_3/Mul_1)), PWN(/depth_model/decoder/update_block/gru16_3/Add_3))))",
+      "ms": 0.019456,
+      "calls_per_iter": 1.0,
+      "share": 0.000314
+    },
+    {
+      "name": "/depth_model/decoder/Sub_5_output_0 copy",
+      "ms": 0.019388,
+      "calls_per_iter": 1.0,
+      "share": 0.000313
     },
     {
       "name": "PWN(PWN(/depth_model/decoder/update_block/gru16_5/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru16_5/Tanh), PWN(/depth_model/decoder/update_block/gru16_5/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru16_5/Constant_output_0 + ONNXTRT_Broadcast_1726, PWN(/depth_model/decoder/update_block/gru16_5/Sub)), PWN(/depth_model/decoder/update_block/gru16_5/Mul_1)), PWN(/depth_model/decoder/update_block/gru16_5/Add_3))))",
-      "ms": 0.019354,
+      "ms": 0.019388,
+      "calls_per_iter": 1.0,
+      "share": 0.000313
+    },
+    {
+      "name": "/depth_model/decoder/context_feature_encoder/outputs16.0/outputs16.0.1/Conv",
+      "ms": 0.019285,
       "calls_per_iter": 1.0,
       "share": 0.000312
     },
     {
-      "name": "__myl_MeanSubMulMean_myl18_6",
-      "ms": 0.019115,
+      "name": "__myl_AddSqrtDivMulMulAddTran_myl18_7",
+      "ms": 0.019217,
+      "calls_per_iter": 1.0,
+      "share": 0.000311
+    },
+    {
+      "name": "PWN(/depth_model/decoder/Sub_7)",
+      "ms": 0.019149,
       "calls_per_iter": 1.0,
       "share": 0.000309
     },
     {
       "name": "/depth_model/decoder/context_feature_encoder/outputs16.1/outputs16.1.0/conv2/Conv",
-      "ms": 0.019115,
+      "ms": 0.019081,
       "calls_per_iter": 1.0,
-      "share": 0.000309
+      "share": 0.000308
     },
     {
-      "name": "/depth_model/decoder/context_feature_encoder/outputs16.0/outputs16.0.0/conv2/Conv",
-      "ms": 0.019046,
-      "calls_per_iter": 1.0,
-      "share": 0.000307
-    },
-    {
-      "name": "__myl_Tran_myl31_53",
-      "ms": 0.019046,
-      "calls_per_iter": 1.0,
-      "share": 0.000307
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru32_11/Mul_output_0 copy",
+      "name": "PWN(/depth_model/decoder/Sub_5)",
       "ms": 0.018978,
       "calls_per_iter": 1.0,
-      "share": 0.000306
+      "share": 0.000307
     },
     {
-      "name": "__myl_Relu_myl18_20",
-      "ms": 0.018671,
+      "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_11/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru32_11/Mul))",
+      "ms": 0.018842,
       "calls_per_iter": 1.0,
-      "share": 0.000301
+      "share": 0.000304
     },
     {
-      "name": "/depth_model/decoder/normal_predictor/normal_predictor.6/Conv_output_0 copy",
+      "name": "/depth_model/decoder/update_block/Resize_output_0 copy",
+      "ms": 0.018807,
+      "calls_per_iter": 1.0,
+      "share": 0.000304
+    },
+    {
+      "name": "/depth_model/decoder/update_block_4/Resize_output_0 copy",
       "ms": 0.018637,
       "calls_per_iter": 1.0,
       "share": 0.000301
     },
     {
-      "name": "__myl_Relu_myl8_132",
-      "ms": 0.018569,
+      "name": "/depth_model/decoder/update_block_5/Resize_1",
+      "ms": 0.018603,
       "calls_per_iter": 1.0,
-      "share": 0.0003
+      "share": 0.000301
     },
     {
-      "name": "__myl_ReshMulSumResh_myl31_9",
-      "ms": 0.0185,
+      "name": "/depth_model/decoder/update_block_10/Resize_1",
+      "ms": 0.018261,
       "calls_per_iter": 1.0,
-      "share": 0.000299
+      "share": 0.000295
     },
     {
-      "name": "/depth_model/decoder/update_block_4/Resize_1",
-      "ms": 0.018432,
+      "name": "/depth_model/decoder/update_block_2/Resize_1",
+      "ms": 0.018227,
       "calls_per_iter": 1.0,
-      "share": 0.000298
+      "share": 0.000295
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /depth_model/decoder/update_block/Resize_2",
+      "name": "Reformatting CopyNode for Input Tensor 0 to /depth_model/decoder/update_block_8/Resize_2",
       "ms": 0.018193,
       "calls_per_iter": 1.0,
       "share": 0.000294
     },
     {
-      "name": "__myl_AddSqrtDivMulMulAddTran_myl31_24",
-      "ms": 0.018125,
+      "name": "Reformatting CopyNode for Input Tensor 0 to /depth_model/decoder/update_block/Resize_2",
+      "ms": 0.018159,
       "calls_per_iter": 1.0,
       "share": 0.000293
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /depth_model/decoder/update_block_8/Resize_2",
-      "ms": 0.018091,
-      "calls_per_iter": 1.0,
-      "share": 0.000292
-    },
-    {
-      "name": "/depth_model/decoder/update_block_8/Cast_3_output_0 copy",
-      "ms": 0.018057,
+      "name": "/depth_model/decoder/Split_2_1193",
+      "ms": 0.017988,
       "calls_per_iter": 1.0,
       "share": 0.000291
     },
     {
-      "name": "/depth_model/decoder/Split_2_1193",
-      "ms": 0.017954,
-      "calls_per_iter": 1.0,
-      "share": 0.00029
-    },
-    {
       "name": "Reformatting CopyNode for Input Tensor 0 to /depth_model/decoder/update_block_5/Resize_2",
-      "ms": 0.017954,
+      "ms": 0.017988,
+      "calls_per_iter": 1.0,
+      "share": 0.000291
+    },
+    {
+      "name": "__myl_Tran_myl31_45",
+      "ms": 0.01792,
       "calls_per_iter": 1.0,
       "share": 0.00029
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32_9/Concat_output_0 copy (2)",
-      "ms": 0.017886,
-      "calls_per_iter": 1.0,
-      "share": 0.000289
-    },
-    {
-      "name": "__myl_ReluAddRelu_myl31_67",
+      "name": "__myl_MeanSubMulMean_myl31_48",
       "ms": 0.017783,
       "calls_per_iter": 1.0,
       "share": 0.000287
     },
     {
-      "name": "/depth_model/encoder/Resize",
-      "ms": 0.017237,
+      "name": "__myl_MeanSubMulMean_myl31_56",
+      "ms": 0.017749,
       "calls_per_iter": 1.0,
-      "share": 0.000278
+      "share": 0.000287
     },
     {
-      "name": "/depth_model/decoder/update_block/Resize_1",
-      "ms": 0.017203,
+      "name": "__myl_AddSqrtDivMulMulAddTran_myl18_15",
+      "ms": 0.017579,
       "calls_per_iter": 1.0,
-      "share": 0.000278
+      "share": 0.000284
     },
     {
-      "name": "__myl_Tran_myl31_61",
+      "name": "/depth_model/decoder/update_block_8/Cast_3_output_0 copy",
+      "ms": 0.017545,
+      "calls_per_iter": 1.0,
+      "share": 0.000284
+    },
+    {
+      "name": "__myl_AddSqrtDivMulMulAddTran_myl18_19",
+      "ms": 0.01751,
+      "calls_per_iter": 1.0,
+      "share": 0.000283
+    },
+    {
+      "name": "/depth_model/decoder/update_block_10/Resize_output_0 copy",
+      "ms": 0.01734,
+      "calls_per_iter": 1.0,
+      "share": 0.00028
+    },
+    {
+      "name": "__myl_MeanSubMulMean_myl31_15",
       "ms": 0.017101,
       "calls_per_iter": 1.0,
       "share": 0.000276
     },
     {
-      "name": "PWN(/depth_model/decoder/Add_7)",
-      "ms": 0.017033,
+      "name": "/depth_model/encoder/Resize",
+      "ms": 0.016998,
       "calls_per_iter": 1.0,
       "share": 0.000275
     },
     {
-      "name": "__myl_Relu_myl18_16",
-      "ms": 0.016759,
+      "name": "/depth_model/decoder/update_block_4/Resize_1",
+      "ms": 0.016998,
       "calls_per_iter": 1.0,
-      "share": 0.000271
+      "share": 0.000275
     },
     {
-      "name": "PWN(PWN(PWN(PWN(PWN(/depth_model/decoder/Constant_39_output_0 + ONNXTRT_Broadcast_1105, PWN(/depth_model/decoder/Pow_1)), PWN(PWN(/depth_model/decoder/Constant_38_output_0 + ONNXTRT_Broadcast_1103, PWN(/depth_model/decoder/Pow)), PWN(/depth_model/decoder/Add_1))), PWN(PWN(/depth_model/decoder/Constant_40_output_0 + ONNXTRT_Broadcast_1107, PWN(/depth_model/decoder/Pow_2)), PWN(/depth_model/decoder/Add_2))), PWN(/depth_model/decoder/Sqrt)), /depth_model/decoder/Constant_41_output_0 + ONNXTRT_Broadcast_1109 + /depth_model/decoder/Add_3)",
-      "ms": 0.016759,
+      "name": "__myl_Tran_myl31_27",
+      "ms": 0.016964,
       "calls_per_iter": 1.0,
-      "share": 0.000271
-    },
-    {
-      "name": "/depth_model/encoder/Reshape_1 + /depth_model/encoder/Transpose",
-      "ms": 0.016555,
-      "calls_per_iter": 1.0,
-      "share": 0.000267
+      "share": 0.000274
     },
     {
       "name": "PWN(PWN(/depth_model/decoder/update_block/gru16/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru16/Mul))",
-      "ms": 0.016384,
+      "ms": 0.016896,
       "calls_per_iter": 1.0,
-      "share": 0.000264
+      "share": 0.000273
+    },
+    {
+      "name": "/depth_model/encoder/Reshape_1 + /depth_model/encoder/Transpose",
+      "ms": 0.016862,
+      "calls_per_iter": 1.0,
+      "share": 0.000273
+    },
+    {
+      "name": "__myl_Relu_myl18_8",
+      "ms": 0.016691,
+      "calls_per_iter": 1.0,
+      "share": 0.00027
     },
     {
       "name": "PWN(PWN(/depth_model/decoder/update_block/gru16_3/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru16_3/Mul))",
+      "ms": 0.016486,
+      "calls_per_iter": 1.0,
+      "share": 0.000266
+    },
+    {
+      "name": "__myl_AddSqrtDivMulMulAddTran_myl31_44",
+      "ms": 0.016418,
+      "calls_per_iter": 1.0,
+      "share": 0.000265
+    },
+    {
+      "name": "PWN(PWN(/depth_model/decoder/update_block/gru16_1/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru16_1/Mul))",
       "ms": 0.016384,
+      "calls_per_iter": 1.0,
+      "share": 0.000265
+    },
+    {
+      "name": "__myl_Tran_myl31_61",
+      "ms": 0.01635,
       "calls_per_iter": 1.0,
       "share": 0.000264
     },
@@ -2726,50 +2755,20 @@
       "share": 0.000264
     },
     {
-      "name": "PWN(PWN(/depth_model/decoder/update_block/gru16_1/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru16_1/Mul))",
-      "ms": 0.016316,
-      "calls_per_iter": 1.0,
-      "share": 0.000263
-    },
-    {
-      "name": "PWN(/depth_model/decoder/Sub_5)",
+      "name": "PWN(PWN(/depth_model/decoder/update_block/gru16_7/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru16_7/Mul))",
       "ms": 0.016282,
       "calls_per_iter": 1.0,
       "share": 0.000263
     },
     {
-      "name": "/depth_model/decoder/update_block_11/Resize_1",
+      "name": "__myl_Relu_myl18_20",
       "ms": 0.016213,
       "calls_per_iter": 1.0,
       "share": 0.000262
     },
     {
-      "name": "PWN(PWN(/depth_model/decoder/update_block/gru16_7/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru16_7/Mul))",
-      "ms": 0.016213,
-      "calls_per_iter": 1.0,
-      "share": 0.000262
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru32_3/Concat_output_0 copy (2)",
-      "ms": 0.016043,
-      "calls_per_iter": 1.0,
-      "share": 0.000259
-    },
-    {
-      "name": "__myl_AddSqrtDivMulMulAddTran_myl31_51",
-      "ms": 0.016009,
-      "calls_per_iter": 1.0,
-      "share": 0.000258
-    },
-    {
-      "name": "PWN(/depth_model/decoder/Sub_4)",
-      "ms": 0.01594,
-      "calls_per_iter": 1.0,
-      "share": 0.000257
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru32_8/Mul_output_0 copy",
-      "ms": 0.015906,
+      "name": "__myl_ReluAddRelu_myl31_67",
+      "ms": 0.015872,
       "calls_per_iter": 1.0,
       "share": 0.000257
     },
@@ -2777,94 +2776,100 @@
       "name": "/depth_model/decoder/update_block_1/AveragePool",
       "ms": 0.015872,
       "calls_per_iter": 1.0,
+      "share": 0.000257
+    },
+    {
+      "name": "/depth_model/decoder/update_block_11/Resize_1",
+      "ms": 0.015872,
+      "calls_per_iter": 1.0,
+      "share": 0.000257
+    },
+    {
+      "name": "/depth_model/decoder/normal_predictor/normal_predictor.6/Conv_output_0 copy",
+      "ms": 0.015838,
+      "calls_per_iter": 1.0,
       "share": 0.000256
     },
     {
-      "name": "__myl_AddSqrtDivMulMulAddTran_myl31_31",
-      "ms": 0.015428,
+      "name": "/depth_model/decoder/update_block/gru32_8/Mul_output_0 copy",
+      "ms": 0.01577,
       "calls_per_iter": 1.0,
-      "share": 0.000249
+      "share": 0.000255
     },
     {
-      "name": "__myl_AddSqrtDivMulMulAddTran_myl31_44",
-      "ms": 0.015326,
+      "name": "/depth_model/decoder/update_block/gru16/Mul_output_0 copy",
+      "ms": 0.015701,
       "calls_per_iter": 1.0,
-      "share": 0.000247
+      "share": 0.000254
     },
     {
-      "name": "PWN(PWN(/depth_model/decoder/update_block/gru16_4/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru16_4/Mul))",
+      "name": "/depth_model/decoder/update_block/gru16_1/Mul_output_0 copy",
+      "ms": 0.015599,
+      "calls_per_iter": 1.0,
+      "share": 0.000252
+    },
+    {
+      "name": "__myl_AddSqrtDivMulMulAddTran_myl31_51",
+      "ms": 0.015497,
+      "calls_per_iter": 1.0,
+      "share": 0.00025
+    },
+    {
+      "name": "__myl_AddSqrtDivMulMulAddTran_myl31_65",
+      "ms": 0.015462,
+      "calls_per_iter": 1.0,
+      "share": 0.00025
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru16_2/Mul_output_0 copy",
       "ms": 0.015292,
       "calls_per_iter": 1.0,
       "share": 0.000247
     },
     {
-      "name": "__myl_MeanSubMulMean_myl31_41",
+      "name": "/depth_model/decoder/update_block/gru16_4/Mul_output_0 copy",
       "ms": 0.015258,
       "calls_per_iter": 1.0,
-      "share": 0.000246
+      "share": 0.000247
     },
     {
-      "name": "/depth_model/decoder/update_block/gru16_1/Mul_output_0 copy",
-      "ms": 0.015223,
+      "name": "/depth_model/decoder/update_block/gru16_3/Mul_output_0 copy",
+      "ms": 0.015087,
       "calls_per_iter": 1.0,
-      "share": 0.000246
+      "share": 0.000244
     },
     {
-      "name": "__myl_MeanSubMulMean_myl31_30",
-      "ms": 0.015155,
+      "name": "PWN(PWN(/depth_model/decoder/update_block/gru16_4/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru16_4/Mul))",
+      "ms": 0.015087,
       "calls_per_iter": 1.0,
-      "share": 0.000245
+      "share": 0.000244
     },
     {
-      "name": "PWN(/depth_model/decoder/Sub_7)",
-      "ms": 0.015155,
+      "name": "/depth_model/decoder/update_block/gru16_5/Mul_output_0 copy",
+      "ms": 0.015087,
       "calls_per_iter": 1.0,
-      "share": 0.000245
+      "share": 0.000244
     },
     {
       "name": "/depth_model/decoder/update_block/gru16_7/Mul_output_0 copy",
-      "ms": 0.015121,
-      "calls_per_iter": 1.0,
-      "share": 0.000244
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru16/Mul_output_0 copy",
-      "ms": 0.015087,
-      "calls_per_iter": 1.0,
-      "share": 0.000244
-    },
-    {
-      "name": "PWN(PWN(/depth_model/decoder/update_block/gru16_2/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru16_2/Mul))",
-      "ms": 0.015087,
-      "calls_per_iter": 1.0,
-      "share": 0.000244
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru16_2/Mul_output_0 copy",
       "ms": 0.015087,
       "calls_per_iter": 1.0,
       "share": 0.000244
     },
     {
       "name": "PWN(PWN(/depth_model/decoder/update_block/gru16_6/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru16_6/Mul))",
-      "ms": 0.015087,
-      "calls_per_iter": 1.0,
-      "share": 0.000244
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru16_3/Mul_output_0 copy",
-      "ms": 0.015053,
+      "ms": 0.015019,
       "calls_per_iter": 1.0,
       "share": 0.000243
     },
     {
-      "name": "/depth_model/decoder/update_block/gru16_5/Mul_output_0 copy",
-      "ms": 0.015019,
+      "name": "PWN(PWN(/depth_model/decoder/update_block/gru16_2/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru16_2/Mul))",
+      "ms": 0.014985,
       "calls_per_iter": 1.0,
       "share": 0.000242
     },
     {
-      "name": "/depth_model/decoder/update_block/gru16_4/Mul_output_0 copy",
+      "name": "/depth_model/decoder/update_block/gru32_6/Concat_output_0 copy (2)",
       "ms": 0.014985,
       "calls_per_iter": 1.0,
       "share": 0.000242
@@ -2876,106 +2881,106 @@
       "share": 0.000242
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32_6/Concat_output_0 copy (2)",
-      "ms": 0.014916,
+      "name": "__myl_MeanSubMulMean_myl31_34",
+      "ms": 0.01495,
       "calls_per_iter": 1.0,
-      "share": 0.000241
+      "share": 0.000242
     },
     {
-      "name": "/depth_model/decoder/update_block_5/Resize_1",
-      "ms": 0.014848,
+      "name": "/depth_model/decoder/update_block_7/Resize_1",
+      "ms": 0.014677,
       "calls_per_iter": 1.0,
-      "share": 0.00024
+      "share": 0.000237
     },
     {
-      "name": "/depth_model/decoder/Split_3_1198",
-      "ms": 0.014643,
+      "name": "__myl_AddSqrtDivMulMulAddTran_myl31_31",
+      "ms": 0.014507,
       "calls_per_iter": 1.0,
-      "share": 0.000236
+      "share": 0.000234
     },
     {
-      "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_11/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru32_11/Mul))",
-      "ms": 0.014438,
+      "name": "__myl_ReluAddRelu_myl31_37",
+      "ms": 0.014404,
       "calls_per_iter": 1.0,
       "share": 0.000233
     },
     {
-      "name": "__myl_Relu_myl18_8",
+      "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_8/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru32_8/Mul))",
       "ms": 0.014404,
       "calls_per_iter": 1.0,
-      "share": 0.000232
+      "share": 0.000233
     },
     {
-      "name": "/depth_model/decoder/update_block_10/Resize_1",
-      "ms": 0.01437,
+      "name": "__myl_ReluAddRelu_myl31_52",
+      "ms": 0.014268,
       "calls_per_iter": 1.0,
-      "share": 0.000232
+      "share": 0.000231
     },
     {
-      "name": "__myl_MeanSubMulMean_myl18_14",
-      "ms": 0.014029,
+      "name": "/depth_model/decoder/update_block_4/Resize",
+      "ms": 0.014199,
+      "calls_per_iter": 1.0,
+      "share": 0.000229
+    },
+    {
+      "name": "/depth_model/decoder/Split_2",
+      "ms": 0.013995,
       "calls_per_iter": 1.0,
       "share": 0.000226
     },
     {
-      "name": "/depth_model/decoder/Split_2",
-      "ms": 0.013961,
+      "name": "/depth_model/decoder/update_block/AveragePool",
+      "ms": 0.013858,
       "calls_per_iter": 1.0,
-      "share": 0.000225
+      "share": 0.000224
     },
     {
-      "name": "/depth_model/decoder/update_block_5/AveragePool",
+      "name": "/depth_model/decoder/Split_2_1195",
+      "ms": 0.013756,
+      "calls_per_iter": 1.0,
+      "share": 0.000222
+    },
+    {
+      "name": "__myl_Tran_myl31_20",
       "ms": 0.013722,
+      "calls_per_iter": 1.0,
+      "share": 0.000222
+    },
+    {
+      "name": "/depth_model/decoder/Split_3_1198",
+      "ms": 0.013687,
       "calls_per_iter": 1.0,
       "share": 0.000221
     },
     {
-      "name": "PWN(/depth_model/decoder/Add_8)",
+      "name": "/depth_model/decoder/update_block_5/AveragePool",
       "ms": 0.013653,
       "calls_per_iter": 1.0,
-      "share": 0.00022
+      "share": 0.000221
     },
     {
       "name": "/depth_model/decoder/update_block_11/AveragePool",
-      "ms": 0.013619,
+      "ms": 0.013585,
       "calls_per_iter": 1.0,
       "share": 0.00022
     },
     {
-      "name": "/depth_model/decoder/update_block/AveragePool",
-      "ms": 0.013585,
-      "calls_per_iter": 1.0,
-      "share": 0.000219
-    },
-    {
-      "name": "__myl_AddSqrtDivMulMulAddTran_myl31_65",
-      "ms": 0.013517,
-      "calls_per_iter": 1.0,
-      "share": 0.000218
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru32/Add_3_output_0 copy",
-      "ms": 0.013517,
-      "calls_per_iter": 1.0,
-      "share": 0.000218
-    },
-    {
-      "name": "__myl_Tran_myl31_14",
+      "name": "/depth_model/decoder/update_block_8/AveragePool",
       "ms": 0.013483,
       "calls_per_iter": 1.0,
       "share": 0.000218
     },
     {
-      "name": "/depth_model/decoder/Split_2_1195",
-      "ms": 0.013414,
+      "name": "/depth_model/decoder/update_block/gru32_3/Concat_output_0 copy (2)",
+      "ms": 0.013449,
       "calls_per_iter": 1.0,
       "share": 0.000217
     },
     {
-      "name": "/depth_model/decoder/update_block_8/AveragePool",
-      "ms": 0.013414,
+      "name": "__myl_MeanSubMulMean_myl31_41",
+      "ms": 0.013312,
       "calls_per_iter": 1.0,
-      "share": 0.000217
+      "share": 0.000215
     },
     {
       "name": "PWN(/depth_model/decoder/Constant_91_output_0 + ONNXTRT_Broadcast_2038, PWN(PWN(/depth_model/decoder/Constant_90_output_0 + ONNXTRT_Broadcast_2036, PWN(PWN(PWN(/depth_model/decoder/Constant_88_output_0 + ONNXTRT_Broadcast_2032, PWN(/depth_model/decoder/Constant_86_output_0 + ONNXTRT_Broadcast_2028 + /depth_model/decoder/Mul_3 + /depth_model/decoder/Constant_87_output_0 + ONNXTRT_Broadcast_2030 + /depth_model/decoder/Add_15, PWN(/depth_model/decoder/Sub_11 + /depth_model/decoder/relu_2/Relu))), /depth_model/decoder/Constant_89_output_0 + ONNXTRT_Broadcast_2034 + /depth_model/decoder/Add_16), PWN(/depth_model/decoder/Sub_12 + /depth_model/decoder/relu_3/Relu))), PWN(/depth_model/decoder/Sub_13)))",
@@ -2984,28 +2989,34 @@
       "share": 0.000213
     },
     {
-      "name": "__myl_ReluAddRelu_myl31_52",
-      "ms": 0.012971,
+      "name": "PWN(/depth_model/decoder/Add_7)",
+      "ms": 0.013039,
       "calls_per_iter": 1.0,
-      "share": 0.000209
+      "share": 0.000211
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32_6/Concat_output_0 copy",
-      "ms": 0.012971,
+      "name": "__myl_ReluAddRelu_myl31_26",
+      "ms": 0.012732,
       "calls_per_iter": 1.0,
-      "share": 0.000209
+      "share": 0.000206
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32/Mul_output_0 copy",
-      "ms": 0.012937,
+      "name": "__myl_MeanSubMulMean_myl18_14",
+      "ms": 0.012629,
       "calls_per_iter": 1.0,
-      "share": 0.000209
+      "share": 0.000204
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32/Concat_output_0 copy (3)",
-      "ms": 0.012698,
+      "name": "__myl_Relu_myl18_16",
+      "ms": 0.012561,
       "calls_per_iter": 1.0,
-      "share": 0.000205
+      "share": 0.000203
+    },
+    {
+      "name": "/depth_model/decoder/update_block/Resize",
+      "ms": 0.012561,
+      "calls_per_iter": 1.0,
+      "share": 0.000203
     },
     {
       "name": "PWN(/depth_model/decoder/Tanh_1)",
@@ -3014,260 +3025,212 @@
       "share": 0.000202
     },
     {
-      "name": "/depth_model/decoder/update_block/Resize",
+      "name": "/depth_model/decoder/update_block/gru32_9/Concat_output_0 copy",
       "ms": 0.012425,
       "calls_per_iter": 1.0,
       "share": 0.000201
     },
     {
-      "name": "/depth_model/decoder/update_block_7/Resize_1",
+      "name": "/depth_model/decoder/update_block_8/Resize",
       "ms": 0.012117,
       "calls_per_iter": 1.0,
       "share": 0.000196
     },
     {
-      "name": "/depth_model/encoder/Cast",
-      "ms": 0.012015,
+      "name": "PWN(/depth_model/decoder/Add_8)",
+      "ms": 0.012117,
+      "calls_per_iter": 1.0,
+      "share": 0.000196
+    },
+    {
+      "name": "/depth_model/decoder/update_block_11/Resize",
+      "ms": 0.011981,
       "calls_per_iter": 1.0,
       "share": 0.000194
     },
     {
-      "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_4/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_4/Tanh), PWN(/depth_model/decoder/update_block/gru32_4/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_4/Constant_output_0 + ONNXTRT_Broadcast_1402, PWN(/depth_model/decoder/update_block/gru32_4/Sub)), PWN(/depth_model/decoder/update_block/gru32_4/Mul_1)), PWN(/depth_model/decoder/update_block/gru32_4/Add_3))))",
+      "name": "/depth_model/decoder/update_block_5/Resize",
       "ms": 0.011947,
       "calls_per_iter": 1.0,
       "share": 0.000193
     },
     {
-      "name": "/depth_model/decoder/update_block_5/Resize",
-      "ms": 0.011913,
-      "calls_per_iter": 1.0,
-      "share": 0.000192
-    },
-    {
-      "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_8/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru32_8/Mul))",
+      "name": "Reformatting CopyNode for Output Tensor 1 to {ForeignNode[meta_arch.depth_model.decoder.token2feature.read_3.readoper.project_patch.weight + /depth_model/decoder/token2feature/read_3/readoper/project_patch/Transpose + ONNXTRT_Broadcast_788.../depth_model/decoder/context_feature_encoder/outputs04.0/outputs04.0.0/relu_2/Relu]}",
       "ms": 0.011878,
       "calls_per_iter": 1.0,
       "share": 0.000192
     },
     {
-      "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_7/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_7/Tanh), PWN(/depth_model/decoder/update_block/gru32_7/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_7/Constant_output_0 + ONNXTRT_Broadcast_1584, PWN(/depth_model/decoder/update_block/gru32_7/Sub)), PWN(/depth_model/decoder/update_block/gru32_7/Mul_1)), PWN(/depth_model/decoder/update_block/gru32_7/Add_3))))",
-      "ms": 0.011844,
-      "calls_per_iter": 1.0,
-      "share": 0.000191
-    },
-    {
-      "name": "/depth_model/decoder/update_block_8/Resize",
-      "ms": 0.011776,
-      "calls_per_iter": 1.0,
-      "share": 0.00019
-    },
-    {
-      "name": "/depth_model/decoder/update_block_11/Resize",
-      "ms": 0.011776,
-      "calls_per_iter": 1.0,
-      "share": 0.00019
-    },
-    {
-      "name": "__myl_Tran_myl31_20",
-      "ms": 0.011639,
+      "name": "/depth_model/encoder/Cast",
+      "ms": 0.011605,
       "calls_per_iter": 1.0,
       "share": 0.000188
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32/Concat_output_0 copy (2)",
-      "ms": 0.011469,
+      "name": "/depth_model/decoder/update_block/gru32_9/Concat_output_0 copy (2)",
+      "ms": 0.011605,
       "calls_per_iter": 1.0,
-      "share": 0.000185
-    },
-    {
-      "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_10/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_10/Tanh), PWN(/depth_model/decoder/update_block/gru32_10/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_10/Constant_output_0 + ONNXTRT_Broadcast_1766, PWN(/depth_model/decoder/update_block/gru32_10/Sub)), PWN(/depth_model/decoder/update_block/gru32_10/Mul_1)), PWN(/depth_model/decoder/update_block/gru32_10/Add_3))))",
-      "ms": 0.011435,
-      "calls_per_iter": 1.0,
-      "share": 0.000185
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru32_11/Concat_output_0 copy (1)",
-      "ms": 0.011401,
-      "calls_per_iter": 1.0,
-      "share": 0.000184
-    },
-    {
-      "name": "Reformatting CopyNode for Output Tensor 1 to {ForeignNode[meta_arch.depth_model.decoder.token2feature.read_3.readoper.project_patch.weight + /depth_model/decoder/token2feature/read_3/readoper/project_patch/Transpose + ONNXTRT_Broadcast_788.../depth_model/decoder/context_feature_encoder/outputs04.0/outputs04.0.0/relu_2/Relu]}",
-      "ms": 0.011298,
-      "calls_per_iter": 1.0,
-      "share": 0.000182
-    },
-    {
-      "name": "/depth_model/decoder/update_block_10/Resize",
-      "ms": 0.011298,
-      "calls_per_iter": 1.0,
-      "share": 0.000182
+      "share": 0.000188
     },
     {
       "name": "/depth_model/decoder/update_block/gru32_3/Concat_output_0 copy",
-      "ms": 0.01123,
+      "ms": 0.011332,
       "calls_per_iter": 1.0,
-      "share": 0.000181
+      "share": 0.000183
     },
     {
-      "name": "__myl_Tran_myl31_27",
-      "ms": 0.011162,
+      "name": "/depth_model/decoder/update_block/gru32_6/Concat_output_0 copy",
+      "ms": 0.011093,
       "calls_per_iter": 1.0,
-      "share": 0.00018
+      "share": 0.000179
     },
     {
-      "name": "/depth_model/decoder/update_block_4/Resize",
-      "ms": 0.011127,
+      "name": "/depth_model/decoder/update_block_10/Resize",
+      "ms": 0.011025,
       "calls_per_iter": 1.0,
-      "share": 0.00018
+      "share": 0.000178
     },
     {
-      "name": "__myl_ReluAddRelu_myl31_37",
-      "ms": 0.010991,
+      "name": "/depth_model/decoder/update_block/gru32/Concat_output_0 copy",
+      "ms": 0.010957,
       "calls_per_iter": 1.0,
       "share": 0.000177
     },
     {
       "name": "/depth_model/decoder/update_block/gru32_3/Concat_output_0 copy (1)",
-      "ms": 0.010991,
+      "ms": 0.010923,
       "calls_per_iter": 1.0,
       "share": 0.000177
     },
     {
-      "name": "__myl_ReluAddRelu_myl31_26",
-      "ms": 0.010923,
-      "calls_per_iter": 1.0,
-      "share": 0.000176
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru32/Concat_output_0 copy",
+      "name": "__myl_Move_myl498_0",
       "ms": 0.010889,
       "calls_per_iter": 1.0,
       "share": 0.000176
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32_9/Concat_output_0 copy",
+      "name": "/depth_model/decoder/Expand_1",
       "ms": 0.010854,
       "calls_per_iter": 1.0,
       "share": 0.000175
     },
     {
-      "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_11/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_11/Tanh), PWN(/depth_model/decoder/update_block/gru32_11/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_11/Constant_output_0 + ONNXTRT_Broadcast_1838, PWN(/depth_model/decoder/update_block/gru32_11/Sub)), PWN(/depth_model/decoder/update_block/gru32_11/Mul_1)), PWN(/depth_model/decoder/update_block/gru32_11/Add_3))))",
-      "ms": 0.010718,
-      "calls_per_iter": 1.0,
-      "share": 0.000173
-    },
-    {
-      "name": "__myl_Move_myl498_0",
-      "ms": 0.010684,
-      "calls_per_iter": 1.0,
-      "share": 0.000172
-    },
-    {
-      "name": "/depth_model/decoder/Split_3",
-      "ms": 0.01065,
-      "calls_per_iter": 1.0,
-      "share": 0.000172
-    },
-    {
-      "name": "/depth_model/decoder/Split_3_1200",
-      "ms": 0.010581,
-      "calls_per_iter": 1.0,
-      "share": 0.000171
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru32_3/Concat_output_0 copy (3)",
-      "ms": 0.010547,
-      "calls_per_iter": 1.0,
-      "share": 0.00017
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru32_6/Mul_output_0 copy",
-      "ms": 0.010547,
-      "calls_per_iter": 1.0,
-      "share": 0.00017
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru32_6/Concat_output_0 copy (3)",
-      "ms": 0.010547,
-      "calls_per_iter": 1.0,
-      "share": 0.00017
-    },
-    {
       "name": "/depth_model/decoder/update_block_7/Resize",
-      "ms": 0.010513,
+      "ms": 0.010752,
       "calls_per_iter": 1.0,
-      "share": 0.00017
+      "share": 0.000174
     },
     {
-      "name": "PWN(/depth_model/decoder/Div_1)",
-      "ms": 0.010377,
+      "name": "/depth_model/decoder/update_block/gru32_2/Concat_output_0 copy (1)",
+      "ms": 0.010411,
       "calls_per_iter": 1.0,
-      "share": 0.000167
+      "share": 0.000168
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32_9/Concat_output_0 copy (3)",
+      "name": "/depth_model/decoder/update_block/gru32_8/Concat_output_0 copy",
       "ms": 0.010377,
+      "calls_per_iter": 1.0,
+      "share": 0.000168
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru32/Concat_output_0 copy (2)",
+      "ms": 0.010308,
       "calls_per_iter": 1.0,
       "share": 0.000167
     },
     {
       "name": "/depth_model/decoder/update_block/gru32_5/Concat_output_0 copy (1)",
-      "ms": 0.010342,
-      "calls_per_iter": 1.0,
-      "share": 0.000167
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru32_2/Concat_output_0 copy (1)",
-      "ms": 0.010274,
-      "calls_per_iter": 1.0,
-      "share": 0.000166
-    },
-    {
-      "name": "/depth_model/decoder/Slice_4_output_0 copy",
-      "ms": 0.01024,
+      "ms": 0.010206,
       "calls_per_iter": 1.0,
       "share": 0.000165
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32_8/Concat_output_0 copy",
-      "ms": 0.010103,
+      "name": "/depth_model/decoder/update_block/gru32_2/Concat_output_0 copy",
+      "ms": 0.010172,
       "calls_per_iter": 1.0,
-      "share": 0.000163
+      "share": 0.000164
     },
     {
-      "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_9/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru32_9/Mul))",
-      "ms": 0.010069,
+      "name": "/depth_model/decoder/Slice_4_output_0 copy",
+      "ms": 0.010172,
       "calls_per_iter": 1.0,
-      "share": 0.000163
+      "share": 0.000164
     },
     {
-      "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_1/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_1/Tanh), PWN(/depth_model/decoder/update_block/gru32_1/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_1/Constant_output_0 + ONNXTRT_Broadcast_1220, PWN(/depth_model/decoder/update_block/gru32_1/Sub)), PWN(/depth_model/decoder/update_block/gru32_1/Mul_1)), PWN(/depth_model/decoder/update_block/gru32_1/Add_3))))",
+      "name": "/depth_model/decoder/update_block/gru32_5/Concat_output_0 copy",
+      "ms": 0.010172,
+      "calls_per_iter": 1.0,
+      "share": 0.000164
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru32_11/Concat_output_0 copy",
+      "ms": 0.010172,
+      "calls_per_iter": 1.0,
+      "share": 0.000164
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru32_6/Concat_output_0 copy (3)",
+      "ms": 0.010138,
+      "calls_per_iter": 1.0,
+      "share": 0.000164
+    },
+    {
+      "name": "/depth_model/decoder/Split_3_1200",
       "ms": 0.010035,
       "calls_per_iter": 1.0,
       "share": 0.000162
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32_2/Mul_output_0 copy",
+      "name": "/depth_model/decoder/update_block/gru32_9/Concat_output_0 copy (3)",
+      "ms": 0.010001,
+      "calls_per_iter": 1.0,
+      "share": 0.000162
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru32_3/Concat_output_0 copy (3)",
+      "ms": 0.009967,
+      "calls_per_iter": 1.0,
+      "share": 0.000161
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru32/Concat_output_0 copy (3)",
+      "ms": 0.009865,
+      "calls_per_iter": 1.0,
+      "share": 0.000159
+    },
+    {
+      "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_2/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_2/Tanh), PWN(/depth_model/decoder/update_block/gru32_2/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_2/Constant_output_0 + ONNXTRT_Broadcast_1292, PWN(/depth_model/decoder/update_block/gru32_2/Sub)), PWN(/depth_model/decoder/update_block/gru32_2/Mul_1)), PWN(/depth_model/decoder/update_block/gru32_2/Add_3))))",
+      "ms": 0.00983,
+      "calls_per_iter": 1.0,
+      "share": 0.000159
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru32_5/Mul_output_0 copy",
       "ms": 0.009796,
       "calls_per_iter": 1.0,
       "share": 0.000158
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32_5/Concat_output_0 copy",
+      "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_7/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_7/Tanh), PWN(/depth_model/decoder/update_block/gru32_7/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_7/Constant_output_0 + ONNXTRT_Broadcast_1584, PWN(/depth_model/decoder/update_block/gru32_7/Sub)), PWN(/depth_model/decoder/update_block/gru32_7/Mul_1)), PWN(/depth_model/decoder/update_block/gru32_7/Add_3))))",
       "ms": 0.009796,
       "calls_per_iter": 1.0,
       "share": 0.000158
     },
     {
       "name": "/depth_model/decoder/update_block/gru32_8/Concat_output_0 copy (1)",
+      "ms": 0.009796,
+      "calls_per_iter": 1.0,
+      "share": 0.000158
+    },
+    {
+      "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_5/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_5/Tanh), PWN(/depth_model/decoder/update_block/gru32_5/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_5/Constant_output_0 + ONNXTRT_Broadcast_1474, PWN(/depth_model/decoder/update_block/gru32_5/Sub)), PWN(/depth_model/decoder/update_block/gru32_5/Mul_1)), PWN(/depth_model/decoder/update_block/gru32_5/Add_3))))",
       "ms": 0.009728,
       "calls_per_iter": 1.0,
       "share": 0.000157
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32_11/Concat_output_0 copy",
-      "ms": 0.009728,
+      "name": "/depth_model/decoder/Sub_4_output_0 copy",
+      "ms": 0.009694,
       "calls_per_iter": 1.0,
       "share": 0.000157
     },
@@ -3275,109 +3238,103 @@
       "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_5/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru32_5/Mul))",
       "ms": 0.009694,
       "calls_per_iter": 1.0,
-      "share": 0.000156
+      "share": 0.000157
     },
     {
       "name": "__myl_ConcAdd_myl515_0",
-      "ms": 0.00966,
+      "ms": 0.009694,
       "calls_per_iter": 1.0,
-      "share": 0.000156
+      "share": 0.000157
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32_2/Concat_output_0 copy",
-      "ms": 0.009557,
+      "name": "/depth_model/decoder/update_block/gru32_11/Concat_output_0 copy (1)",
+      "ms": 0.009591,
       "calls_per_iter": 1.0,
-      "share": 0.000154
+      "share": 0.000155
     },
     {
-      "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_2/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru32_2/Mul))",
-      "ms": 0.009523,
+      "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_4/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_4/Tanh), PWN(/depth_model/decoder/update_block/gru32_4/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_4/Constant_output_0 + ONNXTRT_Broadcast_1402, PWN(/depth_model/decoder/update_block/gru32_4/Sub)), PWN(/depth_model/decoder/update_block/gru32_4/Mul_1)), PWN(/depth_model/decoder/update_block/gru32_4/Add_3))))",
+      "ms": 0.009455,
       "calls_per_iter": 1.0,
-      "share": 0.000154
+      "share": 0.000153
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32_6/Add_3_output_0 copy",
+      "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_11/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_11/Tanh), PWN(/depth_model/decoder/update_block/gru32_11/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_11/Constant_output_0 + ONNXTRT_Broadcast_1838, PWN(/depth_model/decoder/update_block/gru32_11/Sub)), PWN(/depth_model/decoder/update_block/gru32_11/Mul_1)), PWN(/depth_model/decoder/update_block/gru32_11/Add_3))))",
+      "ms": 0.009421,
+      "calls_per_iter": 1.0,
+      "share": 0.000152
+    },
+    {
+      "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_9/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru32_9/Mul))",
+      "ms": 0.009387,
+      "calls_per_iter": 1.0,
+      "share": 0.000152
+    },
+    {
+      "name": "/depth_model/decoder/Split_3",
       "ms": 0.009353,
       "calls_per_iter": 1.0,
       "share": 0.000151
     },
     {
-      "name": "/depth_model/decoder/Expand_1",
-      "ms": 0.009182,
+      "name": "__myl_Tran_myl31_33",
+      "ms": 0.009284,
       "calls_per_iter": 1.0,
-      "share": 0.000148
+      "share": 0.00015
     },
     {
-      "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_8/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_8/Tanh), PWN(/depth_model/decoder/update_block/gru32_8/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_8/Constant_output_0 + ONNXTRT_Broadcast_1656, PWN(/depth_model/decoder/update_block/gru32_8/Sub)), PWN(/depth_model/decoder/update_block/gru32_8/Mul_1)), PWN(/depth_model/decoder/update_block/gru32_8/Add_3))))",
-      "ms": 0.009182,
+      "name": "/depth_model/decoder/update_block/gru32_9/Add_3_output_0 copy",
+      "ms": 0.009284,
       "calls_per_iter": 1.0,
-      "share": 0.000148
+      "share": 0.00015
     },
     {
       "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_1/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru32_1/Mul))",
-      "ms": 0.009148,
+      "ms": 0.009114,
       "calls_per_iter": 1.0,
-      "share": 0.000148
+      "share": 0.000147
     },
     {
-      "name": "/depth_model/decoder/Sub_4_output_0 copy",
+      "name": "PWN(/depth_model/decoder/Add_6)",
       "ms": 0.009079,
       "calls_per_iter": 1.0,
       "share": 0.000147
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32_3/Add_3_output_0 copy",
+      "name": "__myl_Tran_myl18_3",
       "ms": 0.009011,
       "calls_per_iter": 1.0,
-      "share": 0.000145
+      "share": 0.000146
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32_3/Mul_output_0 copy",
-      "ms": 0.008909,
+      "name": "/depth_model/decoder/Slice_3_output_0 copy",
+      "ms": 0.008875,
       "calls_per_iter": 1.0,
-      "share": 0.000144
+      "share": 0.000143
     },
     {
-      "name": "/depth_model/decoder/update_block_5/Cast_1_output_0 copy",
-      "ms": 0.008909,
-      "calls_per_iter": 1.0,
-      "share": 0.000144
-    },
-    {
-      "name": "PWN(PWN(/depth_model/decoder/update_block/gru32/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru32/Mul))",
+      "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_1/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_1/Tanh), PWN(/depth_model/decoder/update_block/gru32_1/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_1/Constant_output_0 + ONNXTRT_Broadcast_1220, PWN(/depth_model/decoder/update_block/gru32_1/Sub)), PWN(/depth_model/decoder/update_block/gru32_1/Mul_1)), PWN(/depth_model/decoder/update_block/gru32_1/Add_3))))",
       "ms": 0.008841,
       "calls_per_iter": 1.0,
       "share": 0.000143
     },
     {
-      "name": "PWN(/depth_model/decoder/Add_6)",
-      "ms": 0.008806,
-      "calls_per_iter": 1.0,
-      "share": 0.000142
-    },
-    {
-      "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_5/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_5/Tanh), PWN(/depth_model/decoder/update_block/gru32_5/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_5/Constant_output_0 + ONNXTRT_Broadcast_1474, PWN(/depth_model/decoder/update_block/gru32_5/Sub)), PWN(/depth_model/decoder/update_block/gru32_5/Mul_1)), PWN(/depth_model/decoder/update_block/gru32_5/Add_3))))",
+      "name": "/depth_model/decoder/update_block/gru32_9/Mul_output_0 copy",
       "ms": 0.008738,
       "calls_per_iter": 1.0,
       "share": 0.000141
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32_9/Mul_output_0 copy",
+      "name": "/depth_model/decoder/update_block/gru32_2/Mul_output_0 copy",
       "ms": 0.008704,
       "calls_per_iter": 1.0,
+      "share": 0.000141
+    },
+    {
+      "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_8/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_8/Tanh), PWN(/depth_model/decoder/update_block/gru32_8/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_8/Constant_output_0 + ONNXTRT_Broadcast_1656, PWN(/depth_model/decoder/update_block/gru32_8/Sub)), PWN(/depth_model/decoder/update_block/gru32_8/Mul_1)), PWN(/depth_model/decoder/update_block/gru32_8/Add_3))))",
+      "ms": 0.008636,
+      "calls_per_iter": 1.0,
       "share": 0.00014
-    },
-    {
-      "name": "__myl_Tran_myl18_3",
-      "ms": 0.008602,
-      "calls_per_iter": 1.0,
-      "share": 0.000139
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru32_5/Mul_output_0 copy",
-      "ms": 0.008602,
-      "calls_per_iter": 1.0,
-      "share": 0.000139
     },
     {
       "name": "PWN(PWN(/depth_model/decoder/update_block/gru32/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32/Tanh), PWN(/depth_model/decoder/update_block/gru32/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32/Constant_output_0 + ONNXTRT_Broadcast_1218, PWN(/depth_model/decoder/update_block/gru32/Sub)), PWN(/depth_model/decoder/update_block/gru32/Mul_1)), PWN(/depth_model/decoder/update_block/gru32/Add_3))))",
@@ -3386,22 +3343,22 @@
       "share": 0.000138
     },
     {
+      "name": "PWN(PWN(/depth_model/decoder/update_block/gru32/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru32/Mul))",
+      "ms": 0.008499,
+      "calls_per_iter": 1.0,
+      "share": 0.000137
+    },
+    {
       "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_3/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru32_3/Mul))",
-      "ms": 0.008431,
+      "ms": 0.008465,
       "calls_per_iter": 1.0,
-      "share": 0.000136
+      "share": 0.000137
     },
     {
-      "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_4/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru32_4/Mul))",
-      "ms": 0.008431,
+      "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_2/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru32_2/Mul))",
+      "ms": 0.008397,
       "calls_per_iter": 1.0,
       "share": 0.000136
-    },
-    {
-      "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_2/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_2/Tanh), PWN(/depth_model/decoder/update_block/gru32_2/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_2/Constant_output_0 + ONNXTRT_Broadcast_1292, PWN(/depth_model/decoder/update_block/gru32_2/Sub)), PWN(/depth_model/decoder/update_block/gru32_2/Mul_1)), PWN(/depth_model/decoder/update_block/gru32_2/Add_3))))",
-      "ms": 0.008363,
-      "calls_per_iter": 1.0,
-      "share": 0.000135
     },
     {
       "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_7/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru32_7/Mul))",
@@ -3411,147 +3368,195 @@
     },
     {
       "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_10/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru32_10/Mul))",
+      "ms": 0.008329,
+      "calls_per_iter": 1.0,
+      "share": 0.000135
+    },
+    {
+      "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_4/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru32_4/Mul))",
+      "ms": 0.008294,
+      "calls_per_iter": 1.0,
+      "share": 0.000134
+    },
+    {
+      "name": "__myl_Tran_myl18_9",
+      "ms": 0.008226,
+      "calls_per_iter": 1.0,
+      "share": 0.000133
+    },
+    {
+      "name": "/depth_model/decoder/update_block/Cast_1_output_0 copy",
+      "ms": 0.008226,
+      "calls_per_iter": 1.0,
+      "share": 0.000133
+    },
+    {
+      "name": "/depth_model/decoder/update_block_8/Cast_1_output_0 copy",
       "ms": 0.008192,
       "calls_per_iter": 1.0,
       "share": 0.000132
     },
     {
-      "name": "__myl_Tran_myl18_9",
+      "name": "PWN(/depth_model/decoder/Div_1)",
       "ms": 0.008158,
       "calls_per_iter": 1.0,
       "share": 0.000132
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32_9/Add_3_output_0 copy",
-      "ms": 0.008158,
-      "calls_per_iter": 1.0,
-      "share": 0.000132
-    },
-    {
-      "name": "/depth_model/decoder/update_block_8/Cast_1_output_0 copy",
+      "name": "/depth_model/decoder/update_block_5/Cast_1_output_0 copy",
       "ms": 0.008124,
       "calls_per_iter": 1.0,
       "share": 0.000131
     },
     {
-      "name": "__myl_Relu_myl18_12",
+      "name": "/depth_model/decoder/update_block/gru32_6/Add_3_output_0 copy",
       "ms": 0.008055,
       "calls_per_iter": 1.0,
       "share": 0.00013
     },
     {
-      "name": "/depth_model/decoder/update_block/Cast_1_output_0 copy",
+      "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_10/Sigmoid), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_10/Tanh), PWN(/depth_model/decoder/update_block/gru32_10/Mul_2)), PWN(PWN(PWN(/depth_model/decoder/update_block/gru32_10/Constant_output_0 + ONNXTRT_Broadcast_1766, PWN(/depth_model/decoder/update_block/gru32_10/Sub)), PWN(/depth_model/decoder/update_block/gru32_10/Mul_1)), PWN(/depth_model/decoder/update_block/gru32_10/Add_3))))",
+      "ms": 0.008021,
+      "calls_per_iter": 1.0,
+      "share": 0.00013
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru32/Mul_output_0 copy",
+      "ms": 0.007987,
+      "calls_per_iter": 1.0,
+      "share": 0.000129
+    },
+    {
+      "name": "__myl_Relu_myl18_12",
+      "ms": 0.007919,
+      "calls_per_iter": 1.0,
+      "share": 0.000128
+    },
+    {
+      "name": "PWN(/depth_model/decoder/Sub_4)",
       "ms": 0.007885,
       "calls_per_iter": 1.0,
       "share": 0.000127
     },
     {
-      "name": "__myl_Tran_myl31_33",
-      "ms": 0.007543,
+      "name": "/depth_model/decoder/update_block/gru32_3/Add_3_output_0 copy",
+      "ms": 0.007851,
       "calls_per_iter": 1.0,
-      "share": 0.000122
+      "share": 0.000127
     },
     {
       "name": "PWN(PWN(/depth_model/decoder/update_block/gru32_6/Sigmoid_1), PWN(/depth_model/decoder/update_block/gru32_6/Mul))",
-      "ms": 0.007543,
+      "ms": 0.007817,
       "calls_per_iter": 1.0,
-      "share": 0.000122
+      "share": 0.000126
     },
     {
       "name": "PWN(/depth_model/decoder/Tanh_2)",
-      "ms": 0.007509,
+      "ms": 0.007748,
       "calls_per_iter": 1.0,
-      "share": 0.000121
+      "share": 0.000125
     },
     {
-      "name": "/depth_model/decoder/update_block_7/Cast_2_output_0 copy",
-      "ms": 0.007509,
+      "name": "__myl_MeanSubMulMean_myl18_10",
+      "ms": 0.007612,
       "calls_per_iter": 1.0,
-      "share": 0.000121
+      "share": 0.000123
     },
     {
-      "name": "/depth_model/decoder/Div_output_0 copy",
+      "name": "/depth_model/decoder/update_block/gru32_3/Mul_output_0 copy",
+      "ms": 0.007612,
+      "calls_per_iter": 1.0,
+      "share": 0.000123
+    },
+    {
+      "name": "PWN(/depth_model/decoder/Div_2)",
       "ms": 0.007475,
       "calls_per_iter": 1.0,
       "share": 0.000121
     },
     {
-      "name": "__myl_MeanSubMulMean_myl18_10",
-      "ms": 0.007441,
-      "calls_per_iter": 1.0,
-      "share": 0.00012
-    },
-    {
       "name": "PWN(PWN(PWN(PWN(PWN(PWN(/depth_model/decoder/Constant_31_output_0 + ONNXTRT_Broadcast_1084, PWN(/depth_model/decoder/Sub + /depth_model/decoder/relu/Relu)), /depth_model/decoder/Constant_32_output_0 + ONNXTRT_Broadcast_1086 + /depth_model/decoder/Add), PWN(/depth_model/decoder/Constant_33_output_0 + ONNXTRT_Broadcast_1088, PWN(/depth_model/decoder/Sub_1 + /depth_model/decoder/relu_1/Relu))), PWN(/depth_model/decoder/Constant_34_output_0 + ONNXTRT_Broadcast_1090, PWN(/depth_model/decoder/Sub_2))), PWN(/depth_model/decoder/Constant_35_output_0 + ONNXTRT_Broadcast_1092, PWN(/depth_model/decoder/Sub_3))), PWN(/depth_model/decoder/Constant_36_output_0 + ONNXTRT_Broadcast_1094, PWN(/depth_model/decoder/Div)))",
-      "ms": 0.007441,
+      "ms": 0.007475,
       "calls_per_iter": 1.0,
-      "share": 0.00012
+      "share": 0.000121
     },
     {
-      "name": "/depth_model/decoder/update_block_10/Cast_2_output_0 copy",
+      "name": "/depth_model/decoder/update_block_4/Cast_2_output_0 copy",
       "ms": 0.007373,
       "calls_per_iter": 1.0,
       "share": 0.000119
     },
     {
-      "name": "/depth_model/decoder/update_block_4/Cast_2_output_0 copy",
+      "name": "/depth_model/decoder/update_block/gru32_6/Mul_output_0 copy",
+      "ms": 0.007373,
+      "calls_per_iter": 1.0,
+      "share": 0.000119
+    },
+    {
+      "name": "/depth_model/decoder/update_block_10/Cast_2_output_0 copy",
+      "ms": 0.007305,
+      "calls_per_iter": 1.0,
+      "share": 0.000118
+    },
+    {
+      "name": "/depth_model/decoder/update_block_7/Cast_2_output_0 copy",
       "ms": 0.00727,
       "calls_per_iter": 1.0,
       "share": 0.000117
     },
     {
-      "name": "/depth_model/decoder/Div_3_output_0 copy",
-      "ms": 0.007168,
+      "name": "/depth_model/decoder/Div_1_output_0 copy",
+      "ms": 0.007202,
       "calls_per_iter": 1.0,
       "share": 0.000116
     },
     {
       "name": "/depth_model/decoder/update_block_2/Cast_2_output_0 copy",
-      "ms": 0.0071,
+      "ms": 0.007168,
+      "calls_per_iter": 1.0,
+      "share": 0.000116
+    },
+    {
+      "name": "/depth_model/decoder/update_block/gru32_10/Mul_output_0 copy",
+      "ms": 0.007168,
+      "calls_per_iter": 1.0,
+      "share": 0.000116
+    },
+    {
+      "name": "__myl_Resh_myl8_128",
+      "ms": 0.007134,
       "calls_per_iter": 1.0,
       "share": 0.000115
     },
     {
-      "name": "__myl_Resh_myl8_128",
-      "ms": 0.006963,
+      "name": "/depth_model/decoder/update_block/gru32_4/Mul_output_0 copy",
+      "ms": 0.006997,
       "calls_per_iter": 1.0,
-      "share": 0.000112
+      "share": 0.000113
     },
     {
-      "name": "/depth_model/decoder/update_block/gru32_10/Mul_output_0 copy",
-      "ms": 0.006793,
+      "name": "/depth_model/decoder/update_block/gru32_7/Mul_output_0 copy",
+      "ms": 0.006997,
+      "calls_per_iter": 1.0,
+      "share": 0.000113
+    },
+    {
+      "name": "/depth_model/decoder/Div_3_output_0 copy",
+      "ms": 0.006827,
       "calls_per_iter": 1.0,
       "share": 0.00011
     },
     {
-      "name": "/depth_model/decoder/Slice_3_output_0 copy",
-      "ms": 0.006758,
-      "calls_per_iter": 1.0,
-      "share": 0.000109
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru32_4/Mul_output_0 copy",
-      "ms": 0.006724,
-      "calls_per_iter": 1.0,
-      "share": 0.000109
-    },
-    {
-      "name": "/depth_model/decoder/update_block/gru32_7/Mul_output_0 copy",
-      "ms": 0.00669,
+      "name": "/depth_model/decoder/Div_output_0 copy",
+      "ms": 0.006656,
       "calls_per_iter": 1.0,
       "share": 0.000108
     },
     {
       "name": "/depth_model/decoder/update_block/gru32_1/Mul_output_0 copy",
-      "ms": 0.006212,
+      "ms": 0.006349,
       "calls_per_iter": 1.0,
-      "share": 0.0001
-    },
-    {
-      "name": "/depth_model/decoder/Div_1_output_0 copy",
-      "ms": 0.006076,
-      "calls_per_iter": 1.0,
-      "share": 9.8e-05
+      "share": 0.000103
     },
     {
       "name": "rgb_std",

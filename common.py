@@ -24,7 +24,19 @@ import tensorrt as trt
 from common_runtime import *
 
 import sys
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+# Appended, never inserted at 0. Model scripts add the repo root at index 1 on
+# purpose so that sys.path[0] stays their own directory, and at least one of
+# them reads sys.path[0] afterwards to reach a vendored package:
+# metric_anything does
+#     sys.path.insert(1, os.path.join(sys.path[0], "metric_anything/models/..."))
+# to find its copy of `moge`. Inserting the root at 0 here shifted that out
+# from under it and the script died on ModuleNotFoundError -- from a file it
+# does not import directly, several imports earlier. Appending cannot shadow a
+# module or move an existing entry, and `core` only exists at the root anyway.
+_ROOT = os.path.dirname(os.path.abspath(__file__))
+if _ROOT not in sys.path:
+    sys.path.append(_ROOT)
 from core import build_conditions
 
 try:

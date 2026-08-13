@@ -2,7 +2,11 @@
   "model": "moge_2",
   "variant": "single",
   "precision": "fp16",
+  "clock_mhz": 1800,
+  "clock_max_mhz": 2130,
   "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\moge_2\\engine\\moge-2_vits_normal_388x518_dynamo_sim_fp16.engine",
+  "engine_bytes": 129920252,
+  "engine_mtime": 1786611935,
   "input_shape": [
     1,
     3,
@@ -13,10 +17,11 @@
   "summary": {
     "layers_profiled": 337,
     "layers_in_engine": 337,
-    "profile_total_ms": 18.7652,
-    "benchmark_mean_ms": 19.6682,
-    "top10_share": 0.1406,
-    "fp32_output_share": 0.0183,
+    "profile_total_ms": 18.735,
+    "benchmark_mean_ms": 19.7311,
+    "top10_share": 0.141,
+    "fp32_output_share": 0.0177,
+    "movement_share": 0.3221,
     "layer_types": {
       "Reformat": 89,
       "CaskConvolution": 54,
@@ -42,1102 +47,1084 @@
   },
   "suspects": [
     {
-      "name": "node_pad_29",
-      "ms": 0.24617,
+      "name": "node_pad_39",
+      "ms": 0.246886,
       "calls_per_iter": 1.0,
-      "share": 0.013118,
+      "share": 0.013178,
       "layer_type": "Slice"
     },
     {
       "name": "node_pad_9",
-      "ms": 0.246033,
+      "ms": 0.246682,
       "calls_per_iter": 1.0,
-      "share": 0.013111,
+      "share": 0.013167,
       "layer_type": "Slice"
     },
     {
-      "name": "node_pad_39",
-      "ms": 0.246033,
+      "name": "node_pad_29",
+      "ms": 0.246545,
       "calls_per_iter": 1.0,
-      "share": 0.013111,
+      "share": 0.01316,
       "layer_type": "Slice"
     },
     {
       "name": "node_pad_19",
-      "ms": 0.24477,
+      "ms": 0.245453,
       "calls_per_iter": 1.0,
-      "share": 0.013044,
+      "share": 0.013101,
       "layer_type": "Slice"
     },
     {
-      "name": "node_upsample_bilinear2d_2",
-      "ms": 0.235964,
+      "name": "node_upsample_bilinear2d_1",
+      "ms": 0.236134,
       "calls_per_iter": 1.0,
-      "share": 0.012575,
+      "share": 0.012604,
       "layer_type": "Resize"
     },
     {
       "name": "node_upsample_bilinear2d_3",
-      "ms": 0.235895,
+      "ms": 0.2361,
       "calls_per_iter": 1.0,
-      "share": 0.012571,
+      "share": 0.012602,
       "layer_type": "Resize"
     },
     {
-      "name": "node_upsample_bilinear2d_1",
-      "ms": 0.235827,
+      "name": "node_upsample_bilinear2d_2",
+      "ms": 0.235998,
       "calls_per_iter": 1.0,
-      "share": 0.012567,
+      "share": 0.012597,
       "layer_type": "Resize"
     },
     {
       "name": "node_upsample_bilinear2d_4",
-      "ms": 0.23552,
+      "ms": 0.235861,
       "calls_per_iter": 1.0,
-      "share": 0.012551,
+      "share": 0.012589,
       "layer_type": "Resize"
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_31",
-      "ms": 0.193604,
+      "ms": 0.193809,
       "calls_per_iter": 1.0,
-      "share": 0.010317,
-      "layer_type": "Reformat"
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_63",
-      "ms": 0.192922,
-      "calls_per_iter": 1.0,
-      "share": 0.010281,
+      "share": 0.010345,
       "layer_type": "Reformat"
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_16",
-      "ms": 0.192683,
+      "ms": 0.193161,
       "calls_per_iter": 1.0,
-      "share": 0.010268,
+      "share": 0.01031,
       "layer_type": "Reformat"
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_47",
-      "ms": 0.192683,
+      "ms": 0.192751,
       "calls_per_iter": 1.0,
-      "share": 0.010268,
+      "share": 0.010288,
+      "layer_type": "Reformat"
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_63",
+      "ms": 0.192751,
+      "calls_per_iter": 1.0,
+      "share": 0.010288,
       "layer_type": "Reformat"
     }
   ],
   "layers": [
     {
       "name": "node_conv2d_16",
-      "ms": 0.29754,
+      "ms": 0.297847,
       "calls_per_iter": 1.0,
-      "share": 0.015856
+      "share": 0.015898
     },
     {
       "name": "node_conv2d_31",
-      "ms": 0.296243,
+      "ms": 0.296448,
       "calls_per_iter": 1.0,
-      "share": 0.015787
+      "share": 0.015823
     },
     {
       "name": "node_conv2d_47",
-      "ms": 0.296141,
+      "ms": 0.296004,
       "calls_per_iter": 1.0,
-      "share": 0.015781
+      "share": 0.0158
     },
     {
       "name": "node_conv2d_63",
-      "ms": 0.294127,
+      "ms": 0.293786,
       "calls_per_iter": 1.0,
-      "share": 0.015674
-    },
-    {
-      "name": "node_pad_29",
-      "ms": 0.24617,
-      "calls_per_iter": 1.0,
-      "share": 0.013118
-    },
-    {
-      "name": "node_pad_9",
-      "ms": 0.246033,
-      "calls_per_iter": 1.0,
-      "share": 0.013111
+      "share": 0.015681
     },
     {
       "name": "node_pad_39",
-      "ms": 0.246033,
+      "ms": 0.246886,
       "calls_per_iter": 1.0,
-      "share": 0.013111
+      "share": 0.013178
+    },
+    {
+      "name": "node_pad_9",
+      "ms": 0.246682,
+      "calls_per_iter": 1.0,
+      "share": 0.013167
+    },
+    {
+      "name": "node_pad_29",
+      "ms": 0.246545,
+      "calls_per_iter": 1.0,
+      "share": 0.01316
     },
     {
       "name": "node_pad_19",
-      "ms": 0.24477,
+      "ms": 0.245453,
       "calls_per_iter": 1.0,
-      "share": 0.013044
-    },
-    {
-      "name": "node_upsample_bilinear2d_2",
-      "ms": 0.235964,
-      "calls_per_iter": 1.0,
-      "share": 0.012575
-    },
-    {
-      "name": "node_upsample_bilinear2d_3",
-      "ms": 0.235895,
-      "calls_per_iter": 1.0,
-      "share": 0.012571
+      "share": 0.013101
     },
     {
       "name": "node_upsample_bilinear2d_1",
-      "ms": 0.235827,
+      "ms": 0.236134,
       "calls_per_iter": 1.0,
-      "share": 0.012567
+      "share": 0.012604
+    },
+    {
+      "name": "node_upsample_bilinear2d_3",
+      "ms": 0.2361,
+      "calls_per_iter": 1.0,
+      "share": 0.012602
+    },
+    {
+      "name": "node_upsample_bilinear2d_2",
+      "ms": 0.235998,
+      "calls_per_iter": 1.0,
+      "share": 0.012597
     },
     {
       "name": "node_upsample_bilinear2d_4",
-      "ms": 0.23552,
+      "ms": 0.235861,
       "calls_per_iter": 1.0,
-      "share": 0.012551
+      "share": 0.012589
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_31",
-      "ms": 0.193604,
+      "ms": 0.193809,
       "calls_per_iter": 1.0,
-      "share": 0.010317
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_63",
-      "ms": 0.192922,
-      "calls_per_iter": 1.0,
-      "share": 0.010281
+      "share": 0.010345
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_16",
-      "ms": 0.192683,
+      "ms": 0.193161,
       "calls_per_iter": 1.0,
-      "share": 0.010268
+      "share": 0.01031
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_47",
-      "ms": 0.192683,
+      "ms": 0.192751,
       "calls_per_iter": 1.0,
-      "share": 0.010268
+      "share": 0.010288
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_63",
+      "ms": 0.192751,
+      "calls_per_iter": 1.0,
+      "share": 0.010288
     },
     {
       "name": "conv2d_17 + node_add_31",
-      "ms": 0.147354,
+      "ms": 0.147319,
       "calls_per_iter": 1.0,
-      "share": 0.007852
-    },
-    {
-      "name": "_gemm_mha_v2_myl6_43",
-      "ms": 0.13882,
-      "calls_per_iter": 1.0,
-      "share": 0.007398
-    },
-    {
-      "name": "_gemm_mha_v2_myl6_76",
-      "ms": 0.137523,
-      "calls_per_iter": 1.0,
-      "share": 0.007329
-    },
-    {
-      "name": "_gemm_mha_v2_myl6_19",
-      "ms": 0.137148,
-      "calls_per_iter": 1.0,
-      "share": 0.007309
-    },
-    {
-      "name": "_gemm_mha_v2_myl6_68",
-      "ms": 0.136943,
-      "calls_per_iter": 1.0,
-      "share": 0.007298
-    },
-    {
-      "name": "_gemm_mha_v2_myl6_92",
-      "ms": 0.136909,
-      "calls_per_iter": 1.0,
-      "share": 0.007296
-    },
-    {
-      "name": "_gemm_mha_v2_myl6_11",
-      "ms": 0.136636,
-      "calls_per_iter": 1.0,
-      "share": 0.007281
+      "share": 0.007863
     },
     {
       "name": "_gemm_mha_v2_myl6_35",
-      "ms": 0.13626,
+      "ms": 0.137694,
       "calls_per_iter": 1.0,
-      "share": 0.007261
+      "share": 0.00735
+    },
+    {
+      "name": "_gemm_mha_v2_myl6_68",
+      "ms": 0.135543,
+      "calls_per_iter": 1.0,
+      "share": 0.007235
     },
     {
       "name": "_gemm_mha_v2_myl6_84",
-      "ms": 0.135441,
+      "ms": 0.13527,
       "calls_per_iter": 1.0,
-      "share": 0.007218
+      "share": 0.00722
     },
     {
       "name": "_gemm_mha_v2_myl6_60",
-      "ms": 0.134997,
+      "ms": 0.135031,
       "calls_per_iter": 1.0,
-      "share": 0.007194
+      "share": 0.007207
+    },
+    {
+      "name": "_gemm_mha_v2_myl6_43",
+      "ms": 0.134724,
+      "calls_per_iter": 1.0,
+      "share": 0.007191
     },
     {
       "name": "node_conv2d_32 + node_add_38",
-      "ms": 0.134349,
+      "ms": 0.134315,
       "calls_per_iter": 1.0,
-      "share": 0.007159
+      "share": 0.007169
+    },
+    {
+      "name": "node_conv2d_48 + node_add_45",
+      "ms": 0.134315,
+      "calls_per_iter": 1.0,
+      "share": 0.007169
     },
     {
       "name": "node_conv2d_64 + node_add_52",
       "ms": 0.134144,
       "calls_per_iter": 1.0,
-      "share": 0.007149
+      "share": 0.00716
     },
     {
-      "name": "node_conv2d_48 + node_add_45",
-      "ms": 0.13411,
+      "name": "_gemm_mha_v2_myl6_92",
+      "ms": 0.134042,
       "calls_per_iter": 1.0,
-      "share": 0.007147
+      "share": 0.007155
     },
     {
-      "name": "_gemm_mha_v2_myl6_27",
-      "ms": 0.132676,
+      "name": "_gemm_mha_v2_myl6_76",
+      "ms": 0.133632,
       "calls_per_iter": 1.0,
-      "share": 0.00707
-    },
-    {
-      "name": "node_conv2d_62 + node_add_51",
-      "ms": 0.131106,
-      "calls_per_iter": 1.0,
-      "share": 0.006987
+      "share": 0.007133
     },
     {
       "name": "node_conv2d_15 + node_add_30",
-      "ms": 0.130765,
+      "ms": 0.13353,
       "calls_per_iter": 1.0,
-      "share": 0.006968
+      "share": 0.007127
+    },
+    {
+      "name": "_gemm_mha_v2_myl6_19",
+      "ms": 0.132403,
+      "calls_per_iter": 1.0,
+      "share": 0.007067
     },
     {
       "name": "node_conv2d_30 + node_add_37",
-      "ms": 0.13056,
+      "ms": 0.132369,
       "calls_per_iter": 1.0,
-      "share": 0.006958
+      "share": 0.007065
+    },
+    {
+      "name": "_gemm_mha_v2_myl6_27",
+      "ms": 0.132198,
+      "calls_per_iter": 1.0,
+      "share": 0.007056
     },
     {
       "name": "node_conv2d_46 + node_add_44",
-      "ms": 0.130116,
+      "ms": 0.132164,
       "calls_per_iter": 1.0,
-      "share": 0.006934
+      "share": 0.007054
+    },
+    {
+      "name": "node_conv2d_62 + node_add_51",
+      "ms": 0.129673,
+      "calls_per_iter": 1.0,
+      "share": 0.006921
+    },
+    {
+      "name": "_gemm_mha_v2_myl6_11",
+      "ms": 0.127863,
+      "calls_per_iter": 1.0,
+      "share": 0.006825
     },
     {
       "name": "_gemm_mha_v2_myl6_3",
-      "ms": 0.127659,
+      "ms": 0.125303,
       "calls_per_iter": 1.0,
-      "share": 0.006803
-    },
-    {
-      "name": "node_conv2d_12",
-      "ms": 0.11933,
-      "calls_per_iter": 1.0,
-      "share": 0.006359
+      "share": 0.006688
     },
     {
       "name": "node_conv2d_29 + node_relu_11",
-      "ms": 0.119228,
+      "ms": 0.121856,
       "calls_per_iter": 1.0,
-      "share": 0.006354
-    },
-    {
-      "name": "node_conv2d_45 + node_relu_17",
-      "ms": 0.118647,
-      "calls_per_iter": 1.0,
-      "share": 0.006323
-    },
-    {
-      "name": "node_conv2d_59",
-      "ms": 0.118511,
-      "calls_per_iter": 1.0,
-      "share": 0.006315
+      "share": 0.006504
     },
     {
       "name": "node_conv2d_43",
-      "ms": 0.117897,
+      "ms": 0.120388,
       "calls_per_iter": 1.0,
-      "share": 0.006283
+      "share": 0.006426
     },
     {
-      "name": "node_conv2d_27",
-      "ms": 0.117589,
+      "name": "node_conv2d_12",
+      "ms": 0.11991,
       "calls_per_iter": 1.0,
-      "share": 0.006266
+      "share": 0.0064
     },
     {
-      "name": "node_conv2d_61 + node_relu_23",
-      "ms": 0.116019,
+      "name": "node_conv2d_59",
+      "ms": 0.119501,
       "calls_per_iter": 1.0,
-      "share": 0.006183
+      "share": 0.006378
+    },
+    {
+      "name": "node_conv2d_45 + node_relu_17",
+      "ms": 0.118784,
+      "calls_per_iter": 1.0,
+      "share": 0.00634
     },
     {
       "name": "node_conv2d_14 + node_relu_5",
-      "ms": 0.115678,
+      "ms": 0.118204,
       "calls_per_iter": 1.0,
-      "share": 0.006164
+      "share": 0.006309
     },
     {
-      "name": "node_conv2d_53 + node_relu_19",
-      "ms": 0.113937,
+      "name": "node_conv2d_27",
+      "ms": 0.117931,
       "calls_per_iter": 1.0,
-      "share": 0.006072
+      "share": 0.006295
     },
     {
-      "name": "node_conv2d_35",
-      "ms": 0.111753,
+      "name": "node_conv2d_61 + node_relu_23",
+      "ms": 0.117009,
       "calls_per_iter": 1.0,
-      "share": 0.005955
+      "share": 0.006245
     },
     {
-      "name": "node_conv2d_26 + node_add_35",
-      "ms": 0.111582,
+      "name": "node_conv2d_28 + node_add_36 + PWN(node_relu_10)",
+      "ms": 0.111138,
       "calls_per_iter": 1.0,
-      "share": 0.005946
-    },
-    {
-      "name": "node_conv2d_4",
-      "ms": 0.110592,
-      "calls_per_iter": 1.0,
-      "share": 0.005893
-    },
-    {
-      "name": "node_conv2d_21 + node_relu_7",
-      "ms": 0.110524,
-      "calls_per_iter": 1.0,
-      "share": 0.00589
-    },
-    {
-      "name": "node_conv2d_51",
-      "ms": 0.110217,
-      "calls_per_iter": 1.0,
-      "share": 0.005873
+      "share": 0.005932
     },
     {
       "name": "node_conv2d_6 + node_relu_1",
-      "ms": 0.109909,
+      "ms": 0.110524,
       "calls_per_iter": 1.0,
-      "share": 0.005857
+      "share": 0.005899
+    },
+    {
+      "name": "node_conv2d_26 + node_add_35",
+      "ms": 0.110455,
+      "calls_per_iter": 1.0,
+      "share": 0.005896
+    },
+    {
+      "name": "node_conv2d_53 + node_relu_19",
+      "ms": 0.108407,
+      "calls_per_iter": 1.0,
+      "share": 0.005786
     },
     {
       "name": "node_conv2d_57 + node_relu_21",
-      "ms": 0.108681,
+      "ms": 0.107691,
       "calls_per_iter": 1.0,
-      "share": 0.005792
+      "share": 0.005748
     },
     {
       "name": "node_conv2d_42 + node_add_42",
-      "ms": 0.107793,
-      "calls_per_iter": 1.0,
-      "share": 0.005744
-    },
-    {
-      "name": "node_conv2d_55",
-      "ms": 0.10711,
-      "calls_per_iter": 1.0,
-      "share": 0.005708
-    },
-    {
-      "name": "node_conv2d_19",
-      "ms": 0.107042,
-      "calls_per_iter": 1.0,
-      "share": 0.005704
-    },
-    {
-      "name": "node_conv2d_38 + node_add_40",
-      "ms": 0.106803,
-      "calls_per_iter": 1.0,
-      "share": 0.005692
-    },
-    {
-      "name": "node_conv2d_54 + node_add_47",
       "ms": 0.106667,
       "calls_per_iter": 1.0,
-      "share": 0.005684
+      "share": 0.005693
+    },
+    {
+      "name": "node_conv2d_37 + node_relu_13",
+      "ms": 0.106462,
+      "calls_per_iter": 1.0,
+      "share": 0.005683
     },
     {
       "name": "node_conv2d_41 + node_relu_15",
-      "ms": 0.106359,
+      "ms": 0.106189,
       "calls_per_iter": 1.0,
       "share": 0.005668
     },
     {
-      "name": "node_conv2d_37 + node_relu_13",
-      "ms": 0.106086,
+      "name": "node_conv2d_25 + node_relu_9",
+      "ms": 0.106052,
       "calls_per_iter": 1.0,
-      "share": 0.005653
+      "share": 0.005661
     },
     {
-      "name": "node_conv2d_23",
-      "ms": 0.105711,
+      "name": "node_conv2d_55",
+      "ms": 0.106018,
       "calls_per_iter": 1.0,
-      "share": 0.005633
+      "share": 0.005659
     },
     {
-      "name": "node_conv2d_11 + node_add_28",
-      "ms": 0.105574,
+      "name": "node_conv2d_4",
+      "ms": 0.105984,
       "calls_per_iter": 1.0,
-      "share": 0.005626
-    },
-    {
-      "name": "node_conv2d_7 + node_add_26",
-      "ms": 0.105506,
-      "calls_per_iter": 1.0,
-      "share": 0.005622
+      "share": 0.005657
     },
     {
       "name": "node_conv2d_58 + node_add_49",
-      "ms": 0.105233,
+      "ms": 0.105882,
       "calls_per_iter": 1.0,
-      "share": 0.005608
+      "share": 0.005652
     },
     {
-      "name": "node_conv2d_8",
-      "ms": 0.104926,
+      "name": "node_conv2d_51",
+      "ms": 0.105745,
       "calls_per_iter": 1.0,
-      "share": 0.005591
+      "share": 0.005644
     },
     {
-      "name": "node_conv2d_39",
-      "ms": 0.104858,
+      "name": "node_conv2d_35",
+      "ms": 0.105643,
       "calls_per_iter": 1.0,
-      "share": 0.005588
+      "share": 0.005639
     },
     {
-      "name": "node_conv2d_25 + node_relu_9",
-      "ms": 0.104755,
+      "name": "node_conv2d_23",
+      "ms": 0.105574,
       "calls_per_iter": 1.0,
-      "share": 0.005582
+      "share": 0.005635
     },
     {
-      "name": "node_conv2d_10 + node_relu_3",
-      "ms": 0.104448,
+      "name": "node_conv2d_11 + node_add_28",
+      "ms": 0.104994,
+      "calls_per_iter": 1.0,
+      "share": 0.005604
+    },
+    {
+      "name": "node_conv2d_22 + node_add_33",
+      "ms": 0.104482,
+      "calls_per_iter": 1.0,
+      "share": 0.005577
+    },
+    {
+      "name": "node_conv2d_19",
+      "ms": 0.104414,
+      "calls_per_iter": 1.0,
+      "share": 0.005573
+    },
+    {
+      "name": "node_conv2d_38 + node_add_40",
+      "ms": 0.104277,
       "calls_per_iter": 1.0,
       "share": 0.005566
     },
     {
-      "name": "node_conv2d_22 + node_add_33",
-      "ms": 0.102775,
+      "name": "node_conv2d_8",
+      "ms": 0.103902,
       "calls_per_iter": 1.0,
-      "share": 0.005477
+      "share": 0.005546
     },
     {
-      "name": "node_conv2d_28 + node_add_36 + PWN(node_relu_10)",
-      "ms": 0.097519,
+      "name": "node_conv2d_10 + node_relu_3",
+      "ms": 0.103868,
       "calls_per_iter": 1.0,
-      "share": 0.005197
+      "share": 0.005544
+    },
+    {
+      "name": "node_conv2d_54 + node_add_47",
+      "ms": 0.103834,
+      "calls_per_iter": 1.0,
+      "share": 0.005542
+    },
+    {
+      "name": "node_conv2d_39",
+      "ms": 0.103765,
+      "calls_per_iter": 1.0,
+      "share": 0.005539
+    },
+    {
+      "name": "node_conv2d_21 + node_relu_7",
+      "ms": 0.103561,
+      "calls_per_iter": 1.0,
+      "share": 0.005528
+    },
+    {
+      "name": "node_conv2d_7 + node_add_26",
+      "ms": 0.102707,
+      "calls_per_iter": 1.0,
+      "share": 0.005482
     },
     {
       "name": "node_conv2d_60 + node_add_50 + PWN(node_relu_22)",
-      "ms": 0.096461,
+      "ms": 0.096563,
       "calls_per_iter": 1.0,
-      "share": 0.00514
+      "share": 0.005154
     },
     {
       "name": "node_conv2d_44 + node_add_43 + PWN(node_relu_16)",
-      "ms": 0.096393,
+      "ms": 0.096495,
       "calls_per_iter": 1.0,
-      "share": 0.005137
+      "share": 0.005151
     },
     {
       "name": "_gemm_mha_v2_myl6_52",
-      "ms": 0.090795,
+      "ms": 0.093082,
       "calls_per_iter": 1.0,
-      "share": 0.004838
+      "share": 0.004968
     },
     {
       "name": "conv2d_13 + node_add_29",
       "ms": 0.083661,
       "calls_per_iter": 1.0,
-      "share": 0.004458
+      "share": 0.004465
     },
     {
       "name": "node_conv2d_56 + node_add_48 + PWN(node_relu_20)",
-      "ms": 0.07936,
+      "ms": 0.079428,
       "calls_per_iter": 1.0,
-      "share": 0.004229
+      "share": 0.00424
     },
     {
       "name": "node_conv2d_40 + node_add_41 + PWN(node_relu_14)",
-      "ms": 0.079258,
+      "ms": 0.079121,
       "calls_per_iter": 1.0,
-      "share": 0.004224
+      "share": 0.004223
     },
     {
       "name": "node_conv2d_24 + node_add_34 + PWN(node_relu_8)",
-      "ms": 0.077107,
+      "ms": 0.076902,
       "calls_per_iter": 1.0,
-      "share": 0.004109
+      "share": 0.004105
+    },
+    {
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl6_51",
+      "ms": 0.075878,
+      "calls_per_iter": 1.0,
+      "share": 0.00405
+    },
+    {
+      "name": "node_convolution_9",
+      "ms": 0.073387,
+      "calls_per_iter": 1.0,
+      "share": 0.003917
     },
     {
       "name": "node_convolution_5",
       "ms": 0.072772,
       "calls_per_iter": 1.0,
-      "share": 0.003878
+      "share": 0.003884
     },
     {
       "name": "node_convolution_2",
       "ms": 0.072533,
       "calls_per_iter": 1.0,
-      "share": 0.003865
-    },
-    {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl6_51",
-      "ms": 0.07209,
-      "calls_per_iter": 1.0,
-      "share": 0.003842
+      "share": 0.003872
     },
     {
       "name": "node_convolution_8",
-      "ms": 0.071646,
+      "ms": 0.071748,
       "calls_per_iter": 1.0,
-      "share": 0.003818
+      "share": 0.00383
     },
     {
       "name": "node_convolution_11",
-      "ms": 0.071475,
+      "ms": 0.071646,
       "calls_per_iter": 1.0,
-      "share": 0.003809
-    },
-    {
-      "name": "node_pad_18",
-      "ms": 0.067516,
-      "calls_per_iter": 1.0,
-      "share": 0.003598
-    },
-    {
-      "name": "node_pad_16",
-      "ms": 0.067345,
-      "calls_per_iter": 1.0,
-      "share": 0.003589
-    },
-    {
-      "name": "node_pad_27",
-      "ms": 0.067345,
-      "calls_per_iter": 1.0,
-      "share": 0.003589
-    },
-    {
-      "name": "node_pad_6",
-      "ms": 0.067174,
-      "calls_per_iter": 1.0,
-      "share": 0.00358
-    },
-    {
-      "name": "node_pad_17",
-      "ms": 0.06714,
-      "calls_per_iter": 1.0,
-      "share": 0.003578
-    },
-    {
-      "name": "node_pad_36",
-      "ms": 0.06714,
-      "calls_per_iter": 1.0,
-      "share": 0.003578
-    },
-    {
-      "name": "node_pad_38",
-      "ms": 0.06714,
-      "calls_per_iter": 1.0,
-      "share": 0.003578
-    },
-    {
-      "name": "node_pad_37",
-      "ms": 0.067106,
-      "calls_per_iter": 1.0,
-      "share": 0.003576
+      "share": 0.003824
     },
     {
       "name": "node_upsample_bilinear2d",
-      "ms": 0.067042,
+      "ms": 0.068643,
+      "calls_per_iter": 1.0,
+      "share": 0.003664
+    },
+    {
+      "name": "node_pad_26",
+      "ms": 0.06697,
+      "calls_per_iter": 1.0,
+      "share": 0.003575
+    },
+    {
+      "name": "node_pad_6",
+      "ms": 0.066935,
       "calls_per_iter": 1.0,
       "share": 0.003573
     },
     {
-      "name": "node_pad_8",
-      "ms": 0.067038,
+      "name": "node_pad_17",
+      "ms": 0.066935,
       "calls_per_iter": 1.0,
-      "share": 0.003572
+      "share": 0.003573
     },
     {
-      "name": "node_pad_26",
-      "ms": 0.067038,
-      "calls_per_iter": 1.0,
-      "share": 0.003572
-    },
-    {
-      "name": "node_pad_7",
-      "ms": 0.067004,
+      "name": "node_pad_27",
+      "ms": 0.066901,
       "calls_per_iter": 1.0,
       "share": 0.003571
     },
     {
-      "name": "node_pad_28",
-      "ms": 0.06697,
+      "name": "node_pad_7",
+      "ms": 0.066867,
       "calls_per_iter": 1.0,
       "share": 0.003569
     },
     {
-      "name": "node_conv2d_33",
-      "ms": 0.063283,
+      "name": "node_pad_37",
+      "ms": 0.066833,
       "calls_per_iter": 1.0,
-      "share": 0.003372
+      "share": 0.003567
+    },
+    {
+      "name": "node_pad_16",
+      "ms": 0.066799,
+      "calls_per_iter": 1.0,
+      "share": 0.003565
+    },
+    {
+      "name": "node_pad_36",
+      "ms": 0.066799,
+      "calls_per_iter": 1.0,
+      "share": 0.003565
+    },
+    {
+      "name": "node_pad_38",
+      "ms": 0.066765,
+      "calls_per_iter": 1.0,
+      "share": 0.003564
+    },
+    {
+      "name": "node_pad_8",
+      "ms": 0.066697,
+      "calls_per_iter": 1.0,
+      "share": 0.00356
+    },
+    {
+      "name": "node_pad_18",
+      "ms": 0.066662,
+      "calls_per_iter": 1.0,
+      "share": 0.003558
+    },
+    {
+      "name": "node_pad_28",
+      "ms": 0.066628,
+      "calls_per_iter": 1.0,
+      "share": 0.003556
+    },
+    {
+      "name": "node_conv2d_33",
+      "ms": 0.06342,
+      "calls_per_iter": 1.0,
+      "share": 0.003385
     },
     {
       "name": "node_conv2d_65",
-      "ms": 0.062805,
+      "ms": 0.062942,
       "calls_per_iter": 1.0,
-      "share": 0.003347
-    },
-    {
-      "name": "node_conv2d_49",
-      "ms": 0.062293,
-      "calls_per_iter": 1.0,
-      "share": 0.00332
+      "share": 0.00336
     },
     {
       "name": "__myl_AddReluMulSumAddReshExpCast_myl6_100",
-      "ms": 0.060484,
+      "ms": 0.062327,
       "calls_per_iter": 1.0,
-      "share": 0.003223
+      "share": 0.003327
     },
     {
-      "name": "Gemm_97_myl6_88",
-      "ms": 0.055091,
+      "name": "node_conv2d_49",
+      "ms": 0.062225,
       "calls_per_iter": 1.0,
-      "share": 0.002936
+      "share": 0.003321
     },
     {
       "name": "Gemm_106_myl6_96",
-      "ms": 0.055091,
+      "ms": 0.058914,
       "calls_per_iter": 1.0,
-      "share": 0.002936
+      "share": 0.003145
+    },
+    {
+      "name": "node_convolution",
+      "ms": 0.053965,
+      "calls_per_iter": 1.0,
+      "share": 0.00288
+    },
+    {
+      "name": "Gemm_97_myl6_88",
+      "ms": 0.053214,
+      "calls_per_iter": 1.0,
+      "share": 0.00284
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_14 + node_relu_5",
+      "ms": 0.052531,
+      "calls_per_iter": 1.0,
+      "share": 0.002804
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_61 + node_relu_23",
-      "ms": 0.052395,
+      "ms": 0.052429,
       "calls_per_iter": 1.0,
-      "share": 0.002792
+      "share": 0.002798
     },
     {
-      "name": "Gemm_52_myl6_47",
-      "ms": 0.052361,
-      "calls_per_iter": 1.0,
-      "share": 0.00279
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_15 + node_add_30",
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_46 + node_add_44",
       "ms": 0.052326,
+      "calls_per_iter": 1.0,
+      "share": 0.002793
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_45 + node_relu_17",
+      "ms": 0.052224,
       "calls_per_iter": 1.0,
       "share": 0.002788
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_14 + node_relu_5",
-      "ms": 0.052224,
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_15 + node_add_30",
+      "ms": 0.05219,
       "calls_per_iter": 1.0,
-      "share": 0.002783
+      "share": 0.002786
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_62 + node_add_51",
-      "ms": 0.05219,
+      "ms": 0.052122,
       "calls_per_iter": 1.0,
-      "share": 0.002781
+      "share": 0.002782
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_46 + node_add_44",
-      "ms": 0.052156,
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_upsample_bilinear2d_2",
+      "ms": 0.051337,
       "calls_per_iter": 1.0,
-      "share": 0.002779
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_45 + node_relu_17",
-      "ms": 0.051917,
-      "calls_per_iter": 1.0,
-      "share": 0.002767
+      "share": 0.00274
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_7",
-      "ms": 0.051405,
-      "calls_per_iter": 1.0,
-      "share": 0.002739
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_43",
       "ms": 0.051302,
       "calls_per_iter": 1.0,
-      "share": 0.002734
+      "share": 0.002738
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_12",
-      "ms": 0.051234,
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_upsample_bilinear2d_3",
+      "ms": 0.051302,
       "calls_per_iter": 1.0,
-      "share": 0.00273
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_17",
-      "ms": 0.051234,
-      "calls_per_iter": 1.0,
-      "share": 0.00273
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_18",
-      "ms": 0.0512,
-      "calls_per_iter": 1.0,
-      "share": 0.002728
+      "share": 0.002738
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_30 + node_add_37",
-      "ms": 0.0512,
+      "ms": 0.051268,
       "calls_per_iter": 1.0,
-      "share": 0.002728
-    },
-    {
-      "name": "Gemm_70_myl6_64",
-      "ms": 0.051166,
-      "calls_per_iter": 1.0,
-      "share": 0.002727
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_8",
-      "ms": 0.051166,
-      "calls_per_iter": 1.0,
-      "share": 0.002727
+      "share": 0.002736
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_27",
-      "ms": 0.051166,
+      "ms": 0.051234,
       "calls_per_iter": 1.0,
-      "share": 0.002727
+      "share": 0.002735
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_27",
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_12",
+      "ms": 0.0512,
+      "calls_per_iter": 1.0,
+      "share": 0.002733
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_29 + node_relu_11",
       "ms": 0.051166,
       "calls_per_iter": 1.0,
-      "share": 0.002727
+      "share": 0.002731
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_43",
+      "ms": 0.051166,
+      "calls_per_iter": 1.0,
+      "share": 0.002731
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_59",
       "ms": 0.051166,
       "calls_per_iter": 1.0,
+      "share": 0.002731
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_37",
+      "ms": 0.051098,
+      "calls_per_iter": 1.0,
       "share": 0.002727
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_26",
-      "ms": 0.051132,
-      "calls_per_iter": 1.0,
-      "share": 0.002725
-    },
-    {
-      "name": "node_convolution_9",
-      "ms": 0.051098,
-      "calls_per_iter": 1.0,
-      "share": 0.002723
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_38",
-      "ms": 0.051029,
-      "calls_per_iter": 1.0,
-      "share": 0.002719
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_16",
-      "ms": 0.050961,
-      "calls_per_iter": 1.0,
-      "share": 0.002716
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_6",
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_28",
       "ms": 0.050927,
       "calls_per_iter": 1.0,
-      "share": 0.002714
+      "share": 0.002718
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_29 + node_relu_11",
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_8",
       "ms": 0.050893,
       "calls_per_iter": 1.0,
-      "share": 0.002712
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_28",
-      "ms": 0.050893,
-      "calls_per_iter": 1.0,
-      "share": 0.002712
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_upsample_bilinear2d_3",
-      "ms": 0.050893,
-      "calls_per_iter": 1.0,
-      "share": 0.002712
+      "share": 0.002716
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to node_upsample_bilinear2d_4",
       "ms": 0.050893,
       "calls_per_iter": 1.0,
-      "share": 0.002712
+      "share": 0.002716
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_26",
+      "ms": 0.050859,
+      "calls_per_iter": 1.0,
+      "share": 0.002715
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_38",
+      "ms": 0.050859,
+      "calls_per_iter": 1.0,
+      "share": 0.002715
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_27",
+      "ms": 0.050825,
+      "calls_per_iter": 1.0,
+      "share": 0.002713
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_6",
+      "ms": 0.05079,
+      "calls_per_iter": 1.0,
+      "share": 0.002711
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_17",
+      "ms": 0.05079,
+      "calls_per_iter": 1.0,
+      "share": 0.002711
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_36",
-      "ms": 0.050859,
+      "ms": 0.05079,
       "calls_per_iter": 1.0,
-      "share": 0.00271
+      "share": 0.002711
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_upsample_bilinear2d_2",
-      "ms": 0.050825,
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_18",
+      "ms": 0.050722,
       "calls_per_iter": 1.0,
-      "share": 0.002708
+      "share": 0.002707
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to node_upsample_bilinear2d_1",
-      "ms": 0.050756,
+      "ms": 0.050688,
       "calls_per_iter": 1.0,
-      "share": 0.002705
+      "share": 0.002706
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_37",
-      "ms": 0.050756,
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_16",
+      "ms": 0.050688,
       "calls_per_iter": 1.0,
-      "share": 0.002705
+      "share": 0.002706
     },
     {
       "name": "conv2d_9 + node_add_27",
-      "ms": 0.050551,
+      "ms": 0.05062,
       "calls_per_iter": 1.0,
-      "share": 0.002694
-    },
-    {
-      "name": "Gemm_88_myl6_80",
-      "ms": 0.050005,
-      "calls_per_iter": 1.0,
-      "share": 0.002665
+      "share": 0.002702
     },
     {
       "name": "Gemm_43_myl6_39",
-      "ms": 0.049732,
+      "ms": 0.049323,
       "calls_per_iter": 1.0,
-      "share": 0.00265
+      "share": 0.002633
     },
     {
       "name": "node_conv2d",
-      "ms": 0.049596,
+      "ms": 0.049084,
       "calls_per_iter": 1.0,
-      "share": 0.002643
+      "share": 0.00262
+    },
+    {
+      "name": "Gemm_61_myl6_56",
+      "ms": 0.04905,
+      "calls_per_iter": 1.0,
+      "share": 0.002618
     },
     {
       "name": "Gemm_7_myl6_7",
-      "ms": 0.048913,
+      "ms": 0.048845,
       "calls_per_iter": 1.0,
       "share": 0.002607
     },
     {
-      "name": "Gemm_25_myl6_23",
-      "ms": 0.048845,
+      "name": "Gemm_52_myl6_47",
+      "ms": 0.048777,
       "calls_per_iter": 1.0,
       "share": 0.002603
     },
     {
-      "name": "Gemm_16_myl6_15",
+      "name": "Gemm_25_myl6_23",
       "ms": 0.048708,
       "calls_per_iter": 1.0,
-      "share": 0.002596
+      "share": 0.0026
     },
     {
       "name": "PWN(node_relu_4)",
-      "ms": 0.048572,
+      "ms": 0.048503,
       "calls_per_iter": 1.0,
-      "share": 0.002588
+      "share": 0.002589
     },
     {
-      "name": "Gemm_61_myl6_56",
-      "ms": 0.048435,
+      "name": "Gemm_16_myl6_15",
+      "ms": 0.048401,
       "calls_per_iter": 1.0,
-      "share": 0.002581
+      "share": 0.002583
     },
     {
       "name": "Gemm_34_myl6_31",
-      "ms": 0.048333,
+      "ms": 0.048128,
       "calls_per_iter": 1.0,
-      "share": 0.002576
+      "share": 0.002569
+    },
+    {
+      "name": "Gemm_70_myl6_64",
+      "ms": 0.047991,
+      "calls_per_iter": 1.0,
+      "share": 0.002562
     },
     {
       "name": "Gemm_79_myl6_72",
-      "ms": 0.048094,
+      "ms": 0.047718,
       "calls_per_iter": 1.0,
-      "share": 0.002563
+      "share": 0.002547
     },
     {
-      "name": "__myl_Fc_myl6_22",
-      "ms": 0.045875,
+      "name": "Gemm_88_myl6_80",
+      "ms": 0.047275,
       "calls_per_iter": 1.0,
-      "share": 0.002445
-    },
-    {
-      "name": "__myl_Fc_myl6_30",
-      "ms": 0.045739,
-      "calls_per_iter": 1.0,
-      "share": 0.002437
-    },
-    {
-      "name": "__myl_Fc_myl6_46",
-      "ms": 0.045739,
-      "calls_per_iter": 1.0,
-      "share": 0.002437
-    },
-    {
-      "name": "__myl_Fc_myl6_55",
-      "ms": 0.045739,
-      "calls_per_iter": 1.0,
-      "share": 0.002437
+      "share": 0.002523
     },
     {
       "name": "__myl_Fc_myl6_14",
-      "ms": 0.04567,
+      "ms": 0.046933,
       "calls_per_iter": 1.0,
-      "share": 0.002434
+      "share": 0.002505
     },
     {
-      "name": "__myl_Fc_myl6_38",
-      "ms": 0.04567,
+      "name": "__myl_Fc_myl6_22",
+      "ms": 0.046933,
       "calls_per_iter": 1.0,
-      "share": 0.002434
+      "share": 0.002505
     },
     {
-      "name": "__myl_Fc_myl6_79",
-      "ms": 0.0455,
+      "name": "__myl_Fc_myl6_46",
+      "ms": 0.046899,
       "calls_per_iter": 1.0,
-      "share": 0.002425
+      "share": 0.002503
     },
     {
       "name": "__myl_Fc_myl6_6",
-      "ms": 0.045466,
+      "ms": 0.046524,
       "calls_per_iter": 1.0,
-      "share": 0.002423
+      "share": 0.002483
     },
     {
-      "name": "__myl_Fc_myl6_87",
-      "ms": 0.045363,
+      "name": "__myl_Fc_myl6_30",
+      "ms": 0.046524,
       "calls_per_iter": 1.0,
-      "share": 0.002417
+      "share": 0.002483
+    },
+    {
+      "name": "__myl_Fc_myl6_38",
+      "ms": 0.046455,
+      "calls_per_iter": 1.0,
+      "share": 0.00248
+    },
+    {
+      "name": "__myl_Fc_myl6_79",
+      "ms": 0.046421,
+      "calls_per_iter": 1.0,
+      "share": 0.002478
+    },
+    {
+      "name": "__myl_Fc_myl6_55",
+      "ms": 0.046387,
+      "calls_per_iter": 1.0,
+      "share": 0.002476
     },
     {
       "name": "__myl_Fc_myl6_63",
-      "ms": 0.045329,
+      "ms": 0.046251,
       "calls_per_iter": 1.0,
-      "share": 0.002416
+      "share": 0.002469
     },
     {
       "name": "__myl_Fc_myl6_71",
-      "ms": 0.045227,
+      "ms": 0.046217,
       "calls_per_iter": 1.0,
-      "share": 0.00241
+      "share": 0.002467
+    },
+    {
+      "name": "__myl_Fc_myl6_87",
+      "ms": 0.045875,
+      "calls_per_iter": 1.0,
+      "share": 0.002449
     },
     {
       "name": "__myl_Fc_myl6_95",
-      "ms": 0.044817,
+      "ms": 0.045363,
       "calls_per_iter": 1.0,
-      "share": 0.002388
-    },
-    {
-      "name": "node_sum_1",
-      "ms": 0.044066,
-      "calls_per_iter": 1.0,
-      "share": 0.002348
-    },
-    {
-      "name": "node_convolution_6",
-      "ms": 0.039936,
-      "calls_per_iter": 1.0,
-      "share": 0.002128
+      "share": 0.002421
     },
     {
       "name": "node_pad_4",
-      "ms": 0.039219,
-      "calls_per_iter": 1.0,
-      "share": 0.00209
-    },
-    {
-      "name": "node_pad_15",
-      "ms": 0.039083,
-      "calls_per_iter": 1.0,
-      "share": 0.002083
-    },
-    {
-      "name": "node_pad_5",
-      "ms": 0.03898,
-      "calls_per_iter": 1.0,
-      "share": 0.002077
-    },
-    {
-      "name": "node_pad_14",
-      "ms": 0.038878,
+      "ms": 0.03881,
       "calls_per_iter": 1.0,
       "share": 0.002072
     },
     {
-      "name": "node_convolution",
-      "ms": 0.038537,
+      "name": "node_pad_14",
+      "ms": 0.03881,
       "calls_per_iter": 1.0,
-      "share": 0.002054
+      "share": 0.002072
     },
     {
       "name": "node_convolution_1",
-      "ms": 0.038502,
+      "ms": 0.038571,
       "calls_per_iter": 1.0,
-      "share": 0.002052
+      "share": 0.002059
+    },
+    {
+      "name": "node_pad_5",
+      "ms": 0.038537,
+      "calls_per_iter": 1.0,
+      "share": 0.002057
+    },
+    {
+      "name": "node_pad_15",
+      "ms": 0.038537,
+      "calls_per_iter": 1.0,
+      "share": 0.002057
     },
     {
       "name": "node_convolution_4",
-      "ms": 0.038366,
+      "ms": 0.038263,
       "calls_per_iter": 1.0,
-      "share": 0.002045
+      "share": 0.002042
     },
     {
       "name": "node_pad_3",
-      "ms": 0.038093,
+      "ms": 0.03782,
       "calls_per_iter": 1.0,
-      "share": 0.00203
-    },
-    {
-      "name": "node_pad_13",
-      "ms": 0.038059,
-      "calls_per_iter": 1.0,
-      "share": 0.002028
-    },
-    {
-      "name": "node_pad_33",
-      "ms": 0.038059,
-      "calls_per_iter": 1.0,
-      "share": 0.002028
+      "share": 0.002019
     },
     {
       "name": "node_pad_23",
-      "ms": 0.037922,
-      "calls_per_iter": 1.0,
-      "share": 0.002021
-    },
-    {
-      "name": "node_pad_25",
       "ms": 0.03782,
       "calls_per_iter": 1.0,
-      "share": 0.002015
+      "share": 0.002019
     },
     {
-      "name": "node_pad_35",
+      "name": "node_pad_33",
       "ms": 0.037717,
+      "calls_per_iter": 1.0,
+      "share": 0.002013
+    },
+    {
+      "name": "node_pad_13",
+      "ms": 0.037649,
       "calls_per_iter": 1.0,
       "share": 0.00201
     },
     {
       "name": "node_convolution_7",
-      "ms": 0.037649,
+      "ms": 0.037615,
+      "calls_per_iter": 1.0,
+      "share": 0.002008
+    },
+    {
+      "name": "node_pad_24",
+      "ms": 0.037581,
       "calls_per_iter": 1.0,
       "share": 0.002006
     },
@@ -1145,961 +1132,979 @@
       "name": "node_pad_34",
       "ms": 0.037478,
       "calls_per_iter": 1.0,
-      "share": 0.001997
+      "share": 0.002
     },
     {
-      "name": "node_pad_24",
-      "ms": 0.03741,
+      "name": "node_pad_35",
+      "ms": 0.037444,
       "calls_per_iter": 1.0,
-      "share": 0.001994
+      "share": 0.001999
+    },
+    {
+      "name": "node_pad_25",
+      "ms": 0.037274,
+      "calls_per_iter": 1.0,
+      "share": 0.00199
+    },
+    {
+      "name": "node_convolution_6",
+      "ms": 0.037239,
+      "calls_per_iter": 1.0,
+      "share": 0.001988
     },
     {
       "name": "node_convolution_10",
-      "ms": 0.036796,
+      "ms": 0.037205,
       "calls_per_iter": 1.0,
-      "share": 0.001961
+      "share": 0.001986
     },
     {
-      "name": "node_pad",
-      "ms": 0.030618,
+      "name": "node_sum_1",
+      "ms": 0.031744,
       "calls_per_iter": 1.0,
-      "share": 0.001632
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad",
-      "ms": 0.030174,
-      "calls_per_iter": 1.0,
-      "share": 0.001608
-    },
-    {
-      "name": "node_convolution_3",
-      "ms": 0.029833,
-      "calls_per_iter": 1.0,
-      "share": 0.00159
+      "share": 0.001694
     },
     {
       "name": "Gemm_1_myl6_1",
-      "ms": 0.029559,
+      "ms": 0.030037,
       "calls_per_iter": 1.0,
-      "share": 0.001575
+      "share": 0.001603
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_14",
-      "ms": 0.029286,
+      "name": "node_convolution_3",
+      "ms": 0.029662,
+      "calls_per_iter": 1.0,
+      "share": 0.001583
+    },
+    {
+      "name": "Gemm_73_myl6_66",
+      "ms": 0.029559,
+      "calls_per_iter": 1.0,
+      "share": 0.001578
+    },
+    {
+      "name": "Gemm_37_myl6_33",
+      "ms": 0.029525,
+      "calls_per_iter": 1.0,
+      "share": 0.001576
+    },
+    {
+      "name": "conv2d_5 + node_add_25",
+      "ms": 0.029389,
+      "calls_per_iter": 1.0,
+      "share": 0.001569
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_55",
+      "ms": 0.029252,
       "calls_per_iter": 1.0,
       "share": 0.001561
     },
     {
-      "name": "__myl_AddSqrtDivMulCastMulAddMoveReshReshMoveReshSlicTranReshSlicReshMulSumAddRelu_myl6_98",
-      "ms": 0.02915,
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_14",
+      "ms": 0.029218,
       "calls_per_iter": 1.0,
-      "share": 0.001553
+      "share": 0.00156
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_24",
-      "ms": 0.029082,
+      "name": "__myl_AddSqrtDivMulCastMulAddMoveReshReshMoveReshSlicTranReshSlicReshMulSumAddRelu_myl6_98",
+      "ms": 0.029184,
+      "calls_per_iter": 1.0,
+      "share": 0.001558
+    },
+    {
+      "name": "Gemm_10_myl6_9",
+      "ms": 0.02915,
+      "calls_per_iter": 1.0,
+      "share": 0.001556
+    },
+    {
+      "name": "Gemm_91_myl6_82",
+      "ms": 0.029116,
+      "calls_per_iter": 1.0,
+      "share": 0.001554
+    },
+    {
+      "name": "node_conv2d_18 || node_conv2d_34 || node_conv2d_50",
+      "ms": 0.029116,
+      "calls_per_iter": 1.0,
+      "share": 0.001554
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_39",
+      "ms": 0.029116,
+      "calls_per_iter": 1.0,
+      "share": 0.001554
+    },
+    {
+      "name": "Gemm_19_myl6_17",
+      "ms": 0.029047,
       "calls_per_iter": 1.0,
       "share": 0.00155
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_34",
+      "name": "Gemm_82_myl6_74",
       "ms": 0.029047,
       "calls_per_iter": 1.0,
-      "share": 0.001548
+      "share": 0.00155
     },
     {
       "name": "Gemm_46_myl6_41",
       "ms": 0.029013,
       "calls_per_iter": 1.0,
-      "share": 0.001546
+      "share": 0.001549
     },
     {
-      "name": "conv2d_5 + node_add_25",
+      "name": "Gemm_100_myl6_90",
+      "ms": 0.029013,
+      "calls_per_iter": 1.0,
+      "share": 0.001549
+    },
+    {
+      "name": "Gemm_28_myl6_25",
       "ms": 0.028945,
       "calls_per_iter": 1.0,
-      "share": 0.001542
+      "share": 0.001545
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_15",
-      "ms": 0.028945,
-      "calls_per_iter": 1.0,
-      "share": 0.001542
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_55",
-      "ms": 0.028945,
-      "calls_per_iter": 1.0,
-      "share": 0.001542
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_39",
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_34",
       "ms": 0.028911,
+      "calls_per_iter": 1.0,
+      "share": 0.001543
+    },
+    {
+      "name": "Gemm_55_myl6_50",
+      "ms": 0.028877,
       "calls_per_iter": 1.0,
       "share": 0.001541
     },
     {
-      "name": "node_conv2d_52 + node_add_46",
+      "name": "node_conv2d_36 + node_add_39",
       "ms": 0.028877,
       "calls_per_iter": 1.0,
-      "share": 0.001539
+      "share": 0.001541
+    },
+    {
+      "name": "Gemm_64_myl6_58",
+      "ms": 0.028843,
+      "calls_per_iter": 1.0,
+      "share": 0.00154
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_15",
+      "ms": 0.028843,
+      "calls_per_iter": 1.0,
+      "share": 0.00154
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_24",
+      "ms": 0.028843,
+      "calls_per_iter": 1.0,
+      "share": 0.00154
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_25",
-      "ms": 0.028843,
-      "calls_per_iter": 1.0,
-      "share": 0.001537
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_4",
-      "ms": 0.028809,
-      "calls_per_iter": 1.0,
-      "share": 0.001535
-    },
-    {
-      "name": "Gemm_82_myl6_74",
-      "ms": 0.02874,
-      "calls_per_iter": 1.0,
-      "share": 0.001532
-    },
-    {
-      "name": "node_conv2d_36 + node_add_39",
-      "ms": 0.02874,
-      "calls_per_iter": 1.0,
-      "share": 0.001532
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_5",
-      "ms": 0.028706,
+      "ms": 0.028672,
       "calls_per_iter": 1.0,
       "share": 0.00153
     },
     {
-      "name": "Gemm_10_myl6_9",
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_42 + node_add_42",
       "ms": 0.028672,
       "calls_per_iter": 1.0,
-      "share": 0.001528
+      "share": 0.00153
     },
     {
-      "name": "Gemm_73_myl6_66",
-      "ms": 0.028672,
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_10 + node_relu_3",
+      "ms": 0.02857,
       "calls_per_iter": 1.0,
-      "share": 0.001528
+      "share": 0.001525
     },
     {
-      "name": "Gemm_91_myl6_82",
-      "ms": 0.028672,
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_57 + node_relu_21",
+      "ms": 0.02857,
       "calls_per_iter": 1.0,
-      "share": 0.001528
+      "share": 0.001525
     },
     {
-      "name": "Gemm_19_myl6_17",
-      "ms": 0.028638,
+      "name": "node_conv2d_52 + node_add_46",
+      "ms": 0.028535,
       "calls_per_iter": 1.0,
-      "share": 0.001526
+      "share": 0.001523
     },
     {
-      "name": "Gemm_55_myl6_50",
-      "ms": 0.028638,
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_5",
+      "ms": 0.028501,
       "calls_per_iter": 1.0,
-      "share": 0.001526
+      "share": 0.001521
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_35",
-      "ms": 0.028604,
-      "calls_per_iter": 1.0,
-      "share": 0.001524
-    },
-    {
-      "name": "Gemm_28_myl6_25",
-      "ms": 0.02857,
-      "calls_per_iter": 1.0,
-      "share": 0.001522
-    },
-    {
-      "name": "Gemm_37_myl6_33",
-      "ms": 0.028535,
-      "calls_per_iter": 1.0,
-      "share": 0.001521
-    },
-    {
-      "name": "Gemm_100_myl6_90",
-      "ms": 0.028535,
-      "calls_per_iter": 1.0,
-      "share": 0.001521
-    },
-    {
-      "name": "node_conv2d_18 || node_conv2d_34 || node_conv2d_50",
-      "ms": 0.028535,
-      "calls_per_iter": 1.0,
-      "share": 0.001521
-    },
-    {
-      "name": "Gemm_64_myl6_58",
       "ms": 0.028501,
       "calls_per_iter": 1.0,
+      "share": 0.001521
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_4",
+      "ms": 0.028467,
+      "calls_per_iter": 1.0,
       "share": 0.001519
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_41 + node_relu_15",
+      "ms": 0.028467,
+      "calls_per_iter": 1.0,
+      "share": 0.001519
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_25 + node_relu_9",
+      "ms": 0.028433,
+      "calls_per_iter": 1.0,
+      "share": 0.001518
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_8",
+      "ms": 0.028399,
+      "calls_per_iter": 1.0,
+      "share": 0.001516
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_11 + node_add_28",
+      "ms": 0.028399,
+      "calls_per_iter": 1.0,
+      "share": 0.001516
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_23",
+      "ms": 0.028399,
+      "calls_per_iter": 1.0,
+      "share": 0.001516
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_23",
-      "ms": 0.028501,
+      "ms": 0.028399,
       "calls_per_iter": 1.0,
-      "share": 0.001519
+      "share": 0.001516
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_33",
-      "ms": 0.028467,
+      "ms": 0.028399,
       "calls_per_iter": 1.0,
-      "share": 0.001517
+      "share": 0.001516
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_3",
-      "ms": 0.028331,
+      "ms": 0.028365,
       "calls_per_iter": 1.0,
-      "share": 0.00151
+      "share": 0.001514
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_58 + node_add_49",
+      "ms": 0.028365,
+      "calls_per_iter": 1.0,
+      "share": 0.001514
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_13",
       "ms": 0.028331,
       "calls_per_iter": 1.0,
-      "share": 0.00151
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_23",
-      "ms": 0.028262,
-      "calls_per_iter": 1.0,
-      "share": 0.001506
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_25 + node_relu_9",
-      "ms": 0.028262,
-      "calls_per_iter": 1.0,
-      "share": 0.001506
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_58 + node_add_49",
-      "ms": 0.028262,
-      "calls_per_iter": 1.0,
-      "share": 0.001506
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_57 + node_relu_21",
-      "ms": 0.028194,
-      "calls_per_iter": 1.0,
-      "share": 0.001502
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_41 + node_relu_15",
-      "ms": 0.028126,
-      "calls_per_iter": 1.0,
-      "share": 0.001499
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_10 + node_relu_3",
-      "ms": 0.028092,
-      "calls_per_iter": 1.0,
-      "share": 0.001497
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_8",
-      "ms": 0.027989,
-      "calls_per_iter": 1.0,
-      "share": 0.001492
+      "share": 0.001512
     },
     {
       "name": "PWN(node_relu_2)",
-      "ms": 0.027887,
+      "ms": 0.028228,
       "calls_per_iter": 1.0,
-      "share": 0.001486
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_11 + node_add_28",
-      "ms": 0.027887,
-      "calls_per_iter": 1.0,
-      "share": 0.001486
+      "share": 0.001507
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_26 + node_add_35",
-      "ms": 0.027887,
+      "ms": 0.02816,
       "calls_per_iter": 1.0,
-      "share": 0.001486
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_42 + node_add_42",
-      "ms": 0.027716,
-      "calls_per_iter": 1.0,
-      "share": 0.001477
+      "share": 0.001503
     },
     {
       "name": "node_conv2d_20 + node_add_32",
-      "ms": 0.027546,
+      "ms": 0.02758,
       "calls_per_iter": 1.0,
-      "share": 0.001468
+      "share": 0.001472
+    },
+    {
+      "name": "node_pad",
+      "ms": 0.025873,
+      "calls_per_iter": 1.0,
+      "share": 0.001381
     },
     {
       "name": "node_pad_20",
-      "ms": 0.024815,
+      "ms": 0.024713,
       "calls_per_iter": 1.0,
-      "share": 0.001322
-    },
-    {
-      "name": "node_Unsqueeze_803_copy_output",
-      "ms": 0.024474,
-      "calls_per_iter": 1.0,
-      "share": 0.001304
+      "share": 0.001319
     },
     {
       "name": "node_pad_10",
       "ms": 0.024337,
       "calls_per_iter": 1.0,
-      "share": 0.001297
+      "share": 0.001299
     },
     {
       "name": "node_pad_30",
-      "ms": 0.023791,
-      "calls_per_iter": 1.0,
-      "share": 0.001268
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_21 + node_relu_7",
-      "ms": 0.023723,
-      "calls_per_iter": 1.0,
-      "share": 0.001264
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_35",
       "ms": 0.023552,
       "calls_per_iter": 1.0,
-      "share": 0.001255
+      "share": 0.001257
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_53 + node_relu_19",
-      "ms": 0.023518,
-      "calls_per_iter": 1.0,
-      "share": 0.001253
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_37 + node_relu_13",
-      "ms": 0.023245,
-      "calls_per_iter": 1.0,
-      "share": 0.001239
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_4",
-      "ms": 0.022835,
-      "calls_per_iter": 1.0,
-      "share": 0.001217
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_51",
-      "ms": 0.022835,
-      "calls_per_iter": 1.0,
-      "share": 0.001217
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_22 + node_add_33",
-      "ms": 0.022699,
-      "calls_per_iter": 1.0,
-      "share": 0.00121
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_19",
-      "ms": 0.022665,
-      "calls_per_iter": 1.0,
-      "share": 0.001208
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_54 + node_add_47",
-      "ms": 0.02263,
+      "ms": 0.022596,
       "calls_per_iter": 1.0,
       "share": 0.001206
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_7 + node_add_26",
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_6 + node_relu_1",
       "ms": 0.022528,
       "calls_per_iter": 1.0,
-      "share": 0.001201
+      "share": 0.001202
     },
     {
-      "name": "node_pad_21",
-      "ms": 0.022528,
-      "calls_per_iter": 1.0,
-      "share": 0.001201
-    },
-    {
-      "name": "node_pad_1",
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_37 + node_relu_13",
       "ms": 0.022494,
       "calls_per_iter": 1.0,
-      "share": 0.001199
+      "share": 0.001201
     },
     {
       "name": "node_pad_22",
-      "ms": 0.022494,
+      "ms": 0.02246,
       "calls_per_iter": 1.0,
       "share": 0.001199
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_6 + node_relu_1",
-      "ms": 0.022426,
+      "name": "node_pad_32",
+      "ms": 0.02246,
+      "calls_per_iter": 1.0,
+      "share": 0.001199
+    },
+    {
+      "name": "node_pad_21",
+      "ms": 0.022391,
       "calls_per_iter": 1.0,
       "share": 0.001195
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_38 + node_add_40",
-      "ms": 0.022391,
-      "calls_per_iter": 1.0,
-      "share": 0.001193
-    },
-    {
-      "name": "node_pad_31",
-      "ms": 0.022391,
-      "calls_per_iter": 1.0,
-      "share": 0.001193
-    },
-    {
-      "name": "node_pad_2",
+      "name": "node_pad_12",
       "ms": 0.022357,
       "calls_per_iter": 1.0,
-      "share": 0.001191
+      "share": 0.001193
     },
     {
-      "name": "node_pad_11",
-      "ms": 0.022323,
+      "name": "node_pad_1",
+      "ms": 0.022289,
       "calls_per_iter": 1.0,
       "share": 0.00119
     },
     {
-      "name": "node_pad_12",
-      "ms": 0.022255,
+      "name": "node_pad_31",
+      "ms": 0.022289,
       "calls_per_iter": 1.0,
-      "share": 0.001186
+      "share": 0.00119
     },
     {
-      "name": "node_pad_32",
-      "ms": 0.022221,
+      "name": "node_pad_2",
+      "ms": 0.022187,
       "calls_per_iter": 1.0,
       "share": 0.001184
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_30",
-      "ms": 0.021743,
+      "name": "node_pad_11",
+      "ms": 0.022187,
+      "calls_per_iter": 1.0,
+      "share": 0.001184
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_35",
+      "ms": 0.022016,
+      "calls_per_iter": 1.0,
+      "share": 0.001175
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_19",
+      "ms": 0.021948,
+      "calls_per_iter": 1.0,
+      "share": 0.001171
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_7 + node_add_26",
+      "ms": 0.021879,
+      "calls_per_iter": 1.0,
+      "share": 0.001168
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_21 + node_relu_7",
+      "ms": 0.021879,
+      "calls_per_iter": 1.0,
+      "share": 0.001168
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad",
+      "ms": 0.021845,
+      "calls_per_iter": 1.0,
+      "share": 0.001166
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_38 + node_add_40",
+      "ms": 0.021811,
+      "calls_per_iter": 1.0,
+      "share": 0.001164
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_51",
+      "ms": 0.021811,
+      "calls_per_iter": 1.0,
+      "share": 0.001164
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_4",
+      "ms": 0.021777,
+      "calls_per_iter": 1.0,
+      "share": 0.001162
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_54 + node_add_47",
+      "ms": 0.021709,
       "calls_per_iter": 1.0,
       "share": 0.001159
     },
     {
-      "name": "node_conv2d_3",
-      "ms": 0.020207,
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_22 + node_add_33",
+      "ms": 0.021675,
       "calls_per_iter": 1.0,
-      "share": 0.001077
+      "share": 0.001157
     },
     {
       "name": "node_upsample_bilinear2d_5",
-      "ms": 0.019763,
+      "ms": 0.020036,
       "calls_per_iter": 1.0,
-      "share": 0.001053
-    },
-    {
-      "name": "node_upsample_bilinear2d_7",
-      "ms": 0.019763,
-      "calls_per_iter": 1.0,
-      "share": 0.001053
+      "share": 0.001069
     },
     {
       "name": "node_upsample_bilinear2d_6",
-      "ms": 0.019695,
+      "ms": 0.019797,
       "calls_per_iter": 1.0,
-      "share": 0.00105
+      "share": 0.001057
+    },
+    {
+      "name": "node_upsample_bilinear2d_7",
+      "ms": 0.019558,
+      "calls_per_iter": 1.0,
+      "share": 0.001044
+    },
+    {
+      "name": "node_Unsqueeze_803_copy_output",
+      "ms": 0.019081,
+      "calls_per_iter": 1.0,
+      "share": 0.001018
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to PWN(node_relu)",
-      "ms": 0.018876,
+      "ms": 0.019012,
       "calls_per_iter": 1.0,
-      "share": 0.001006
-    },
-    {
-      "name": "node_Unsqueeze_801_copy_output",
-      "ms": 0.018466,
-      "calls_per_iter": 1.0,
-      "share": 0.000984
+      "share": 0.001015
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to PWN(node_relu_6)",
-      "ms": 0.01833,
+      "ms": 0.019012,
       "calls_per_iter": 1.0,
-      "share": 0.000977
+      "share": 0.001015
+    },
+    {
+      "name": "node_conv2d_3",
+      "ms": 0.018637,
+      "calls_per_iter": 1.0,
+      "share": 0.000995
+    },
+    {
+      "name": "node_Unsqueeze_801_copy_output",
+      "ms": 0.018022,
+      "calls_per_iter": 1.0,
+      "share": 0.000962
     },
     {
       "name": "node_conv2d_1",
-      "ms": 0.018091,
+      "ms": 0.017749,
       "calls_per_iter": 1.0,
-      "share": 0.000964
+      "share": 0.000947
+    },
+    {
+      "name": "Gemm_3_myl6_4",
+      "ms": 0.017613,
+      "calls_per_iter": 1.0,
+      "share": 0.00094
     },
     {
       "name": "PWN(PWN(node_sub), PWN(node_div))",
-      "ms": 0.017476,
+      "ms": 0.017545,
       "calls_per_iter": 1.0,
-      "share": 0.000931
+      "share": 0.000936
     },
     {
-      "name": "Gemm_12_myl6_12",
-      "ms": 0.017442,
+      "name": "Gemm_48_myl6_44",
+      "ms": 0.017408,
       "calls_per_iter": 1.0,
       "share": 0.000929
     },
     {
-      "name": "Gemm_39_myl6_36",
-      "ms": 0.01734,
+      "name": "Gemm_30_myl6_28",
+      "ms": 0.017374,
       "calls_per_iter": 1.0,
-      "share": 0.000924
+      "share": 0.000927
     },
     {
-      "name": "Gemm_48_myl6_44",
+      "name": "Gemm_39_myl6_36",
       "ms": 0.017271,
+      "calls_per_iter": 1.0,
+      "share": 0.000922
+    },
+    {
+      "name": "Gemm_21_myl6_20",
+      "ms": 0.017237,
       "calls_per_iter": 1.0,
       "share": 0.00092
     },
     {
-      "name": "Gemm_3_myl6_4",
-      "ms": 0.017203,
+      "name": "Gemm_75_myl6_69",
+      "ms": 0.017169,
       "calls_per_iter": 1.0,
-      "share": 0.000917
+      "share": 0.000916
     },
     {
-      "name": "Gemm_30_myl6_28",
-      "ms": 0.017203,
+      "name": "Gemm_12_myl6_12",
+      "ms": 0.017067,
       "calls_per_iter": 1.0,
-      "share": 0.000917
+      "share": 0.000911
     },
     {
-      "name": "Gemm_21_myl6_20",
-      "ms": 0.016998,
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_20",
+      "ms": 0.016964,
       "calls_per_iter": 1.0,
-      "share": 0.000906
+      "share": 0.000905
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_2",
+      "ms": 0.016794,
+      "calls_per_iter": 1.0,
+      "share": 0.000896
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to PWN(node_relu_18)",
-      "ms": 0.016862,
+      "ms": 0.016725,
       "calls_per_iter": 1.0,
-      "share": 0.000899
+      "share": 0.000893
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_22",
-      "ms": 0.016691,
+      "name": "node_conv2d_2",
+      "ms": 0.016657,
       "calls_per_iter": 1.0,
       "share": 0.000889
     },
     {
-      "name": "node_conv2d_2",
-      "ms": 0.016623,
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_32",
+      "ms": 0.016657,
       "calls_per_iter": 1.0,
-      "share": 0.000886
+      "share": 0.000889
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_2",
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_22",
       "ms": 0.016623,
       "calls_per_iter": 1.0,
-      "share": 0.000886
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to PWN(node_relu_12)",
-      "ms": 0.016589,
-      "calls_per_iter": 1.0,
-      "share": 0.000884
+      "share": 0.000887
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_12",
-      "ms": 0.016486,
+      "ms": 0.016521,
       "calls_per_iter": 1.0,
-      "share": 0.000879
+      "share": 0.000882
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_32",
-      "ms": 0.016486,
+      "name": "Reformatting CopyNode for Input Tensor 0 to PWN(node_relu_12)",
+      "ms": 0.016521,
       "calls_per_iter": 1.0,
-      "share": 0.000879
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d",
-      "ms": 0.016418,
-      "calls_per_iter": 1.0,
-      "share": 0.000875
-    },
-    {
-      "name": "Gemm_75_myl6_69",
-      "ms": 0.016418,
-      "calls_per_iter": 1.0,
-      "share": 0.000875
-    },
-    {
-      "name": "Gemm_57_myl6_53",
-      "ms": 0.016213,
-      "calls_per_iter": 1.0,
-      "share": 0.000864
-    },
-    {
-      "name": "Gemm_66_myl6_61",
-      "ms": 0.016179,
-      "calls_per_iter": 1.0,
-      "share": 0.000862
-    },
-    {
-      "name": "Gemm_93_myl6_85",
-      "ms": 0.016179,
-      "calls_per_iter": 1.0,
-      "share": 0.000862
+      "share": 0.000882
     },
     {
       "name": "Gemm_84_myl6_77",
-      "ms": 0.016077,
+      "ms": 0.016486,
       "calls_per_iter": 1.0,
-      "share": 0.000857
+      "share": 0.00088
+    },
+    {
+      "name": "Gemm_57_myl6_53",
+      "ms": 0.016384,
+      "calls_per_iter": 1.0,
+      "share": 0.000875
+    },
+    {
+      "name": "Gemm_66_myl6_61",
+      "ms": 0.016384,
+      "calls_per_iter": 1.0,
+      "share": 0.000875
     },
     {
       "name": "Gemm_102_myl6_93",
-      "ms": 0.016077,
+      "ms": 0.01635,
       "calls_per_iter": 1.0,
-      "share": 0.000857
+      "share": 0.000873
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_20",
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d",
+      "ms": 0.016282,
+      "calls_per_iter": 1.0,
+      "share": 0.000869
+    },
+    {
+      "name": "Gemm_93_myl6_85",
+      "ms": 0.016247,
+      "calls_per_iter": 1.0,
+      "share": 0.000867
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_10",
       "ms": 0.016009,
+      "calls_per_iter": 1.0,
+      "share": 0.000854
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_30",
+      "ms": 0.015974,
       "calls_per_iter": 1.0,
       "share": 0.000853
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_pad_10",
-      "ms": 0.015838,
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl6_34",
+      "ms": 0.015599,
       "calls_per_iter": 1.0,
-      "share": 0.000844
+      "share": 0.000833
     },
     {
       "name": "__myl_AddSqrtDivMulCastMulAddMoveReshReshMoveReshSlicTranReshMulAdd_myl6_49",
-      "ms": 0.015804,
+      "ms": 0.015599,
       "calls_per_iter": 1.0,
-      "share": 0.000842
+      "share": 0.000833
+    },
+    {
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl6_67",
+      "ms": 0.015599,
+      "calls_per_iter": 1.0,
+      "share": 0.000833
     },
     {
       "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl6_59",
-      "ms": 0.015428,
+      "ms": 0.015565,
       "calls_per_iter": 1.0,
-      "share": 0.000822
+      "share": 0.000831
+    },
+    {
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl6_75",
+      "ms": 0.015565,
+      "calls_per_iter": 1.0,
+      "share": 0.000831
     },
     {
       "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl6_83",
-      "ms": 0.015428,
+      "ms": 0.015497,
+      "calls_per_iter": 1.0,
+      "share": 0.000827
+    },
+    {
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl6_91",
+      "ms": 0.015497,
+      "calls_per_iter": 1.0,
+      "share": 0.000827
+    },
+    {
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl6_10",
+      "ms": 0.015394,
       "calls_per_iter": 1.0,
       "share": 0.000822
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl6_42",
-      "ms": 0.015394,
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl6_2",
+      "ms": 0.01536,
       "calls_per_iter": 1.0,
       "share": 0.00082
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl6_10",
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl6_18",
       "ms": 0.01536,
       "calls_per_iter": 1.0,
-      "share": 0.000819
+      "share": 0.00082
     },
     {
       "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl6_26",
       "ms": 0.01536,
       "calls_per_iter": 1.0,
-      "share": 0.000819
+      "share": 0.00082
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl6_18",
+      "name": "exp copy",
       "ms": 0.015326,
       "calls_per_iter": 1.0,
-      "share": 0.000817
+      "share": 0.000818
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl6_91",
-      "ms": 0.015326,
-      "calls_per_iter": 1.0,
-      "share": 0.000817
-    },
-    {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl6_2",
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl6_42",
       "ms": 0.015292,
       "calls_per_iter": 1.0,
-      "share": 0.000815
+      "share": 0.000816
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl6_67",
-      "ms": 0.015258,
+      "name": "PWN(node_relu_12)",
+      "ms": 0.014268,
       "calls_per_iter": 1.0,
-      "share": 0.000813
-    },
-    {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl6_75",
-      "ms": 0.015258,
-      "calls_per_iter": 1.0,
-      "share": 0.000813
-    },
-    {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl6_34",
-      "ms": 0.015223,
-      "calls_per_iter": 1.0,
-      "share": 0.000811
+      "share": 0.000762
     },
     {
       "name": "sum_1 copy",
-      "ms": 0.014746,
+      "ms": 0.014199,
       "calls_per_iter": 1.0,
-      "share": 0.000786
+      "share": 0.000758
     },
     {
       "name": "PWN(node_relu_6)",
-      "ms": 0.014063,
+      "ms": 0.014029,
       "calls_per_iter": 1.0,
       "share": 0.000749
     },
     {
       "name": "PWN(node_relu)",
-      "ms": 0.013926,
+      "ms": 0.013961,
       "calls_per_iter": 1.0,
-      "share": 0.000742
-    },
-    {
-      "name": "PWN(node_relu_12)",
-      "ms": 0.013926,
-      "calls_per_iter": 1.0,
-      "share": 0.000742
+      "share": 0.000745
     },
     {
       "name": "PWN(node_relu_18)",
-      "ms": 0.013722,
+      "ms": 0.013892,
       "calls_per_iter": 1.0,
-      "share": 0.000731
+      "share": 0.000742
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMean_myl6_48",
-      "ms": 0.013414,
+      "ms": 0.013449,
       "calls_per_iter": 1.0,
-      "share": 0.000715
+      "share": 0.000718
     },
     {
       "name": "PWN(PWN(node_clamp_min), PWN(node_expand_17 + node_div_1))",
       "ms": 0.012902,
       "calls_per_iter": 1.0,
-      "share": 0.000688
-    },
-    {
-      "name": "mul_24 copy",
-      "ms": 0.011878,
-      "calls_per_iter": 1.0,
-      "share": 0.000633
+      "share": 0.000689
     },
     {
       "name": "node_permute_33",
-      "ms": 0.011776,
+      "ms": 0.012049,
       "calls_per_iter": 1.0,
-      "share": 0.000628
+      "share": 0.000643
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_54",
-      "ms": 0.011639,
+      "name": "mul_24 copy",
+      "ms": 0.011981,
       "calls_per_iter": 1.0,
-      "share": 0.00062
-    },
-    {
-      "name": "__myl_ReshTranConcAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_0",
-      "ms": 0.011605,
-      "calls_per_iter": 1.0,
-      "share": 0.000618
+      "share": 0.000639
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMean_myl6_97",
-      "ms": 0.011605,
+      "ms": 0.011571,
       "calls_per_iter": 1.0,
       "share": 0.000618
     },
     {
       "name": "node_linalg_vector_norm + node_linalg_vector_norm_1756 + node_linalg_vector_norm_1757",
-      "ms": 0.011605,
+      "ms": 0.011469,
       "calls_per_iter": 1.0,
-      "share": 0.000618
+      "share": 0.000612
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_70",
+      "ms": 0.011435,
+      "calls_per_iter": 1.0,
+      "share": 0.00061
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_54",
+      "ms": 0.011401,
+      "calls_per_iter": 1.0,
+      "share": 0.000609
     },
     {
       "name": "node_permute_34",
-      "ms": 0.011537,
-      "calls_per_iter": 1.0,
-      "share": 0.000615
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_62",
-      "ms": 0.011503,
-      "calls_per_iter": 1.0,
-      "share": 0.000613
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_29",
       "ms": 0.011332,
       "calls_per_iter": 1.0,
-      "share": 0.000604
+      "share": 0.000605
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_78",
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_13",
       "ms": 0.011298,
       "calls_per_iter": 1.0,
-      "share": 0.000602
+      "share": 0.000603
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_45",
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_21",
       "ms": 0.011264,
       "calls_per_iter": 1.0,
-      "share": 0.0006
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_86",
-      "ms": 0.011264,
-      "calls_per_iter": 1.0,
-      "share": 0.0006
+      "share": 0.000601
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_94",
       "ms": 0.011264,
       "calls_per_iter": 1.0,
-      "share": 0.0006
+      "share": 0.000601
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_37",
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_65",
       "ms": 0.01123,
+      "calls_per_iter": 1.0,
+      "share": 0.000599
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_45",
+      "ms": 0.011196,
       "calls_per_iter": 1.0,
       "share": 0.000598
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_70",
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_57",
       "ms": 0.011196,
       "calls_per_iter": 1.0,
-      "share": 0.000597
+      "share": 0.000598
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_21",
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_78",
+      "ms": 0.011196,
+      "calls_per_iter": 1.0,
+      "share": 0.000598
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_62",
       "ms": 0.011162,
       "calls_per_iter": 1.0,
-      "share": 0.000595
+      "share": 0.000596
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_13",
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_32",
       "ms": 0.011059,
       "calls_per_iter": 1.0,
-      "share": 0.000589
+      "share": 0.00059
     },
     {
-      "name": "exp copy",
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_29",
       "ms": 0.011025,
       "calls_per_iter": 1.0,
       "share": 0.000588
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_73",
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_86",
+      "ms": 0.011025,
+      "calls_per_iter": 1.0,
+      "share": 0.000588
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_81",
       "ms": 0.010991,
       "calls_per_iter": 1.0,
-      "share": 0.000586
+      "share": 0.000587
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_8",
       "ms": 0.010957,
       "calls_per_iter": 1.0,
-      "share": 0.000584
+      "share": 0.000585
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_81",
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_37",
       "ms": 0.010957,
       "calls_per_iter": 1.0,
-      "share": 0.000584
+      "share": 0.000585
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_73",
+      "ms": 0.010923,
+      "calls_per_iter": 1.0,
+      "share": 0.000583
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_89",
-      "ms": 0.010957,
-      "calls_per_iter": 1.0,
-      "share": 0.000584
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_40",
-      "ms": 0.010889,
-      "calls_per_iter": 1.0,
-      "share": 0.00058
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_65",
       "ms": 0.010854,
       "calls_per_iter": 1.0,
-      "share": 0.000578
+      "share": 0.000579
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_57",
-      "ms": 0.01082,
+      "name": "__myl_ReshTranConcAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_0",
+      "ms": 0.010752,
       "calls_per_iter": 1.0,
-      "share": 0.000577
+      "share": 0.000574
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_16",
-      "ms": 0.010786,
-      "calls_per_iter": 1.0,
-      "share": 0.000575
-    },
-    {
-      "name": "expand_4_output copy",
-      "ms": 0.010786,
-      "calls_per_iter": 1.0,
-      "share": 0.000575
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_32",
       "ms": 0.010752,
       "calls_per_iter": 1.0,
-      "share": 0.000573
+      "share": 0.000574
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_permute_34",
-      "ms": 0.010581,
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_40",
+      "ms": 0.010752,
       "calls_per_iter": 1.0,
-      "share": 0.000564
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_24",
-      "ms": 0.010513,
-      "calls_per_iter": 1.0,
-      "share": 0.00056
+      "share": 0.000574
     },
     {
       "name": "__myl_MulReshReshReshAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_5",
-      "ms": 0.010411,
+      "ms": 0.010615,
       "calls_per_iter": 1.0,
-      "share": 0.000555
+      "share": 0.000567
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl6_24",
+      "ms": 0.010547,
+      "calls_per_iter": 1.0,
+      "share": 0.000563
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_permute_34",
+      "ms": 0.010377,
+      "calls_per_iter": 1.0,
+      "share": 0.000554
     },
     {
       "name": "PWN(node_mul_24)",
-      "ms": 0.010138,
+      "ms": 0.009967,
       "calls_per_iter": 1.0,
-      "share": 0.00054
+      "share": 0.000532
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to node_squeeze",
-      "ms": 0.009011,
+      "ms": 0.009079,
       "calls_per_iter": 1.0,
-      "share": 0.00048
+      "share": 0.000485
+    },
+    {
+      "name": "expand_4_output copy",
+      "ms": 0.008738,
+      "calls_per_iter": 1.0,
+      "share": 0.000466
     },
     {
       "name": "PWN(node_exp)",
-      "ms": 0.007782,
+      "ms": 0.008533,
       "calls_per_iter": 1.0,
-      "share": 0.000415
+      "share": 0.000455
     },
     {
       "name": "PWN(node_sigmoid)",
-      "ms": 0.007236,
+      "ms": 0.007066,
       "calls_per_iter": 1.0,
-      "share": 0.000386
+      "share": 0.000377
     },
     {
       "name": "__myl_ReshMulSum_myl6_99",
-      "ms": 0.006827,
+      "ms": 0.006724,
       "calls_per_iter": 1.0,
-      "share": 0.000364
+      "share": 0.000359
     },
     {
       "name": "model.encoder.image_std",

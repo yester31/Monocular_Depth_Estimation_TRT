@@ -2,7 +2,11 @@
   "model": "depth_anything_v3",
   "variant": "single",
   "precision": "fp16",
+  "clock_mhz": 1800,
+  "clock_max_mhz": 2130,
   "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\depth_anything_v3\\engine\\DA3METRIC-LARGE_518x518_sim_fp16.engine",
+  "engine_bytes": 673608748,
+  "engine_mtime": 1786610733,
   "input_shape": [
     1,
     3,
@@ -13,10 +17,11 @@
   "summary": {
     "layers_profiled": 228,
     "layers_in_engine": 228,
-    "profile_total_ms": 18.441,
-    "benchmark_mean_ms": 19.6639,
-    "top10_share": 0.1499,
-    "fp32_output_share": 0.0057,
+    "profile_total_ms": 18.5101,
+    "benchmark_mean_ms": 19.8953,
+    "top10_share": 0.1492,
+    "fp32_output_share": 0.0058,
+    "movement_share": 0.0046,
     "layer_types": {
       "kgen": 80,
       "gemm": 72,
@@ -39,1329 +44,1329 @@
   "layers": [
     {
       "name": "/model/head/output_conv1/Conv",
-      "ms": 0.490394,
+      "ms": 0.48995,
       "calls_per_iter": 1.0,
-      "share": 0.026593
+      "share": 0.026469
     },
     {
       "name": "/model/head/output_conv2/output_conv2.0/Conv + /model/head/output_conv2/output_conv2.1/Relu || /model/head/sky_output_conv2/sky_output_conv2.0/Conv + /model/head/sky_output_conv2/sky_output_conv2.1/Relu",
-      "ms": 0.414481,
+      "ms": 0.414822,
       "calls_per_iter": 1.0,
-      "share": 0.022476
+      "share": 0.022411
     },
     {
       "name": "/model/head/layer1_rn/Conv + PWN(/model/head/refinenet1/resConfUnit1/activation/Relu)",
-      "ms": 0.303889,
+      "ms": 0.295595,
       "calls_per_iter": 1.0,
-      "share": 0.016479
+      "share": 0.015969
     },
     {
       "name": "/model/head/refinenet1/resConfUnit1/conv2/Conv + /model/head/refinenet1/resConfUnit1/Add",
-      "ms": 0.280098,
+      "ms": 0.282249,
       "calls_per_iter": 1.0,
-      "share": 0.015189
+      "share": 0.015248
     },
     {
       "name": "/model/head/refinenet1/resConfUnit2/conv2/Conv + /model/head/refinenet1/resConfUnit2/Add",
-      "ms": 0.279962,
+      "ms": 0.27945,
       "calls_per_iter": 1.0,
-      "share": 0.015182
+      "share": 0.015097
     },
     {
       "name": "/model/head/refinenet1/resConfUnit2/conv1/Conv + /model/head/refinenet1/resConfUnit2/activation_1/Relu",
-      "ms": 0.274637,
+      "ms": 0.274807,
       "calls_per_iter": 1.0,
-      "share": 0.014893
+      "share": 0.014846
     },
     {
       "name": "/model/head/refinenet1/resConfUnit1/conv1/Conv + /model/head/refinenet1/resConfUnit1/activation_1/Relu",
-      "ms": 0.272964,
+      "ms": 0.274466,
       "calls_per_iter": 1.0,
-      "share": 0.014802
+      "share": 0.014828
     },
     {
       "name": "/model/head/layer2_rn/Conv + PWN(/model/head/refinenet2/resConfUnit1/activation/Relu)",
-      "ms": 0.154453,
+      "ms": 0.160768,
       "calls_per_iter": 1.0,
-      "share": 0.008376
-    },
-    {
-      "name": "__myl_Fc_myl3_26",
-      "ms": 0.147217,
-      "calls_per_iter": 1.0,
-      "share": 0.007983
+      "share": 0.008685
     },
     {
       "name": "/model/head/refinenet1/out_conv/Conv",
-      "ms": 0.146057,
+      "ms": 0.1465,
       "calls_per_iter": 1.0,
-      "share": 0.00792
-    },
-    {
-      "name": "__myl_Fc_myl3_77",
-      "ms": 0.143633,
-      "calls_per_iter": 1.0,
-      "share": 0.007789
-    },
-    {
-      "name": "__myl_Fc_myl3_137",
-      "ms": 0.143497,
-      "calls_per_iter": 1.0,
-      "share": 0.007781
-    },
-    {
-      "name": "__myl_Fc_myl3_144",
-      "ms": 0.143394,
-      "calls_per_iter": 1.0,
-      "share": 0.007776
-    },
-    {
-      "name": "__myl_Fc_myl3_172",
-      "ms": 0.143394,
-      "calls_per_iter": 1.0,
-      "share": 0.007776
-    },
-    {
-      "name": "__myl_Fc_myl3_56",
-      "ms": 0.143326,
-      "calls_per_iter": 1.0,
-      "share": 0.007772
+      "share": 0.007915
     },
     {
       "name": "__myl_Fc_myl3_121",
-      "ms": 0.143292,
+      "ms": 0.143531,
       "calls_per_iter": 1.0,
-      "share": 0.00777
+      "share": 0.007754
+    },
+    {
+      "name": "__myl_Fc_myl3_77",
+      "ms": 0.143462,
+      "calls_per_iter": 1.0,
+      "share": 0.00775
+    },
+    {
+      "name": "__myl_Fc_myl3_151",
+      "ms": 0.143462,
+      "calls_per_iter": 1.0,
+      "share": 0.00775
+    },
+    {
+      "name": "__myl_Fc_myl3_172",
+      "ms": 0.143462,
+      "calls_per_iter": 1.0,
+      "share": 0.00775
+    },
+    {
+      "name": "__myl_Fc_myl3_56",
+      "ms": 0.143394,
+      "calls_per_iter": 1.0,
+      "share": 0.007747
+    },
+    {
+      "name": "__myl_Fc_myl3_144",
+      "ms": 0.143326,
+      "calls_per_iter": 1.0,
+      "share": 0.007743
     },
     {
       "name": "__myl_Fc_myl3_12",
-      "ms": 0.143258,
+      "ms": 0.143292,
       "calls_per_iter": 1.0,
-      "share": 0.007768
+      "share": 0.007741
     },
     {
-      "name": "__myl_Fc_myl3_100",
+      "name": "__myl_Fc_myl3_26",
+      "ms": 0.143292,
+      "calls_per_iter": 1.0,
+      "share": 0.007741
+    },
+    {
+      "name": "__myl_Fc_myl3_42",
       "ms": 0.143258,
       "calls_per_iter": 1.0,
-      "share": 0.007768
+      "share": 0.007739
     },
     {
       "name": "__myl_Fc_myl3_84",
-      "ms": 0.143223,
+      "ms": 0.143258,
       "calls_per_iter": 1.0,
-      "share": 0.007767
+      "share": 0.007739
+    },
+    {
+      "name": "__myl_Fc_myl3_137",
+      "ms": 0.143258,
+      "calls_per_iter": 1.0,
+      "share": 0.007739
     },
     {
       "name": "__myl_Fc_myl3_93",
       "ms": 0.143223,
       "calls_per_iter": 1.0,
-      "share": 0.007767
+      "share": 0.007738
     },
     {
-      "name": "__myl_Fc_myl3_42",
-      "ms": 0.143121,
+      "name": "__myl_Fc_myl3_107",
+      "ms": 0.143189,
       "calls_per_iter": 1.0,
-      "share": 0.007761
+      "share": 0.007736
+    },
+    {
+      "name": "__myl_Fc_myl3_5",
+      "ms": 0.143155,
+      "calls_per_iter": 1.0,
+      "share": 0.007734
+    },
+    {
+      "name": "__myl_Fc_myl3_19",
+      "ms": 0.143155,
+      "calls_per_iter": 1.0,
+      "share": 0.007734
+    },
+    {
+      "name": "__myl_Fc_myl3_33",
+      "ms": 0.143155,
+      "calls_per_iter": 1.0,
+      "share": 0.007734
     },
     {
       "name": "__myl_Fc_myl3_63",
       "ms": 0.143121,
       "calls_per_iter": 1.0,
-      "share": 0.007761
-    },
-    {
-      "name": "__myl_Fc_myl3_107",
-      "ms": 0.143121,
-      "calls_per_iter": 1.0,
-      "share": 0.007761
-    },
-    {
-      "name": "__myl_Fc_myl3_19",
-      "ms": 0.143053,
-      "calls_per_iter": 1.0,
-      "share": 0.007757
-    },
-    {
-      "name": "__myl_Fc_myl3_5",
-      "ms": 0.143019,
-      "calls_per_iter": 1.0,
-      "share": 0.007755
-    },
-    {
-      "name": "__myl_Fc_myl3_151",
-      "ms": 0.143019,
-      "calls_per_iter": 1.0,
-      "share": 0.007755
+      "share": 0.007732
     },
     {
       "name": "__myl_Fc_myl3_158",
-      "ms": 0.142985,
+      "ms": 0.143121,
       "calls_per_iter": 1.0,
-      "share": 0.007754
+      "share": 0.007732
+    },
+    {
+      "name": "__myl_Fc_myl3_128",
+      "ms": 0.143053,
+      "calls_per_iter": 1.0,
+      "share": 0.007728
+    },
+    {
+      "name": "__myl_Fc_myl3_165",
+      "ms": 0.14295,
+      "calls_per_iter": 1.0,
+      "share": 0.007723
     },
     {
       "name": "__myl_Fc_myl3_49",
       "ms": 0.142916,
       "calls_per_iter": 1.0,
-      "share": 0.00775
-    },
-    {
-      "name": "__myl_Fc_myl3_128",
-      "ms": 0.142916,
-      "calls_per_iter": 1.0,
-      "share": 0.00775
-    },
-    {
-      "name": "__myl_Fc_myl3_114",
-      "ms": 0.142848,
-      "calls_per_iter": 1.0,
-      "share": 0.007746
-    },
-    {
-      "name": "__myl_Fc_myl3_165",
-      "ms": 0.142746,
-      "calls_per_iter": 1.0,
-      "share": 0.007741
-    },
-    {
-      "name": "__myl_Fc_myl3_33",
-      "ms": 0.142643,
-      "calls_per_iter": 1.0,
-      "share": 0.007735
+      "share": 0.007721
     },
     {
       "name": "__myl_Fc_myl3_70",
-      "ms": 0.142643,
+      "ms": 0.142814,
       "calls_per_iter": 1.0,
-      "share": 0.007735
+      "share": 0.007715
+    },
+    {
+      "name": "__myl_Fc_myl3_100",
+      "ms": 0.142814,
+      "calls_per_iter": 1.0,
+      "share": 0.007715
+    },
+    {
+      "name": "__myl_Fc_myl3_114",
+      "ms": 0.142746,
+      "calls_per_iter": 1.0,
+      "share": 0.007712
     },
     {
       "name": "/model/head/Resize",
-      "ms": 0.138274,
+      "ms": 0.138513,
       "calls_per_iter": 1.0,
-      "share": 0.007498
+      "share": 0.007483
     },
     {
       "name": "Gemm_7_myl3_6",
+      "ms": 0.136977,
+      "calls_per_iter": 1.0,
+      "share": 0.0074
+    },
+    {
+      "name": "Gemm_52_myl3_43",
       "ms": 0.136943,
       "calls_per_iter": 1.0,
-      "share": 0.007426
+      "share": 0.007398
+    },
+    {
+      "name": "Gemm_133_myl3_108",
+      "ms": 0.136943,
+      "calls_per_iter": 1.0,
+      "share": 0.007398
+    },
+    {
+      "name": "Gemm_151_myl3_122",
+      "ms": 0.136943,
+      "calls_per_iter": 1.0,
+      "share": 0.007398
+    },
+    {
+      "name": "Gemm_34_myl3_27",
+      "ms": 0.136875,
+      "calls_per_iter": 1.0,
+      "share": 0.007395
+    },
+    {
+      "name": "Gemm_196_myl3_159",
+      "ms": 0.136841,
+      "calls_per_iter": 1.0,
+      "share": 0.007393
+    },
+    {
+      "name": "Gemm_43_myl3_34",
+      "ms": 0.136806,
+      "calls_per_iter": 1.0,
+      "share": 0.007391
+    },
+    {
+      "name": "Gemm_178_myl3_145",
+      "ms": 0.136806,
+      "calls_per_iter": 1.0,
+      "share": 0.007391
     },
     {
       "name": "Gemm_61_myl3_50",
       "ms": 0.136772,
       "calls_per_iter": 1.0,
-      "share": 0.007417
-    },
-    {
-      "name": "Gemm_43_myl3_34",
-      "ms": 0.136738,
-      "calls_per_iter": 1.0,
-      "share": 0.007415
-    },
-    {
-      "name": "Gemm_205_myl3_166",
-      "ms": 0.136738,
-      "calls_per_iter": 1.0,
-      "share": 0.007415
-    },
-    {
-      "name": "Gemm_52_myl3_43",
-      "ms": 0.136704,
-      "calls_per_iter": 1.0,
-      "share": 0.007413
-    },
-    {
-      "name": "Gemm_79_myl3_64",
-      "ms": 0.13667,
-      "calls_per_iter": 1.0,
-      "share": 0.007411
-    },
-    {
-      "name": "Gemm_133_myl3_108",
-      "ms": 0.13667,
-      "calls_per_iter": 1.0,
-      "share": 0.007411
-    },
-    {
-      "name": "Gemm_25_myl3_20",
-      "ms": 0.136636,
-      "calls_per_iter": 1.0,
-      "share": 0.007409
-    },
-    {
-      "name": "Gemm_178_myl3_145",
-      "ms": 0.136636,
-      "calls_per_iter": 1.0,
-      "share": 0.007409
-    },
-    {
-      "name": "Gemm_151_myl3_122",
-      "ms": 0.136602,
-      "calls_per_iter": 1.0,
-      "share": 0.007408
-    },
-    {
-      "name": "Gemm_169_myl3_138",
-      "ms": 0.136602,
-      "calls_per_iter": 1.0,
-      "share": 0.007408
-    },
-    {
-      "name": "Gemm_187_myl3_152",
-      "ms": 0.136602,
-      "calls_per_iter": 1.0,
-      "share": 0.007408
-    },
-    {
-      "name": "Gemm_106_myl3_85",
-      "ms": 0.136567,
-      "calls_per_iter": 1.0,
-      "share": 0.007406
-    },
-    {
-      "name": "Gemm_214_myl3_173",
-      "ms": 0.136567,
-      "calls_per_iter": 1.0,
-      "share": 0.007406
-    },
-    {
-      "name": "Gemm_16_myl3_13",
-      "ms": 0.136533,
-      "calls_per_iter": 1.0,
-      "share": 0.007404
-    },
-    {
-      "name": "Gemm_34_myl3_27",
-      "ms": 0.136533,
-      "calls_per_iter": 1.0,
-      "share": 0.007404
-    },
-    {
-      "name": "Gemm_97_myl3_78",
-      "ms": 0.136533,
-      "calls_per_iter": 1.0,
-      "share": 0.007404
+      "share": 0.007389
     },
     {
       "name": "Gemm_160_myl3_129",
-      "ms": 0.136533,
-      "calls_per_iter": 1.0,
-      "share": 0.007404
-    },
-    {
-      "name": "Gemm_124_myl3_101",
-      "ms": 0.136499,
-      "calls_per_iter": 1.0,
-      "share": 0.007402
-    },
-    {
-      "name": "Gemm_70_myl3_57",
-      "ms": 0.136465,
-      "calls_per_iter": 1.0,
-      "share": 0.0074
-    },
-    {
-      "name": "Gemm_142_myl3_115",
-      "ms": 0.136465,
-      "calls_per_iter": 1.0,
-      "share": 0.0074
-    },
-    {
-      "name": "Gemm_196_myl3_159",
-      "ms": 0.136465,
-      "calls_per_iter": 1.0,
-      "share": 0.0074
-    },
-    {
-      "name": "Gemm_88_myl3_71",
-      "ms": 0.136329,
-      "calls_per_iter": 1.0,
-      "share": 0.007393
-    },
-    {
-      "name": "Gemm_115_myl3_94",
-      "ms": 0.136226,
+      "ms": 0.136738,
       "calls_per_iter": 1.0,
       "share": 0.007387
     },
     {
-      "name": "_gemm_mha_v2_myl3_2",
-      "ms": 0.116907,
+      "name": "Gemm_187_myl3_152",
+      "ms": 0.136738,
       "calls_per_iter": 1.0,
-      "share": 0.00634
+      "share": 0.007387
     },
     {
-      "name": "/model/head/refinenet2/out_conv/Conv + /model/head/refinenet1/Add + PWN(/model/head/refinenet1/resConfUnit2/activation/Relu)",
-      "ms": 0.116122,
+      "name": "Gemm_79_myl3_64",
+      "ms": 0.136704,
       "calls_per_iter": 1.0,
-      "share": 0.006297
+      "share": 0.007385
     },
     {
-      "name": "_gemm_mha_v2_myl3_39",
-      "ms": 0.113801,
+      "name": "Gemm_88_myl3_71",
+      "ms": 0.136704,
       "calls_per_iter": 1.0,
-      "share": 0.006171
+      "share": 0.007385
+    },
+    {
+      "name": "Gemm_169_myl3_138",
+      "ms": 0.136704,
+      "calls_per_iter": 1.0,
+      "share": 0.007385
+    },
+    {
+      "name": "Gemm_16_myl3_13",
+      "ms": 0.13667,
+      "calls_per_iter": 1.0,
+      "share": 0.007384
+    },
+    {
+      "name": "Gemm_142_myl3_115",
+      "ms": 0.13667,
+      "calls_per_iter": 1.0,
+      "share": 0.007384
+    },
+    {
+      "name": "Gemm_124_myl3_101",
+      "ms": 0.136602,
+      "calls_per_iter": 1.0,
+      "share": 0.00738
+    },
+    {
+      "name": "Gemm_97_myl3_78",
+      "ms": 0.136567,
+      "calls_per_iter": 1.0,
+      "share": 0.007378
+    },
+    {
+      "name": "Gemm_205_myl3_166",
+      "ms": 0.136533,
+      "calls_per_iter": 1.0,
+      "share": 0.007376
+    },
+    {
+      "name": "Gemm_214_myl3_173",
+      "ms": 0.136533,
+      "calls_per_iter": 1.0,
+      "share": 0.007376
+    },
+    {
+      "name": "Gemm_25_myl3_20",
+      "ms": 0.136499,
+      "calls_per_iter": 1.0,
+      "share": 0.007374
+    },
+    {
+      "name": "Gemm_115_myl3_94",
+      "ms": 0.136499,
+      "calls_per_iter": 1.0,
+      "share": 0.007374
+    },
+    {
+      "name": "Gemm_70_myl3_57",
+      "ms": 0.136431,
+      "calls_per_iter": 1.0,
+      "share": 0.007371
+    },
+    {
+      "name": "Gemm_106_myl3_85",
+      "ms": 0.136397,
+      "calls_per_iter": 1.0,
+      "share": 0.007369
     },
     {
       "name": "_gemm_mha_v2_myl3_81",
-      "ms": 0.113732,
+      "ms": 0.1209,
       "calls_per_iter": 1.0,
-      "share": 0.006167
+      "share": 0.006532
     },
     {
       "name": "_gemm_mha_v2_myl3_118",
-      "ms": 0.113664,
+      "ms": 0.120832,
       "calls_per_iter": 1.0,
-      "share": 0.006164
-    },
-    {
-      "name": "_gemm_mha_v2_myl3_67",
-      "ms": 0.113391,
-      "calls_per_iter": 1.0,
-      "share": 0.006149
-    },
-    {
-      "name": "_gemm_mha_v2_myl3_90",
-      "ms": 0.113357,
-      "calls_per_iter": 1.0,
-      "share": 0.006147
-    },
-    {
-      "name": "_gemm_mha_v2_myl3_111",
-      "ms": 0.113357,
-      "calls_per_iter": 1.0,
-      "share": 0.006147
-    },
-    {
-      "name": "_gemm_mha_v2_myl3_125",
-      "ms": 0.113289,
-      "calls_per_iter": 1.0,
-      "share": 0.006143
-    },
-    {
-      "name": "_gemm_mha_v2_myl3_97",
-      "ms": 0.113186,
-      "calls_per_iter": 1.0,
-      "share": 0.006138
-    },
-    {
-      "name": "_gemm_mha_v2_myl3_23",
-      "ms": 0.113152,
-      "calls_per_iter": 1.0,
-      "share": 0.006136
+      "share": 0.006528
     },
     {
       "name": "_gemm_mha_v2_myl3_60",
-      "ms": 0.113118,
+      "ms": 0.120798,
       "calls_per_iter": 1.0,
-      "share": 0.006134
-    },
-    {
-      "name": "_gemm_mha_v2_myl3_9",
-      "ms": 0.113015,
-      "calls_per_iter": 1.0,
-      "share": 0.006129
-    },
-    {
-      "name": "_gemm_mha_v2_myl3_53",
-      "ms": 0.113015,
-      "calls_per_iter": 1.0,
-      "share": 0.006129
+      "share": 0.006526
     },
     {
       "name": "_gemm_mha_v2_myl3_74",
-      "ms": 0.112947,
+      "ms": 0.120695,
       "calls_per_iter": 1.0,
-      "share": 0.006125
+      "share": 0.006521
     },
     {
-      "name": "_gemm_mha_v2_myl3_30",
-      "ms": 0.112913,
+      "name": "_gemm_mha_v2_myl3_53",
+      "ms": 0.120559,
       "calls_per_iter": 1.0,
-      "share": 0.006123
+      "share": 0.006513
     },
     {
-      "name": "_gemm_mha_v2_myl3_155",
-      "ms": 0.112913,
+      "name": "_gemm_mha_v2_myl3_23",
+      "ms": 0.119774,
       "calls_per_iter": 1.0,
-      "share": 0.006123
+      "share": 0.006471
     },
     {
-      "name": "_gemm_mha_v2_myl3_16",
-      "ms": 0.112845,
+      "name": "_gemm_mha_v2_myl3_97",
+      "ms": 0.11974,
       "calls_per_iter": 1.0,
-      "share": 0.006119
-    },
-    {
-      "name": "_gemm_mha_v2_myl3_104",
-      "ms": 0.112811,
-      "calls_per_iter": 1.0,
-      "share": 0.006117
-    },
-    {
-      "name": "_gemm_mha_v2_myl3_134",
-      "ms": 0.112811,
-      "calls_per_iter": 1.0,
-      "share": 0.006117
-    },
-    {
-      "name": "_gemm_mha_v2_myl3_141",
-      "ms": 0.112777,
-      "calls_per_iter": 1.0,
-      "share": 0.006116
+      "share": 0.006469
     },
     {
       "name": "_gemm_mha_v2_myl3_148",
-      "ms": 0.112674,
+      "ms": 0.11933,
       "calls_per_iter": 1.0,
-      "share": 0.00611
+      "share": 0.006447
     },
     {
-      "name": "_gemm_mha_v2_myl3_162",
-      "ms": 0.112674,
+      "name": "_gemm_mha_v2_myl3_111",
+      "ms": 0.119228,
       "calls_per_iter": 1.0,
-      "share": 0.00611
-    },
-    {
-      "name": "_gemm_mha_v2_myl3_46",
-      "ms": 0.11264,
-      "calls_per_iter": 1.0,
-      "share": 0.006108
+      "share": 0.006441
     },
     {
       "name": "_gemm_mha_v2_myl3_169",
-      "ms": 0.112606,
+      "ms": 0.119228,
       "calls_per_iter": 1.0,
-      "share": 0.006106
+      "share": 0.006441
+    },
+    {
+      "name": "_gemm_mha_v2_myl3_125",
+      "ms": 0.119194,
+      "calls_per_iter": 1.0,
+      "share": 0.006439
+    },
+    {
+      "name": "_gemm_mha_v2_myl3_30",
+      "ms": 0.118921,
+      "calls_per_iter": 1.0,
+      "share": 0.006425
+    },
+    {
+      "name": "_gemm_mha_v2_myl3_162",
+      "ms": 0.118886,
+      "calls_per_iter": 1.0,
+      "share": 0.006423
+    },
+    {
+      "name": "_gemm_mha_v2_myl3_155",
+      "ms": 0.118716,
+      "calls_per_iter": 1.0,
+      "share": 0.006414
+    },
+    {
+      "name": "_gemm_mha_v2_myl3_134",
+      "ms": 0.118545,
+      "calls_per_iter": 1.0,
+      "share": 0.006404
+    },
+    {
+      "name": "_gemm_mha_v2_myl3_104",
+      "ms": 0.11834,
+      "calls_per_iter": 1.0,
+      "share": 0.006393
+    },
+    {
+      "name": "_gemm_mha_v2_myl3_16",
+      "ms": 0.118272,
+      "calls_per_iter": 1.0,
+      "share": 0.00639
+    },
+    {
+      "name": "_gemm_mha_v2_myl3_39",
+      "ms": 0.11817,
+      "calls_per_iter": 1.0,
+      "share": 0.006384
+    },
+    {
+      "name": "_gemm_mha_v2_myl3_141",
+      "ms": 0.118101,
+      "calls_per_iter": 1.0,
+      "share": 0.00638
+    },
+    {
+      "name": "_gemm_mha_v2_myl3_46",
+      "ms": 0.118067,
+      "calls_per_iter": 1.0,
+      "share": 0.006379
+    },
+    {
+      "name": "_gemm_mha_v2_myl3_67",
+      "ms": 0.117999,
+      "calls_per_iter": 1.0,
+      "share": 0.006375
+    },
+    {
+      "name": "_gemm_mha_v2_myl3_90",
+      "ms": 0.117897,
+      "calls_per_iter": 1.0,
+      "share": 0.006369
+    },
+    {
+      "name": "_gemm_mha_v2_myl3_9",
+      "ms": 0.117453,
+      "calls_per_iter": 1.0,
+      "share": 0.006345
+    },
+    {
+      "name": "/model/head/refinenet2/out_conv/Conv + /model/head/refinenet1/Add + PWN(/model/head/refinenet1/resConfUnit2/activation/Relu)",
+      "ms": 0.11578,
+      "calls_per_iter": 1.0,
+      "share": 0.006255
+    },
+    {
+      "name": "_gemm_mha_v2_myl3_2",
+      "ms": 0.11561,
+      "calls_per_iter": 1.0,
+      "share": 0.006246
     },
     {
       "name": "/model/head/layer3_rn/Conv + PWN(/model/head/refinenet3/resConfUnit1/activation/Relu)",
-      "ms": 0.104004,
+      "ms": 0.104209,
       "calls_per_iter": 1.0,
-      "share": 0.00564
-    },
-    {
-      "name": "__mye153910+__mye153898+__mye153886_myl3_89",
-      "ms": 0.098167,
-      "calls_per_iter": 1.0,
-      "share": 0.005323
-    },
-    {
-      "name": "__mye154600+__mye154588+__mye154576_myl3_133",
-      "ms": 0.096529,
-      "calls_per_iter": 1.0,
-      "share": 0.005234
-    },
-    {
-      "name": "__mye153105+__mye153093+__mye153081_myl3_38",
-      "ms": 0.095915,
-      "calls_per_iter": 1.0,
-      "share": 0.005201
-    },
-    {
-      "name": "__mye152875+__mye152863+__mye152851_myl3_22",
-      "ms": 0.094788,
-      "calls_per_iter": 1.0,
-      "share": 0.00514
-    },
-    {
-      "name": "__mye152645+__mye152633+__mye152621_myl3_8",
-      "ms": 0.094686,
-      "calls_per_iter": 1.0,
-      "share": 0.005135
-    },
-    {
-      "name": "__mye153565+__mye153553+__mye153541_myl3_66",
-      "ms": 0.094686,
-      "calls_per_iter": 1.0,
-      "share": 0.005135
-    },
-    {
-      "name": "__mye154025+__mye154013+__mye154001_myl3_96",
-      "ms": 0.094686,
-      "calls_per_iter": 1.0,
-      "share": 0.005135
-    },
-    {
-      "name": "__mye153795+__mye153783+__mye153771_myl3_80",
-      "ms": 0.094652,
-      "calls_per_iter": 1.0,
-      "share": 0.005133
-    },
-    {
-      "name": "__mye153220+__mye153208+__mye153196_myl3_45",
-      "ms": 0.094583,
-      "calls_per_iter": 1.0,
-      "share": 0.005129
-    },
-    {
-      "name": "__mye154255+__mye154243+__mye154231_myl3_110",
-      "ms": 0.094583,
-      "calls_per_iter": 1.0,
-      "share": 0.005129
-    },
-    {
-      "name": "__mye154830+__mye154818+__mye154806_myl3_147",
-      "ms": 0.094583,
-      "calls_per_iter": 1.0,
-      "share": 0.005129
-    },
-    {
-      "name": "__mye153335+__mye153323+__mye153311_myl3_52",
-      "ms": 0.094549,
-      "calls_per_iter": 1.0,
-      "share": 0.005127
-    },
-    {
-      "name": "__mye154485+__mye154473+__mye154461_myl3_124",
-      "ms": 0.094549,
-      "calls_per_iter": 1.0,
-      "share": 0.005127
+      "share": 0.00563
     },
     {
       "name": "__mye152530+__mye152518+__mye152506_myl3_1",
-      "ms": 0.094515,
+      "ms": 0.095471,
       "calls_per_iter": 1.0,
-      "share": 0.005125
+      "share": 0.005158
     },
     {
-      "name": "__mye155060+__mye155048+__mye155036_myl3_161",
-      "ms": 0.094515,
+      "name": "__mye153105+__mye153093+__mye153081_myl3_38",
+      "ms": 0.094959,
       "calls_per_iter": 1.0,
-      "share": 0.005125
-    },
-    {
-      "name": "__mye155175+__mye155163+__mye155151_myl3_168",
-      "ms": 0.094515,
-      "calls_per_iter": 1.0,
-      "share": 0.005125
-    },
-    {
-      "name": "__mye152990+__mye152978+__mye152966_myl3_29",
-      "ms": 0.094481,
-      "calls_per_iter": 1.0,
-      "share": 0.005123
-    },
-    {
-      "name": "__mye153450+__mye153438+__mye153426_myl3_59",
-      "ms": 0.094481,
-      "calls_per_iter": 1.0,
-      "share": 0.005123
-    },
-    {
-      "name": "__mye153680+__mye153668+__mye153656_myl3_73",
-      "ms": 0.094481,
-      "calls_per_iter": 1.0,
-      "share": 0.005123
-    },
-    {
-      "name": "/model/head/resize_layers.3/Conv",
-      "ms": 0.094481,
-      "calls_per_iter": 1.0,
-      "share": 0.005123
-    },
-    {
-      "name": "__mye154370+__mye154358+__mye154346_myl3_117",
-      "ms": 0.094413,
-      "calls_per_iter": 1.0,
-      "share": 0.00512
-    },
-    {
-      "name": "__mye152760+__mye152748+__mye152736_myl3_15",
-      "ms": 0.094379,
-      "calls_per_iter": 1.0,
-      "share": 0.005118
+      "share": 0.00513
     },
     {
       "name": "__mye154140+__mye154128+__mye154116_myl3_103",
-      "ms": 0.094379,
+      "ms": 0.094857,
       "calls_per_iter": 1.0,
-      "share": 0.005118
+      "share": 0.005125
     },
     {
-      "name": "__mye154945+__mye154933+__mye154921_myl3_154",
+      "name": "__mye154025+__mye154013+__mye154001_myl3_96",
+      "ms": 0.094583,
+      "calls_per_iter": 1.0,
+      "share": 0.00511
+    },
+    {
+      "name": "/model/head/resize_layers.3/Conv",
+      "ms": 0.094447,
+      "calls_per_iter": 1.0,
+      "share": 0.005102
+    },
+    {
+      "name": "__mye152645+__mye152633+__mye152621_myl3_8",
       "ms": 0.094345,
       "calls_per_iter": 1.0,
-      "share": 0.005116
+      "share": 0.005097
+    },
+    {
+      "name": "__mye152760+__mye152748+__mye152736_myl3_15",
+      "ms": 0.09431,
+      "calls_per_iter": 1.0,
+      "share": 0.005095
+    },
+    {
+      "name": "__mye152875+__mye152863+__mye152851_myl3_22",
+      "ms": 0.09414,
+      "calls_per_iter": 1.0,
+      "share": 0.005086
+    },
+    {
+      "name": "__mye153565+__mye153553+__mye153541_myl3_66",
+      "ms": 0.09414,
+      "calls_per_iter": 1.0,
+      "share": 0.005086
+    },
+    {
+      "name": "__mye153795+__mye153783+__mye153771_myl3_80",
+      "ms": 0.09414,
+      "calls_per_iter": 1.0,
+      "share": 0.005086
+    },
+    {
+      "name": "__mye153220+__mye153208+__mye153196_myl3_45",
+      "ms": 0.094106,
+      "calls_per_iter": 1.0,
+      "share": 0.005084
+    },
+    {
+      "name": "__mye154485+__mye154473+__mye154461_myl3_124",
+      "ms": 0.094106,
+      "calls_per_iter": 1.0,
+      "share": 0.005084
     },
     {
       "name": "__mye154715+__mye154703+__mye154691_myl3_140",
-      "ms": 0.094276,
+      "ms": 0.094106,
       "calls_per_iter": 1.0,
-      "share": 0.005112
+      "share": 0.005084
     },
     {
-      "name": "/model/head/refinenet2/resConfUnit1/conv2/Conv + /model/head/refinenet2/resConfUnit1/Add",
-      "ms": 0.09373,
+      "name": "__mye152990+__mye152978+__mye152966_myl3_29",
+      "ms": 0.094071,
       "calls_per_iter": 1.0,
-      "share": 0.005083
+      "share": 0.005082
     },
     {
-      "name": "/model/head/refinenet2/resConfUnit2/conv1/Conv + /model/head/refinenet2/resConfUnit2/activation_1/Relu",
-      "ms": 0.090658,
+      "name": "__mye154945+__mye154933+__mye154921_myl3_154",
+      "ms": 0.094071,
       "calls_per_iter": 1.0,
-      "share": 0.004916
+      "share": 0.005082
     },
     {
-      "name": "/model/head/refinenet2/resConfUnit2/conv2/Conv + /model/head/refinenet2/resConfUnit2/Add",
-      "ms": 0.089122,
+      "name": "__mye153450+__mye153438+__mye153426_myl3_59",
+      "ms": 0.094037,
       "calls_per_iter": 1.0,
-      "share": 0.004833
+      "share": 0.00508
+    },
+    {
+      "name": "__mye154830+__mye154818+__mye154806_myl3_147",
+      "ms": 0.094037,
+      "calls_per_iter": 1.0,
+      "share": 0.00508
+    },
+    {
+      "name": "__mye153680+__mye153668+__mye153656_myl3_73",
+      "ms": 0.094003,
+      "calls_per_iter": 1.0,
+      "share": 0.005078
+    },
+    {
+      "name": "__mye154255+__mye154243+__mye154231_myl3_110",
+      "ms": 0.094003,
+      "calls_per_iter": 1.0,
+      "share": 0.005078
+    },
+    {
+      "name": "__mye155060+__mye155048+__mye155036_myl3_161",
+      "ms": 0.094003,
+      "calls_per_iter": 1.0,
+      "share": 0.005078
+    },
+    {
+      "name": "__mye155175+__mye155163+__mye155151_myl3_168",
+      "ms": 0.094003,
+      "calls_per_iter": 1.0,
+      "share": 0.005078
+    },
+    {
+      "name": "__mye153335+__mye153323+__mye153311_myl3_52",
+      "ms": 0.093969,
+      "calls_per_iter": 1.0,
+      "share": 0.005077
+    },
+    {
+      "name": "__mye154370+__mye154358+__mye154346_myl3_117",
+      "ms": 0.093833,
+      "calls_per_iter": 1.0,
+      "share": 0.005069
+    },
+    {
+      "name": "__mye154600+__mye154588+__mye154576_myl3_133",
+      "ms": 0.093833,
+      "calls_per_iter": 1.0,
+      "share": 0.005069
+    },
+    {
+      "name": "__mye153910+__mye153898+__mye153886_myl3_89",
+      "ms": 0.093696,
+      "calls_per_iter": 1.0,
+      "share": 0.005062
     },
     {
       "name": "/model/head/refinenet1/Resize",
-      "ms": 0.087484,
+      "ms": 0.087552,
       "calls_per_iter": 1.0,
-      "share": 0.004744
+      "share": 0.00473
     },
     {
       "name": "/model/head/refinenet2/resConfUnit1/conv1/Conv + /model/head/refinenet2/resConfUnit1/activation_1/Relu",
-      "ms": 0.085709,
+      "ms": 0.085641,
       "calls_per_iter": 1.0,
-      "share": 0.004648
+      "share": 0.004627
+    },
+    {
+      "name": "/model/head/refinenet2/resConfUnit1/conv2/Conv + /model/head/refinenet2/resConfUnit1/Add",
+      "ms": 0.084412,
+      "calls_per_iter": 1.0,
+      "share": 0.00456
+    },
+    {
+      "name": "/model/head/refinenet2/resConfUnit2/conv2/Conv + /model/head/refinenet2/resConfUnit2/Add",
+      "ms": 0.084036,
+      "calls_per_iter": 1.0,
+      "share": 0.00454
+    },
+    {
+      "name": "/model/head/refinenet2/resConfUnit2/conv1/Conv + /model/head/refinenet2/resConfUnit2/activation_1/Relu",
+      "ms": 0.080145,
+      "calls_per_iter": 1.0,
+      "share": 0.00433
     },
     {
       "name": "/model/head/output_conv2/output_conv2.2/Conv + PWN(/model/head/Exp)",
-      "ms": 0.068267,
-      "calls_per_iter": 1.0,
-      "share": 0.003702
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/backbone/patch_embed/proj/Conv",
-      "ms": 0.067968,
+      "ms": 0.068233,
       "calls_per_iter": 1.0,
       "share": 0.003686
     },
     {
       "name": "/model/backbone/patch_embed/proj/Conv",
-      "ms": 0.067209,
+      "ms": 0.068198,
       "calls_per_iter": 1.0,
-      "share": 0.003645
+      "share": 0.003684
     },
     {
-      "name": "Gemm_12_myl3_10",
-      "ms": 0.059529,
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/backbone/patch_embed/proj/Conv",
+      "ms": 0.058982,
       "calls_per_iter": 1.0,
-      "share": 0.003228
+      "share": 0.003186
     },
     {
-      "name": "Gemm_30_myl3_24",
-      "ms": 0.058231,
+      "name": "/model/head/projects.2/Conv",
+      "ms": 0.053828,
       "calls_per_iter": 1.0,
-      "share": 0.003158
-    },
-    {
-      "name": "/model/head/refinenet3/resConfUnit2/conv1/Conv + /model/head/refinenet3/resConfUnit2/activation_1/Relu",
-      "ms": 0.057617,
-      "calls_per_iter": 1.0,
-      "share": 0.003124
-    },
-    {
-      "name": "Gemm_75_myl3_61",
-      "ms": 0.0569,
-      "calls_per_iter": 1.0,
-      "share": 0.003086
-    },
-    {
-      "name": "Gemm_93_myl3_75",
-      "ms": 0.055637,
-      "calls_per_iter": 1.0,
-      "share": 0.003017
-    },
-    {
-      "name": "Gemm_192_myl3_156",
-      "ms": 0.054409,
-      "calls_per_iter": 1.0,
-      "share": 0.00295
+      "share": 0.002908
     },
     {
       "name": "/model/head/layer4_rn/Conv",
-      "ms": 0.052668,
+      "ms": 0.053419,
       "calls_per_iter": 1.0,
-      "share": 0.002856
-    },
-    {
-      "name": "Gemm_201_myl3_163",
-      "ms": 0.051098,
-      "calls_per_iter": 1.0,
-      "share": 0.002771
-    },
-    {
-      "name": "Gemm_3_myl3_3",
-      "ms": 0.050995,
-      "calls_per_iter": 1.0,
-      "share": 0.002765
-    },
-    {
-      "name": "Gemm_48_myl3_40",
-      "ms": 0.050074,
-      "calls_per_iter": 1.0,
-      "share": 0.002715
-    },
-    {
-      "name": "Gemm_120_myl3_98",
-      "ms": 0.049869,
-      "calls_per_iter": 1.0,
-      "share": 0.002704
-    },
-    {
-      "name": "Gemm_129_myl3_105",
-      "ms": 0.049835,
-      "calls_per_iter": 1.0,
-      "share": 0.002702
-    },
-    {
-      "name": "Gemm_39_myl3_31",
-      "ms": 0.049596,
-      "calls_per_iter": 1.0,
-      "share": 0.002689
-    },
-    {
-      "name": "Gemm_165_myl3_135",
-      "ms": 0.049596,
-      "calls_per_iter": 1.0,
-      "share": 0.002689
-    },
-    {
-      "name": "Gemm_210_myl3_170",
-      "ms": 0.049562,
-      "calls_per_iter": 1.0,
-      "share": 0.002688
-    },
-    {
-      "name": "Gemm_57_myl3_47",
-      "ms": 0.049527,
-      "calls_per_iter": 1.0,
-      "share": 0.002686
-    },
-    {
-      "name": "Gemm_183_myl3_149",
-      "ms": 0.049527,
-      "calls_per_iter": 1.0,
-      "share": 0.002686
+      "share": 0.002886
     },
     {
       "name": "Gemm_21_myl3_17",
-      "ms": 0.049493,
+      "ms": 0.050961,
       "calls_per_iter": 1.0,
-      "share": 0.002684
+      "share": 0.002753
     },
     {
-      "name": "Gemm_174_myl3_142",
-      "ms": 0.049459,
+      "name": "Gemm_12_myl3_10",
+      "ms": 0.050859,
       "calls_per_iter": 1.0,
-      "share": 0.002682
+      "share": 0.002748
+    },
+    {
+      "name": "Gemm_84_myl3_68",
+      "ms": 0.050825,
+      "calls_per_iter": 1.0,
+      "share": 0.002746
+    },
+    {
+      "name": "Gemm_192_myl3_156",
+      "ms": 0.05062,
+      "calls_per_iter": 1.0,
+      "share": 0.002735
+    },
+    {
+      "name": "Gemm_129_myl3_105",
+      "ms": 0.050517,
+      "calls_per_iter": 1.0,
+      "share": 0.002729
+    },
+    {
+      "name": "Gemm_30_myl3_24",
+      "ms": 0.050244,
+      "calls_per_iter": 1.0,
+      "share": 0.002714
+    },
+    {
+      "name": "Gemm_147_myl3_119",
+      "ms": 0.050244,
+      "calls_per_iter": 1.0,
+      "share": 0.002714
+    },
+    {
+      "name": "Gemm_57_myl3_47",
+      "ms": 0.049869,
+      "calls_per_iter": 1.0,
+      "share": 0.002694
+    },
+    {
+      "name": "Gemm_111_myl3_91",
+      "ms": 0.049869,
+      "calls_per_iter": 1.0,
+      "share": 0.002694
+    },
+    {
+      "name": "/model/head/refinenet3/resConfUnit2/conv1/Conv + /model/head/refinenet3/resConfUnit2/activation_1/Relu",
+      "ms": 0.049732,
+      "calls_per_iter": 1.0,
+      "share": 0.002687
+    },
+    {
+      "name": "Gemm_183_myl3_149",
+      "ms": 0.049562,
+      "calls_per_iter": 1.0,
+      "share": 0.002678
     },
     {
       "name": "Gemm_102_myl3_82",
       "ms": 0.049425,
       "calls_per_iter": 1.0,
-      "share": 0.00268
-    },
-    {
-      "name": "Gemm_138_myl3_112",
-      "ms": 0.049357,
-      "calls_per_iter": 1.0,
-      "share": 0.002676
-    },
-    {
-      "name": "/model/head/resize_layers.0/ConvTranspose",
-      "ms": 0.049357,
-      "calls_per_iter": 1.0,
-      "share": 0.002676
-    },
-    {
-      "name": "Gemm_147_myl3_119",
-      "ms": 0.049323,
-      "calls_per_iter": 1.0,
-      "share": 0.002675
-    },
-    {
-      "name": "Gemm_111_myl3_91",
-      "ms": 0.049084,
-      "calls_per_iter": 1.0,
-      "share": 0.002662
-    },
-    {
-      "name": "Gemm_66_myl3_54",
-      "ms": 0.048913,
-      "calls_per_iter": 1.0,
-      "share": 0.002652
-    },
-    {
-      "name": "Gemm_84_myl3_68",
-      "ms": 0.048913,
-      "calls_per_iter": 1.0,
-      "share": 0.002652
+      "share": 0.00267
     },
     {
       "name": "Gemm_156_myl3_126",
-      "ms": 0.048845,
+      "ms": 0.049425,
       "calls_per_iter": 1.0,
-      "share": 0.002649
+      "share": 0.00267
+    },
+    {
+      "name": "Gemm_66_myl3_54",
+      "ms": 0.049391,
+      "calls_per_iter": 1.0,
+      "share": 0.002668
+    },
+    {
+      "name": "Gemm_93_myl3_75",
+      "ms": 0.049357,
+      "calls_per_iter": 1.0,
+      "share": 0.002666
+    },
+    {
+      "name": "Gemm_120_myl3_98",
+      "ms": 0.049357,
+      "calls_per_iter": 1.0,
+      "share": 0.002666
+    },
+    {
+      "name": "Gemm_39_myl3_31",
+      "ms": 0.049254,
+      "calls_per_iter": 1.0,
+      "share": 0.002661
+    },
+    {
+      "name": "Gemm_48_myl3_40",
+      "ms": 0.049254,
+      "calls_per_iter": 1.0,
+      "share": 0.002661
+    },
+    {
+      "name": "/model/head/resize_layers.0/ConvTranspose",
+      "ms": 0.049254,
+      "calls_per_iter": 1.0,
+      "share": 0.002661
+    },
+    {
+      "name": "Gemm_3_myl3_3",
+      "ms": 0.04922,
+      "calls_per_iter": 1.0,
+      "share": 0.002659
+    },
+    {
+      "name": "Gemm_210_myl3_170",
+      "ms": 0.04922,
+      "calls_per_iter": 1.0,
+      "share": 0.002659
+    },
+    {
+      "name": "Gemm_75_myl3_61",
+      "ms": 0.049186,
+      "calls_per_iter": 1.0,
+      "share": 0.002657
+    },
+    {
+      "name": "Gemm_138_myl3_112",
+      "ms": 0.049084,
+      "calls_per_iter": 1.0,
+      "share": 0.002652
+    },
+    {
+      "name": "Gemm_174_myl3_142",
+      "ms": 0.04905,
+      "calls_per_iter": 1.0,
+      "share": 0.00265
+    },
+    {
+      "name": "Gemm_201_myl3_163",
+      "ms": 0.048981,
+      "calls_per_iter": 1.0,
+      "share": 0.002646
+    },
+    {
+      "name": "Gemm_165_myl3_135",
+      "ms": 0.048913,
+      "calls_per_iter": 1.0,
+      "share": 0.002643
     },
     {
       "name": "/model/head/refinenet3/resConfUnit2/conv2/Conv + /model/head/refinenet3/resConfUnit2/Add",
-      "ms": 0.047036,
+      "ms": 0.046831,
       "calls_per_iter": 1.0,
-      "share": 0.002551
-    },
-    {
-      "name": "/model/head/projects.2/Conv",
-      "ms": 0.047002,
-      "calls_per_iter": 1.0,
-      "share": 0.002549
+      "share": 0.00253
     },
     {
       "name": "/model/head/projects.3/Conv",
-      "ms": 0.046933,
+      "ms": 0.046797,
       "calls_per_iter": 1.0,
-      "share": 0.002545
+      "share": 0.002528
     },
     {
       "name": "/model/head/resize_layers.1/ConvTranspose",
-      "ms": 0.044407,
+      "ms": 0.04509,
       "calls_per_iter": 1.0,
-      "share": 0.002408
+      "share": 0.002436
     },
     {
       "name": "/model/head/sky_output_conv2/sky_output_conv2.2/Conv + /model/head/Relu",
-      "ms": 0.039117,
+      "ms": 0.039083,
       "calls_per_iter": 1.0,
-      "share": 0.002121
+      "share": 0.002111
     },
     {
       "name": "/model/head/refinenet3/resConfUnit1/conv2/Conv + /model/head/refinenet3/resConfUnit1/Add",
-      "ms": 0.033587,
+      "ms": 0.032393,
       "calls_per_iter": 1.0,
-      "share": 0.001821
+      "share": 0.00175
     },
     {
       "name": "/model/head/refinenet3/resConfUnit1/conv1/Conv + /model/head/refinenet3/resConfUnit1/activation_1/Relu",
-      "ms": 0.031198,
+      "ms": 0.031437,
       "calls_per_iter": 1.0,
-      "share": 0.001692
+      "share": 0.001698
     },
     {
       "name": "/model/head/projects.1/Conv",
-      "ms": 0.029901,
+      "ms": 0.02973,
       "calls_per_iter": 1.0,
-      "share": 0.001621
+      "share": 0.001606
     },
     {
       "name": "/model/head/refinenet3/out_conv/Conv + /model/head/refinenet2/Add",
-      "ms": 0.026214,
+      "ms": 0.026044,
       "calls_per_iter": 1.0,
-      "share": 0.001422
+      "share": 0.001407
     },
     {
       "name": "/model/head/refinenet2/Resize",
-      "ms": 0.025395,
+      "ms": 0.025839,
       "calls_per_iter": 1.0,
-      "share": 0.001377
+      "share": 0.001396
     },
     {
       "name": "__myl_MulAddReshReshReshCastMeanSubMulMean_myl3_174",
-      "ms": 0.021197,
+      "ms": 0.021982,
       "calls_per_iter": 1.0,
-      "share": 0.001149
+      "share": 0.001188
     },
     {
-      "name": "/model/head/refinenet4/resConfUnit2/conv2/Conv + /model/head/refinenet4/resConfUnit2/Add",
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_150",
+      "ms": 0.02089,
+      "calls_per_iter": 1.0,
+      "share": 0.001129
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_143",
       "ms": 0.020582,
       "calls_per_iter": 1.0,
-      "share": 0.001116
+      "share": 0.001112
     },
     {
-      "name": "/model/head/refinenet4/resConfUnit2/conv1/Conv + /model/head/refinenet4/resConfUnit2/activation_1/Relu",
-      "ms": 0.020446,
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_106",
+      "ms": 0.020548,
       "calls_per_iter": 1.0,
-      "share": 0.001109
+      "share": 0.00111
     },
     {
-      "name": "/model/head/projects.0/Conv",
-      "ms": 0.020412,
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_123",
+      "ms": 0.020548,
       "calls_per_iter": 1.0,
-      "share": 0.001107
+      "share": 0.00111
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_55",
+      "ms": 0.020514,
+      "calls_per_iter": 1.0,
+      "share": 0.001108
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_164",
+      "ms": 0.020514,
+      "calls_per_iter": 1.0,
+      "share": 0.001108
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_83",
+      "ms": 0.02048,
+      "calls_per_iter": 1.0,
+      "share": 0.001106
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_92",
+      "ms": 0.02048,
+      "calls_per_iter": 1.0,
+      "share": 0.001106
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_160",
-      "ms": 0.020378,
+      "ms": 0.02048,
+      "calls_per_iter": 1.0,
+      "share": 0.001106
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_86",
+      "ms": 0.020446,
       "calls_per_iter": 1.0,
       "share": 0.001105
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_120",
-      "ms": 0.020241,
+      "ms": 0.020412,
       "calls_per_iter": 1.0,
-      "share": 0.001098
+      "share": 0.001103
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_106",
-      "ms": 0.020207,
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_76",
+      "ms": 0.020378,
       "calls_per_iter": 1.0,
-      "share": 0.001096
+      "share": 0.001101
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_99",
+      "ms": 0.020378,
+      "calls_per_iter": 1.0,
+      "share": 0.001101
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_157",
+      "ms": 0.020378,
+      "calls_per_iter": 1.0,
+      "share": 0.001101
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_171",
+      "ms": 0.020378,
+      "calls_per_iter": 1.0,
+      "share": 0.001101
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_136",
+      "ms": 0.020343,
+      "calls_per_iter": 1.0,
+      "share": 0.001099
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_69",
+      "ms": 0.020309,
+      "calls_per_iter": 1.0,
+      "share": 0.001097
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_35",
-      "ms": 0.020173,
+      "ms": 0.020275,
+      "calls_per_iter": 1.0,
+      "share": 0.001095
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_41",
+      "ms": 0.020275,
+      "calls_per_iter": 1.0,
+      "share": 0.001095
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_62",
+      "ms": 0.020275,
+      "calls_per_iter": 1.0,
+      "share": 0.001095
+    },
+    {
+      "name": "/model/head/projects.0/Conv",
+      "ms": 0.020275,
+      "calls_per_iter": 1.0,
+      "share": 0.001095
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_113",
+      "ms": 0.020241,
       "calls_per_iter": 1.0,
       "share": 0.001094
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_41",
-      "ms": 0.020105,
+      "name": "/model/head/refinenet4/resConfUnit2/conv1/Conv + /model/head/refinenet4/resConfUnit2/activation_1/Relu",
+      "ms": 0.020241,
       "calls_per_iter": 1.0,
-      "share": 0.00109
+      "share": 0.001094
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_171",
-      "ms": 0.020105,
+      "name": "__myl_MulReshReshReshAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_4",
+      "ms": 0.020207,
       "calls_per_iter": 1.0,
-      "share": 0.00109
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_18",
-      "ms": 0.02007,
-      "calls_per_iter": 1.0,
-      "share": 0.001088
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_86",
-      "ms": 0.02007,
-      "calls_per_iter": 1.0,
-      "share": 0.001088
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_113",
-      "ms": 0.02007,
-      "calls_per_iter": 1.0,
-      "share": 0.001088
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_130",
-      "ms": 0.02007,
-      "calls_per_iter": 1.0,
-      "share": 0.001088
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_136",
-      "ms": 0.02007,
-      "calls_per_iter": 1.0,
-      "share": 0.001088
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_150",
-      "ms": 0.02007,
-      "calls_per_iter": 1.0,
-      "share": 0.001088
+      "share": 0.001092
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_127",
-      "ms": 0.020036,
+      "ms": 0.020207,
       "calls_per_iter": 1.0,
-      "share": 0.001087
+      "share": 0.001092
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_164",
-      "ms": 0.020036,
+      "name": "/model/head/refinenet4/resConfUnit2/conv2/Conv + /model/head/refinenet4/resConfUnit2/Add",
+      "ms": 0.020207,
       "calls_per_iter": 1.0,
-      "share": 0.001087
+      "share": 0.001092
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_48",
-      "ms": 0.020002,
+      "ms": 0.020173,
       "calls_per_iter": 1.0,
-      "share": 0.001085
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_143",
-      "ms": 0.020002,
-      "calls_per_iter": 1.0,
-      "share": 0.001085
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_92",
-      "ms": 0.019968,
-      "calls_per_iter": 1.0,
-      "share": 0.001083
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_157",
-      "ms": 0.019968,
-      "calls_per_iter": 1.0,
-      "share": 0.001083
+      "share": 0.00109
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_32",
-      "ms": 0.019934,
+      "ms": 0.020036,
       "calls_per_iter": 1.0,
-      "share": 0.001081
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_55",
-      "ms": 0.019934,
-      "calls_per_iter": 1.0,
-      "share": 0.001081
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_62",
-      "ms": 0.019934,
-      "calls_per_iter": 1.0,
-      "share": 0.001081
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_76",
-      "ms": 0.019934,
-      "calls_per_iter": 1.0,
-      "share": 0.001081
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_83",
-      "ms": 0.019934,
-      "calls_per_iter": 1.0,
-      "share": 0.001081
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_99",
-      "ms": 0.019934,
-      "calls_per_iter": 1.0,
-      "share": 0.001081
+      "share": 0.001082
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_11",
-      "ms": 0.019866,
+      "ms": 0.020002,
+      "calls_per_iter": 1.0,
+      "share": 0.001081
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_18",
+      "ms": 0.019968,
+      "calls_per_iter": 1.0,
+      "share": 0.001079
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_130",
+      "ms": 0.019968,
+      "calls_per_iter": 1.0,
+      "share": 0.001079
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_167",
+      "ms": 0.019934,
       "calls_per_iter": 1.0,
       "share": 0.001077
     },
     {
-      "name": "__myl_MulReshReshReshAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_4",
-      "ms": 0.019831,
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_25",
+      "ms": 0.019866,
       "calls_per_iter": 1.0,
-      "share": 0.001075
+      "share": 0.001073
     },
     {
       "name": "__myl_ReshTranConcAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_0",
-      "ms": 0.019797,
+      "ms": 0.019831,
       "calls_per_iter": 1.0,
-      "share": 0.001074
+      "share": 0.001071
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_25",
-      "ms": 0.019797,
-      "calls_per_iter": 1.0,
-      "share": 0.001074
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_69",
-      "ms": 0.019797,
-      "calls_per_iter": 1.0,
-      "share": 0.001074
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_7",
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_116",
       "ms": 0.019763,
       "calls_per_iter": 1.0,
-      "share": 0.001072
+      "share": 0.001068
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_51",
       "ms": 0.019729,
       "calls_per_iter": 1.0,
-      "share": 0.00107
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_79",
-      "ms": 0.019729,
-      "calls_per_iter": 1.0,
-      "share": 0.00107
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_167",
-      "ms": 0.019729,
-      "calls_per_iter": 1.0,
-      "share": 0.00107
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_44",
-      "ms": 0.019695,
-      "calls_per_iter": 1.0,
-      "share": 0.001068
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_123",
-      "ms": 0.019695,
-      "calls_per_iter": 1.0,
-      "share": 0.001068
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_95",
-      "ms": 0.019661,
-      "calls_per_iter": 1.0,
       "share": 0.001066
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_7",
+      "ms": 0.019695,
+      "calls_per_iter": 1.0,
+      "share": 0.001064
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_109",
+      "ms": 0.019695,
+      "calls_per_iter": 1.0,
+      "share": 0.001064
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_102",
       "ms": 0.019661,
       "calls_per_iter": 1.0,
-      "share": 0.001066
+      "share": 0.001062
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_72",
+      "ms": 0.019627,
+      "calls_per_iter": 1.0,
+      "share": 0.00106
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_44",
+      "ms": 0.019593,
+      "calls_per_iter": 1.0,
+      "share": 0.001058
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_58",
+      "ms": 0.019593,
+      "calls_per_iter": 1.0,
+      "share": 0.001058
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_65",
-      "ms": 0.019627,
+      "ms": 0.019558,
       "calls_per_iter": 1.0,
-      "share": 0.001064
+      "share": 0.001057
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_79",
+      "ms": 0.019558,
+      "calls_per_iter": 1.0,
+      "share": 0.001057
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_139",
-      "ms": 0.019627,
+      "ms": 0.019558,
       "calls_per_iter": 1.0,
-      "share": 0.001064
+      "share": 0.001057
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_146",
-      "ms": 0.019593,
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_153",
+      "ms": 0.019558,
       "calls_per_iter": 1.0,
-      "share": 0.001062
+      "share": 0.001057
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_28",
       "ms": 0.019524,
       "calls_per_iter": 1.0,
-      "share": 0.001059
+      "share": 0.001055
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_116",
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_146",
       "ms": 0.019524,
-      "calls_per_iter": 1.0,
-      "share": 0.001059
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_14",
-      "ms": 0.01949,
-      "calls_per_iter": 1.0,
-      "share": 0.001057
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_72",
-      "ms": 0.01949,
-      "calls_per_iter": 1.0,
-      "share": 0.001057
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_102",
-      "ms": 0.019456,
       "calls_per_iter": 1.0,
       "share": 0.001055
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_58",
-      "ms": 0.019388,
-      "calls_per_iter": 1.0,
-      "share": 0.001051
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_153",
-      "ms": 0.019388,
-      "calls_per_iter": 1.0,
-      "share": 0.001051
-    },
-    {
       "name": "__myl_ReshReshReshCastMeanSubMulMean_myl3_87",
-      "ms": 0.019354,
+      "ms": 0.019456,
       "calls_per_iter": 1.0,
-      "share": 0.001049
+      "share": 0.001051
     },
     {
-      "name": "__myl_AddSqrtDivMulCastMulAddSlicReshMoveTranResh_myl3_175",
-      "ms": 0.019354,
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_14",
+      "ms": 0.019388,
       "calls_per_iter": 1.0,
-      "share": 0.001049
+      "share": 0.001047
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_21",
-      "ms": 0.019285,
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_95",
+      "ms": 0.019388,
       "calls_per_iter": 1.0,
-      "share": 0.001046
+      "share": 0.001047
     },
     {
       "name": "__myl_ReshReshReshCastMeanSubMulMean_myl3_131",
-      "ms": 0.019285,
+      "ms": 0.019354,
       "calls_per_iter": 1.0,
       "share": 0.001046
     },
     {
-      "name": "__myl_ReshReshReshCastMeanSubMulMean_myl3_36",
-      "ms": 0.019183,
+      "name": "__myl_AddSqrtDivMulCastMulAddSlicReshMoveTranResh_myl3_88",
+      "ms": 0.019251,
       "calls_per_iter": 1.0,
       "share": 0.00104
     },
     {
-      "name": "__myl_AddSqrtDivMulCastMulAddSlicReshMoveTranResh_myl3_132",
-      "ms": 0.018773,
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_21",
+      "ms": 0.019217,
       "calls_per_iter": 1.0,
-      "share": 0.001018
+      "share": 0.001038
     },
     {
-      "name": "__myl_AddSqrtDivMulCastMulAddSlicReshMoveTranResh_myl3_88",
-      "ms": 0.018637,
+      "name": "__myl_AddSqrtDivMulCastMulAddSlicReshMoveTranResh_myl3_132",
+      "ms": 0.019149,
       "calls_per_iter": 1.0,
-      "share": 0.001011
+      "share": 0.001035
+    },
+    {
+      "name": "__myl_AddSqrtDivMulCastMulAddSlicReshMoveTranResh_myl3_175",
+      "ms": 0.018944,
+      "calls_per_iter": 1.0,
+      "share": 0.001023
+    },
+    {
+      "name": "__myl_ReshReshReshCastMeanSubMulMean_myl3_36",
+      "ms": 0.018876,
+      "calls_per_iter": 1.0,
+      "share": 0.00102
     },
     {
       "name": "__myl_AddSqrtDivMulCastMulAddSlicReshMoveTranResh_myl3_37",
-      "ms": 0.018466,
+      "ms": 0.018671,
       "calls_per_iter": 1.0,
-      "share": 0.001001
+      "share": 0.001009
     },
     {
       "name": "/model/head/refinenet4/out_conv/Conv + /model/head/refinenet3/Add",
-      "ms": 0.015974,
+      "ms": 0.017306,
       "calls_per_iter": 1.0,
-      "share": 0.000866
-    },
-    {
-      "name": "Reformatting CopyNode for Output Tensor 0 to /model/head/output_conv2/output_conv2.2/Conv + PWN(/model/head/Exp)",
-      "ms": 0.013551,
-      "calls_per_iter": 1.0,
-      "share": 0.000735
+      "share": 0.000935
     },
     {
       "name": "Reformatting CopyNode for Output Tensor 0 to /model/head/sky_output_conv2/sky_output_conv2.2/Conv + /model/head/Relu",
-      "ms": 0.01338,
+      "ms": 0.013619,
       "calls_per_iter": 1.0,
-      "share": 0.000726
+      "share": 0.000736
+    },
+    {
+      "name": "Reformatting CopyNode for Output Tensor 0 to /model/head/output_conv2/output_conv2.2/Conv + PWN(/model/head/Exp)",
+      "ms": 0.013244,
+      "calls_per_iter": 1.0,
+      "share": 0.000715
     },
     {
       "name": "PWN(/model/head/refinenet2/resConfUnit2/activation/Relu)",
-      "ms": 0.011093,
+      "ms": 0.01123,
       "calls_per_iter": 1.0,
-      "share": 0.000602
+      "share": 0.000607
     },
     {
       "name": "/model/head/refinenet3/Resize",
-      "ms": 0.008875,
+      "ms": 0.009523,
       "calls_per_iter": 1.0,
-      "share": 0.000481
+      "share": 0.000514
     },
     {
       "name": "PWN(/model/head/refinenet3/resConfUnit2/activation/Relu)",
-      "ms": 0.008192,
+      "ms": 0.008567,
       "calls_per_iter": 1.0,
-      "share": 0.000444
+      "share": 0.000463
     },
     {
       "name": "/model/head/refinenet4/Resize",
-      "ms": 0.007475,
+      "ms": 0.007714,
       "calls_per_iter": 1.0,
-      "share": 0.000405
+      "share": 0.000417
     },
     {
       "name": "PWN(/model/head/refinenet4/resConfUnit2/activation/Relu)",
-      "ms": 0.006519,
+      "ms": 0.006246,
       "calls_per_iter": 1.0,
-      "share": 0.000354
+      "share": 0.000337
     },
     {
       "name": "/model/backbone/patch_embed/proj/Cast",

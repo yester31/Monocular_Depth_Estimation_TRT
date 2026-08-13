@@ -2,7 +2,11 @@
   "model": "unidepth_v2",
   "variant": "single",
   "precision": "fp16",
+  "clock_mhz": 1800,
+  "clock_max_mhz": 2130,
   "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\unidepth_v2\\engine\\uni_depth_v2_vits_518x518_fp16.engine",
+  "engine_bytes": 74810932,
+  "engine_mtime": 1786612395,
   "input_shape": [
     1,
     3,
@@ -13,10 +17,11 @@
   "summary": {
     "layers_profiled": 315,
     "layers_in_engine": 315,
-    "profile_total_ms": 8.3652,
-    "benchmark_mean_ms": 8.2069,
-    "top10_share": 0.1386,
-    "fp32_output_share": 0.005,
+    "profile_total_ms": 7.5423,
+    "benchmark_mean_ms": 8.1558,
+    "top10_share": 0.1422,
+    "fp32_output_share": 0.0052,
+    "movement_share": 0.0975,
     "layer_types": {
       "kgen": 109,
       "gemm": 60,
@@ -41,1545 +46,1538 @@
   },
   "suspects": [
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /pixel_encoder/patch_embed/proj/Conv",
-      "ms": 0.122009,
+      "name": "/pixel_decoder/depth_layer/to_confidence_hr/to_confidence_hr.0/Pad_2949",
+      "ms": 0.091341,
       "calls_per_iter": 1.0,
-      "share": 0.014585,
-      "layer_type": "Reformat"
-    },
-    {
-      "name": "/pixel_decoder/depth_layer/to_depth_hr/to_depth_hr.0/Pad_2793",
-      "ms": 0.095198,
-      "calls_per_iter": 1.0,
-      "share": 0.01138,
+      "share": 0.012111,
       "layer_type": "Slice"
     },
     {
-      "name": "/pixel_decoder/depth_layer/to_confidence_hr/to_confidence_hr.0/Pad_2949",
-      "ms": 0.095027,
+      "name": "/pixel_decoder/depth_layer/to_depth_hr/to_depth_hr.0/Pad_2793",
+      "ms": 0.091341,
       "calls_per_iter": 1.0,
-      "share": 0.01136,
+      "share": 0.012111,
       "layer_type": "Slice"
     }
   ],
   "layers": [
     {
       "name": "/pixel_decoder/depth_layer/to_depth_hr/to_depth_hr.0/Conv + PWN(/pixel_decoder/depth_layer/to_depth_hr/to_depth_hr.1/LeakyRelu)",
-      "ms": 0.134007,
+      "ms": 0.133257,
       "calls_per_iter": 1.0,
-      "share": 0.01602
+      "share": 0.017668
     },
     {
       "name": "/pixel_decoder/depth_layer/to_confidence_hr/to_confidence_hr.0/Conv + PWN(/pixel_decoder/depth_layer/to_confidence_hr/to_confidence_hr.1/LeakyRelu)",
-      "ms": 0.131891,
+      "ms": 0.131004,
       "calls_per_iter": 1.0,
-      "share": 0.015767
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /pixel_encoder/patch_embed/proj/Conv",
-      "ms": 0.122009,
-      "calls_per_iter": 1.0,
-      "share": 0.014585
-    },
-    {
-      "name": "/pixel_decoder/depth_layer/prompt_camera.0/layers.0/q/MatMul_myl7_84",
-      "ms": 0.118818,
-      "calls_per_iter": 1.0,
-      "share": 0.014204
+      "share": 0.017369
     },
     {
       "name": "__myl_FcAdd_myl7_79",
-      "ms": 0.117385,
+      "ms": 0.129775,
       "calls_per_iter": 1.0,
-      "share": 0.014033
-    },
-    {
-      "name": "__myl_FcAdd_myl7_32",
-      "ms": 0.116497,
-      "calls_per_iter": 1.0,
-      "share": 0.013926
+      "share": 0.017206
     },
     {
       "name": "/pixel_decoder/depth_layer/ups.2/convs.0/conv2/Conv + onnx::Mul_3568 + /pixel_decoder/depth_layer/ups.2/convs.0/Mul + /pixel_decoder/depth_layer/ups.2/convs.0/Add + PWN(/pixel_decoder/depth_layer/ups.2/convs.1/activation/LeakyRelu)",
-      "ms": 0.115917,
+      "ms": 0.104619,
       "calls_per_iter": 1.0,
-      "share": 0.013857
+      "share": 0.013871
     },
     {
       "name": "/pixel_decoder/depth_layer/ups.1/convs.0/conv2/Conv + onnx::Mul_3555 + /pixel_decoder/depth_layer/ups.1/convs.0/Mul + /pixel_decoder/depth_layer/ups.1/convs.0/Add + PWN(/pixel_decoder/depth_layer/ups.1/convs.1/activation/LeakyRelu)",
-      "ms": 0.10281,
+      "ms": 0.100386,
       "calls_per_iter": 1.0,
-      "share": 0.01229
+      "share": 0.01331
+    },
+    {
+      "name": "__myl_FcAdd_myl7_32",
+      "ms": 0.099089,
+      "calls_per_iter": 1.0,
+      "share": 0.013138
     },
     {
       "name": "/pixel_decoder/depth_layer/ups.2/convs.1/conv1/Conv + PWN(/pixel_decoder/depth_layer/ups.2/convs.1/activation_1/LeakyRelu)",
-      "ms": 0.100181,
+      "ms": 0.096358,
       "calls_per_iter": 1.0,
-      "share": 0.011976
-    },
-    {
-      "name": "/pixel_decoder/depth_layer/ups.2/convs.0/conv1/Conv + PWN(/pixel_decoder/depth_layer/ups.2/convs.0/activation_1/LeakyRelu)",
-      "ms": 0.099533,
-      "calls_per_iter": 1.0,
-      "share": 0.011898
+      "share": 0.012776
     },
     {
       "name": "/pixel_decoder/depth_layer/ups.1/convs.1/conv1/Conv + PWN(/pixel_decoder/depth_layer/ups.1/convs.1/activation_1/LeakyRelu)",
-      "ms": 0.097758,
+      "ms": 0.093969,
       "calls_per_iter": 1.0,
-      "share": 0.011686
-    },
-    {
-      "name": "/pixel_decoder/depth_layer/to_depth_hr/to_depth_hr.0/Pad_2793",
-      "ms": 0.095198,
-      "calls_per_iter": 1.0,
-      "share": 0.01138
-    },
-    {
-      "name": "/pixel_decoder/depth_layer/to_confidence_hr/to_confidence_hr.0/Pad_2949",
-      "ms": 0.095027,
-      "calls_per_iter": 1.0,
-      "share": 0.01136
-    },
-    {
-      "name": "__myl_FcAdd_myl7_55",
-      "ms": 0.093389,
-      "calls_per_iter": 1.0,
-      "share": 0.011164
+      "share": 0.012459
     },
     {
       "name": "/pixel_decoder/depth_layer/ups.1/convs.0/conv1/Conv + PWN(/pixel_decoder/depth_layer/ups.1/convs.0/activation_1/LeakyRelu)",
-      "ms": 0.093355,
+      "ms": 0.092535,
       "calls_per_iter": 1.0,
-      "share": 0.01116
+      "share": 0.012269
+    },
+    {
+      "name": "/pixel_decoder/depth_layer/to_confidence_hr/to_confidence_hr.0/Pad_2949",
+      "ms": 0.091341,
+      "calls_per_iter": 1.0,
+      "share": 0.012111
+    },
+    {
+      "name": "/pixel_decoder/depth_layer/to_depth_hr/to_depth_hr.0/Pad_2793",
+      "ms": 0.091341,
+      "calls_per_iter": 1.0,
+      "share": 0.012111
+    },
+    {
+      "name": "/pixel_decoder/depth_layer/ups.2/convs.0/conv1/Conv + PWN(/pixel_decoder/depth_layer/ups.2/convs.0/activation_1/LeakyRelu)",
+      "ms": 0.089975,
+      "calls_per_iter": 1.0,
+      "share": 0.011929
     },
     {
       "name": "/pixel_decoder/depth_layer/ups.1/convs.1/conv2/Conv + onnx::Mul_3560 + /pixel_decoder/depth_layer/ups.1/convs.1/Mul + /pixel_decoder/depth_layer/ups.1/convs.1/Add",
-      "ms": 0.087552,
+      "ms": 0.086733,
       "calls_per_iter": 1.0,
-      "share": 0.010466
+      "share": 0.0115
     },
     {
       "name": "/pixel_decoder/depth_layer/ups.2/convs.1/conv2/Conv + onnx::Mul_3573 + /pixel_decoder/depth_layer/ups.2/convs.1/Mul + /pixel_decoder/depth_layer/ups.2/convs.1/Add",
-      "ms": 0.083456,
+      "ms": 0.080589,
       "calls_per_iter": 1.0,
-      "share": 0.009977
-    },
-    {
-      "name": "/pixel_decoder/depth_layer/depth_mlp.2/depth_mlp.2.1/MatMul_myl41_6",
-      "ms": 0.08291,
-      "calls_per_iter": 1.0,
-      "share": 0.009911
-    },
-    {
-      "name": "/pixel_decoder/input_adapter/input_adapters.0/MatMul_myl7_82",
-      "ms": 0.082807,
-      "calls_per_iter": 1.0,
-      "share": 0.009899
-    },
-    {
-      "name": "/pixel_decoder/depth_layer/to_confidence_lr/Conv",
-      "ms": 0.082295,
-      "calls_per_iter": 1.0,
-      "share": 0.009838
-    },
-    {
-      "name": "/pixel_decoder/depth_layer/to_depth_lr/Conv",
-      "ms": 0.080452,
-      "calls_per_iter": 1.0,
-      "share": 0.009618
-    },
-    {
-      "name": "__myl_ReshTran_myl7_33",
-      "ms": 0.077107,
-      "calls_per_iter": 1.0,
-      "share": 0.009218
-    },
-    {
-      "name": "__myl_Tran_myl41_4",
-      "ms": 0.076288,
-      "calls_per_iter": 1.0,
-      "share": 0.00912
-    },
-    {
-      "name": "/pixel_decoder/depth_layer/Resize_2",
-      "ms": 0.075366,
-      "calls_per_iter": 1.0,
-      "share": 0.00901
-    },
-    {
-      "name": "/pixel_decoder/depth_layer/Resize_1",
-      "ms": 0.074991,
-      "calls_per_iter": 1.0,
-      "share": 0.008965
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /pixel_decoder/depth_layer/to_confidence_hr/to_confidence_hr.0/Conv + PWN(/pixel_decoder/depth_layer/to_confidence_hr/to_confidence_hr.1/LeakyRelu)",
-      "ms": 0.06813,
-      "calls_per_iter": 1.0,
-      "share": 0.008144
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /pixel_decoder/depth_layer/to_depth_hr/to_depth_hr.0/Conv + PWN(/pixel_decoder/depth_layer/to_depth_hr/to_depth_hr.1/LeakyRelu)",
-      "ms": 0.067721,
-      "calls_per_iter": 1.0,
-      "share": 0.008096
-    },
-    {
-      "name": "/pixel_decoder/depth_layer/to_confidence_lr/Pad_2858",
-      "ms": 0.067482,
-      "calls_per_iter": 1.0,
-      "share": 0.008067
-    },
-    {
-      "name": "/pixel_decoder/depth_layer/to_depth_lr/Pad_2702",
-      "ms": 0.065161,
-      "calls_per_iter": 1.0,
-      "share": 0.00779
-    },
-    {
-      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl7_83",
-      "ms": 0.064785,
-      "calls_per_iter": 1.0,
-      "share": 0.007745
-    },
-    {
-      "name": "__myl_ReshMul_myl62_6",
-      "ms": 0.064751,
-      "calls_per_iter": 1.0,
-      "share": 0.007741
-    },
-    {
-      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAddMulAdd_myl41_1",
-      "ms": 0.064717,
-      "calls_per_iter": 1.0,
-      "share": 0.007736
-    },
-    {
-      "name": "__myl_ReshScat_myl62_2",
-      "ms": 0.062908,
-      "calls_per_iter": 1.0,
-      "share": 0.00752
+      "share": 0.010685
     },
     {
       "name": "__mye130437+__mye130425+__mye130413_myl3_2",
-      "ms": 0.062566,
+      "ms": 0.074991,
       "calls_per_iter": 1.0,
-      "share": 0.007479
+      "share": 0.009943
     },
     {
-      "name": "/pixel_decoder/depth_layer/confidence_mlp/confidence_mlp.1/MatMul_myl41_3",
-      "ms": 0.060996,
+      "name": "/pixel_decoder/depth_layer/to_confidence_lr/Conv",
+      "ms": 0.074581,
       "calls_per_iter": 1.0,
-      "share": 0.007292
+      "share": 0.009888
     },
     {
-      "name": "_gemm_mha_v2_myl7_51",
-      "ms": 0.056695,
+      "name": "/pixel_decoder/depth_layer/to_depth_lr/Conv",
+      "ms": 0.073591,
       "calls_per_iter": 1.0,
-      "share": 0.006778
+      "share": 0.009757
     },
     {
-      "name": "__myl_SlicReshTranReshMove_myl7_88",
-      "ms": 0.055945,
+      "name": "/pixel_decoder/depth_layer/Resize_2",
+      "ms": 0.071748,
       "calls_per_iter": 1.0,
-      "share": 0.006688
+      "share": 0.009513
     },
     {
-      "name": "__myl_Tran_myl41_7",
-      "ms": 0.055228,
+      "name": "/pixel_decoder/depth_layer/Resize_1",
+      "ms": 0.071475,
       "calls_per_iter": 1.0,
-      "share": 0.006602
+      "share": 0.009477
     },
     {
-      "name": "_gemm_mha_v2_myl7_95",
-      "ms": 0.05475,
+      "name": "__myl_ReshMul_myl62_6",
+      "ms": 0.067482,
       "calls_per_iter": 1.0,
-      "share": 0.006545
+      "share": 0.008947
     },
     {
-      "name": "/pixel_encoder/blocks.8/mlp/fc2/MatMul_myl3_63",
-      "ms": 0.054545,
+      "name": "__myl_ReshScat_myl62_2",
+      "ms": 0.065502,
       "calls_per_iter": 1.0,
-      "share": 0.00652
+      "share": 0.008685
     },
     {
-      "name": "/pixel_encoder/blocks.5/mlp/fc2/MatMul_myl3_42",
-      "ms": 0.053862,
+      "name": "__myl_Tran_myl41_4",
+      "ms": 0.065229,
       "calls_per_iter": 1.0,
-      "share": 0.006439
+      "share": 0.008648
     },
     {
-      "name": "/pixel_decoder/depth_layer/to_confidence_hr/to_confidence_hr.2/Conv + PWN(PWN(/pixel_decoder/Clip_2), PWN(/pixel_decoder/Exp_1))",
-      "ms": 0.053862,
+      "name": "/pixel_decoder/depth_layer/to_confidence_lr/Pad_2858",
+      "ms": 0.065024,
       "calls_per_iter": 1.0,
-      "share": 0.006439
+      "share": 0.008621
     },
     {
-      "name": "/pixel_decoder/depth_layer/to_depth_hr/to_depth_hr.2/Conv + PWN(PWN(PWN(/pixel_decoder/Clip_1), /pixel_decoder/Constant_129_output_0 + ONNXTRT_Broadcast_2951 + /pixel_decoder/Add), PWN(/pixel_decoder/Exp))",
-      "ms": 0.05376,
+      "name": "/pixel_decoder/depth_layer/to_depth_lr/Pad_2702",
+      "ms": 0.062908,
       "calls_per_iter": 1.0,
-      "share": 0.006427
+      "share": 0.008341
     },
     {
-      "name": "/pixel_encoder/blocks.6/mlp/fc2/MatMul_myl3_49",
-      "ms": 0.052258,
+      "name": "/pixel_decoder/depth_layer/depth_mlp.2/depth_mlp.2.1/MatMul_myl41_6",
+      "ms": 0.058505,
       "calls_per_iter": 1.0,
-      "share": 0.006247
+      "share": 0.007757
     },
     {
-      "name": "/pixel_decoder/depth_layer/ups.2/up/up.1/Resize",
-      "ms": 0.051746,
+      "name": "Reformatting CopyNode for Input Tensor 0 to /pixel_decoder/depth_layer/to_confidence_hr/to_confidence_hr.0/Conv + PWN(/pixel_decoder/depth_layer/to_confidence_hr/to_confidence_hr.1/LeakyRelu)",
+      "ms": 0.057003,
       "calls_per_iter": 1.0,
-      "share": 0.006186
+      "share": 0.007558
     },
     {
-      "name": "_gemm_mha_v2_myl3_24",
-      "ms": 0.050586,
+      "name": "Reformatting CopyNode for Input Tensor 0 to /pixel_decoder/depth_layer/to_depth_hr/to_depth_hr.0/Conv + PWN(/pixel_decoder/depth_layer/to_depth_hr/to_depth_hr.1/LeakyRelu)",
+      "ms": 0.056934,
       "calls_per_iter": 1.0,
-      "share": 0.006047
+      "share": 0.007549
     },
     {
-      "name": "_gemm_mha_v2_myl3_10",
-      "ms": 0.050449,
+      "name": "Reformatting CopyNode for Input Tensor 0 to /pixel_encoder/patch_embed/proj/Conv",
+      "ms": 0.056384,
       "calls_per_iter": 1.0,
-      "share": 0.006031
+      "share": 0.007476
     },
     {
-      "name": "_gemm_mha_v2_myl3_66",
-      "ms": 0.050313,
+      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAddMulAdd_myl41_1",
+      "ms": 0.053316,
       "calls_per_iter": 1.0,
-      "share": 0.006015
+      "share": 0.007069
     },
     {
       "name": "_gemm_mha_v2_myl3_3",
-      "ms": 0.050278,
+      "ms": 0.052019,
       "calls_per_iter": 1.0,
-      "share": 0.00601
-    },
-    {
-      "name": "_gemm_mha_v2_myl3_59",
-      "ms": 0.050005,
-      "calls_per_iter": 1.0,
-      "share": 0.005978
-    },
-    {
-      "name": "/pixel_encoder/blocks.7/mlp/fc2/MatMul_myl3_56",
-      "ms": 0.049766,
-      "calls_per_iter": 1.0,
-      "share": 0.005949
-    },
-    {
-      "name": "_gemm_mha_v2_myl3_73",
-      "ms": 0.049766,
-      "calls_per_iter": 1.0,
-      "share": 0.005949
-    },
-    {
-      "name": "_gemm_mha_v2_myl3_17",
-      "ms": 0.049732,
-      "calls_per_iter": 1.0,
-      "share": 0.005945
-    },
-    {
-      "name": "__myl_Tran_myl41_0",
-      "ms": 0.04963,
-      "calls_per_iter": 1.0,
-      "share": 0.005933
-    },
-    {
-      "name": "_gemm_mha_v2_myl3_80",
-      "ms": 0.049493,
-      "calls_per_iter": 1.0,
-      "share": 0.005917
-    },
-    {
-      "name": "_gemm_mha_v2_myl3_45",
-      "ms": 0.049289,
-      "calls_per_iter": 1.0,
-      "share": 0.005892
-    },
-    {
-      "name": "_gemm_mha_v2_myl3_38",
-      "ms": 0.049015,
-      "calls_per_iter": 1.0,
-      "share": 0.005859
-    },
-    {
-      "name": "_gemm_mha_v2_myl3_52",
-      "ms": 0.048299,
-      "calls_per_iter": 1.0,
-      "share": 0.005774
-    },
-    {
-      "name": "_gemm_mha_v2_myl7_28",
-      "ms": 0.048299,
-      "calls_per_iter": 1.0,
-      "share": 0.005774
+      "share": 0.006897
     },
     {
       "name": "/pixel_encoder/blocks.4/mlp/fc2/MatMul_myl3_35",
-      "ms": 0.04806,
+      "ms": 0.051951,
       "calls_per_iter": 1.0,
-      "share": 0.005745
+      "share": 0.006888
+    },
+    {
+      "name": "_gemm_mha_v2_myl7_51",
+      "ms": 0.051302,
+      "calls_per_iter": 1.0,
+      "share": 0.006802
+    },
+    {
+      "name": "__myl_FcAdd_myl7_55",
+      "ms": 0.051063,
+      "calls_per_iter": 1.0,
+      "share": 0.00677
+    },
+    {
+      "name": "/pixel_encoder/blocks.5/mlp/fc2/MatMul_myl3_42",
+      "ms": 0.050927,
+      "calls_per_iter": 1.0,
+      "share": 0.006752
+    },
+    {
+      "name": "/pixel_encoder/blocks.7/mlp/fc2/MatMul_myl3_56",
+      "ms": 0.050108,
+      "calls_per_iter": 1.0,
+      "share": 0.006644
+    },
+    {
+      "name": "/pixel_decoder/depth_layer/ups.2/up/up.1/Resize",
+      "ms": 0.050039,
+      "calls_per_iter": 1.0,
+      "share": 0.006635
+    },
+    {
+      "name": "/pixel_decoder/depth_layer/confidence_mlp/confidence_mlp.1/MatMul_myl41_3",
+      "ms": 0.049869,
+      "calls_per_iter": 1.0,
+      "share": 0.006612
+    },
+    {
+      "name": "_gemm_mha_v2_myl3_66",
+      "ms": 0.049698,
+      "calls_per_iter": 1.0,
+      "share": 0.006589
+    },
+    {
+      "name": "_gemm_mha_v2_myl7_95",
+      "ms": 0.04963,
+      "calls_per_iter": 1.0,
+      "share": 0.00658
+    },
+    {
+      "name": "_gemm_mha_v2_myl3_80",
+      "ms": 0.049527,
+      "calls_per_iter": 1.0,
+      "share": 0.006567
+    },
+    {
+      "name": "_gemm_mha_v2_myl3_17",
+      "ms": 0.049391,
+      "calls_per_iter": 1.0,
+      "share": 0.006549
+    },
+    {
+      "name": "_gemm_mha_v2_myl3_45",
+      "ms": 0.049186,
+      "calls_per_iter": 1.0,
+      "share": 0.006521
+    },
+    {
+      "name": "_gemm_mha_v2_myl3_24",
+      "ms": 0.049015,
+      "calls_per_iter": 1.0,
+      "share": 0.006499
     },
     {
       "name": "_gemm_mha_v2_myl3_31",
-      "ms": 0.047923,
+      "ms": 0.049015,
       "calls_per_iter": 1.0,
-      "share": 0.005729
+      "share": 0.006499
+    },
+    {
+      "name": "_gemm_mha_v2_myl3_59",
+      "ms": 0.048981,
+      "calls_per_iter": 1.0,
+      "share": 0.006494
     },
     {
       "name": "_gemm_mha_v2_myl7_75",
-      "ms": 0.047684,
+      "ms": 0.048879,
       "calls_per_iter": 1.0,
-      "share": 0.0057
+      "share": 0.006481
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /pixel_decoder/depth_layer/to_confidence_lr/Conv",
-      "ms": 0.047616,
+      "name": "/pixel_decoder/depth_layer/to_confidence_hr/to_confidence_hr.2/Conv + PWN(PWN(/pixel_decoder/Clip_2), PWN(/pixel_decoder/Exp_1))",
+      "ms": 0.048742,
       "calls_per_iter": 1.0,
-      "share": 0.005692
+      "share": 0.006463
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /pixel_decoder/depth_layer/to_depth_lr/Conv",
-      "ms": 0.047411,
+      "name": "/pixel_decoder/depth_layer/to_depth_hr/to_depth_hr.2/Conv + PWN(PWN(PWN(/pixel_decoder/Clip_1), /pixel_decoder/Constant_129_output_0 + ONNXTRT_Broadcast_2951 + /pixel_decoder/Add), PWN(/pixel_decoder/Exp))",
+      "ms": 0.048708,
       "calls_per_iter": 1.0,
-      "share": 0.005668
+      "share": 0.006458
     },
     {
-      "name": "/pixel_encoder/blocks.9/mlp/fc2/MatMul_myl3_70",
-      "ms": 0.046592,
+      "name": "_gemm_mha_v2_myl3_10",
+      "ms": 0.048538,
       "calls_per_iter": 1.0,
-      "share": 0.00557
+      "share": 0.006435
     },
     {
-      "name": "/pixel_encoder/blocks.3/mlp/fc2/MatMul_myl3_28",
-      "ms": 0.04393,
+      "name": "_gemm_mha_v2_myl3_73",
+      "ms": 0.048538,
       "calls_per_iter": 1.0,
-      "share": 0.005251
+      "share": 0.006435
     },
     {
-      "name": "/pixel_encoder/blocks.10/mlp/fc2/MatMul_myl3_77",
-      "ms": 0.043895,
+      "name": "_gemm_mha_v2_myl3_52",
+      "ms": 0.048333,
       "calls_per_iter": 1.0,
-      "share": 0.005247
+      "share": 0.006408
     },
     {
-      "name": "/pixel_encoder/blocks.2/mlp/fc2/MatMul_myl3_21",
-      "ms": 0.043349,
+      "name": "__myl_ReshTran_myl7_33",
+      "ms": 0.048128,
       "calls_per_iter": 1.0,
-      "share": 0.005182
-    },
-    {
-      "name": "/pixel_decoder/depth_layer/process_features.2/ConvTranspose + /pixel_decoder/depth_layer/Add_3",
-      "ms": 0.041301,
-      "calls_per_iter": 1.0,
-      "share": 0.004937
+      "share": 0.006381
     },
     {
       "name": "/pixel_encoder/blocks.11/mlp/fc2/MatMul_myl3_84",
-      "ms": 0.041199,
+      "ms": 0.04806,
       "calls_per_iter": 1.0,
-      "share": 0.004925
+      "share": 0.006372
+    },
+    {
+      "name": "_gemm_mha_v2_myl3_38",
+      "ms": 0.047991,
+      "calls_per_iter": 1.0,
+      "share": 0.006363
+    },
+    {
+      "name": "/pixel_encoder/blocks.10/mlp/fc2/MatMul_myl3_77",
+      "ms": 0.047172,
+      "calls_per_iter": 1.0,
+      "share": 0.006254
+    },
+    {
+      "name": "_gemm_mha_v2_myl7_28",
+      "ms": 0.046967,
+      "calls_per_iter": 1.0,
+      "share": 0.006227
+    },
+    {
+      "name": "/pixel_encoder/blocks.8/mlp/fc2/MatMul_myl3_63",
+      "ms": 0.046626,
+      "calls_per_iter": 1.0,
+      "share": 0.006182
+    },
+    {
+      "name": "/pixel_encoder/blocks.6/mlp/fc2/MatMul_myl3_49",
+      "ms": 0.046421,
+      "calls_per_iter": 1.0,
+      "share": 0.006155
+    },
+    {
+      "name": "/pixel_encoder/blocks.2/mlp/fc2/MatMul_myl3_21",
+      "ms": 0.045875,
+      "calls_per_iter": 1.0,
+      "share": 0.006082
+    },
+    {
+      "name": "__myl_Tran_myl41_7",
+      "ms": 0.045431,
+      "calls_per_iter": 1.0,
+      "share": 0.006024
     },
     {
       "name": "/pixel_encoder/blocks.1/mlp/fc2/MatMul_myl3_14",
-      "ms": 0.041131,
+      "ms": 0.044271,
       "calls_per_iter": 1.0,
-      "share": 0.004917
+      "share": 0.00587
     },
     {
-      "name": "/pixel_decoder/depth_layer/ups.0/convs.0/conv2/Conv + onnx::Mul_3542 + /pixel_decoder/depth_layer/ups.0/convs.0/Mul + /pixel_decoder/depth_layer/ups.0/convs.0/Add + PWN(/pixel_decoder/depth_layer/ups.0/convs.1/activation/LeakyRelu)",
-      "ms": 0.038332,
+      "name": "/pixel_encoder/blocks.3/mlp/fc2/MatMul_myl3_28",
+      "ms": 0.042803,
       "calls_per_iter": 1.0,
-      "share": 0.004582
-    },
-    {
-      "name": "/pixel_encoder/patch_embed/proj/Conv",
-      "ms": 0.037342,
-      "calls_per_iter": 1.0,
-      "share": 0.004464
-    },
-    {
-      "name": "/pixel_decoder/depth_layer/ups.0/convs.1/conv1/Conv + PWN(/pixel_decoder/depth_layer/ups.0/convs.1/activation_1/LeakyRelu)",
-      "ms": 0.035396,
-      "calls_per_iter": 1.0,
-      "share": 0.004231
+      "share": 0.005675
     },
     {
       "name": "__myl_FcAdd_myl7_99",
-      "ms": 0.035362,
+      "ms": 0.04154,
       "calls_per_iter": 1.0,
-      "share": 0.004227
+      "share": 0.005508
+    },
+    {
+      "name": "__myl_Tran_myl41_0",
+      "ms": 0.04096,
+      "calls_per_iter": 1.0,
+      "share": 0.005431
+    },
+    {
+      "name": "/pixel_decoder/depth_layer/prompt_camera.0/layers.0/q/MatMul_myl7_84",
+      "ms": 0.040721,
+      "calls_per_iter": 1.0,
+      "share": 0.005399
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /pixel_decoder/depth_layer/to_confidence_lr/Conv",
+      "ms": 0.040311,
+      "calls_per_iter": 1.0,
+      "share": 0.005345
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /pixel_decoder/depth_layer/to_depth_lr/Conv",
+      "ms": 0.040209,
+      "calls_per_iter": 1.0,
+      "share": 0.005331
+    },
+    {
+      "name": "/pixel_encoder/blocks.9/mlp/fc2/MatMul_myl3_70",
+      "ms": 0.039219,
+      "calls_per_iter": 1.0,
+      "share": 0.0052
+    },
+    {
+      "name": "/pixel_decoder/depth_layer/process_features.2/ConvTranspose + /pixel_decoder/depth_layer/Add_3",
+      "ms": 0.037171,
+      "calls_per_iter": 1.0,
+      "share": 0.004928
+    },
+    {
+      "name": "/pixel_decoder/depth_layer/ups.0/convs.0/conv2/Conv + onnx::Mul_3542 + /pixel_decoder/depth_layer/ups.0/convs.0/Mul + /pixel_decoder/depth_layer/ups.0/convs.0/Add + PWN(/pixel_decoder/depth_layer/ups.0/convs.1/activation/LeakyRelu)",
+      "ms": 0.037069,
+      "calls_per_iter": 1.0,
+      "share": 0.004915
+    },
+    {
+      "name": "/pixel_encoder/patch_embed/proj/Conv",
+      "ms": 0.035942,
+      "calls_per_iter": 1.0,
+      "share": 0.004765
+    },
+    {
+      "name": "__myl_TranSlic_myl7_65",
+      "ms": 0.034611,
+      "calls_per_iter": 1.0,
+      "share": 0.004589
+    },
+    {
+      "name": "/pixel_decoder/depth_layer/ups.0/convs.1/conv1/Conv + PWN(/pixel_decoder/depth_layer/ups.0/convs.1/activation_1/LeakyRelu)",
+      "ms": 0.034202,
+      "calls_per_iter": 1.0,
+      "share": 0.004535
+    },
+    {
+      "name": "__myl_MoveSlicReshSlicReshAbsGtrEqlGtrOrCastMaxMulMinAddCastMulDivAtanLtAddAddSeleSeleReshCastEtc_myl7_12",
+      "ms": 0.033997,
+      "calls_per_iter": 1.0,
+      "share": 0.004508
+    },
+    {
+      "name": "/pixel_decoder/depth_layer/ups.0/convs.0/conv1/Conv + PWN(/pixel_decoder/depth_layer/ups.0/convs.0/activation_1/LeakyRelu)",
+      "ms": 0.03287,
+      "calls_per_iter": 1.0,
+      "share": 0.004358
+    },
+    {
+      "name": "/pixel_encoder/blocks.0/mlp/fc2/MatMul_myl3_7",
+      "ms": 0.032495,
+      "calls_per_iter": 1.0,
+      "share": 0.004308
+    },
+    {
+      "name": "/pixel_decoder/input_adapter/input_adapters.0/MatMul_myl7_82",
+      "ms": 0.032427,
+      "calls_per_iter": 1.0,
+      "share": 0.004299
+    },
+    {
+      "name": "__myl_Fc_myl3_41",
+      "ms": 0.032222,
+      "calls_per_iter": 1.0,
+      "share": 0.004272
     },
     {
       "name": "/pixel_decoder/depth_layer/ups.0/convs.1/conv2/Conv + onnx::Mul_3547 + /pixel_decoder/depth_layer/ups.0/convs.1/Mul + /pixel_decoder/depth_layer/ups.0/convs.1/Add",
-      "ms": 0.034645,
+      "ms": 0.031983,
       "calls_per_iter": 1.0,
-      "share": 0.004142
+      "share": 0.00424
     },
     {
-      "name": "__myl_ReshTran_myl7_56",
-      "ms": 0.034338,
+      "name": "Reformatting CopyNode for Input Tensor 1 to /pixel_decoder/depth_layer/process_features.0/ConvTranspose + /pixel_decoder/depth_layer/Add_1",
+      "ms": 0.031744,
       "calls_per_iter": 1.0,
-      "share": 0.004105
+      "share": 0.004209
     },
     {
-      "name": "__myl_Fc_myl3_76",
-      "ms": 0.034133,
+      "name": "__myl_Fc_myl3_6",
+      "ms": 0.031369,
       "calls_per_iter": 1.0,
-      "share": 0.00408
+      "share": 0.004159
     },
     {
-      "name": "__myl_Fc_myl3_34",
-      "ms": 0.03369,
+      "name": "__myl_Fc_myl3_27",
+      "ms": 0.031232,
       "calls_per_iter": 1.0,
-      "share": 0.004027
+      "share": 0.004141
+    },
+    {
+      "name": "__myl_Fc_myl7_54",
+      "ms": 0.03113,
+      "calls_per_iter": 1.0,
+      "share": 0.004127
+    },
+    {
+      "name": "__myl_Fc_myl3_48",
+      "ms": 0.031095,
+      "calls_per_iter": 1.0,
+      "share": 0.004123
+    },
+    {
+      "name": "__myl_Fc_myl3_20",
+      "ms": 0.031061,
+      "calls_per_iter": 1.0,
+      "share": 0.004118
+    },
+    {
+      "name": "__myl_Fc_myl3_83",
+      "ms": 0.030993,
+      "calls_per_iter": 1.0,
+      "share": 0.004109
+    },
+    {
+      "name": "__myl_Fc_myl3_13",
+      "ms": 0.030822,
+      "calls_per_iter": 1.0,
+      "share": 0.004087
+    },
+    {
+      "name": "__myl_Fc_myl3_62",
+      "ms": 0.030788,
+      "calls_per_iter": 1.0,
+      "share": 0.004082
     },
     {
       "name": "__myl_Fc_myl3_69",
-      "ms": 0.033348,
+      "ms": 0.030788,
+      "calls_per_iter": 1.0,
+      "share": 0.004082
+    },
+    {
+      "name": "__myl_Fc_myl7_31",
+      "ms": 0.030583,
+      "calls_per_iter": 1.0,
+      "share": 0.004055
+    },
+    {
+      "name": "__myl_Fc_myl3_76",
+      "ms": 0.030379,
+      "calls_per_iter": 1.0,
+      "share": 0.004028
+    },
+    {
+      "name": "__myl_Slic_myl7_57",
+      "ms": 0.030379,
+      "calls_per_iter": 1.0,
+      "share": 0.004028
+    },
+    {
+      "name": "__myl_Fc_myl3_34",
+      "ms": 0.030276,
+      "calls_per_iter": 1.0,
+      "share": 0.004014
+    },
+    {
+      "name": "__myl_Fc_myl3_55",
+      "ms": 0.030071,
       "calls_per_iter": 1.0,
       "share": 0.003987
     },
     {
-      "name": "/pixel_decoder/depth_layer/ups.0/convs.0/conv1/Conv + PWN(/pixel_decoder/depth_layer/ups.0/convs.0/activation_1/LeakyRelu)",
-      "ms": 0.033143,
-      "calls_per_iter": 1.0,
-      "share": 0.003962
-    },
-    {
-      "name": "__myl_Fc_myl3_83",
-      "ms": 0.033007,
-      "calls_per_iter": 1.0,
-      "share": 0.003946
-    },
-    {
-      "name": "__myl_Fc_myl7_54",
-      "ms": 0.032905,
-      "calls_per_iter": 1.0,
-      "share": 0.003934
-    },
-    {
-      "name": "__myl_Fc_myl3_41",
-      "ms": 0.032802,
-      "calls_per_iter": 1.0,
-      "share": 0.003921
-    },
-    {
-      "name": "/pixel_decoder/depth_layer/prompt_camera.0/layers.0/kv/MatMul_myl7_85",
-      "ms": 0.032666,
-      "calls_per_iter": 1.0,
-      "share": 0.003905
-    },
-    {
-      "name": "__myl_Fc_myl3_27",
-      "ms": 0.032563,
-      "calls_per_iter": 1.0,
-      "share": 0.003893
-    },
-    {
-      "name": "__myl_Fc_myl3_20",
-      "ms": 0.032324,
-      "calls_per_iter": 1.0,
-      "share": 0.003864
-    },
-    {
-      "name": "__myl_Fc_myl3_13",
-      "ms": 0.032256,
-      "calls_per_iter": 1.0,
-      "share": 0.003856
-    },
-    {
-      "name": "__myl_Fc_myl3_62",
-      "ms": 0.032222,
-      "calls_per_iter": 1.0,
-      "share": 0.003852
-    },
-    {
-      "name": "/pixel_encoder/blocks.0/mlp/fc2/MatMul_myl3_7",
-      "ms": 0.032085,
-      "calls_per_iter": 1.0,
-      "share": 0.003836
-    },
-    {
-      "name": "__myl_Fc_myl3_48",
-      "ms": 0.031881,
-      "calls_per_iter": 1.0,
-      "share": 0.003811
-    },
-    {
-      "name": "__myl_Fc_myl3_55",
-      "ms": 0.031846,
-      "calls_per_iter": 1.0,
-      "share": 0.003807
-    },
-    {
-      "name": "__myl_Fc_myl3_6",
-      "ms": 0.031744,
-      "calls_per_iter": 1.0,
-      "share": 0.003795
-    },
-    {
-      "name": "__myl_AddSqrtDivMulCastMulAddTranSlicReshMulSum_myl3_89",
-      "ms": 0.031164,
-      "calls_per_iter": 1.0,
-      "share": 0.003725
-    },
-    {
-      "name": "__myl_TranSlic_myl7_65",
-      "ms": 0.030583,
-      "calls_per_iter": 1.0,
-      "share": 0.003656
-    },
-    {
-      "name": "__myl_FcAdd_myl7_29",
-      "ms": 0.030515,
-      "calls_per_iter": 1.0,
-      "share": 0.003648
-    },
-    {
-      "name": "/pixel_decoder/input_adapter/input_adapters.3/MatMul_myl7_9",
+      "name": "__myl_Slic_myl7_81",
       "ms": 0.02973,
       "calls_per_iter": 1.0,
-      "share": 0.003554
-    },
-    {
-      "name": "__mye131587+__mye131575+__mye131563_myl3_72",
-      "ms": 0.029559,
-      "calls_per_iter": 1.0,
-      "share": 0.003534
-    },
-    {
-      "name": "__mye130667+__mye130655+__mye130643_myl3_16",
-      "ms": 0.029491,
-      "calls_per_iter": 1.0,
-      "share": 0.003525
-    },
-    {
-      "name": "__mye130552+__mye130540+__mye130528_myl3_9",
-      "ms": 0.029389,
-      "calls_per_iter": 1.0,
-      "share": 0.003513
-    },
-    {
-      "name": "__mye131242+__mye131230+__mye131218_myl3_51",
-      "ms": 0.029252,
-      "calls_per_iter": 1.0,
-      "share": 0.003497
-    },
-    {
-      "name": "__mye130782+__mye130770+__mye130758_myl3_23",
-      "ms": 0.029116,
-      "calls_per_iter": 1.0,
-      "share": 0.003481
-    },
-    {
-      "name": "__mye131702+__mye131690+__mye131678_myl3_79",
-      "ms": 0.029116,
-      "calls_per_iter": 1.0,
-      "share": 0.003481
-    },
-    {
-      "name": "__mye131357+__mye131345+__mye131333_myl3_58",
-      "ms": 0.029047,
-      "calls_per_iter": 1.0,
-      "share": 0.003472
-    },
-    {
-      "name": "__mye130897+__mye130885+__mye130873_myl3_30",
-      "ms": 0.029013,
-      "calls_per_iter": 1.0,
-      "share": 0.003468
-    },
-    {
-      "name": "__mye131472+__mye131460+__mye131448_myl3_65",
-      "ms": 0.028979,
-      "calls_per_iter": 1.0,
-      "share": 0.003464
+      "share": 0.003942
     },
     {
       "name": "__mye131012+__mye131000+__mye130988_myl3_37",
-      "ms": 0.028877,
+      "ms": 0.028262,
       "calls_per_iter": 1.0,
-      "share": 0.003452
+      "share": 0.003747
+    },
+    {
+      "name": "__mye130667+__mye130655+__mye130643_myl3_16",
+      "ms": 0.02816,
+      "calls_per_iter": 1.0,
+      "share": 0.003734
+    },
+    {
+      "name": "__mye130897+__mye130885+__mye130873_myl3_30",
+      "ms": 0.02816,
+      "calls_per_iter": 1.0,
+      "share": 0.003734
+    },
+    {
+      "name": "__mye131242+__mye131230+__mye131218_myl3_51",
+      "ms": 0.028023,
+      "calls_per_iter": 1.0,
+      "share": 0.003716
+    },
+    {
+      "name": "__mye131472+__mye131460+__mye131448_myl3_65",
+      "ms": 0.028023,
+      "calls_per_iter": 1.0,
+      "share": 0.003716
+    },
+    {
+      "name": "__mye131357+__mye131345+__mye131333_myl3_58",
+      "ms": 0.027989,
+      "calls_per_iter": 1.0,
+      "share": 0.003711
+    },
+    {
+      "name": "__mye130782+__mye130770+__mye130758_myl3_23",
+      "ms": 0.027887,
+      "calls_per_iter": 1.0,
+      "share": 0.003697
     },
     {
       "name": "__mye131127+__mye131115+__mye131103_myl3_44",
-      "ms": 0.028809,
+      "ms": 0.027887,
       "calls_per_iter": 1.0,
-      "share": 0.003444
+      "share": 0.003697
     },
     {
-      "name": "__myl_MoveSlicReshSlicReshAbsGtrEqlGtrOrCastMaxMulMinAddCastMulDivAtanLtAddAddSeleSeleReshCastEtc_myl7_12",
-      "ms": 0.028809,
+      "name": "__mye131587+__mye131575+__mye131563_myl3_72",
+      "ms": 0.027819,
       "calls_per_iter": 1.0,
-      "share": 0.003444
+      "share": 0.003688
+    },
+    {
+      "name": "__mye131702+__mye131690+__mye131678_myl3_79",
+      "ms": 0.027819,
+      "calls_per_iter": 1.0,
+      "share": 0.003688
+    },
+    {
+      "name": "__mye130552+__mye130540+__mye130528_myl3_9",
+      "ms": 0.027785,
+      "calls_per_iter": 1.0,
+      "share": 0.003684
+    },
+    {
+      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl7_83",
+      "ms": 0.027648,
+      "calls_per_iter": 1.0,
+      "share": 0.003666
+    },
+    {
+      "name": "__myl_SlicReshTranReshMove_myl7_68",
+      "ms": 0.027614,
+      "calls_per_iter": 1.0,
+      "share": 0.003661
+    },
+    {
+      "name": "__myl_FcAdd_myl7_29",
+      "ms": 0.02758,
+      "calls_per_iter": 1.0,
+      "share": 0.003657
+    },
+    {
+      "name": "/pixel_decoder/depth_layer/prompt_camera.3/layers.0/kv/MatMul_myl7_15",
+      "ms": 0.027034,
+      "calls_per_iter": 1.0,
+      "share": 0.003584
+    },
+    {
+      "name": "__myl_ReshMove_myl7_91",
+      "ms": 0.026385,
+      "calls_per_iter": 1.0,
+      "share": 0.003498
+    },
+    {
+      "name": "PWN(/pixel_decoder/depth_layer/ups.2/convs.0/activation/LeakyRelu)",
+      "ms": 0.025702,
+      "calls_per_iter": 1.0,
+      "share": 0.003408
+    },
+    {
+      "name": "/pixel_decoder/depth_layer/prompt_camera.0/layers.0/kv/MatMul_myl7_85",
+      "ms": 0.025634,
+      "calls_per_iter": 1.0,
+      "share": 0.003399
+    },
+    {
+      "name": "__myl_Fc_myl7_78",
+      "ms": 0.025395,
+      "calls_per_iter": 1.0,
+      "share": 0.003367
     },
     {
       "name": "/pixel_decoder/input_adapter/input_adapters.2/MatMul_myl7_35",
-      "ms": 0.02874,
+      "ms": 0.025088,
       "calls_per_iter": 1.0,
-      "share": 0.003436
+      "share": 0.003326
     },
     {
-      "name": "__myl_ReshTran_myl7_80",
-      "ms": 0.028706,
+      "name": "__myl_Fc_myl7_98",
+      "ms": 0.024883,
       "calls_per_iter": 1.0,
-      "share": 0.003432
+      "share": 0.003299
     },
     {
-      "name": "__myl_Fc_myl7_31",
-      "ms": 0.028194,
-      "calls_per_iter": 1.0,
-      "share": 0.00337
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /pixel_decoder/depth_layer/Resize_1",
-      "ms": 0.027443,
-      "calls_per_iter": 1.0,
-      "share": 0.003281
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /pixel_decoder/depth_layer/Resize_2",
-      "ms": 0.027375,
+      "name": "/pixel_decoder/depth_layer/prompt_camera.1/layers.0/kv/MatMul_myl7_62",
+      "ms": 0.024678,
       "calls_per_iter": 1.0,
       "share": 0.003272
     },
     {
-      "name": "__myl_Fc_myl7_98",
-      "ms": 0.027238,
+      "name": "__myl_Slic_myl7_8",
+      "ms": 0.024235,
       "calls_per_iter": 1.0,
-      "share": 0.003256
-    },
-    {
-      "name": "PWN(/pixel_decoder/depth_layer/ups.2/convs.0/activation/LeakyRelu)",
-      "ms": 0.027238,
-      "calls_per_iter": 1.0,
-      "share": 0.003256
-    },
-    {
-      "name": "__myl_Fc_myl7_78",
-      "ms": 0.027102,
-      "calls_per_iter": 1.0,
-      "share": 0.00324
-    },
-    {
-      "name": "PWN(/pixel_decoder/depth_layer/ups.1/convs.0/activation/LeakyRelu)",
-      "ms": 0.026931,
-      "calls_per_iter": 1.0,
-      "share": 0.003219
-    },
-    {
-      "name": "/pixel_decoder/depth_layer/prompt_camera.1/layers.0/kv/MatMul_myl7_62",
-      "ms": 0.026829,
-      "calls_per_iter": 1.0,
-      "share": 0.003207
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 1 to /pixel_decoder/depth_layer/process_features.0/ConvTranspose + /pixel_decoder/depth_layer/Add_1",
-      "ms": 0.026692,
-      "calls_per_iter": 1.0,
-      "share": 0.003191
-    },
-    {
-      "name": "__myl_ReshMove_myl7_24",
-      "ms": 0.026249,
-      "calls_per_iter": 1.0,
-      "share": 0.003138
-    },
-    {
-      "name": "__myl_AddSqrtDivMulCastMulAddTranSlicReshMulSum_myl3_88",
-      "ms": 0.025941,
-      "calls_per_iter": 1.0,
-      "share": 0.003101
+      "share": 0.003213
     },
     {
       "name": "/pixel_decoder/depth_layer/process_features.1/ConvTranspose + /pixel_decoder/depth_layer/Add_2",
-      "ms": 0.025805,
-      "calls_per_iter": 1.0,
-      "share": 0.003085
-    },
-    {
-      "name": "__myl_Slic_myl7_57",
-      "ms": 0.025293,
-      "calls_per_iter": 1.0,
-      "share": 0.003024
-    },
-    {
-      "name": "__myl_SlicReshTranReshMove_myl7_68",
-      "ms": 0.024781,
-      "calls_per_iter": 1.0,
-      "share": 0.002962
-    },
-    {
-      "name": "/pixel_decoder/depth_layer/prompt_camera.3/layers.0/kv/MatMul_myl7_15",
-      "ms": 0.024713,
-      "calls_per_iter": 1.0,
-      "share": 0.002954
-    },
-    {
-      "name": "__myl_ReshMulSlicSlicAddSlicAddSqrtMaxMinDivTran_myl3_123",
       "ms": 0.024166,
       "calls_per_iter": 1.0,
-      "share": 0.002889
+      "share": 0.003204
     },
     {
       "name": "__myl_TranSlic_myl7_86",
-      "ms": 0.024166,
+      "ms": 0.023893,
       "calls_per_iter": 1.0,
-      "share": 0.002889
-    },
-    {
-      "name": "__myl_ReshMove_myl7_71",
-      "ms": 0.02304,
-      "calls_per_iter": 1.0,
-      "share": 0.002754
-    },
-    {
-      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAddMulAdd_myl3_93",
-      "ms": 0.023006,
-      "calls_per_iter": 1.0,
-      "share": 0.00275
-    },
-    {
-      "name": "/pixel_decoder/input_adapter/input_adapters.1/MatMul_myl7_58",
-      "ms": 0.022391,
-      "calls_per_iter": 1.0,
-      "share": 0.002677
+      "share": 0.003168
     },
     {
       "name": "__myl_FcAdd_myl7_52",
-      "ms": 0.022323,
+      "ms": 0.023859,
       "calls_per_iter": 1.0,
-      "share": 0.002669
+      "share": 0.003163
     },
     {
-      "name": "/pixel_decoder/camera_layer/aggregate2/mlp/proj2/MatMul_myl3_112",
-      "ms": 0.021641,
+      "name": "Reformatting CopyNode for Input Tensor 0 to /pixel_decoder/depth_layer/Resize_2",
+      "ms": 0.023825,
       "calls_per_iter": 1.0,
-      "share": 0.002587
+      "share": 0.003159
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_100",
-      "ms": 0.021129,
+      "name": "__myl_ReshTran_myl7_80",
+      "ms": 0.023518,
       "calls_per_iter": 1.0,
-      "share": 0.002526
+      "share": 0.003118
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAddMulAdd_myl3_103",
-      "ms": 0.02106,
+      "name": "Reformatting CopyNode for Input Tensor 0 to /pixel_decoder/depth_layer/Resize_1",
+      "ms": 0.02345,
       "calls_per_iter": 1.0,
-      "share": 0.002518
-    },
-    {
-      "name": "PWN(/pixel_decoder/depth_layer/Acos)",
-      "ms": 0.02106,
-      "calls_per_iter": 1.0,
-      "share": 0.002518
-    },
-    {
-      "name": "/pixel_decoder/camera_layer/project/proj2/MatMul_myl3_92",
-      "ms": 0.020992,
-      "calls_per_iter": 1.0,
-      "share": 0.002509
-    },
-    {
-      "name": "/pixel_decoder/camera_layer/aggregate1/kv/MatMul_myl3_96",
-      "ms": 0.020958,
-      "calls_per_iter": 1.0,
-      "share": 0.002505
-    },
-    {
-      "name": "__myl_SlicSlicSlicSlicSlicSlicMulMulMulAddAdd_myl3_122",
-      "ms": 0.020958,
-      "calls_per_iter": 1.0,
-      "share": 0.002505
-    },
-    {
-      "name": "__myl_FcAdd_myl7_76",
-      "ms": 0.020719,
-      "calls_per_iter": 1.0,
-      "share": 0.002477
-    },
-    {
-      "name": "__myl_ReplReplConc_myl3_121",
-      "ms": 0.020685,
-      "calls_per_iter": 1.0,
-      "share": 0.002473
-    },
-    {
-      "name": "__myl_ReshMove_myl7_91",
-      "ms": 0.020685,
-      "calls_per_iter": 1.0,
-      "share": 0.002473
-    },
-    {
-      "name": "Resize_1577",
-      "ms": 0.019934,
-      "calls_per_iter": 1.0,
-      "share": 0.002383
+      "share": 0.003109
     },
     {
       "name": "__myl_SlicReshTranReshMove_myl7_45",
+      "ms": 0.021572,
+      "calls_per_iter": 1.0,
+      "share": 0.00286
+    },
+    {
+      "name": "PWN(/pixel_decoder/depth_layer/ups.1/convs.0/activation/LeakyRelu)",
+      "ms": 0.021572,
+      "calls_per_iter": 1.0,
+      "share": 0.00286
+    },
+    {
+      "name": "/pixel_decoder/input_adapter/input_adapters.3/MatMul_myl7_9",
+      "ms": 0.021436,
+      "calls_per_iter": 1.0,
+      "share": 0.002842
+    },
+    {
+      "name": "__myl_ReshTran_myl7_56",
       "ms": 0.019866,
       "calls_per_iter": 1.0,
-      "share": 0.002375
+      "share": 0.002634
     },
     {
-      "name": "/pixel_decoder/camera_layer/aggregate2/q/MatMul_myl3_104",
-      "ms": 0.019251,
+      "name": "__myl_ReshMove_myl7_71",
+      "ms": 0.019729,
       "calls_per_iter": 1.0,
-      "share": 0.002301
-    },
-    {
-      "name": "/pixel_decoder/depth_layer/ups.2/up/up.0/Conv",
-      "ms": 0.019251,
-      "calls_per_iter": 1.0,
-      "share": 0.002301
-    },
-    {
-      "name": "/pixel_decoder/depth_layer/prompt_camera.2/layers.0/q/MatMul_myl7_37",
-      "ms": 0.018842,
-      "calls_per_iter": 1.0,
-      "share": 0.002252
+      "share": 0.002616
     },
     {
       "name": "__myl_FcAdd_myl7_96",
-      "ms": 0.018739,
+      "ms": 0.019729,
       "calls_per_iter": 1.0,
-      "share": 0.00224
+      "share": 0.002616
     },
     {
-      "name": "__myl_Slic_myl7_8",
+      "name": "/pixel_decoder/depth_layer/prompt_camera.3/layers.0/q/MatMul_myl7_11",
+      "ms": 0.019695,
+      "calls_per_iter": 1.0,
+      "share": 0.002611
+    },
+    {
+      "name": "__myl_FcAdd_myl7_76",
+      "ms": 0.019558,
+      "calls_per_iter": 1.0,
+      "share": 0.002593
+    },
+    {
+      "name": "__myl_ReshMove_myl7_24",
+      "ms": 0.019354,
+      "calls_per_iter": 1.0,
+      "share": 0.002566
+    },
+    {
+      "name": "__myl_ReshMulSlicSlicAddSlicAddSqrtMaxMinDivTran_myl3_123",
+      "ms": 0.018842,
+      "calls_per_iter": 1.0,
+      "share": 0.002498
+    },
+    {
+      "name": "__myl_SlicSlicSlicSlicSlicSlicMulMulMulAddAdd_myl3_122",
       "ms": 0.018705,
+      "calls_per_iter": 1.0,
+      "share": 0.00248
+    },
+    {
+      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl7_10",
+      "ms": 0.018569,
+      "calls_per_iter": 1.0,
+      "share": 0.002462
+    },
+    {
+      "name": "__myl_SlicReshTranReshMove_myl7_21",
+      "ms": 0.018295,
+      "calls_per_iter": 1.0,
+      "share": 0.002426
+    },
+    {
+      "name": "/pixel_decoder/camera_layer/aggregate2/q/MatMul_myl3_104",
+      "ms": 0.018261,
+      "calls_per_iter": 1.0,
+      "share": 0.002421
+    },
+    {
+      "name": "/pixel_decoder/depth_layer/ups.2/up/up.0/Conv",
+      "ms": 0.017442,
+      "calls_per_iter": 1.0,
+      "share": 0.002313
+    },
+    {
+      "name": "/pixel_decoder/depth_layer/to_latents/MatMul_myl7_100",
+      "ms": 0.01734,
+      "calls_per_iter": 1.0,
+      "share": 0.002299
+    },
+    {
+      "name": "/pixel_decoder/camera_layer/aggregate2/mlp/proj2/MatMul_myl3_112",
+      "ms": 0.017169,
+      "calls_per_iter": 1.0,
+      "share": 0.002276
+    },
+    {
+      "name": "/pixel_decoder/input_adapter/input_adapters.1/MatMul_myl7_58",
+      "ms": 0.017101,
+      "calls_per_iter": 1.0,
+      "share": 0.002267
+    },
+    {
+      "name": "__myl_Fc_myl3_114",
+      "ms": 0.017067,
+      "calls_per_iter": 1.0,
+      "share": 0.002263
+    },
+    {
+      "name": "__myl_SlicReshTranReshMove_myl7_88",
+      "ms": 0.016862,
       "calls_per_iter": 1.0,
       "share": 0.002236
     },
     {
-      "name": "/pixel_decoder/depth_layer/process_features.0/ConvTranspose + /pixel_decoder/depth_layer/Add_1",
-      "ms": 0.0185,
-      "calls_per_iter": 1.0,
-      "share": 0.002212
-    },
-    {
-      "name": "/pixel_decoder/depth_layer/prompt_camera.3/layers.0/q/MatMul_myl7_11",
-      "ms": 0.01833,
-      "calls_per_iter": 1.0,
-      "share": 0.002191
-    },
-    {
       "name": "__myl_Slic_myl7_34",
-      "ms": 0.018057,
+      "ms": 0.016623,
+      "calls_per_iter": 1.0,
+      "share": 0.002204
+    },
+    {
+      "name": "__myl_ReshTranMulSlicSlicAddSlicAddSqrtMaxMinDivSlic_myl5_0",
+      "ms": 0.016521,
+      "calls_per_iter": 1.0,
+      "share": 0.00219
+    },
+    {
+      "name": "__myl_AddSqrtDivMulCastMulAddTranSlicReshMulSum_myl3_88",
+      "ms": 0.016452,
+      "calls_per_iter": 1.0,
+      "share": 0.002181
+    },
+    {
+      "name": "/pixel_decoder/depth_layer/process_features.0/ConvTranspose + /pixel_decoder/depth_layer/Add_1",
+      "ms": 0.016384,
+      "calls_per_iter": 1.0,
+      "share": 0.002172
+    },
+    {
+      "name": "/pixel_decoder/depth_layer/prompt_camera.2/layers.0/kv/MatMul_myl7_39",
+      "ms": 0.016282,
       "calls_per_iter": 1.0,
       "share": 0.002159
     },
     {
-      "name": "__myl_AddSqrtDivMulCastMulAddTranSlicReshMulSum_myl3_87",
-      "ms": 0.017749,
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_12",
+      "ms": 0.016213,
       "calls_per_iter": 1.0,
-      "share": 0.002122
-    },
-    {
-      "name": "/pixel_decoder/camera_layer/aggregate2/kv/MatMul_myl3_106",
-      "ms": 0.017749,
-      "calls_per_iter": 1.0,
-      "share": 0.002122
-    },
-    {
-      "name": "__myl_ReshTranMulSlicSlicAddSlicAddSqrtMaxMinDivSlic_myl5_0",
-      "ms": 0.017647,
-      "calls_per_iter": 1.0,
-      "share": 0.00211
-    },
-    {
-      "name": "__myl_AddReshSlicReshSigmReshSlicReshSigmReshSlicReshExpReshSlicReshExpReshConcMulSlicSlicSlicEtc_myl3_117",
-      "ms": 0.017271,
-      "calls_per_iter": 1.0,
-      "share": 0.002065
-    },
-    {
-      "name": "__myl_ReshDivReshScat_myl3_118",
-      "ms": 0.017237,
-      "calls_per_iter": 1.0,
-      "share": 0.002061
-    },
-    {
-      "name": "/pixel_decoder/depth_layer/to_latents/MatMul_myl7_100",
-      "ms": 0.01693,
-      "calls_per_iter": 1.0,
-      "share": 0.002024
-    },
-    {
-      "name": "__myl_TranSlicSlicReshTranReshMoveReshMove_myl3_107",
-      "ms": 0.016794,
-      "calls_per_iter": 1.0,
-      "share": 0.002008
-    },
-    {
-      "name": "__myl_Fc_myl3_114",
-      "ms": 0.016691,
-      "calls_per_iter": 1.0,
-      "share": 0.001995
-    },
-    {
-      "name": "__myl_Move_myl3_116",
-      "ms": 0.016691,
-      "calls_per_iter": 1.0,
-      "share": 0.001995
-    },
-    {
-      "name": "/pixel_decoder/camera_layer/aggregate1/out/MatMul_myl3_99",
-      "ms": 0.016555,
-      "calls_per_iter": 1.0,
-      "share": 0.001979
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_113",
-      "ms": 0.016521,
-      "calls_per_iter": 1.0,
-      "share": 0.001975
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_110",
-      "ms": 0.016418,
-      "calls_per_iter": 1.0,
-      "share": 0.001963
-    },
-    {
-      "name": "/pixel_decoder/depth_layer/prompt_camera.1/layers.0/q/MatMul_myl7_60",
-      "ms": 0.016316,
-      "calls_per_iter": 1.0,
-      "share": 0.00195
-    },
-    {
-      "name": "/pixel_decoder/depth_layer/ups.1/up/up.1/Resize",
-      "ms": 0.016179,
-      "calls_per_iter": 1.0,
-      "share": 0.001934
-    },
-    {
-      "name": "/pixel_decoder/depth_layer/ups.1/up/up.0/Conv",
-      "ms": 0.016043,
-      "calls_per_iter": 1.0,
-      "share": 0.001918
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_43",
-      "ms": 0.015701,
-      "calls_per_iter": 1.0,
-      "share": 0.001877
-    },
-    {
-      "name": "/pixel_decoder/depth_layer/prompt_camera.2/layers.0/kv/MatMul_myl7_39",
-      "ms": 0.015667,
-      "calls_per_iter": 1.0,
-      "share": 0.001873
-    },
-    {
-      "name": "__myl_ReshNegDivReshScat_myl3_120",
-      "ms": 0.015633,
-      "calls_per_iter": 1.0,
-      "share": 0.001869
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_22",
-      "ms": 0.015462,
-      "calls_per_iter": 1.0,
-      "share": 0.001848
-    },
-    {
-      "name": "__myl_Fc_myl3_111",
-      "ms": 0.015428,
-      "calls_per_iter": 1.0,
-      "share": 0.001844
-    },
-    {
-      "name": "/pixel_encoder/blocks.4/attn/proj/MatMul_myl3_32",
-      "ms": 0.01536,
-      "calls_per_iter": 1.0,
-      "share": 0.001836
-    },
-    {
-      "name": "/pixel_encoder/blocks.8/attn/proj/MatMul_myl3_60",
-      "ms": 0.015292,
-      "calls_per_iter": 1.0,
-      "share": 0.001828
-    },
-    {
-      "name": "/pixel_encoder/blocks.10/attn/proj/MatMul_myl3_74",
-      "ms": 0.015292,
-      "calls_per_iter": 1.0,
-      "share": 0.001828
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 5 to {ForeignNode[onnx::Expand_1888.../Mul]}",
-      "ms": 0.015258,
-      "calls_per_iter": 1.0,
-      "share": 0.001824
-    },
-    {
-      "name": "/pixel_decoder/camera_layer/aggregate1/mlp/proj2/MatMul_myl3_102",
-      "ms": 0.015155,
-      "calls_per_iter": 1.0,
-      "share": 0.001812
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_64",
-      "ms": 0.015087,
-      "calls_per_iter": 1.0,
-      "share": 0.001804
-    },
-    {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl7_53",
-      "ms": 0.014916,
-      "calls_per_iter": 1.0,
-      "share": 0.001783
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /pixel_decoder/depth_layer/process_features.0/ConvTranspose + /pixel_decoder/depth_layer/Add_1",
-      "ms": 0.014882,
-      "calls_per_iter": 1.0,
-      "share": 0.001779
-    },
-    {
-      "name": "__myl_TranSlic_myl7_18",
-      "ms": 0.014814,
-      "calls_per_iter": 1.0,
-      "share": 0.001771
-    },
-    {
-      "name": "/pixel_decoder/camera_layer/aggregate2/out/MatMul_myl3_109",
-      "ms": 0.014746,
-      "calls_per_iter": 1.0,
-      "share": 0.001763
-    },
-    {
-      "name": "/pixel_encoder/blocks.1/attn/proj/MatMul_myl3_11",
-      "ms": 0.014677,
-      "calls_per_iter": 1.0,
-      "share": 0.001755
+      "share": 0.00215
     },
     {
       "name": "/pixel_encoder/blocks.7/attn/proj/MatMul_myl3_53",
-      "ms": 0.014677,
+      "ms": 0.015974,
       "calls_per_iter": 1.0,
-      "share": 0.001755
+      "share": 0.002118
     },
     {
-      "name": "/pixel_encoder/blocks.0/attn/proj/MatMul_myl3_4",
-      "ms": 0.014541,
+      "name": "__myl_ReshDivReshScat_myl3_118",
+      "ms": 0.01594,
       "calls_per_iter": 1.0,
-      "share": 0.001738
+      "share": 0.002113
     },
     {
-      "name": "/pixel_encoder/blocks.9/attn/proj/MatMul_myl3_67",
-      "ms": 0.014541,
+      "name": "__myl_AddSqrtDivMulCastMulAddTranSlicReshMulSum_myl3_89",
+      "ms": 0.015872,
       "calls_per_iter": 1.0,
-      "share": 0.001738
-    },
-    {
-      "name": "/pixel_encoder/blocks.2/attn/proj/MatMul_myl3_18",
-      "ms": 0.014473,
-      "calls_per_iter": 1.0,
-      "share": 0.00173
-    },
-    {
-      "name": "/pixel_encoder/blocks.5/attn/proj/MatMul_myl3_39",
-      "ms": 0.014473,
-      "calls_per_iter": 1.0,
-      "share": 0.00173
-    },
-    {
-      "name": "/pixel_encoder/blocks.6/attn/proj/MatMul_myl3_46",
-      "ms": 0.014473,
-      "calls_per_iter": 1.0,
-      "share": 0.00173
-    },
-    {
-      "name": "/pixel_encoder/blocks.3/attn/proj/MatMul_myl3_25",
-      "ms": 0.014438,
-      "calls_per_iter": 1.0,
-      "share": 0.001726
-    },
-    {
-      "name": "/pixel_encoder/blocks.11/attn/proj/MatMul_myl3_81",
-      "ms": 0.014438,
-      "calls_per_iter": 1.0,
-      "share": 0.001726
-    },
-    {
-      "name": "Reformatting CopyNode for Output Tensor 0 to /pixel_decoder/depth_layer/to_confidence_hr/to_confidence_hr.2/Conv + PWN(PWN(/pixel_decoder/Clip_2), PWN(/pixel_decoder/Exp_1))",
-      "ms": 0.014234,
-      "calls_per_iter": 1.0,
-      "share": 0.001702
-    },
-    {
-      "name": "_gemm_mha_v2_myl3_108",
-      "ms": 0.014097,
-      "calls_per_iter": 1.0,
-      "share": 0.001685
+      "share": 0.002104
     },
     {
       "name": "__myl_Tran_myl3_124",
-      "ms": 0.013995,
+      "ms": 0.015701,
       "calls_per_iter": 1.0,
-      "share": 0.001673
+      "share": 0.002082
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl7_30",
-      "ms": 0.01379,
+      "name": "/pixel_encoder/blocks.4/attn/proj/MatMul_myl3_32",
+      "ms": 0.015462,
       "calls_per_iter": 1.0,
-      "share": 0.001648
+      "share": 0.00205
     },
     {
-      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl7_59",
-      "ms": 0.01379,
+      "name": "__myl_AddSqrtDivMulCastMulAddTranSlicReshMulSum_myl3_87",
+      "ms": 0.015462,
       "calls_per_iter": 1.0,
-      "share": 0.001648
+      "share": 0.00205
+    },
+    {
+      "name": "/pixel_encoder/blocks.1/attn/proj/MatMul_myl3_11",
+      "ms": 0.015428,
+      "calls_per_iter": 1.0,
+      "share": 0.002046
+    },
+    {
+      "name": "/pixel_decoder/depth_layer/ups.1/up/up.0/Conv",
+      "ms": 0.015428,
+      "calls_per_iter": 1.0,
+      "share": 0.002046
+    },
+    {
+      "name": "/pixel_encoder/blocks.10/attn/proj/MatMul_myl3_74",
+      "ms": 0.015394,
+      "calls_per_iter": 1.0,
+      "share": 0.002041
+    },
+    {
+      "name": "/pixel_encoder/blocks.2/attn/proj/MatMul_myl3_18",
+      "ms": 0.01536,
+      "calls_per_iter": 1.0,
+      "share": 0.002037
+    },
+    {
+      "name": "__myl_Move_myl3_116",
+      "ms": 0.015223,
+      "calls_per_iter": 1.0,
+      "share": 0.002018
+    },
+    {
+      "name": "/pixel_encoder/blocks.8/attn/proj/MatMul_myl3_60",
+      "ms": 0.015155,
+      "calls_per_iter": 1.0,
+      "share": 0.002009
+    },
+    {
+      "name": "__myl_ReplReplConc_myl3_121",
+      "ms": 0.015121,
+      "calls_per_iter": 1.0,
+      "share": 0.002005
+    },
+    {
+      "name": "/pixel_encoder/blocks.5/attn/proj/MatMul_myl3_39",
+      "ms": 0.015019,
+      "calls_per_iter": 1.0,
+      "share": 0.001991
     },
     {
       "name": "__myl_TranSlic_myl7_42",
-      "ms": 0.013687,
+      "ms": 0.014916,
       "calls_per_iter": 1.0,
-      "share": 0.001636
+      "share": 0.001978
     },
     {
-      "name": "__myl_Slic_myl7_81",
-      "ms": 0.013687,
+      "name": "__myl_Fc_myl3_111",
+      "ms": 0.014814,
       "calls_per_iter": 1.0,
-      "share": 0.001636
+      "share": 0.001964
     },
     {
-      "name": "/pixel_decoder/camera_layer/aggregate1/q/MatMul_myl3_94",
-      "ms": 0.013141,
+      "name": "/pixel_decoder/depth_layer/prompt_camera.1/layers.0/q/MatMul_myl7_60",
+      "ms": 0.014746,
       "calls_per_iter": 1.0,
-      "share": 0.001571
+      "share": 0.001955
+    },
+    {
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl7_30",
+      "ms": 0.014609,
+      "calls_per_iter": 1.0,
+      "share": 0.001937
+    },
+    {
+      "name": "/pixel_decoder/depth_layer/ups.1/up/up.1/Resize",
+      "ms": 0.014541,
+      "calls_per_iter": 1.0,
+      "share": 0.001928
+    },
+    {
+      "name": "/pixel_encoder/blocks.6/attn/proj/MatMul_myl3_46",
+      "ms": 0.014404,
+      "calls_per_iter": 1.0,
+      "share": 0.00191
+    },
+    {
+      "name": "/pixel_encoder/blocks.11/attn/proj/MatMul_myl3_81",
+      "ms": 0.01437,
+      "calls_per_iter": 1.0,
+      "share": 0.001905
+    },
+    {
+      "name": "/pixel_encoder/blocks.9/attn/proj/MatMul_myl3_67",
+      "ms": 0.014302,
+      "calls_per_iter": 1.0,
+      "share": 0.001896
+    },
+    {
+      "name": "/pixel_decoder/depth_layer/prompt_camera.2/layers.0/q/MatMul_myl7_37",
+      "ms": 0.014234,
+      "calls_per_iter": 1.0,
+      "share": 0.001887
+    },
+    {
+      "name": "/pixel_encoder/blocks.3/attn/proj/MatMul_myl3_25",
+      "ms": 0.014199,
+      "calls_per_iter": 1.0,
+      "share": 0.001883
+    },
+    {
+      "name": "/pixel_encoder/blocks.0/attn/proj/MatMul_myl3_4",
+      "ms": 0.014131,
+      "calls_per_iter": 1.0,
+      "share": 0.001874
+    },
+    {
+      "name": "PWN(/pixel_decoder/depth_layer/Acos)",
+      "ms": 0.013926,
+      "calls_per_iter": 1.0,
+      "share": 0.001846
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 5 to {ForeignNode[onnx::Expand_1888.../Mul]}",
+      "ms": 0.013926,
+      "calls_per_iter": 1.0,
+      "share": 0.001846
+    },
+    {
+      "name": "/pixel_decoder/camera_layer/aggregate1/mlp/proj2/MatMul_myl3_102",
+      "ms": 0.013824,
+      "calls_per_iter": 1.0,
+      "share": 0.001833
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_110",
+      "ms": 0.01379,
+      "calls_per_iter": 1.0,
+      "share": 0.001828
+    },
+    {
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl7_53",
+      "ms": 0.01338,
+      "calls_per_iter": 1.0,
+      "share": 0.001774
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_54",
+      "ms": 0.013244,
+      "calls_per_iter": 1.0,
+      "share": 0.001756
+    },
+    {
+      "name": "/pixel_decoder/camera_layer/aggregate1/out/MatMul_myl3_99",
+      "ms": 0.013244,
+      "calls_per_iter": 1.0,
+      "share": 0.001756
+    },
+    {
+      "name": "Resize_1577",
+      "ms": 0.01321,
+      "calls_per_iter": 1.0,
+      "share": 0.001751
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_43",
+      "ms": 0.013107,
+      "calls_per_iter": 1.0,
+      "share": 0.001738
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_22",
+      "ms": 0.013073,
+      "calls_per_iter": 1.0,
+      "share": 0.001733
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_64",
+      "ms": 0.013073,
+      "calls_per_iter": 1.0,
+      "share": 0.001733
+    },
+    {
+      "name": "Reformatting CopyNode for Output Tensor 0 to /pixel_decoder/depth_layer/to_confidence_hr/to_confidence_hr.2/Conv + PWN(PWN(/pixel_decoder/Clip_2), PWN(/pixel_decoder/Exp_1))",
+      "ms": 0.013039,
+      "calls_per_iter": 1.0,
+      "share": 0.001729
+    },
+    {
+      "name": "__myl_TranSlic_myl7_18",
+      "ms": 0.012971,
+      "calls_per_iter": 1.0,
+      "share": 0.00172
+    },
+    {
+      "name": "/pixel_decoder/camera_layer/aggregate2/kv/MatMul_myl3_106",
+      "ms": 0.012937,
+      "calls_per_iter": 1.0,
+      "share": 0.001715
+    },
+    {
+      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl7_36",
+      "ms": 0.012766,
+      "calls_per_iter": 1.0,
+      "share": 0.001693
+    },
+    {
+      "name": "/pixel_decoder/camera_layer/project/proj2/MatMul_myl3_92",
+      "ms": 0.012698,
+      "calls_per_iter": 1.0,
+      "share": 0.001684
+    },
+    {
+      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl7_59",
+      "ms": 0.012663,
+      "calls_per_iter": 1.0,
+      "share": 0.001679
+    },
+    {
+      "name": "__myl_ReshNegDivReshScat_myl3_120",
+      "ms": 0.012527,
+      "calls_per_iter": 1.0,
+      "share": 0.001661
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to /pixel_decoder/depth_layer/ups.2/up/up.1/Resize",
-      "ms": 0.013141,
+      "ms": 0.012459,
       "calls_per_iter": 1.0,
-      "share": 0.001571
-    },
-    {
-      "name": "__myl_Fc_myl3_91",
-      "ms": 0.013039,
-      "calls_per_iter": 1.0,
-      "share": 0.001559
-    },
-    {
-      "name": "__myl_ReshNegDivReshScat_myl3_119",
-      "ms": 0.012868,
-      "calls_per_iter": 1.0,
-      "share": 0.001538
-    },
-    {
-      "name": "__myl_SlicReshTranReshMove_myl7_21",
-      "ms": 0.012766,
-      "calls_per_iter": 1.0,
-      "share": 0.001526
+      "share": 0.001652
     },
     {
       "name": "__myl_AddSqrtDivMulCastMulAddTranSlicReshMulSum_myl3_86",
-      "ms": 0.012663,
+      "ms": 0.012425,
       "calls_per_iter": 1.0,
-      "share": 0.001514
+      "share": 0.001647
     },
     {
-      "name": "__myl_TranSlicSlicReshTranReshMoveReshMove_myl3_97",
-      "ms": 0.012663,
+      "name": "/pixel_decoder/depth_layer/ups.0/up/up.0/Conv",
+      "ms": 0.012288,
       "calls_per_iter": 1.0,
-      "share": 0.001514
+      "share": 0.001629
     },
     {
-      "name": "__myl_TranAddReshMove_myl3_95",
-      "ms": 0.012629,
+      "name": "/pixel_decoder/camera_layer/aggregate2/out/MatMul_myl3_109",
+      "ms": 0.011947,
       "calls_per_iter": 1.0,
-      "share": 0.00151
+      "share": 0.001584
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_61",
-      "ms": 0.012595,
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_19",
+      "ms": 0.011913,
       "calls_per_iter": 1.0,
-      "share": 0.001506
+      "share": 0.001579
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_78",
-      "ms": 0.012527,
+      "name": "__myl_AddReshSlicReshSigmReshSlicReshSigmReshSlicReshExpReshSlicReshExpReshConcMulSlicSlicSlicEtc_myl3_117",
+      "ms": 0.011435,
+      "calls_per_iter": 1.0,
+      "share": 0.001516
+    },
+    {
+      "name": "/pixel_decoder/camera_layer/aggregate1/q/MatMul_myl3_94",
+      "ms": 0.011401,
+      "calls_per_iter": 1.0,
+      "share": 0.001512
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_100",
+      "ms": 0.011298,
       "calls_per_iter": 1.0,
       "share": 0.001498
     },
     {
-      "name": "__myl_Fc_myl3_101",
-      "ms": 0.012356,
+      "name": "/pixel_decoder/camera_layer/aggregate1/kv/MatMul_myl3_96",
+      "ms": 0.011264,
       "calls_per_iter": 1.0,
-      "share": 0.001477
+      "share": 0.001493
     },
     {
-      "name": "/pixel_decoder/depth_layer/ups.0/up/up.0/Conv",
-      "ms": 0.012356,
+      "name": "__myl_Fc_myl3_91",
+      "ms": 0.011127,
       "calls_per_iter": 1.0,
-      "share": 0.001477
-    },
-    {
-      "name": "__myl_MulSum_myl3_115",
-      "ms": 0.012288,
-      "calls_per_iter": 1.0,
-      "share": 0.001469
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_33",
-      "ms": 0.012117,
-      "calls_per_iter": 1.0,
-      "share": 0.001449
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_36",
-      "ms": 0.012117,
-      "calls_per_iter": 1.0,
-      "share": 0.001449
-    },
-    {
-      "name": "__myl_Tran_myl62_5",
-      "ms": 0.012049,
-      "calls_per_iter": 1.0,
-      "share": 0.00144
+      "share": 0.001475
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_57",
-      "ms": 0.011844,
+      "ms": 0.010957,
       "calls_per_iter": 1.0,
-      "share": 0.001416
+      "share": 0.001453
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_19",
-      "ms": 0.011776,
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_82",
+      "ms": 0.010854,
       "calls_per_iter": 1.0,
-      "share": 0.001408
+      "share": 0.001439
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_33",
+      "ms": 0.010615,
+      "calls_per_iter": 1.0,
+      "share": 0.001407
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_36",
+      "ms": 0.010615,
+      "calls_per_iter": 1.0,
+      "share": 0.001407
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_78",
+      "ms": 0.010581,
+      "calls_per_iter": 1.0,
+      "share": 0.001403
+    },
+    {
+      "name": "__myl_ReshNegDivReshScat_myl3_119",
+      "ms": 0.010547,
+      "calls_per_iter": 1.0,
+      "share": 0.001398
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_29",
-      "ms": 0.011742,
+      "ms": 0.010445,
       "calls_per_iter": 1.0,
-      "share": 0.001404
+      "share": 0.001385
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_15",
-      "ms": 0.011708,
+      "name": "Reformatting CopyNode for Input Tensor 0 to /pixel_decoder/depth_layer/process_features.0/ConvTranspose + /pixel_decoder/depth_layer/Add_1",
+      "ms": 0.010411,
       "calls_per_iter": 1.0,
-      "share": 0.0014
+      "share": 0.00138
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_50",
-      "ms": 0.011708,
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_71",
+      "ms": 0.010377,
       "calls_per_iter": 1.0,
-      "share": 0.0014
+      "share": 0.001376
     },
     {
-      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl7_10",
-      "ms": 0.011639,
-      "calls_per_iter": 1.0,
-      "share": 0.001391
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_54",
-      "ms": 0.011469,
+      "name": "__myl_Tran_myl62_5",
+      "ms": 0.010342,
       "calls_per_iter": 1.0,
       "share": 0.001371
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_8",
-      "ms": 0.011332,
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_61",
+      "ms": 0.010308,
       "calls_per_iter": 1.0,
-      "share": 0.001355
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_71",
-      "ms": 0.011298,
-      "calls_per_iter": 1.0,
-      "share": 0.001351
+      "share": 0.001367
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMean_myl3_85",
-      "ms": 0.011264,
+      "ms": 0.010308,
       "calls_per_iter": 1.0,
-      "share": 0.001347
+      "share": 0.001367
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_82",
-      "ms": 0.011162,
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_15",
+      "ms": 0.010274,
       "calls_per_iter": 1.0,
-      "share": 0.001334
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_47",
-      "ms": 0.011093,
-      "calls_per_iter": 1.0,
-      "share": 0.001326
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_68",
-      "ms": 0.011059,
-      "calls_per_iter": 1.0,
-      "share": 0.001322
+      "share": 0.001362
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_26",
-      "ms": 0.011025,
+      "ms": 0.010274,
       "calls_per_iter": 1.0,
-      "share": 0.001318
+      "share": 0.001362
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_40",
-      "ms": 0.011025,
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_47",
+      "ms": 0.01024,
       "calls_per_iter": 1.0,
-      "share": 0.001318
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_12",
-      "ms": 0.010923,
-      "calls_per_iter": 1.0,
-      "share": 0.001306
+      "share": 0.001358
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_75",
-      "ms": 0.010889,
+      "ms": 0.010206,
       "calls_per_iter": 1.0,
-      "share": 0.001302
+      "share": 0.001353
     },
     {
-      "name": "Reformatting CopyNode for Output Tensor 0 to {ForeignNode[onnx::Expand_1888.../Mul]}",
-      "ms": 0.010786,
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_50",
+      "ms": 0.010172,
       "calls_per_iter": 1.0,
-      "share": 0.001289
+      "share": 0.001349
     },
     {
-      "name": "__myl_TranAddReshMove_myl3_105",
-      "ms": 0.010615,
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_68",
+      "ms": 0.010172,
       "calls_per_iter": 1.0,
-      "share": 0.001269
-    },
-    {
-      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl7_36",
-      "ms": 0.010581,
-      "calls_per_iter": 1.0,
-      "share": 0.001265
-    },
-    {
-      "name": "__myl_ConcAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_1",
-      "ms": 0.010513,
-      "calls_per_iter": 1.0,
-      "share": 0.001257
+      "share": 0.001349
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to /pixel_decoder/depth_layer/process_features.2/ConvTranspose + /pixel_decoder/depth_layer/Add_3",
-      "ms": 0.010445,
+      "ms": 0.010172,
+      "calls_per_iter": 1.0,
+      "share": 0.001349
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_8",
+      "ms": 0.010138,
+      "calls_per_iter": 1.0,
+      "share": 0.001344
+    },
+    {
+      "name": "__myl_ConcAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_1",
+      "ms": 0.010069,
+      "calls_per_iter": 1.0,
+      "share": 0.001335
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_113",
+      "ms": 0.010069,
+      "calls_per_iter": 1.0,
+      "share": 0.001335
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_40",
+      "ms": 0.010035,
+      "calls_per_iter": 1.0,
+      "share": 0.001331
+    },
+    {
+      "name": "Reformatting CopyNode for Output Tensor 0 to {ForeignNode[onnx::Expand_1888.../Mul]}",
+      "ms": 0.009899,
+      "calls_per_iter": 1.0,
+      "share": 0.001312
+    },
+    {
+      "name": "__myl_Fc_myl3_101",
+      "ms": 0.009762,
+      "calls_per_iter": 1.0,
+      "share": 0.001294
+    },
+    {
+      "name": "/pixel_decoder/depth_layer/ups.0/up/up.1/Resize",
+      "ms": 0.009591,
+      "calls_per_iter": 1.0,
+      "share": 0.001272
+    },
+    {
+      "name": "__myl_Tran_myl7_101",
+      "ms": 0.009489,
+      "calls_per_iter": 1.0,
+      "share": 0.001258
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /pixel_decoder/depth_layer/process_features.1/ConvTranspose + /pixel_decoder/depth_layer/Add_2",
+      "ms": 0.009421,
       "calls_per_iter": 1.0,
       "share": 0.001249
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /pixel_decoder/depth_layer/process_features.1/ConvTranspose + /pixel_decoder/depth_layer/Add_2",
-      "ms": 0.010274,
+      "name": "Reformatting CopyNode for Input Tensor 0 to {ForeignNode[/pixel_decoder/camera_layer/aggregate2/Slice_output_0[Constant]...Reshape_1568 + Transpose_1569]}",
+      "ms": 0.009318,
       "calls_per_iter": 1.0,
-      "share": 0.001228
+      "share": 0.001235
     },
     {
-      "name": "PWN(/pixel_decoder/depth_layer/ups.0/convs.0/activation/LeakyRelu)",
-      "ms": 0.010069,
+      "name": "_gemm_mha_v2_myl3_108",
+      "ms": 0.009318,
       "calls_per_iter": 1.0,
-      "share": 0.001204
-    },
-    {
-      "name": "_gemm_mha_v2_myl3_98",
-      "ms": 0.010035,
-      "calls_per_iter": 1.0,
-      "share": 0.0012
-    },
-    {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl7_77",
-      "ms": 0.00966,
-      "calls_per_iter": 1.0,
-      "share": 0.001155
-    },
-    {
-      "name": "/pixel_decoder/depth_layer/ups.0/up/up.1/Resize",
-      "ms": 0.009626,
-      "calls_per_iter": 1.0,
-      "share": 0.001151
-    },
-    {
-      "name": "__myl_ReshMove_myl7_47",
-      "ms": 0.009421,
-      "calls_per_iter": 1.0,
-      "share": 0.001126
+      "share": 0.001235
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_5",
       "ms": 0.00925,
       "calls_per_iter": 1.0,
-      "share": 0.001106
+      "share": 0.001226
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to {ForeignNode[/pixel_decoder/camera_layer/aggregate2/Slice_output_0[Constant]...Reshape_1568 + Transpose_1569]}",
-      "ms": 0.009182,
+      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAddMulAdd_myl3_93",
+      "ms": 0.009045,
       "calls_per_iter": 1.0,
-      "share": 0.001098
+      "share": 0.001199
+    },
+    {
+      "name": "__myl_MulSum_myl3_115",
+      "ms": 0.009045,
+      "calls_per_iter": 1.0,
+      "share": 0.001199
+    },
+    {
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl7_77",
+      "ms": 0.009045,
+      "calls_per_iter": 1.0,
+      "share": 0.001199
+    },
+    {
+      "name": "__myl_TranSlicSlicReshTranReshMoveReshMove_myl3_107",
+      "ms": 0.008977,
+      "calls_per_iter": 1.0,
+      "share": 0.00119
+    },
+    {
+      "name": "PWN(/pixel_decoder/depth_layer/ups.0/convs.0/activation/LeakyRelu)",
+      "ms": 0.008977,
+      "calls_per_iter": 1.0,
+      "share": 0.00119
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAddMulAdd_myl3_103",
+      "ms": 0.008943,
+      "calls_per_iter": 1.0,
+      "share": 0.001186
     },
     {
       "name": "__myl_ReshTran_myl3_0",
+      "ms": 0.008772,
+      "calls_per_iter": 1.0,
+      "share": 0.001163
+    },
+    {
+      "name": "__myl_TranSlicSlicReshTranReshMoveReshMove_myl3_97",
       "ms": 0.008738,
       "calls_per_iter": 1.0,
-      "share": 0.001045
+      "share": 0.001159
     },
     {
       "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl7_97",
-      "ms": 0.008533,
+      "ms": 0.008704,
       "calls_per_iter": 1.0,
-      "share": 0.00102
+      "share": 0.001154
     },
     {
-      "name": "__myl_Tran_myl7_101",
-      "ms": 0.008465,
+      "name": "_gemm_mha_v2_myl3_98",
+      "ms": 0.008192,
       "calls_per_iter": 1.0,
-      "share": 0.001012
+      "share": 0.001086
+    },
+    {
+      "name": "__myl_TranAddReshMove_myl3_95",
+      "ms": 0.008158,
+      "calls_per_iter": 1.0,
+      "share": 0.001082
+    },
+    {
+      "name": "__myl_ReshMove_myl7_47",
+      "ms": 0.007612,
+      "calls_per_iter": 1.0,
+      "share": 0.001009
     },
     {
       "name": "__myl_AddAddAddAddConcCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_90",
-      "ms": 0.006929,
+      "ms": 0.006793,
       "calls_per_iter": 1.0,
-      "share": 0.000828
+      "share": 0.000901
+    },
+    {
+      "name": "__myl_TranAddReshMove_myl3_105",
+      "ms": 0.006758,
+      "calls_per_iter": 1.0,
+      "share": 0.000896
     },
     {
       "name": "__myl_Move_myl62_0",
-      "ms": 0.006656,
+      "ms": 0.006758,
       "calls_per_iter": 1.0,
-      "share": 0.000796
+      "share": 0.000896
     },
     {
       "name": "__myl_ReshScat_myl62_1",
-      "ms": 0.006485,
+      "ms": 0.006519,
       "calls_per_iter": 1.0,
-      "share": 0.000775
-    },
-    {
-      "name": "__myl_ReshScat_myl62_4",
-      "ms": 0.00611,
-      "calls_per_iter": 1.0,
-      "share": 0.00073
+      "share": 0.000864
     },
     {
       "name": "__myl_ReshScat_myl62_3",
-      "ms": 0.006042,
+      "ms": 0.006076,
       "calls_per_iter": 1.0,
-      "share": 0.000722
+      "share": 0.000806
+    },
+    {
+      "name": "__myl_ReshScat_myl62_4",
+      "ms": 0.006007,
+      "calls_per_iter": 1.0,
+      "share": 0.000797
     },
     {
       "name": "Reformatting CopyNode for Output Tensor 1 to {ForeignNode[onnx::Expand_1888.../Mul]}",
-      "ms": 0.005905,
+      "ms": 0.005871,
       "calls_per_iter": 1.0,
-      "share": 0.000706
+      "share": 0.000778
     },
     {
       "name": "entry^bb^signal^1_myl7_0",

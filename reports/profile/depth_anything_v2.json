@@ -2,7 +2,11 @@
   "model": "depth_anything_v2",
   "variant": "single",
   "precision": "fp16",
+  "clock_mhz": 1800,
+  "clock_max_mhz": 2130,
   "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\depth_anything_v2\\engine\\depth_anything_v2_vits_518x518_metric_hypersim_dynamo_sim_fp16.engine",
+  "engine_bytes": 52395028,
+  "engine_mtime": 1786610569,
   "input_shape": [
     1,
     3,
@@ -13,10 +17,11 @@
   "summary": {
     "layers_profiled": 140,
     "layers_in_engine": 140,
-    "profile_total_ms": 3.6109,
-    "benchmark_mean_ms": 4.2653,
-    "top10_share": 0.174,
-    "fp32_output_share": 0.017,
+    "profile_total_ms": 3.5568,
+    "benchmark_mean_ms": 4.3006,
+    "top10_share": 0.1638,
+    "fp32_output_share": 0.0178,
+    "movement_share": 0.0189,
     "layer_types": {
       "kgen": 41,
       "gemm": 36,
@@ -38,817 +43,817 @@
   "suspects": [
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d",
-      "ms": 0.047489,
+      "ms": 0.053428,
       "calls_per_iter": 1.0,
-      "share": 0.013152,
+      "share": 0.015022,
       "layer_type": "Reformat"
     },
     {
       "name": "node_upsample_bilinear2d_4",
-      "ms": 0.038605,
+      "ms": 0.038571,
       "calls_per_iter": 1.0,
-      "share": 0.010691,
+      "share": 0.010844,
       "layer_type": "Resize"
     }
   ],
   "layers": [
     {
       "name": "node_conv2d_29 + node_relu_14",
-      "ms": 0.096017,
+      "ms": 0.097382,
       "calls_per_iter": 1.0,
-      "share": 0.026591
+      "share": 0.027379
     },
     {
       "name": "node_conv2d_28",
-      "ms": 0.073899,
+      "ms": 0.074308,
       "calls_per_iter": 1.0,
-      "share": 0.020465
-    },
-    {
-      "name": "Gemm_25_myl2_20",
-      "ms": 0.062293,
-      "calls_per_iter": 1.0,
-      "share": 0.017251
-    },
-    {
-      "name": "Gemm_52_myl2_42",
-      "ms": 0.05946,
-      "calls_per_iter": 1.0,
-      "share": 0.016467
-    },
-    {
-      "name": "Gemm_79_myl2_64",
-      "ms": 0.058743,
-      "calls_per_iter": 1.0,
-      "share": 0.016268
-    },
-    {
-      "name": "Gemm_61_myl2_50",
-      "ms": 0.056252,
-      "calls_per_iter": 1.0,
-      "share": 0.015578
-    },
-    {
-      "name": "Gemm_106_myl2_86",
-      "ms": 0.055774,
-      "calls_per_iter": 1.0,
-      "share": 0.015446
-    },
-    {
-      "name": "Gemm_16_myl2_13",
-      "ms": 0.055398,
-      "calls_per_iter": 1.0,
-      "share": 0.015342
-    },
-    {
-      "name": "Gemm_34_myl2_28",
-      "ms": 0.055398,
-      "calls_per_iter": 1.0,
-      "share": 0.015342
-    },
-    {
-      "name": "Gemm_43_myl2_35",
-      "ms": 0.054989,
-      "calls_per_iter": 1.0,
-      "share": 0.015229
-    },
-    {
-      "name": "Gemm_97_myl2_79",
-      "ms": 0.054306,
-      "calls_per_iter": 1.0,
-      "share": 0.015039
-    },
-    {
-      "name": "Gemm_88_myl2_72",
-      "ms": 0.054204,
-      "calls_per_iter": 1.0,
-      "share": 0.015011
-    },
-    {
-      "name": "_gemm_mha_v2_myl2_46",
-      "ms": 0.051712,
-      "calls_per_iter": 1.0,
-      "share": 0.014321
+      "share": 0.020892
     },
     {
       "name": "node_convolution",
-      "ms": 0.050722,
+      "ms": 0.053931,
       "calls_per_iter": 1.0,
-      "share": 0.014047
-    },
-    {
-      "name": "_gemm_mha_v2_myl2_24",
-      "ms": 0.050449,
-      "calls_per_iter": 1.0,
-      "share": 0.013971
-    },
-    {
-      "name": "_gemm_mha_v2_myl2_60",
-      "ms": 0.049596,
-      "calls_per_iter": 1.0,
-      "share": 0.013735
-    },
-    {
-      "name": "Gemm_70_myl2_57",
-      "ms": 0.049323,
-      "calls_per_iter": 1.0,
-      "share": 0.013659
-    },
-    {
-      "name": "node_conv2d_22 + node_add_33 + PWN(node_relu_12)",
-      "ms": 0.048674,
-      "calls_per_iter": 1.0,
-      "share": 0.01348
-    },
-    {
-      "name": "_gemm_mha_v2_myl2_9",
-      "ms": 0.048503,
-      "calls_per_iter": 1.0,
-      "share": 0.013432
-    },
-    {
-      "name": "_gemm_mha_v2_myl2_53",
-      "ms": 0.04823,
-      "calls_per_iter": 1.0,
-      "share": 0.013357
-    },
-    {
-      "name": "_gemm_mha_v2_myl2_75",
-      "ms": 0.048162,
-      "calls_per_iter": 1.0,
-      "share": 0.013338
-    },
-    {
-      "name": "_gemm_mha_v2_myl2_38",
-      "ms": 0.047991,
-      "calls_per_iter": 1.0,
-      "share": 0.013291
-    },
-    {
-      "name": "_gemm_mha_v2_myl2_68",
-      "ms": 0.047855,
-      "calls_per_iter": 1.0,
-      "share": 0.013253
+      "share": 0.015163
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d",
-      "ms": 0.047489,
+      "ms": 0.053428,
       "calls_per_iter": 1.0,
-      "share": 0.013152
+      "share": 0.015022
     },
     {
-      "name": "_gemm_mha_v2_myl2_82",
-      "ms": 0.047445,
+      "name": "_gemm_mha_v2_myl2_46",
+      "ms": 0.052565,
       "calls_per_iter": 1.0,
-      "share": 0.013139
+      "share": 0.014779
+    },
+    {
+      "name": "Gemm_16_myl2_13",
+      "ms": 0.052122,
+      "calls_per_iter": 1.0,
+      "share": 0.014654
+    },
+    {
+      "name": "node_conv2d_22 + node_add_33 + PWN(node_relu_12)",
+      "ms": 0.050176,
+      "calls_per_iter": 1.0,
+      "share": 0.014107
+    },
+    {
+      "name": "Gemm_79_myl2_64",
+      "ms": 0.049937,
+      "calls_per_iter": 1.0,
+      "share": 0.01404
+    },
+    {
+      "name": "_gemm_mha_v2_myl2_24",
+      "ms": 0.049801,
+      "calls_per_iter": 1.0,
+      "share": 0.014002
+    },
+    {
+      "name": "Gemm_61_myl2_50",
+      "ms": 0.048913,
+      "calls_per_iter": 1.0,
+      "share": 0.013752
+    },
+    {
+      "name": "_gemm_mha_v2_myl2_68",
+      "ms": 0.048606,
+      "calls_per_iter": 1.0,
+      "share": 0.013666
+    },
+    {
+      "name": "_gemm_mha_v2_myl2_60",
+      "ms": 0.048435,
+      "calls_per_iter": 1.0,
+      "share": 0.013618
+    },
+    {
+      "name": "Gemm_25_myl2_20",
+      "ms": 0.048299,
+      "calls_per_iter": 1.0,
+      "share": 0.013579
+    },
+    {
+      "name": "Gemm_106_myl2_86",
+      "ms": 0.048299,
+      "calls_per_iter": 1.0,
+      "share": 0.013579
+    },
+    {
+      "name": "_gemm_mha_v2_myl2_38",
+      "ms": 0.048128,
+      "calls_per_iter": 1.0,
+      "share": 0.013531
+    },
+    {
+      "name": "_gemm_mha_v2_myl2_75",
+      "ms": 0.048026,
+      "calls_per_iter": 1.0,
+      "share": 0.013503
+    },
+    {
+      "name": "_gemm_mha_v2_myl2_9",
+      "ms": 0.047855,
+      "calls_per_iter": 1.0,
+      "share": 0.013455
     },
     {
       "name": "_gemm_mha_v2_myl2_16",
-      "ms": 0.047411,
+      "ms": 0.047855,
       "calls_per_iter": 1.0,
-      "share": 0.01313
+      "share": 0.013455
+    },
+    {
+      "name": "Gemm_52_myl2_42",
+      "ms": 0.047684,
+      "calls_per_iter": 1.0,
+      "share": 0.013407
+    },
+    {
+      "name": "_gemm_mha_v2_myl2_53",
+      "ms": 0.047684,
+      "calls_per_iter": 1.0,
+      "share": 0.013407
+    },
+    {
+      "name": "_gemm_mha_v2_myl2_82",
+      "ms": 0.047684,
+      "calls_per_iter": 1.0,
+      "share": 0.013407
     },
     {
       "name": "node_conv2d_30 + PWN(PWN(node_sigmoid), scalar_tensor_default + ONNXTRT_Broadcast_579 + node_mul_36)",
-      "ms": 0.047343,
+      "ms": 0.04765,
       "calls_per_iter": 1.0,
-      "share": 0.013111
+      "share": 0.013397
     },
     {
-      "name": "_gemm_mha_v2_myl2_31",
-      "ms": 0.04707,
+      "name": "Gemm_88_myl2_72",
+      "ms": 0.04666,
       "calls_per_iter": 1.0,
-      "share": 0.013035
+      "share": 0.013119
+    },
+    {
+      "name": "Gemm_34_myl2_28",
+      "ms": 0.046558,
+      "calls_per_iter": 1.0,
+      "share": 0.01309
     },
     {
       "name": "_gemm_mha_v2_myl2_2",
-      "ms": 0.044544,
+      "ms": 0.046455,
       "calls_per_iter": 1.0,
-      "share": 0.012336
+      "share": 0.013061
+    },
+    {
+      "name": "_gemm_mha_v2_myl2_31",
+      "ms": 0.046353,
+      "calls_per_iter": 1.0,
+      "share": 0.013032
+    },
+    {
+      "name": "Gemm_70_myl2_57",
+      "ms": 0.045466,
+      "calls_per_iter": 1.0,
+      "share": 0.012783
     },
     {
       "name": "node_Conv_391 + PWN(node_relu_10)",
-      "ms": 0.042735,
+      "ms": 0.045124,
       "calls_per_iter": 1.0,
-      "share": 0.011835
+      "share": 0.012687
     },
     {
       "name": "node_conv2d_27",
-      "ms": 0.041711,
+      "ms": 0.042121,
       "calls_per_iter": 1.0,
-      "share": 0.011551
+      "share": 0.011842
     },
     {
-      "name": "Gemm_7_myl2_6",
-      "ms": 0.041301,
+      "name": "Gemm_97_myl2_79",
+      "ms": 0.040448,
       "calls_per_iter": 1.0,
-      "share": 0.011438
+      "share": 0.011372
     },
     {
-      "name": "node_conv2d_25 + node_relu_13",
-      "ms": 0.040619,
+      "name": "Gemm_43_myl2_35",
+      "ms": 0.040311,
       "calls_per_iter": 1.0,
-      "share": 0.011249
+      "share": 0.011334
     },
     {
       "name": "node_upsample_bilinear2d_4",
-      "ms": 0.038605,
+      "ms": 0.038571,
       "calls_per_iter": 1.0,
-      "share": 0.010691
-    },
-    {
-      "name": "node_conv2d",
-      "ms": 0.036284,
-      "calls_per_iter": 1.0,
-      "share": 0.010048
+      "share": 0.010844
     },
     {
       "name": "node_conv2d_5",
-      "ms": 0.033075,
+      "ms": 0.037922,
       "calls_per_iter": 1.0,
-      "share": 0.00916
+      "share": 0.010662
+    },
+    {
+      "name": "Gemm_7_myl2_6",
+      "ms": 0.037342,
+      "calls_per_iter": 1.0,
+      "share": 0.010499
+    },
+    {
+      "name": "node_conv2d",
+      "ms": 0.036557,
+      "calls_per_iter": 1.0,
+      "share": 0.010278
     },
     {
       "name": "node_conv2d_26 + node_add_34",
+      "ms": 0.033143,
+      "calls_per_iter": 1.0,
+      "share": 0.009318
+    },
+    {
+      "name": "node_conv2d_25 + node_relu_13",
       "ms": 0.032666,
       "calls_per_iter": 1.0,
-      "share": 0.009046
-    },
-    {
-      "name": "__myl_Fc_myl2_41",
-      "ms": 0.03229,
-      "calls_per_iter": 1.0,
-      "share": 0.008942
-    },
-    {
-      "name": "__myl_Fc_myl2_34",
-      "ms": 0.031915,
-      "calls_per_iter": 1.0,
-      "share": 0.008838
-    },
-    {
-      "name": "node_conv2d_24 + node_add_32",
-      "ms": 0.031369,
-      "calls_per_iter": 1.0,
-      "share": 0.008687
-    },
-    {
-      "name": "__myl_Fc_myl2_5",
-      "ms": 0.031198,
-      "calls_per_iter": 1.0,
-      "share": 0.00864
-    },
-    {
-      "name": "node_conv2d_23 + node_relu_11",
-      "ms": 0.031095,
-      "calls_per_iter": 1.0,
-      "share": 0.008612
-    },
-    {
-      "name": "__myl_Fc_myl2_27",
-      "ms": 0.03072,
-      "calls_per_iter": 1.0,
-      "share": 0.008508
-    },
-    {
-      "name": "__myl_Fc_myl2_12",
-      "ms": 0.030652,
-      "calls_per_iter": 1.0,
-      "share": 0.008489
-    },
-    {
-      "name": "__myl_Fc_myl2_71",
-      "ms": 0.030652,
-      "calls_per_iter": 1.0,
-      "share": 0.008489
-    },
-    {
-      "name": "__myl_Fc_myl2_63",
-      "ms": 0.030618,
-      "calls_per_iter": 1.0,
-      "share": 0.008479
+      "share": 0.009184
     },
     {
       "name": "__myl_Fc_myl2_78",
-      "ms": 0.030549,
+      "ms": 0.031744,
       "calls_per_iter": 1.0,
-      "share": 0.00846
+      "share": 0.008925
     },
     {
-      "name": "__myl_Fc_myl2_56",
-      "ms": 0.030515,
+      "name": "node_conv2d_23 + node_relu_11",
+      "ms": 0.031676,
       "calls_per_iter": 1.0,
-      "share": 0.008451
+      "share": 0.008906
     },
     {
-      "name": "__myl_Fc_myl2_49",
-      "ms": 0.030242,
+      "name": "node_conv2d_24 + node_add_32",
+      "ms": 0.031232,
       "calls_per_iter": 1.0,
-      "share": 0.008375
-    },
-    {
-      "name": "__myl_Fc_myl2_85",
-      "ms": 0.030174,
-      "calls_per_iter": 1.0,
-      "share": 0.008356
+      "share": 0.008781
     },
     {
       "name": "__myl_Fc_myl2_19",
-      "ms": 0.030071,
+      "ms": 0.030754,
       "calls_per_iter": 1.0,
-      "share": 0.008328
+      "share": 0.008647
     },
     {
-      "name": "node_conv2d_4",
-      "ms": 0.029901,
+      "name": "__myl_Fc_myl2_5",
+      "ms": 0.030583,
       "calls_per_iter": 1.0,
-      "share": 0.008281
+      "share": 0.008599
     },
     {
-      "name": "node_conv2d_3",
-      "ms": 0.028843,
+      "name": "__myl_Fc_myl2_63",
+      "ms": 0.030447,
       "calls_per_iter": 1.0,
-      "share": 0.007988
+      "share": 0.00856
     },
     {
-      "name": "__mye66678+__mye66666+__mye66654_myl2_8",
-      "ms": 0.028092,
+      "name": "__myl_Fc_myl2_56",
+      "ms": 0.030379,
       "calls_per_iter": 1.0,
-      "share": 0.00778
+      "share": 0.008541
     },
     {
-      "name": "node_Conv_394",
-      "ms": 0.027921,
+      "name": "__myl_Fc_myl2_12",
+      "ms": 0.030345,
       "calls_per_iter": 1.0,
-      "share": 0.007732
+      "share": 0.008531
     },
     {
-      "name": "__mye67253+__mye67241+__mye67229_myl2_45",
-      "ms": 0.027853,
+      "name": "__myl_Fc_myl2_41",
+      "ms": 0.030345,
       "calls_per_iter": 1.0,
-      "share": 0.007714
+      "share": 0.008531
+    },
+    {
+      "name": "__myl_Fc_myl2_49",
+      "ms": 0.03031,
+      "calls_per_iter": 1.0,
+      "share": 0.008522
+    },
+    {
+      "name": "__myl_Fc_myl2_71",
+      "ms": 0.03031,
+      "calls_per_iter": 1.0,
+      "share": 0.008522
+    },
+    {
+      "name": "__myl_Fc_myl2_34",
+      "ms": 0.030276,
+      "calls_per_iter": 1.0,
+      "share": 0.008512
+    },
+    {
+      "name": "__myl_Fc_myl2_27",
+      "ms": 0.030174,
+      "calls_per_iter": 1.0,
+      "share": 0.008483
     },
     {
       "name": "node_Conv_393",
-      "ms": 0.027785,
+      "ms": 0.030106,
       "calls_per_iter": 1.0,
-      "share": 0.007695
+      "share": 0.008464
     },
     {
-      "name": "__mye67483+__mye67471+__mye67459_myl2_59",
-      "ms": 0.027716,
+      "name": "__myl_Fc_myl2_85",
+      "ms": 0.030037,
       "calls_per_iter": 1.0,
-      "share": 0.007676
+      "share": 0.008445
     },
     {
-      "name": "__mye67713+__mye67701+__mye67689_myl2_74",
-      "ms": 0.02758,
+      "name": "node_Conv_394",
+      "ms": 0.02857,
       "calls_per_iter": 1.0,
-      "share": 0.007638
+      "share": 0.008032
     },
     {
-      "name": "__mye67828+__mye67816+__mye67804_myl2_81",
-      "ms": 0.02758,
+      "name": "__mye67023+__mye67011+__mye66999_myl2_30",
+      "ms": 0.028126,
       "calls_per_iter": 1.0,
-      "share": 0.007638
+      "share": 0.007908
     },
     {
       "name": "__mye67138+__mye67126+__mye67114_myl2_37",
+      "ms": 0.028092,
+      "calls_per_iter": 1.0,
+      "share": 0.007898
+    },
+    {
+      "name": "__mye67483+__mye67471+__mye67459_myl2_59",
+      "ms": 0.027921,
+      "calls_per_iter": 1.0,
+      "share": 0.00785
+    },
+    {
+      "name": "__mye67828+__mye67816+__mye67804_myl2_81",
+      "ms": 0.027785,
+      "calls_per_iter": 1.0,
+      "share": 0.007812
+    },
+    {
+      "name": "__mye66678+__mye66666+__mye66654_myl2_8",
+      "ms": 0.027614,
+      "calls_per_iter": 1.0,
+      "share": 0.007764
+    },
+    {
+      "name": "__mye66793+__mye66781+__mye66769_myl2_15",
       "ms": 0.027546,
       "calls_per_iter": 1.0,
-      "share": 0.007628
+      "share": 0.007745
     },
     {
       "name": "__mye67368+__mye67356+__mye67344_myl2_52",
       "ms": 0.027546,
       "calls_per_iter": 1.0,
-      "share": 0.007628
+      "share": 0.007745
     },
     {
-      "name": "__mye66793+__mye66781+__mye66769_myl2_15",
+      "name": "__mye67713+__mye67701+__mye67689_myl2_74",
       "ms": 0.027511,
       "calls_per_iter": 1.0,
-      "share": 0.007619
+      "share": 0.007735
     },
     {
-      "name": "__mye67023+__mye67011+__mye66999_myl2_30",
-      "ms": 0.027409,
+      "name": "node_conv2d_3",
+      "ms": 0.027477,
       "calls_per_iter": 1.0,
-      "share": 0.007591
+      "share": 0.007725
     },
     {
-      "name": "__mye67598+__mye67586+__mye67574_myl2_67",
-      "ms": 0.027204,
+      "name": "__mye67253+__mye67241+__mye67229_myl2_45",
+      "ms": 0.027273,
       "calls_per_iter": 1.0,
-      "share": 0.007534
-    },
-    {
-      "name": "node_upsample_bilinear2d_3",
-      "ms": 0.027068,
-      "calls_per_iter": 1.0,
-      "share": 0.007496
+      "share": 0.007668
     },
     {
       "name": "__mye66563+__mye66551+__mye66539_myl2_1",
-      "ms": 0.026829,
+      "ms": 0.027204,
       "calls_per_iter": 1.0,
-      "share": 0.00743
+      "share": 0.007649
+    },
+    {
+      "name": "node_conv2d_4",
+      "ms": 0.026385,
+      "calls_per_iter": 1.0,
+      "share": 0.007418
     },
     {
       "name": "__mye66908+__mye66896+__mye66884_myl2_23",
-      "ms": 0.026112,
+      "ms": 0.026214,
       "calls_per_iter": 1.0,
-      "share": 0.007231
+      "share": 0.00737
     },
     {
-      "name": "node_conv2d_17 + node_add_30",
-      "ms": 0.021197,
+      "name": "__mye67598+__mye67586+__mye67574_myl2_67",
+      "ms": 0.026146,
       "calls_per_iter": 1.0,
-      "share": 0.00587
+      "share": 0.007351
     },
     {
-      "name": "node_conv2d_20 + node_relu_9",
-      "ms": 0.020753,
+      "name": "node_upsample_bilinear2d_3",
+      "ms": 0.026044,
       "calls_per_iter": 1.0,
-      "share": 0.005747
-    },
-    {
-      "name": "node_Conv_392 + PWN(node_relu_6)",
-      "ms": 0.019046,
-      "calls_per_iter": 1.0,
-      "share": 0.005275
-    },
-    {
-      "name": "Gemm_93_myl2_76",
-      "ms": 0.018876,
-      "calls_per_iter": 1.0,
-      "share": 0.005227
-    },
-    {
-      "name": "Gemm_66_myl2_54",
-      "ms": 0.0185,
-      "calls_per_iter": 1.0,
-      "share": 0.005123
-    },
-    {
-      "name": "node_conv2d_15 + node_relu_5",
-      "ms": 0.018295,
-      "calls_per_iter": 1.0,
-      "share": 0.005067
+      "share": 0.007322
     },
     {
       "name": "node_conv2d_21 + node_add_31",
-      "ms": 0.017852,
+      "ms": 0.0256,
       "calls_per_iter": 1.0,
-      "share": 0.004944
-    },
-    {
-      "name": "Gemm_102_myl2_83",
-      "ms": 0.017783,
-      "calls_per_iter": 1.0,
-      "share": 0.004925
-    },
-    {
-      "name": "Gemm_39_myl2_32",
-      "ms": 0.017613,
-      "calls_per_iter": 1.0,
-      "share": 0.004878
-    },
-    {
-      "name": "node_conv2d_19 + node_add_29",
-      "ms": 0.016384,
-      "calls_per_iter": 1.0,
-      "share": 0.004537
-    },
-    {
-      "name": "node_conv2d_11 + node_add_25",
-      "ms": 0.016077,
-      "calls_per_iter": 1.0,
-      "share": 0.004452
+      "share": 0.007198
     },
     {
       "name": "node_conv2d_12 + node_add_27",
-      "ms": 0.016077,
+      "ms": 0.025088,
       "calls_per_iter": 1.0,
-      "share": 0.004452
+      "share": 0.007054
     },
     {
-      "name": "node_conv2d_10 + node_relu_1",
-      "ms": 0.015667,
+      "name": "node_conv2d_20 + node_relu_9",
+      "ms": 0.022938,
       "calls_per_iter": 1.0,
-      "share": 0.004339
+      "share": 0.006449
     },
     {
-      "name": "node_conv2d_18 + node_relu_7",
-      "ms": 0.015531,
+      "name": "node_conv2d_15 + node_relu_5",
+      "ms": 0.020821,
       "calls_per_iter": 1.0,
-      "share": 0.004301
+      "share": 0.005854
+    },
+    {
+      "name": "node_conv2d_17 + node_add_30",
+      "ms": 0.020207,
+      "calls_per_iter": 1.0,
+      "share": 0.005681
+    },
+    {
+      "name": "Gemm_39_myl2_32",
+      "ms": 0.02007,
+      "calls_per_iter": 1.0,
+      "share": 0.005643
     },
     {
       "name": "node_conv2d_16 + node_add_28",
-      "ms": 0.015223,
+      "ms": 0.019012,
       "calls_per_iter": 1.0,
-      "share": 0.004216
+      "share": 0.005345
     },
     {
-      "name": "PWN(node_relu_8)",
-      "ms": 0.015087,
+      "name": "node_Conv_392 + PWN(node_relu_6)",
+      "ms": 0.018739,
       "calls_per_iter": 1.0,
-      "share": 0.004178
+      "share": 0.005269
     },
     {
-      "name": "Gemm_48_myl2_39",
-      "ms": 0.014677,
+      "name": "Gemm_66_myl2_54",
+      "ms": 0.018057,
       "calls_per_iter": 1.0,
-      "share": 0.004065
+      "share": 0.005077
     },
     {
-      "name": "Gemm_84_myl2_69",
-      "ms": 0.014643,
+      "name": "Gemm_102_myl2_83",
+      "ms": 0.017818,
       "calls_per_iter": 1.0,
-      "share": 0.004055
+      "share": 0.005009
     },
     {
-      "name": "Gemm_57_myl2_47",
-      "ms": 0.014507,
+      "name": "node_conv2d_19 + node_add_29",
+      "ms": 0.017681,
       "calls_per_iter": 1.0,
-      "share": 0.004017
+      "share": 0.004971
     },
     {
-      "name": "Gemm_30_myl2_25",
-      "ms": 0.014438,
+      "name": "Gemm_93_myl2_76",
+      "ms": 0.017613,
       "calls_per_iter": 1.0,
-      "share": 0.003999
+      "share": 0.004952
     },
     {
       "name": "Gemm_12_myl2_10",
-      "ms": 0.01437,
+      "ms": 0.01734,
       "calls_per_iter": 1.0,
-      "share": 0.00398
-    },
-    {
-      "name": "Gemm_21_myl2_17",
-      "ms": 0.01437,
-      "calls_per_iter": 1.0,
-      "share": 0.00398
-    },
-    {
-      "name": "node_conv2d_14 + node_add_26",
-      "ms": 0.014336,
-      "calls_per_iter": 1.0,
-      "share": 0.00397
-    },
-    {
-      "name": "Gemm_3_myl2_3",
-      "ms": 0.014302,
-      "calls_per_iter": 1.0,
-      "share": 0.003961
+      "share": 0.004875
     },
     {
       "name": "Gemm_75_myl2_61",
-      "ms": 0.014268,
+      "ms": 0.016555,
       "calls_per_iter": 1.0,
-      "share": 0.003951
+      "share": 0.004654
+    },
+    {
+      "name": "node_conv2d_11 + node_add_25",
+      "ms": 0.016486,
+      "calls_per_iter": 1.0,
+      "share": 0.004635
+    },
+    {
+      "name": "node_conv2d_10 + node_relu_1",
+      "ms": 0.016111,
+      "calls_per_iter": 1.0,
+      "share": 0.00453
+    },
+    {
+      "name": "node_conv2d_14 + node_add_26",
+      "ms": 0.015735,
+      "calls_per_iter": 1.0,
+      "share": 0.004424
+    },
+    {
+      "name": "node_conv2d_18 + node_relu_7",
+      "ms": 0.015565,
+      "calls_per_iter": 1.0,
+      "share": 0.004376
+    },
+    {
+      "name": "Gemm_48_myl2_39",
+      "ms": 0.01536,
+      "calls_per_iter": 1.0,
+      "share": 0.004319
+    },
+    {
+      "name": "Gemm_21_myl2_17",
+      "ms": 0.015292,
+      "calls_per_iter": 1.0,
+      "share": 0.004299
+    },
+    {
+      "name": "Gemm_84_myl2_69",
+      "ms": 0.014882,
+      "calls_per_iter": 1.0,
+      "share": 0.004184
+    },
+    {
+      "name": "Gemm_30_myl2_25",
+      "ms": 0.014848,
+      "calls_per_iter": 1.0,
+      "share": 0.004175
+    },
+    {
+      "name": "Gemm_57_myl2_47",
+      "ms": 0.014746,
+      "calls_per_iter": 1.0,
+      "share": 0.004146
+    },
+    {
+      "name": "Gemm_3_myl2_3",
+      "ms": 0.014336,
+      "calls_per_iter": 1.0,
+      "share": 0.004031
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_11",
+      "ms": 0.014063,
+      "calls_per_iter": 1.0,
+      "share": 0.003954
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to node_squeeze",
-      "ms": 0.013858,
+      "ms": 0.01379,
       "calls_per_iter": 1.0,
-      "share": 0.003838
+      "share": 0.003877
     },
     {
       "name": "__myl_AddSqrtDivMulCastMulAddMulAddMoveReshReshMoveReshSlicTranResh_myl2_44",
-      "ms": 0.01338,
+      "ms": 0.013551,
       "calls_per_iter": 1.0,
-      "share": 0.003706
-    },
-    {
-      "name": "__myl_AddSqrtDivMulCastMulAddMulAddMoveReshReshMoveReshSlicTranResh_myl2_66",
-      "ms": 0.013346,
-      "calls_per_iter": 1.0,
-      "share": 0.003696
+      "share": 0.00381
     },
     {
       "name": "node_conv2d_2",
-      "ms": 0.013346,
+      "ms": 0.013517,
       "calls_per_iter": 1.0,
-      "share": 0.003696
+      "share": 0.0038
+    },
+    {
+      "name": "__myl_AddSqrtDivMulCastMulAddMulAddMoveReshReshMoveReshSlicTranResh_myl2_66",
+      "ms": 0.01338,
+      "calls_per_iter": 1.0,
+      "share": 0.003762
     },
     {
       "name": "__myl_AddSqrtDivMulCastMulAddMoveReshReshMoveReshSlicTranReshMulAdd_myl2_22",
-      "ms": 0.013175,
+      "ms": 0.013346,
       "calls_per_iter": 1.0,
-      "share": 0.003649
+      "share": 0.003752
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_36",
-      "ms": 0.012902,
+      "name": "PWN(node_relu_4)",
+      "ms": 0.013346,
       "calls_per_iter": 1.0,
-      "share": 0.003573
+      "share": 0.003752
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_18",
-      "ms": 0.012527,
+      "name": "node_conv2d_1",
+      "ms": 0.012937,
       "calls_per_iter": 1.0,
-      "share": 0.003469
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMean_myl2_21",
-      "ms": 0.012493,
-      "calls_per_iter": 1.0,
-      "share": 0.00346
+      "share": 0.003637
     },
     {
       "name": "node_conv2d_13 + node_relu_3",
-      "ms": 0.012459,
+      "ms": 0.012561,
       "calls_per_iter": 1.0,
-      "share": 0.00345
+      "share": 0.003532
     },
     {
-      "name": "node_convolution_1",
-      "ms": 0.012356,
+      "name": "__myl_MulAddCastMeanSubMulMean_myl2_43",
+      "ms": 0.012527,
       "calls_per_iter": 1.0,
-      "share": 0.003422
+      "share": 0.003522
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMean_myl2_87",
+      "ms": 0.012493,
+      "calls_per_iter": 1.0,
+      "share": 0.003512
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMean_myl2_65",
       "ms": 0.012322,
       "calls_per_iter": 1.0,
-      "share": 0.003412
+      "share": 0.003464
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMean_myl2_43",
-      "ms": 0.012254,
+      "name": "__myl_MulAddCastMeanSubMulMean_myl2_21",
+      "ms": 0.012151,
       "calls_per_iter": 1.0,
-      "share": 0.003394
+      "share": 0.003416
+    },
+    {
+      "name": "node_convolution_1",
+      "ms": 0.012117,
+      "calls_per_iter": 1.0,
+      "share": 0.003407
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_73",
-      "ms": 0.011469,
+      "ms": 0.011878,
       "calls_per_iter": 1.0,
-      "share": 0.003176
+      "share": 0.00334
     },
     {
       "name": "node_upsample_bilinear2d_2",
-      "ms": 0.011162,
+      "ms": 0.011571,
       "calls_per_iter": 1.0,
-      "share": 0.003091
+      "share": 0.003253
     },
     {
-      "name": "node_conv2d_1",
-      "ms": 0.010991,
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_18",
+      "ms": 0.011469,
       "calls_per_iter": 1.0,
-      "share": 0.003044
+      "share": 0.003224
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_11",
-      "ms": 0.01065,
+      "name": "PWN(node_relu_8)",
+      "ms": 0.011196,
       "calls_per_iter": 1.0,
-      "share": 0.002949
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_7",
-      "ms": 0.010615,
-      "calls_per_iter": 1.0,
-      "share": 0.00294
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_58",
-      "ms": 0.010615,
-      "calls_per_iter": 1.0,
-      "share": 0.00294
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_80",
-      "ms": 0.010615,
-      "calls_per_iter": 1.0,
-      "share": 0.00294
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMean_myl2_87",
-      "ms": 0.010479,
-      "calls_per_iter": 1.0,
-      "share": 0.002902
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_62",
-      "ms": 0.010411,
-      "calls_per_iter": 1.0,
-      "share": 0.002883
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_29",
-      "ms": 0.010377,
-      "calls_per_iter": 1.0,
-      "share": 0.002874
-    },
-    {
-      "name": "__myl_AddSqrtDivMulCastMulAddMoveReshReshMoveReshSlicTranResh_myl2_88",
-      "ms": 0.010377,
-      "calls_per_iter": 1.0,
-      "share": 0.002874
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_14",
-      "ms": 0.010342,
-      "calls_per_iter": 1.0,
-      "share": 0.002864
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_84",
-      "ms": 0.010342,
-      "calls_per_iter": 1.0,
-      "share": 0.002864
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_51",
-      "ms": 0.01024,
-      "calls_per_iter": 1.0,
-      "share": 0.002836
+      "share": 0.003148
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_40",
-      "ms": 0.010069,
+      "ms": 0.011127,
       "calls_per_iter": 1.0,
-      "share": 0.002789
+      "share": 0.003129
     },
     {
-      "name": "PWN(node_relu_4)",
-      "ms": 0.010001,
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_84",
+      "ms": 0.010786,
       "calls_per_iter": 1.0,
-      "share": 0.00277
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_77",
-      "ms": 0.00983,
-      "calls_per_iter": 1.0,
-      "share": 0.002722
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_48",
-      "ms": 0.009796,
-      "calls_per_iter": 1.0,
-      "share": 0.002713
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_70",
-      "ms": 0.009796,
-      "calls_per_iter": 1.0,
-      "share": 0.002713
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_26",
-      "ms": 0.009762,
-      "calls_per_iter": 1.0,
-      "share": 0.002704
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_33",
-      "ms": 0.009694,
-      "calls_per_iter": 1.0,
-      "share": 0.002685
-    },
-    {
-      "name": "PWN(node_relu_2)",
-      "ms": 0.009694,
-      "calls_per_iter": 1.0,
-      "share": 0.002685
-    },
-    {
-      "name": "__myl_ReshTranConcAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_0",
-      "ms": 0.009421,
-      "calls_per_iter": 1.0,
-      "share": 0.002609
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_55",
-      "ms": 0.009284,
-      "calls_per_iter": 1.0,
-      "share": 0.002571
-    },
-    {
-      "name": "__myl_MulReshReshReshAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_4",
-      "ms": 0.008977,
-      "calls_per_iter": 1.0,
-      "share": 0.002486
+      "share": 0.003033
     },
     {
       "name": "node_upsample_bilinear2d_1",
-      "ms": 0.008329,
+      "ms": 0.010752,
       "calls_per_iter": 1.0,
-      "share": 0.002306
+      "share": 0.003023
     },
     {
-      "name": "PWN(node_relu)",
-      "ms": 0.00768,
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_36",
+      "ms": 0.010718,
       "calls_per_iter": 1.0,
-      "share": 0.002127
+      "share": 0.003013
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_58",
+      "ms": 0.010445,
+      "calls_per_iter": 1.0,
+      "share": 0.002937
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_62",
+      "ms": 0.010445,
+      "calls_per_iter": 1.0,
+      "share": 0.002937
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_29",
+      "ms": 0.010342,
+      "calls_per_iter": 1.0,
+      "share": 0.002908
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_51",
+      "ms": 0.010342,
+      "calls_per_iter": 1.0,
+      "share": 0.002908
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_80",
+      "ms": 0.010342,
+      "calls_per_iter": 1.0,
+      "share": 0.002908
+    },
+    {
+      "name": "__myl_AddSqrtDivMulCastMulAddMoveReshReshMoveReshSlicTranResh_myl2_88",
+      "ms": 0.010342,
+      "calls_per_iter": 1.0,
+      "share": 0.002908
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_7",
+      "ms": 0.010274,
+      "calls_per_iter": 1.0,
+      "share": 0.002889
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_14",
+      "ms": 0.01024,
+      "calls_per_iter": 1.0,
+      "share": 0.002879
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_33",
+      "ms": 0.010172,
+      "calls_per_iter": 1.0,
+      "share": 0.00286
+    },
+    {
+      "name": "__myl_ReshTranConcAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_0",
+      "ms": 0.009762,
+      "calls_per_iter": 1.0,
+      "share": 0.002745
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_55",
+      "ms": 0.009694,
+      "calls_per_iter": 1.0,
+      "share": 0.002725
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_48",
+      "ms": 0.009455,
+      "calls_per_iter": 1.0,
+      "share": 0.002658
+    },
+    {
+      "name": "__myl_MulReshReshReshAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_4",
+      "ms": 0.009318,
+      "calls_per_iter": 1.0,
+      "share": 0.00262
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_77",
+      "ms": 0.009318,
+      "calls_per_iter": 1.0,
+      "share": 0.00262
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_70",
+      "ms": 0.00925,
+      "calls_per_iter": 1.0,
+      "share": 0.002601
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_26",
+      "ms": 0.009148,
+      "calls_per_iter": 1.0,
+      "share": 0.002572
     },
     {
       "name": "node_upsample_bilinear2d",
-      "ms": 0.006793,
+      "ms": 0.008977,
       "calls_per_iter": 1.0,
-      "share": 0.001881
+      "share": 0.002524
+    },
+    {
+      "name": "PWN(node_relu)",
+      "ms": 0.008738,
+      "calls_per_iter": 1.0,
+      "share": 0.002457
+    },
+    {
+      "name": "PWN(node_relu_2)",
+      "ms": 0.007031,
+      "calls_per_iter": 1.0,
+      "share": 0.001977
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to PWN(node_relu_2)",

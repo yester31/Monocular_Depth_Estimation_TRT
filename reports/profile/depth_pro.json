@@ -2,7 +2,11 @@
   "model": "depth_pro",
   "variant": "single",
   "precision": "fp16",
+  "clock_mhz": 1800,
+  "clock_max_mhz": 2130,
   "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\depth_pro\\engine\\depth_pro_1536x1536_dynamo_fp16.engine",
+  "engine_bytes": 1922315788,
+  "engine_mtime": 1786611189,
   "input_shape": [
     1,
     3,
@@ -13,10 +17,11 @@
   "summary": {
     "layers_profiled": 732,
     "layers_in_engine": 732,
-    "profile_total_ms": 228.7422,
-    "benchmark_mean_ms": 241.236,
-    "top10_share": 0.1658,
-    "fp32_output_share": 0.006,
+    "profile_total_ms": 228.0774,
+    "benchmark_mean_ms": 242.1153,
+    "top10_share": 0.1659,
+    "fp32_output_share": 0.0059,
+    "movement_share": 0.0041,
     "layer_types": {
       "kgen": 338,
       "gemm": 145,
@@ -39,2194 +44,2146 @@
   "suspects": [],
   "layers": [
     {
-      "name": "node_conv2d_32 + node_relu_17",
-      "ms": 6.23657,
+      "name": "node_conv2d_33 + node_add_110",
+      "ms": 6.230835,
       "calls_per_iter": 1.0,
-      "share": 0.027265
+      "share": 0.027319
     },
     {
-      "name": "node_conv2d_33 + node_add_110",
-      "ms": 6.23261,
+      "name": "node_conv2d_32 + node_relu_17",
+      "ms": 6.225749,
       "calls_per_iter": 1.0,
-      "share": 0.027247
+      "share": 0.027297
     },
     {
       "name": "node_conv2d_30 + node_relu_15",
-      "ms": 6.164753,
+      "ms": 6.138129,
       "calls_per_iter": 1.0,
-      "share": 0.026951
+      "share": 0.026912
     },
     {
       "name": "node_conv2d_31 + node_add_108",
-      "ms": 6.026103,
+      "ms": 6.000708,
       "calls_per_iter": 1.0,
-      "share": 0.026345
+      "share": 0.02631
     },
     {
       "name": "node_conv2d_35",
-      "ms": 3.146581,
+      "ms": 3.143134,
       "calls_per_iter": 1.0,
-      "share": 0.013756
+      "share": 0.013781
     },
     {
       "name": "node_conv2d_36 + node_relu_18",
-      "ms": 2.871296,
+      "ms": 2.869965,
       "calls_per_iter": 1.0,
-      "share": 0.012553
+      "share": 0.012583
     },
     {
       "name": "__myl_Fc_myl44_6",
-      "ms": 1.846921,
+      "ms": 1.839821,
       "calls_per_iter": 1.0,
-      "share": 0.008074
-    },
-    {
-      "name": "__myl_Fc_myl44_84",
-      "ms": 1.799782,
-      "calls_per_iter": 1.0,
-      "share": 0.007868
+      "share": 0.008067
     },
     {
       "name": "__myl_Fc_myl44_108",
-      "ms": 1.799782,
+      "ms": 1.795686,
       "calls_per_iter": 1.0,
-      "share": 0.007868
+      "share": 0.007873
+    },
+    {
+      "name": "__myl_Fc_myl44_76",
+      "ms": 1.792785,
+      "calls_per_iter": 1.0,
+      "share": 0.00786
     },
     {
       "name": "__myl_Fc_myl44_92",
-      "ms": 1.797939,
+      "ms": 1.792649,
       "calls_per_iter": 1.0,
       "share": 0.00786
     },
     {
       "name": "__myl_Fc_myl44_100",
-      "ms": 1.797222,
+      "ms": 1.790293,
       "calls_per_iter": 1.0,
-      "share": 0.007857
-    },
-    {
-      "name": "__myl_Fc_myl44_76",
-      "ms": 1.796335,
-      "calls_per_iter": 1.0,
-      "share": 0.007853
+      "share": 0.007849
     },
     {
       "name": "__myl_Fc_myl44_14",
-      "ms": 1.79415,
+      "ms": 1.789918,
       "calls_per_iter": 1.0,
-      "share": 0.007844
+      "share": 0.007848
+    },
+    {
+      "name": "__myl_Fc_myl44_84",
+      "ms": 1.78985,
+      "calls_per_iter": 1.0,
+      "share": 0.007848
     },
     {
       "name": "__myl_Fc_myl44_324",
-      "ms": 1.793673,
+      "ms": 1.784286,
       "calls_per_iter": 1.0,
-      "share": 0.007841
-    },
-    {
-      "name": "__myl_Fc_myl44_388",
-      "ms": 1.790464,
-      "calls_per_iter": 1.0,
-      "share": 0.007827
-    },
-    {
-      "name": "__myl_Fc_myl44_396",
-      "ms": 1.788143,
-      "calls_per_iter": 1.0,
-      "share": 0.007817
-    },
-    {
-      "name": "__myl_Fc_myl44_380",
-      "ms": 1.78729,
-      "calls_per_iter": 1.0,
-      "share": 0.007814
-    },
-    {
-      "name": "__myl_Fc_myl44_412",
-      "ms": 1.785924,
-      "calls_per_iter": 1.0,
-      "share": 0.007808
+      "share": 0.007823
     },
     {
       "name": "__myl_Fc_myl44_68",
-      "ms": 1.785685,
+      "ms": 1.783637,
+      "calls_per_iter": 1.0,
+      "share": 0.00782
+    },
+    {
+      "name": "__myl_Fc_myl44_396",
+      "ms": 1.78275,
+      "calls_per_iter": 1.0,
+      "share": 0.007816
+    },
+    {
+      "name": "__myl_Fc_myl44_380",
+      "ms": 1.782477,
+      "calls_per_iter": 1.0,
+      "share": 0.007815
+    },
+    {
+      "name": "__myl_Fc_myl44_404",
+      "ms": 1.78176,
+      "calls_per_iter": 1.0,
+      "share": 0.007812
+    },
+    {
+      "name": "__myl_Fc_myl44_388",
+      "ms": 1.781589,
+      "calls_per_iter": 1.0,
+      "share": 0.007811
+    },
+    {
+      "name": "__myl_Fc_myl44_412",
+      "ms": 1.780599,
       "calls_per_iter": 1.0,
       "share": 0.007807
     },
     {
-      "name": "__myl_Fc_myl44_404",
-      "ms": 1.784559,
-      "calls_per_iter": 1.0,
-      "share": 0.007802
-    },
-    {
       "name": "__myl_Fc_myl44_372",
-      "ms": 1.782511,
+      "ms": 1.778278,
       "calls_per_iter": 1.0,
-      "share": 0.007793
+      "share": 0.007797
     },
     {
       "name": "node_conv2d_29 + node_add_109 + PWN(node_relu_16)",
-      "ms": 1.776742,
+      "ms": 1.775991,
       "calls_per_iter": 1.0,
-      "share": 0.007767
+      "share": 0.007787
     },
     {
       "name": "__myl_Fc_myl44_332",
-      "ms": 1.773261,
+      "ms": 1.771315,
       "calls_per_iter": 1.0,
-      "share": 0.007752
+      "share": 0.007766
+    },
+    {
+      "name": "node_convolution_13",
+      "ms": 1.764557,
+      "calls_per_iter": 1.0,
+      "share": 0.007737
     },
     {
       "name": "__myl_Fc_myl44_364",
-      "ms": 1.766844,
+      "ms": 1.761587,
       "calls_per_iter": 1.0,
       "share": 0.007724
     },
     {
-      "name": "node_convolution_13",
-      "ms": 1.765001,
-      "calls_per_iter": 1.0,
-      "share": 0.007716
-    },
-    {
       "name": "__myl_Fc_myl44_46",
-      "ms": 1.75913,
+      "ms": 1.76128,
       "calls_per_iter": 1.0,
-      "share": 0.00769
-    },
-    {
-      "name": "__myl_Fc_myl44_340",
-      "ms": 1.757286,
-      "calls_per_iter": 1.0,
-      "share": 0.007682
+      "share": 0.007722
     },
     {
       "name": "__myl_Fc_myl44_356",
-      "ms": 1.757047,
+      "ms": 1.753463,
       "calls_per_iter": 1.0,
-      "share": 0.007681
+      "share": 0.007688
     },
     {
-      "name": "__myl_Fc_myl44_348",
-      "ms": 1.749641,
+      "name": "__myl_Fc_myl44_340",
+      "ms": 1.750733,
       "calls_per_iter": 1.0,
-      "share": 0.007649
+      "share": 0.007676
     },
     {
       "name": "__myl_Fc_myl44_22",
-      "ms": 1.737216,
+      "ms": 1.745203,
       "calls_per_iter": 1.0,
-      "share": 0.007595
+      "share": 0.007652
+    },
+    {
+      "name": "__myl_Fc_myl44_348",
+      "ms": 1.738615,
+      "calls_per_iter": 1.0,
+      "share": 0.007623
     },
     {
       "name": "__myl_Fc_myl44_38",
-      "ms": 1.734451,
+      "ms": 1.73353,
       "calls_per_iter": 1.0,
-      "share": 0.007583
+      "share": 0.007601
     },
     {
       "name": "__myl_Fc_myl44_30",
-      "ms": 1.719364,
+      "ms": 1.724245,
       "calls_per_iter": 1.0,
-      "share": 0.007517
+      "share": 0.00756
     },
     {
       "name": "__myl_FcMulAdd_myl44_7",
-      "ms": 1.621743,
+      "ms": 1.614029,
       "calls_per_iter": 1.0,
-      "share": 0.00709
+      "share": 0.007077
     },
     {
       "name": "node_Conv_10518 + PWN(node_relu_10)",
-      "ms": 1.616964,
+      "ms": 1.613141,
       "calls_per_iter": 1.0,
-      "share": 0.007069
+      "share": 0.007073
     },
     {
       "name": "__myl_FcMulAdd_myl44_109",
-      "ms": 1.590306,
+      "ms": 1.583548,
       "calls_per_iter": 1.0,
-      "share": 0.006952
+      "share": 0.006943
     },
     {
       "name": "__myl_FcMulAdd_myl44_93",
-      "ms": 1.588429,
+      "ms": 1.583002,
       "calls_per_iter": 1.0,
-      "share": 0.006944
+      "share": 0.006941
     },
     {
       "name": "__myl_FcMulAdd_myl44_85",
-      "ms": 1.587234,
+      "ms": 1.581909,
       "calls_per_iter": 1.0,
-      "share": 0.006939
-    },
-    {
-      "name": "__myl_FcMulAdd_myl44_101",
-      "ms": 1.585527,
-      "calls_per_iter": 1.0,
-      "share": 0.006932
+      "share": 0.006936
     },
     {
       "name": "__myl_FcMulAdd_myl44_77",
-      "ms": 1.58406,
+      "ms": 1.579998,
       "calls_per_iter": 1.0,
-      "share": 0.006925
+      "share": 0.006927
     },
     {
       "name": "__myl_FcMulAdd_myl44_69",
-      "ms": 1.582353,
+      "ms": 1.579657,
       "calls_per_iter": 1.0,
-      "share": 0.006918
+      "share": 0.006926
+    },
+    {
+      "name": "__myl_FcMulAdd_myl44_101",
+      "ms": 1.579657,
+      "calls_per_iter": 1.0,
+      "share": 0.006926
     },
     {
       "name": "__myl_FcMulAdd_myl44_15",
-      "ms": 1.572523,
+      "ms": 1.565457,
       "calls_per_iter": 1.0,
-      "share": 0.006875
+      "share": 0.006864
     },
     {
       "name": "__myl_FcMulAdd_myl44_47",
-      "ms": 1.557982,
+      "ms": 1.5559,
       "calls_per_iter": 1.0,
-      "share": 0.006811
-    },
-    {
-      "name": "node_MatMul_2028_myl44_397",
-      "ms": 1.550404,
-      "calls_per_iter": 1.0,
-      "share": 0.006778
-    },
-    {
-      "name": "node_MatMul_2088_myl44_405",
-      "ms": 1.549653,
-      "calls_per_iter": 1.0,
-      "share": 0.006775
-    },
-    {
-      "name": "node_MatMul_1488_myl44_325",
-      "ms": 1.54839,
-      "calls_per_iter": 1.0,
-      "share": 0.006769
+      "share": 0.006822
     },
     {
       "name": "node_MatMul_1968_myl44_389",
-      "ms": 1.54839,
+      "ms": 1.546445,
+      "calls_per_iter": 1.0,
+      "share": 0.00678
+    },
+    {
+      "name": "node_MatMul_2028_myl44_397",
+      "ms": 1.544124,
+      "calls_per_iter": 1.0,
+      "share": 0.00677
+    },
+    {
+      "name": "node_MatMul_1488_myl44_325",
+      "ms": 1.543987,
+      "calls_per_iter": 1.0,
+      "share": 0.00677
+    },
+    {
+      "name": "node_MatMul_1908_myl44_381",
+      "ms": 1.543782,
       "calls_per_iter": 1.0,
       "share": 0.006769
     },
     {
-      "name": "node_MatMul_1908_myl44_381",
-      "ms": 1.547776,
+      "name": "node_MatMul_2088_myl44_405",
+      "ms": 1.542724,
       "calls_per_iter": 1.0,
-      "share": 0.006766
+      "share": 0.006764
     },
     {
       "name": "node_MatMul_1848_myl44_373",
-      "ms": 1.54583,
+      "ms": 1.539311,
       "calls_per_iter": 1.0,
-      "share": 0.006758
-    },
-    {
-      "name": "node_MatMul_1788_myl44_365",
-      "ms": 1.534566,
-      "calls_per_iter": 1.0,
-      "share": 0.006709
+      "share": 0.006749
     },
     {
       "name": "__myl_FcMulAdd_myl44_39",
-      "ms": 1.534157,
+      "ms": 1.531836,
       "calls_per_iter": 1.0,
-      "share": 0.006707
+      "share": 0.006716
     },
     {
-      "name": "node_MatMul_2148_myl44_413",
-      "ms": 1.533508,
+      "name": "node_MatMul_1788_myl44_365",
+      "ms": 1.529958,
       "calls_per_iter": 1.0,
-      "share": 0.006704
+      "share": 0.006708
     },
     {
       "name": "node_MatMul_1548_myl44_333",
-      "ms": 1.531631,
+      "ms": 1.529378,
+      "calls_per_iter": 1.0,
+      "share": 0.006706
+    },
+    {
+      "name": "__myl_FcMulAdd_myl44_23",
+      "ms": 1.527228,
       "calls_per_iter": 1.0,
       "share": 0.006696
     },
     {
-      "name": "__myl_FcMulAdd_myl44_23",
-      "ms": 1.523746,
+      "name": "node_MatMul_2148_myl44_413",
+      "ms": 1.525658,
       "calls_per_iter": 1.0,
-      "share": 0.006661
+      "share": 0.006689
     },
     {
       "name": "node_MatMul_1728_myl44_357",
-      "ms": 1.52023,
+      "ms": 1.516305,
       "calls_per_iter": 1.0,
-      "share": 0.006646
+      "share": 0.006648
     },
     {
       "name": "node_conv2d_28 + node_add_107",
-      "ms": 1.518114,
+      "ms": 1.515554,
       "calls_per_iter": 1.0,
-      "share": 0.006637
-    },
-    {
-      "name": "node_MatMul_1608_myl44_341",
-      "ms": 1.515725,
-      "calls_per_iter": 1.0,
-      "share": 0.006626
+      "share": 0.006645
     },
     {
       "name": "__myl_FcMulAdd_myl44_31",
-      "ms": 1.511185,
+      "ms": 1.514803,
       "calls_per_iter": 1.0,
-      "share": 0.006606
+      "share": 0.006642
     },
     {
-      "name": "node_MatMul_1668_myl44_349",
-      "ms": 1.50982,
+      "name": "node_MatMul_1608_myl44_341",
+      "ms": 1.509069,
       "calls_per_iter": 1.0,
-      "share": 0.006601
+      "share": 0.006616
     },
     {
       "name": "node_conv2d_27 + node_relu_13",
-      "ms": 1.505792,
+      "ms": 1.506406,
       "calls_per_iter": 1.0,
-      "share": 0.006583
+      "share": 0.006605
+    },
+    {
+      "name": "node_MatMul_1668_myl44_349",
+      "ms": 1.504427,
+      "calls_per_iter": 1.0,
+      "share": 0.006596
     },
     {
       "name": "node_conv2d_26 + node_add_105",
-      "ms": 1.502174,
+      "ms": 1.500262,
       "calls_per_iter": 1.0,
-      "share": 0.006567
+      "share": 0.006578
     },
     {
       "name": "node_conv2d_25 + node_relu_11",
-      "ms": 1.49975,
+      "ms": 1.494801,
       "calls_per_iter": 1.0,
-      "share": 0.006557
+      "share": 0.006554
     },
     {
       "name": "node_MatMul_707_myl44_1",
-      "ms": 1.28041,
+      "ms": 1.271808,
       "calls_per_iter": 1.0,
-      "share": 0.005598
+      "share": 0.005576
     },
     {
       "name": "node_MatMul_770_myl44_9",
-      "ms": 1.247164,
+      "ms": 1.242624,
       "calls_per_iter": 1.0,
-      "share": 0.005452
+      "share": 0.005448
     },
     {
       "name": "node_MatMul_1370_myl44_103",
-      "ms": 1.230063,
+      "ms": 1.225694,
       "calls_per_iter": 1.0,
-      "share": 0.005378
+      "share": 0.005374
     },
     {
       "name": "node_MatMul_1430_myl44_319",
-      "ms": 1.229687,
+      "ms": 1.224226,
       "calls_per_iter": 1.0,
-      "share": 0.005376
-    },
-    {
-      "name": "node_MatMul_1250_myl44_87",
-      "ms": 1.227469,
-      "calls_per_iter": 1.0,
-      "share": 0.005366
-    },
-    {
-      "name": "node_MatMul_1310_myl44_95",
-      "ms": 1.227332,
-      "calls_per_iter": 1.0,
-      "share": 0.005366
+      "share": 0.005368
     },
     {
       "name": "node_MatMul_1190_myl44_79",
-      "ms": 1.227196,
+      "ms": 1.22409,
+      "calls_per_iter": 1.0,
+      "share": 0.005367
+    },
+    {
+      "name": "node_MatMul_1250_myl44_87",
+      "ms": 1.223987,
+      "calls_per_iter": 1.0,
+      "share": 0.005367
+    },
+    {
+      "name": "node_MatMul_1310_myl44_95",
+      "ms": 1.223578,
       "calls_per_iter": 1.0,
       "share": 0.005365
     },
     {
       "name": "node_MatMul_1130_myl44_71",
-      "ms": 1.226547,
+      "ms": 1.222827,
       "calls_per_iter": 1.0,
-      "share": 0.005362
+      "share": 0.005361
     },
     {
       "name": "node_MatMul_2030_myl44_399",
-      "ms": 1.225284,
+      "ms": 1.220335,
       "calls_per_iter": 1.0,
-      "share": 0.005357
-    },
-    {
-      "name": "node_MatMul_2090_myl44_407",
-      "ms": 1.224499,
-      "calls_per_iter": 1.0,
-      "share": 0.005353
-    },
-    {
-      "name": "node_MatMul_1970_myl44_391",
-      "ms": 1.222485,
-      "calls_per_iter": 1.0,
-      "share": 0.005344
+      "share": 0.005351
     },
     {
       "name": "node_MatMul_1910_myl44_383",
-      "ms": 1.221495,
-      "calls_per_iter": 1.0,
-      "share": 0.00534
-    },
-    {
-      "name": "node_MatMul_1850_myl44_375",
-      "ms": 1.220745,
+      "ms": 1.217331,
       "calls_per_iter": 1.0,
       "share": 0.005337
     },
     {
+      "name": "node_MatMul_1970_myl44_391",
+      "ms": 1.217263,
+      "calls_per_iter": 1.0,
+      "share": 0.005337
+    },
+    {
+      "name": "node_MatMul_2090_myl44_407",
+      "ms": 1.216922,
+      "calls_per_iter": 1.0,
+      "share": 0.005336
+    },
+    {
       "name": "node_MatMul_1490_myl44_327",
-      "ms": 1.219004,
+      "ms": 1.216546,
+      "calls_per_iter": 1.0,
+      "share": 0.005334
+    },
+    {
+      "name": "node_MatMul_1850_myl44_375",
+      "ms": 1.215317,
       "calls_per_iter": 1.0,
       "share": 0.005329
     },
     {
       "name": "node_MatMul_1790_myl44_367",
-      "ms": 1.215181,
+      "ms": 1.211529,
       "calls_per_iter": 1.0,
       "share": 0.005312
     },
     {
       "name": "node_MatMul_1070_myl44_63",
-      "ms": 1.213542,
+      "ms": 1.210641,
       "calls_per_iter": 1.0,
-      "share": 0.005305
-    },
-    {
-      "name": "node_MatMul_1550_myl44_335",
-      "ms": 1.208286,
-      "calls_per_iter": 1.0,
-      "share": 0.005282
-    },
-    {
-      "name": "node_MatMul_1730_myl44_359",
-      "ms": 1.204975,
-      "calls_per_iter": 1.0,
-      "share": 0.005268
+      "share": 0.005308
     },
     {
       "name": "node_MatMul_830_myl44_17",
-      "ms": 1.203712,
+      "ms": 1.204087,
       "calls_per_iter": 1.0,
-      "share": 0.005262
+      "share": 0.005279
     },
     {
-      "name": "node_MatMul_1610_myl44_343",
-      "ms": 1.1975,
+      "name": "node_MatMul_1550_myl44_335",
+      "ms": 1.203302,
       "calls_per_iter": 1.0,
-      "share": 0.005235
+      "share": 0.005276
     },
     {
-      "name": "node_MatMul_1670_myl44_351",
-      "ms": 1.196339,
+      "name": "node_MatMul_1730_myl44_359",
+      "ms": 1.20105,
       "calls_per_iter": 1.0,
-      "share": 0.00523
+      "share": 0.005266
     },
     {
       "name": "node_MatMul_1010_myl44_41",
-      "ms": 1.192209,
+      "ms": 1.194462,
       "calls_per_iter": 1.0,
-      "share": 0.005212
+      "share": 0.005237
+    },
+    {
+      "name": "node_MatMul_1610_myl44_343",
+      "ms": 1.191219,
+      "calls_per_iter": 1.0,
+      "share": 0.005223
+    },
+    {
+      "name": "node_MatMul_1670_myl44_351",
+      "ms": 1.190639,
+      "calls_per_iter": 1.0,
+      "share": 0.00522
     },
     {
       "name": "node_MatMul_950_myl44_33",
-      "ms": 1.175177,
+      "ms": 1.175927,
       "calls_per_iter": 1.0,
-      "share": 0.005138
+      "share": 0.005156
     },
     {
       "name": "node_MatMul_890_myl44_25",
-      "ms": 1.171866,
+      "ms": 1.173606,
       "calls_per_iter": 1.0,
-      "share": 0.005123
+      "share": 0.005146
     },
     {
       "name": "node_conv2d",
-      "ms": 0.986283,
+      "ms": 0.983586,
       "calls_per_iter": 1.0,
-      "share": 0.004312
-    },
-    {
-      "name": "node_convolution_2",
-      "ms": 0.921975,
-      "calls_per_iter": 1.0,
-      "share": 0.004031
+      "share": 0.004313
     },
     {
       "name": "node_convolution_12",
+      "ms": 0.921395,
+      "calls_per_iter": 1.0,
+      "share": 0.00404
+    },
+    {
+      "name": "node_convolution_2",
       "ms": 0.920747,
       "calls_per_iter": 1.0,
-      "share": 0.004025
+      "share": 0.004037
     },
     {
       "name": "node_conv2d_34",
-      "ms": 0.897126,
+      "ms": 0.896683,
       "calls_per_iter": 1.0,
-      "share": 0.003922
+      "share": 0.003931
     },
     {
       "name": "PWN(node_relu_14)",
-      "ms": 0.876988,
+      "ms": 0.876134,
       "calls_per_iter": 1.0,
-      "share": 0.003834
+      "share": 0.003841
     },
     {
       "name": "node_Conv_10517 + PWN(node_relu_6)",
-      "ms": 0.826846,
+      "ms": 0.817527,
       "calls_per_iter": 1.0,
-      "share": 0.003615
+      "share": 0.003584
     },
     {
       "name": "_gemm_mha_v2_myl44_3",
-      "ms": 0.774246,
+      "ms": 0.772745,
       "calls_per_iter": 1.0,
-      "share": 0.003385
+      "share": 0.003388
     },
     {
       "name": "_gemm_mha_v2_myl44_11",
-      "ms": 0.755712,
+      "ms": 0.75718,
       "calls_per_iter": 1.0,
-      "share": 0.003304
-    },
-    {
-      "name": "_gemm_mha_v2_myl44_105",
-      "ms": 0.75107,
-      "calls_per_iter": 1.0,
-      "share": 0.003283
+      "share": 0.00332
     },
     {
       "name": "_gemm_mha_v2_myl44_97",
-      "ms": 0.750353,
+      "ms": 0.752742,
       "calls_per_iter": 1.0,
-      "share": 0.00328
+      "share": 0.0033
+    },
+    {
+      "name": "_gemm_mha_v2_myl44_105",
+      "ms": 0.75264,
+      "calls_per_iter": 1.0,
+      "share": 0.0033
     },
     {
       "name": "_gemm_mha_v2_myl44_81",
-      "ms": 0.749807,
+      "ms": 0.752196,
       "calls_per_iter": 1.0,
-      "share": 0.003278
-    },
-    {
-      "name": "_gemm_mha_v2_myl44_89",
-      "ms": 0.7495,
-      "calls_per_iter": 1.0,
-      "share": 0.003277
-    },
-    {
-      "name": "_gemm_mha_v2_myl44_321",
-      "ms": 0.748988,
-      "calls_per_iter": 1.0,
-      "share": 0.003274
+      "share": 0.003298
     },
     {
       "name": "_gemm_mha_v2_myl44_73",
-      "ms": 0.748919,
+      "ms": 0.75206,
       "calls_per_iter": 1.0,
-      "share": 0.003274
+      "share": 0.003297
     },
     {
-      "name": "_gemm_mha_v2_myl44_401",
-      "ms": 0.746871,
+      "name": "_gemm_mha_v2_myl44_89",
+      "ms": 0.751957,
       "calls_per_iter": 1.0,
-      "share": 0.003265
+      "share": 0.003297
     },
     {
-      "name": "_gemm_mha_v2_myl44_409",
-      "ms": 0.746598,
+      "name": "_gemm_mha_v2_myl44_321",
+      "ms": 0.751582,
       "calls_per_iter": 1.0,
-      "share": 0.003264
+      "share": 0.003295
     },
     {
       "name": "_gemm_mha_v2_myl44_393",
-      "ms": 0.746189,
+      "ms": 0.744243,
+      "calls_per_iter": 1.0,
+      "share": 0.003263
+    },
+    {
+      "name": "_gemm_mha_v2_myl44_409",
+      "ms": 0.743902,
       "calls_per_iter": 1.0,
       "share": 0.003262
     },
     {
+      "name": "_gemm_mha_v2_myl44_65",
+      "ms": 0.743834,
+      "calls_per_iter": 1.0,
+      "share": 0.003261
+    },
+    {
+      "name": "_gemm_mha_v2_myl44_401",
+      "ms": 0.743731,
+      "calls_per_iter": 1.0,
+      "share": 0.003261
+    },
+    {
       "name": "_gemm_mha_v2_myl44_385",
-      "ms": 0.745745,
+      "ms": 0.743458,
       "calls_per_iter": 1.0,
       "share": 0.00326
     },
     {
       "name": "_gemm_mha_v2_myl44_377",
-      "ms": 0.745506,
+      "ms": 0.743014,
       "calls_per_iter": 1.0,
-      "share": 0.003259
+      "share": 0.003258
     },
     {
       "name": "_gemm_mha_v2_myl44_329",
-      "ms": 0.743117,
+      "ms": 0.740932,
       "calls_per_iter": 1.0,
       "share": 0.003249
     },
     {
       "name": "_gemm_mha_v2_myl44_369",
-      "ms": 0.742366,
-      "calls_per_iter": 1.0,
-      "share": 0.003245
-    },
-    {
-      "name": "_gemm_mha_v2_myl44_65",
-      "ms": 0.741956,
+      "ms": 0.739977,
       "calls_per_iter": 1.0,
       "share": 0.003244
     },
     {
+      "name": "_gemm_mha_v2_myl44_43",
+      "ms": 0.73414,
+      "calls_per_iter": 1.0,
+      "share": 0.003219
+    },
+    {
+      "name": "_gemm_mha_v2_myl44_19",
+      "ms": 0.733559,
+      "calls_per_iter": 1.0,
+      "share": 0.003216
+    },
+    {
       "name": "_gemm_mha_v2_myl44_361",
-      "ms": 0.735539,
+      "ms": 0.733389,
       "calls_per_iter": 1.0,
       "share": 0.003216
     },
     {
       "name": "_gemm_mha_v2_myl44_337",
-      "ms": 0.735437,
+      "ms": 0.73274,
       "calls_per_iter": 1.0,
-      "share": 0.003215
-    },
-    {
-      "name": "_gemm_mha_v2_myl44_19",
-      "ms": 0.731341,
-      "calls_per_iter": 1.0,
-      "share": 0.003197
-    },
-    {
-      "name": "_gemm_mha_v2_myl44_43",
-      "ms": 0.730249,
-      "calls_per_iter": 1.0,
-      "share": 0.003192
+      "share": 0.003213
     },
     {
       "name": "_gemm_mha_v2_myl44_353",
-      "ms": 0.730078,
+      "ms": 0.726699,
       "calls_per_iter": 1.0,
-      "share": 0.003192
+      "share": 0.003186
     },
     {
       "name": "_gemm_mha_v2_myl44_345",
-      "ms": 0.727108,
+      "ms": 0.726118,
       "calls_per_iter": 1.0,
-      "share": 0.003179
+      "share": 0.003184
     },
     {
       "name": "_gemm_mha_v2_myl44_35",
-      "ms": 0.717858,
+      "ms": 0.7225,
       "calls_per_iter": 1.0,
-      "share": 0.003138
+      "share": 0.003168
     },
     {
       "name": "_gemm_mha_v2_myl44_27",
-      "ms": 0.713318,
+      "ms": 0.718677,
       "calls_per_iter": 1.0,
-      "share": 0.003118
+      "share": 0.003151
     },
     {
       "name": "__myl_FcMulAdd_myl44_4",
-      "ms": 0.47558,
+      "ms": 0.473225,
       "calls_per_iter": 1.0,
-      "share": 0.002079
+      "share": 0.002075
     },
     {
       "name": "node_Conv_10516 + PWN(node_relu_2)",
-      "ms": 0.471177,
+      "ms": 0.469367,
       "calls_per_iter": 1.0,
-      "share": 0.00206
+      "share": 0.002058
     },
     {
       "name": "__myl_FcMulAdd_myl44_12",
-      "ms": 0.464179,
+      "ms": 0.462234,
       "calls_per_iter": 1.0,
-      "share": 0.002029
+      "share": 0.002027
     },
     {
-      "name": "__myl_FcMulAdd_myl44_106",
-      "ms": 0.461756,
+      "name": "node_conv2d_23 + node_add_106 + PWN(node_relu_12)",
+      "ms": 0.460493,
       "calls_per_iter": 1.0,
       "share": 0.002019
     },
     {
-      "name": "node_conv2d_23 + node_add_106 + PWN(node_relu_12)",
-      "ms": 0.461312,
+      "name": "__myl_FcMulAdd_myl44_74",
+      "ms": 0.46039,
+      "calls_per_iter": 1.0,
+      "share": 0.002019
+    },
+    {
+      "name": "__myl_FcMulAdd_myl44_98",
+      "ms": 0.460322,
+      "calls_per_iter": 1.0,
+      "share": 0.002018
+    },
+    {
+      "name": "__myl_FcMulAdd_myl44_106",
+      "ms": 0.46022,
+      "calls_per_iter": 1.0,
+      "share": 0.002018
+    },
+    {
+      "name": "__myl_FcMulAdd_myl44_90",
+      "ms": 0.459981,
       "calls_per_iter": 1.0,
       "share": 0.002017
     },
     {
-      "name": "__myl_FcMulAdd_myl44_98",
-      "ms": 0.461141,
-      "calls_per_iter": 1.0,
-      "share": 0.002016
-    },
-    {
-      "name": "__myl_FcMulAdd_myl44_74",
-      "ms": 0.461039,
-      "calls_per_iter": 1.0,
-      "share": 0.002016
-    },
-    {
-      "name": "__myl_FcMulAdd_myl44_90",
-      "ms": 0.461005,
-      "calls_per_iter": 1.0,
-      "share": 0.002015
-    },
-    {
       "name": "__myl_FcMulAdd_myl44_82",
-      "ms": 0.460527,
+      "ms": 0.459708,
       "calls_per_iter": 1.0,
-      "share": 0.002013
+      "share": 0.002016
     },
     {
       "name": "__myl_FcMulAdd_myl44_66",
-      "ms": 0.457216,
+      "ms": 0.456021,
       "calls_per_iter": 1.0,
       "share": 0.001999
     },
     {
       "name": "__myl_FcMulAdd_myl44_44",
-      "ms": 0.450458,
+      "ms": 0.451277,
       "calls_per_iter": 1.0,
-      "share": 0.001969
+      "share": 0.001979
     },
     {
       "name": "__myl_FcMulAdd_myl44_20",
-      "ms": 0.448273,
+      "ms": 0.448068,
       "calls_per_iter": 1.0,
-      "share": 0.00196
+      "share": 0.001965
     },
     {
       "name": "__myl_FcMulAdd_myl44_36",
-      "ms": 0.443665,
+      "ms": 0.443767,
       "calls_per_iter": 1.0,
-      "share": 0.00194
+      "share": 0.001946
     },
     {
       "name": "__myl_FcMulAdd_myl44_28",
-      "ms": 0.439876,
+      "ms": 0.440422,
       "calls_per_iter": 1.0,
-      "share": 0.001923
+      "share": 0.001931
     },
     {
       "name": "node_MatMul_1484_myl44_322",
-      "ms": 0.43776,
+      "ms": 0.436907,
       "calls_per_iter": 1.0,
-      "share": 0.001914
+      "share": 0.001916
     },
     {
-      "name": "node_MatMul_2084_myl44_402",
-      "ms": 0.43619,
+      "name": "node_MatMul_2024_myl44_394",
+      "ms": 0.434893,
       "calls_per_iter": 1.0,
       "share": 0.001907
     },
     {
+      "name": "node_MatMul_2084_myl44_402",
+      "ms": 0.434586,
+      "calls_per_iter": 1.0,
+      "share": 0.001905
+    },
+    {
       "name": "node_MatMul_2144_myl44_410",
-      "ms": 0.435575,
+      "ms": 0.434176,
       "calls_per_iter": 1.0,
       "share": 0.001904
     },
     {
-      "name": "node_MatMul_2024_myl44_394",
-      "ms": 0.435234,
-      "calls_per_iter": 1.0,
-      "share": 0.001903
-    },
-    {
       "name": "node_MatMul_1904_myl44_378",
-      "ms": 0.435166,
+      "ms": 0.433903,
       "calls_per_iter": 1.0,
       "share": 0.001902
     },
     {
       "name": "node_MatMul_1964_myl44_386",
-      "ms": 0.434995,
+      "ms": 0.433596,
       "calls_per_iter": 1.0,
-      "share": 0.001902
+      "share": 0.001901
     },
     {
-      "name": "node_MatMul_1844_myl44_370",
-      "ms": 0.434449,
+      "name": "node_MatMul_1544_myl44_330",
+      "ms": 0.433152,
       "calls_per_iter": 1.0,
       "share": 0.001899
     },
     {
-      "name": "node_MatMul_1544_myl44_330",
-      "ms": 0.433562,
+      "name": "node_MatMul_1844_myl44_370",
+      "ms": 0.43305,
       "calls_per_iter": 1.0,
-      "share": 0.001895
+      "share": 0.001899
     },
     {
       "name": "node_MatMul_1784_myl44_362",
-      "ms": 0.430763,
+      "ms": 0.428749,
       "calls_per_iter": 1.0,
-      "share": 0.001883
+      "share": 0.00188
     },
     {
       "name": "node_MatMul_1604_myl44_338",
-      "ms": 0.428715,
+      "ms": 0.42793,
       "calls_per_iter": 1.0,
-      "share": 0.001874
+      "share": 0.001876
     },
     {
       "name": "node_MatMul_1724_myl44_354",
-      "ms": 0.427486,
+      "ms": 0.425472,
       "calls_per_iter": 1.0,
-      "share": 0.001869
+      "share": 0.001865
     },
     {
       "name": "node_MatMul_1664_myl44_346",
-      "ms": 0.426018,
+      "ms": 0.424243,
       "calls_per_iter": 1.0,
-      "share": 0.001862
+      "share": 0.00186
     },
     {
       "name": "node_conv2d_22 + node_add_104",
-      "ms": 0.414515,
+      "ms": 0.412843,
       "calls_per_iter": 1.0,
-      "share": 0.001812
+      "share": 0.00181
     },
     {
       "name": "node_conv2d_20 + node_add_102",
-      "ms": 0.413082,
+      "ms": 0.412638,
       "calls_per_iter": 1.0,
-      "share": 0.001806
-    },
-    {
-      "name": "node_conv2d_21 + node_relu_9",
-      "ms": 0.412535,
-      "calls_per_iter": 1.0,
-      "share": 0.001803
+      "share": 0.001809
     },
     {
       "name": "node_conv2d_19 + node_relu_7",
-      "ms": 0.409225,
+      "ms": 0.410795,
       "calls_per_iter": 1.0,
-      "share": 0.001789
+      "share": 0.001801
+    },
+    {
+      "name": "node_conv2d_21 + node_relu_9",
+      "ms": 0.40762,
+      "calls_per_iter": 1.0,
+      "share": 0.001787
     },
     {
       "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_2",
       "ms": 0.368435,
       "calls_per_iter": 1.0,
-      "share": 0.001611
-    },
-    {
-      "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_88",
-      "ms": 0.367377,
-      "calls_per_iter": 1.0,
-      "share": 0.001606
-    },
-    {
-      "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_96",
-      "ms": 0.367343,
-      "calls_per_iter": 1.0,
-      "share": 0.001606
-    },
-    {
-      "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_80",
-      "ms": 0.367172,
-      "calls_per_iter": 1.0,
-      "share": 0.001605
-    },
-    {
-      "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_104",
-      "ms": 0.367002,
-      "calls_per_iter": 1.0,
-      "share": 0.001604
-    },
-    {
-      "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_328",
-      "ms": 0.367002,
-      "calls_per_iter": 1.0,
-      "share": 0.001604
+      "share": 0.001615
     },
     {
       "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_42",
-      "ms": 0.366967,
+      "ms": 0.367343,
       "calls_per_iter": 1.0,
-      "share": 0.001604
-    },
-    {
-      "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_320",
-      "ms": 0.366967,
-      "calls_per_iter": 1.0,
-      "share": 0.001604
-    },
-    {
-      "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_336",
-      "ms": 0.366967,
-      "calls_per_iter": 1.0,
-      "share": 0.001604
+      "share": 0.001611
     },
     {
       "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_10",
-      "ms": 0.366865,
+      "ms": 0.367275,
       "calls_per_iter": 1.0,
-      "share": 0.001604
-    },
-    {
-      "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_360",
-      "ms": 0.366865,
-      "calls_per_iter": 1.0,
-      "share": 0.001604
-    },
-    {
-      "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_18",
-      "ms": 0.366831,
-      "calls_per_iter": 1.0,
-      "share": 0.001604
-    },
-    {
-      "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_408",
-      "ms": 0.366831,
-      "calls_per_iter": 1.0,
-      "share": 0.001604
-    },
-    {
-      "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_72",
-      "ms": 0.366797,
-      "calls_per_iter": 1.0,
-      "share": 0.001604
-    },
-    {
-      "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_384",
-      "ms": 0.366797,
-      "calls_per_iter": 1.0,
-      "share": 0.001604
+      "share": 0.00161
     },
     {
       "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_64",
-      "ms": 0.366763,
+      "ms": 0.367138,
       "calls_per_iter": 1.0,
-      "share": 0.001603
+      "share": 0.00161
     },
     {
-      "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_392",
-      "ms": 0.366763,
+      "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_72",
+      "ms": 0.367138,
       "calls_per_iter": 1.0,
-      "share": 0.001603
+      "share": 0.00161
     },
     {
-      "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_26",
-      "ms": 0.366729,
+      "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_328",
+      "ms": 0.36707,
       "calls_per_iter": 1.0,
-      "share": 0.001603
+      "share": 0.001609
+    },
+    {
+      "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_320",
+      "ms": 0.366933,
+      "calls_per_iter": 1.0,
+      "share": 0.001609
+    },
+    {
+      "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_336",
+      "ms": 0.366933,
+      "calls_per_iter": 1.0,
+      "share": 0.001609
     },
     {
       "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_368",
-      "ms": 0.366729,
+      "ms": 0.366933,
       "calls_per_iter": 1.0,
-      "share": 0.001603
+      "share": 0.001609
+    },
+    {
+      "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_18",
+      "ms": 0.366899,
+      "calls_per_iter": 1.0,
+      "share": 0.001609
+    },
+    {
+      "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_80",
+      "ms": 0.366831,
+      "calls_per_iter": 1.0,
+      "share": 0.001608
+    },
+    {
+      "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_88",
+      "ms": 0.366831,
+      "calls_per_iter": 1.0,
+      "share": 0.001608
+    },
+    {
+      "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_104",
+      "ms": 0.366831,
+      "calls_per_iter": 1.0,
+      "share": 0.001608
+    },
+    {
+      "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_96",
+      "ms": 0.366797,
+      "calls_per_iter": 1.0,
+      "share": 0.001608
+    },
+    {
+      "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_392",
+      "ms": 0.366797,
+      "calls_per_iter": 1.0,
+      "share": 0.001608
+    },
+    {
+      "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_26",
+      "ms": 0.366763,
+      "calls_per_iter": 1.0,
+      "share": 0.001608
+    },
+    {
+      "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_34",
+      "ms": 0.366763,
+      "calls_per_iter": 1.0,
+      "share": 0.001608
+    },
+    {
+      "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_384",
+      "ms": 0.366763,
+      "calls_per_iter": 1.0,
+      "share": 0.001608
     },
     {
       "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_376",
-      "ms": 0.366694,
+      "ms": 0.366729,
       "calls_per_iter": 1.0,
-      "share": 0.001603
+      "share": 0.001608
     },
     {
       "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_400",
       "ms": 0.366694,
       "calls_per_iter": 1.0,
-      "share": 0.001603
+      "share": 0.001608
     },
     {
-      "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_34",
-      "ms": 0.36666,
+      "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_408",
+      "ms": 0.366626,
       "calls_per_iter": 1.0,
-      "share": 0.001603
+      "share": 0.001607
+    },
+    {
+      "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_360",
+      "ms": 0.366592,
+      "calls_per_iter": 1.0,
+      "share": 0.001607
     },
     {
       "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_344",
-      "ms": 0.366558,
+      "ms": 0.366455,
       "calls_per_iter": 1.0,
-      "share": 0.001602
+      "share": 0.001607
     },
     {
       "name": "__myl_TranReshTranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_352",
-      "ms": 0.366387,
+      "ms": 0.366455,
       "calls_per_iter": 1.0,
-      "share": 0.001602
+      "share": 0.001607
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMean_myl44_414",
-      "ms": 0.311467,
+      "ms": 0.311637,
       "calls_per_iter": 1.0,
-      "share": 0.001362
+      "share": 0.001366
     },
     {
       "name": "__myl_TranReshConcAddCastMeanSubMulMeanAddSqrtDivMulCastMulAddReshReshTranResh_myl44_0",
-      "ms": 0.29498,
+      "ms": 0.2944,
       "calls_per_iter": 1.0,
-      "share": 0.00129
+      "share": 0.001291
     },
     {
       "name": "node_convolution_1",
-      "ms": 0.249549,
+      "ms": 0.248764,
       "calls_per_iter": 1.0,
       "share": 0.001091
     },
     {
       "name": "node_convolution_11",
-      "ms": 0.248081,
+      "ms": 0.248593,
       "calls_per_iter": 1.0,
-      "share": 0.001085
+      "share": 0.00109
     },
     {
       "name": "node_convolution_4",
       "ms": 0.247091,
       "calls_per_iter": 1.0,
-      "share": 0.00108
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_323",
-      "ms": 0.246579,
-      "calls_per_iter": 1.0,
-      "share": 0.001078
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_347",
-      "ms": 0.246443,
-      "calls_per_iter": 1.0,
-      "share": 0.001077
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_355",
-      "ms": 0.246443,
-      "calls_per_iter": 1.0,
-      "share": 0.001077
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_411",
-      "ms": 0.246409,
-      "calls_per_iter": 1.0,
-      "share": 0.001077
+      "share": 0.001083
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_339",
-      "ms": 0.246374,
+      "ms": 0.246647,
       "calls_per_iter": 1.0,
-      "share": 0.001077
+      "share": 0.001081
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_379",
-      "ms": 0.246374,
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_323",
+      "ms": 0.246613,
       "calls_per_iter": 1.0,
-      "share": 0.001077
+      "share": 0.001081
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_395",
-      "ms": 0.246272,
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_411",
+      "ms": 0.246545,
       "calls_per_iter": 1.0,
-      "share": 0.001077
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_331",
-      "ms": 0.246204,
-      "calls_per_iter": 1.0,
-      "share": 0.001076
+      "share": 0.001081
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_371",
-      "ms": 0.246204,
+      "ms": 0.246443,
       "calls_per_iter": 1.0,
-      "share": 0.001076
+      "share": 0.001081
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_403",
-      "ms": 0.24617,
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_379",
+      "ms": 0.246443,
       "calls_per_iter": 1.0,
-      "share": 0.001076
+      "share": 0.001081
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_363",
-      "ms": 0.246135,
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_355",
+      "ms": 0.246409,
       "calls_per_iter": 1.0,
-      "share": 0.001076
+      "share": 0.00108
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_395",
+      "ms": 0.246374,
+      "calls_per_iter": 1.0,
+      "share": 0.00108
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_387",
-      "ms": 0.246135,
+      "ms": 0.246272,
       "calls_per_iter": 1.0,
-      "share": 0.001076
+      "share": 0.00108
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_403",
+      "ms": 0.246204,
+      "calls_per_iter": 1.0,
+      "share": 0.001079
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_347",
+      "ms": 0.24617,
+      "calls_per_iter": 1.0,
+      "share": 0.001079
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_363",
+      "ms": 0.24617,
+      "calls_per_iter": 1.0,
+      "share": 0.001079
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_331",
+      "ms": 0.246101,
+      "calls_per_iter": 1.0,
+      "share": 0.001079
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_326",
-      "ms": 0.245385,
+      "ms": 0.245248,
+      "calls_per_iter": 1.0,
+      "share": 0.001075
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_342",
+      "ms": 0.244975,
+      "calls_per_iter": 1.0,
+      "share": 0.001074
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_366",
+      "ms": 0.244702,
       "calls_per_iter": 1.0,
       "share": 0.001073
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_342",
-      "ms": 0.245043,
-      "calls_per_iter": 1.0,
-      "share": 0.001071
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_334",
-      "ms": 0.245009,
-      "calls_per_iter": 1.0,
-      "share": 0.001071
-    },
-    {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_398",
-      "ms": 0.244941,
+      "ms": 0.244702,
       "calls_per_iter": 1.0,
-      "share": 0.001071
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_366",
-      "ms": 0.244838,
-      "calls_per_iter": 1.0,
-      "share": 0.00107
+      "share": 0.001073
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_382",
-      "ms": 0.244804,
+      "ms": 0.244668,
       "calls_per_iter": 1.0,
-      "share": 0.00107
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_406",
-      "ms": 0.244736,
-      "calls_per_iter": 1.0,
-      "share": 0.00107
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_358",
-      "ms": 0.244702,
-      "calls_per_iter": 1.0,
-      "share": 0.00107
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_350",
-      "ms": 0.244634,
-      "calls_per_iter": 1.0,
-      "share": 0.001069
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_374",
-      "ms": 0.244599,
-      "calls_per_iter": 1.0,
-      "share": 0.001069
+      "share": 0.001073
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_390",
-      "ms": 0.244599,
+      "ms": 0.244668,
       "calls_per_iter": 1.0,
-      "share": 0.001069
+      "share": 0.001073
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_358",
+      "ms": 0.244565,
+      "calls_per_iter": 1.0,
+      "share": 0.001072
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_374",
+      "ms": 0.244565,
+      "calls_per_iter": 1.0,
+      "share": 0.001072
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_406",
+      "ms": 0.244531,
+      "calls_per_iter": 1.0,
+      "share": 0.001072
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_334",
+      "ms": 0.244497,
+      "calls_per_iter": 1.0,
+      "share": 0.001072
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_350",
+      "ms": 0.244463,
+      "calls_per_iter": 1.0,
+      "share": 0.001072
     },
     {
       "name": "node_conv2d_37 + node_relu_19",
-      "ms": 0.237022,
+      "ms": 0.236817,
       "calls_per_iter": 1.0,
-      "share": 0.001036
+      "share": 0.001038
     },
     {
       "name": "node_upsample_bilinear2d_1",
-      "ms": 0.21175,
+      "ms": 0.222522,
       "calls_per_iter": 1.0,
-      "share": 0.000926
+      "share": 0.000976
     },
     {
       "name": "node_convolution_5",
-      "ms": 0.209886,
+      "ms": 0.210227,
       "calls_per_iter": 1.0,
-      "share": 0.000918
+      "share": 0.000922
     },
     {
       "name": "node_convolution_6",
-      "ms": 0.199031,
+      "ms": 0.199919,
       "calls_per_iter": 1.0,
-      "share": 0.00087
+      "share": 0.000877
     },
     {
       "name": "__myl_AddSqrtDivMulCastMulAddReshTranTranReshSlicReshTranSlicSlicSlic_myl44_415",
-      "ms": 0.187767,
+      "ms": 0.187972,
       "calls_per_iter": 1.0,
-      "share": 0.000821
+      "share": 0.000824
     },
     {
       "name": "node_Conv_10515 + PWN(node_relu)",
-      "ms": 0.176196,
+      "ms": 0.171145,
       "calls_per_iter": 1.0,
-      "share": 0.00077
-    },
-    {
-      "name": "node_conv2d_13 + node_relu_3",
-      "ms": 0.14237,
-      "calls_per_iter": 1.0,
-      "share": 0.000622
+      "share": 0.00075
     },
     {
       "name": "node_conv2d_14 + node_add_99",
-      "ms": 0.14237,
+      "ms": 0.144623,
       "calls_per_iter": 1.0,
-      "share": 0.000622
+      "share": 0.000634
     },
     {
       "name": "node_conv2d_16 + node_add_101",
-      "ms": 0.141653,
+      "ms": 0.142507,
       "calls_per_iter": 1.0,
-      "share": 0.000619
+      "share": 0.000625
+    },
+    {
+      "name": "node_conv2d_13 + node_relu_3",
+      "ms": 0.136499,
+      "calls_per_iter": 1.0,
+      "share": 0.000598
     },
     {
       "name": "node_conv2d_15 + node_relu_5",
-      "ms": 0.134929,
+      "ms": 0.135202,
       "calls_per_iter": 1.0,
-      "share": 0.00059
+      "share": 0.000593
+    },
+    {
+      "name": "cat copy",
+      "ms": 0.132608,
+      "calls_per_iter": 1.0,
+      "share": 0.000581
     },
     {
       "name": "node_conv2d_7",
-      "ms": 0.129434,
+      "ms": 0.12957,
       "calls_per_iter": 1.0,
-      "share": 0.000566
-    },
-    {
-      "name": "node_conv2d_17 + node_add_103 + PWN(node_relu_8)",
-      "ms": 0.128512,
-      "calls_per_iter": 1.0,
-      "share": 0.000562
+      "share": 0.000568
     },
     {
       "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_318",
-      "ms": 0.128,
+      "ms": 0.128819,
       "calls_per_iter": 1.0,
-      "share": 0.00056
+      "share": 0.000565
+    },
+    {
+      "name": "node_conv2d_17 + node_add_103 + PWN(node_relu_8)",
+      "ms": 0.128649,
+      "calls_per_iter": 1.0,
+      "share": 0.000564
     },
     {
       "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_62",
-      "ms": 0.127283,
+      "ms": 0.127966,
+      "calls_per_iter": 1.0,
+      "share": 0.000561
+    },
+    {
+      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_5",
+      "ms": 0.127215,
+      "calls_per_iter": 1.0,
+      "share": 0.000558
+    },
+    {
+      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_13",
+      "ms": 0.126839,
       "calls_per_iter": 1.0,
       "share": 0.000556
     },
     {
-      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_5",
-      "ms": 0.12701,
-      "calls_per_iter": 1.0,
-      "share": 0.000555
-    },
-    {
-      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_13",
-      "ms": 0.126976,
-      "calls_per_iter": 1.0,
-      "share": 0.000555
-    },
-    {
       "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_67",
-      "ms": 0.126839,
+      "ms": 0.126805,
       "calls_per_iter": 1.0,
-      "share": 0.000555
-    },
-    {
-      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_91",
-      "ms": 0.126362,
-      "calls_per_iter": 1.0,
-      "share": 0.000552
-    },
-    {
-      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_99",
-      "ms": 0.126362,
-      "calls_per_iter": 1.0,
-      "share": 0.000552
-    },
-    {
-      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_29",
-      "ms": 0.126225,
-      "calls_per_iter": 1.0,
-      "share": 0.000552
-    },
-    {
-      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_83",
-      "ms": 0.126191,
-      "calls_per_iter": 1.0,
-      "share": 0.000552
-    },
-    {
-      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_45",
-      "ms": 0.126054,
-      "calls_per_iter": 1.0,
-      "share": 0.000551
-    },
-    {
-      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_107",
-      "ms": 0.12602,
-      "calls_per_iter": 1.0,
-      "share": 0.000551
-    },
-    {
-      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_21",
-      "ms": 0.125918,
-      "calls_per_iter": 1.0,
-      "share": 0.00055
-    },
-    {
-      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_70",
-      "ms": 0.125884,
-      "calls_per_iter": 1.0,
-      "share": 0.00055
-    },
-    {
-      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_75",
-      "ms": 0.125884,
-      "calls_per_iter": 1.0,
-      "share": 0.00055
-    },
-    {
-      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_8",
-      "ms": 0.12585,
-      "calls_per_iter": 1.0,
-      "share": 0.00055
+      "share": 0.000556
     },
     {
       "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_37",
-      "ms": 0.125781,
+      "ms": 0.12643,
       "calls_per_iter": 1.0,
-      "share": 0.00055
+      "share": 0.000554
     },
     {
-      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_94",
-      "ms": 0.125781,
+      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_16",
+      "ms": 0.126396,
       "calls_per_iter": 1.0,
-      "share": 0.00055
+      "share": 0.000554
+    },
+    {
+      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_99",
+      "ms": 0.126293,
+      "calls_per_iter": 1.0,
+      "share": 0.000554
+    },
+    {
+      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_91",
+      "ms": 0.126259,
+      "calls_per_iter": 1.0,
+      "share": 0.000554
+    },
+    {
+      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_83",
+      "ms": 0.126225,
+      "calls_per_iter": 1.0,
+      "share": 0.000553
+    },
+    {
+      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_107",
+      "ms": 0.126157,
+      "calls_per_iter": 1.0,
+      "share": 0.000553
+    },
+    {
+      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_75",
+      "ms": 0.126123,
+      "calls_per_iter": 1.0,
+      "share": 0.000553
+    },
+    {
+      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_45",
+      "ms": 0.126089,
+      "calls_per_iter": 1.0,
+      "share": 0.000553
+    },
+    {
+      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_29",
+      "ms": 0.12602,
+      "calls_per_iter": 1.0,
+      "share": 0.000553
+    },
+    {
+      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_78",
+      "ms": 0.12602,
+      "calls_per_iter": 1.0,
+      "share": 0.000553
     },
     {
       "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_102",
+      "ms": 0.12602,
+      "calls_per_iter": 1.0,
+      "share": 0.000553
+    },
+    {
+      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_21",
+      "ms": 0.12585,
+      "calls_per_iter": 1.0,
+      "share": 0.000552
+    },
+    {
+      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_86",
+      "ms": 0.12585,
+      "calls_per_iter": 1.0,
+      "share": 0.000552
+    },
+    {
+      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_8",
+      "ms": 0.125747,
+      "calls_per_iter": 1.0,
+      "share": 0.000551
+    },
+    {
+      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_24",
       "ms": 0.125713,
       "calls_per_iter": 1.0,
-      "share": 0.00055
+      "share": 0.000551
     },
     {
       "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_40",
       "ms": 0.125679,
       "calls_per_iter": 1.0,
-      "share": 0.000549
+      "share": 0.000551
     },
     {
-      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_78",
+      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_70",
       "ms": 0.125679,
       "calls_per_iter": 1.0,
-      "share": 0.000549
+      "share": 0.000551
     },
     {
-      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_86",
-      "ms": 0.125645,
+      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_94",
+      "ms": 0.125679,
       "calls_per_iter": 1.0,
-      "share": 0.000549
-    },
-    {
-      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_16",
-      "ms": 0.125542,
-      "calls_per_iter": 1.0,
-      "share": 0.000549
-    },
-    {
-      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_24",
-      "ms": 0.125542,
-      "calls_per_iter": 1.0,
-      "share": 0.000549
+      "share": 0.000551
     },
     {
       "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_32",
-      "ms": 0.125474,
+      "ms": 0.125508,
       "calls_per_iter": 1.0,
-      "share": 0.000549
-    },
-    {
-      "name": "cat copy",
-      "ms": 0.124109,
-      "calls_per_iter": 1.0,
-      "share": 0.000543
+      "share": 0.00055
     },
     {
       "name": "node_Conv_10510",
-      "ms": 0.122846,
+      "ms": 0.117965,
       "calls_per_iter": 1.0,
-      "share": 0.000537
+      "share": 0.000517
     },
     {
       "name": "node_Conv_10512",
-      "ms": 0.116292,
+      "ms": 0.115337,
       "calls_per_iter": 1.0,
-      "share": 0.000508
+      "share": 0.000506
     },
     {
-      "name": "__myl_Fc_myl44_518",
-      "ms": 0.094959,
+      "name": "__myl_Fc_myl44_178",
+      "ms": 0.093901,
       "calls_per_iter": 1.0,
-      "share": 0.000415
+      "share": 0.000412
     },
     {
-      "name": "__myl_Fc_myl44_494",
-      "ms": 0.094481,
-      "calls_per_iter": 1.0,
-      "share": 0.000413
-    },
-    {
-      "name": "__myl_Fc_myl44_542",
-      "ms": 0.09315,
-      "calls_per_iter": 1.0,
-      "share": 0.000407
-    },
-    {
-      "name": "__myl_Fc_myl44_154",
+      "name": "__myl_Fc_myl44_446",
       "ms": 0.092979,
       "calls_per_iter": 1.0,
-      "share": 0.000406
+      "share": 0.000408
     },
     {
       "name": "__myl_Fc_myl44_266",
       "ms": 0.092877,
       "calls_per_iter": 1.0,
-      "share": 0.000406
+      "share": 0.000407
     },
     {
-      "name": "__myl_Fc_myl44_534",
-      "ms": 0.092774,
+      "name": "__myl_Fc_myl44_290",
+      "ms": 0.092501,
       "calls_per_iter": 1.0,
       "share": 0.000406
     },
     {
-      "name": "__myl_Fc_myl44_614",
-      "ms": 0.092535,
+      "name": "__myl_Fc_myl44_582",
+      "ms": 0.092262,
       "calls_per_iter": 1.0,
       "share": 0.000405
     },
     {
-      "name": "__myl_Fc_myl44_454",
-      "ms": 0.092365,
+      "name": "__myl_ReshTranTranReshSlicReshTranSlic_myl44_110",
+      "ms": 0.091409,
       "calls_per_iter": 1.0,
-      "share": 0.000404
+      "share": 0.000401
     },
     {
-      "name": "__myl_Fc_myl44_290",
-      "ms": 0.091443,
+      "name": "__myl_ReshTranTranReshSlicReshTranSlic_myl44_48",
+      "ms": 0.091238,
       "calls_per_iter": 1.0,
       "share": 0.0004
     },
     {
-      "name": "__myl_ReshTranTranReshSlicReshTranSlic_myl44_48",
-      "ms": 0.09117,
+      "name": "__myl_Fc_myl44_550",
+      "ms": 0.091238,
       "calls_per_iter": 1.0,
-      "share": 0.000399
+      "share": 0.0004
     },
     {
-      "name": "__myl_ReshTranTranReshSlicReshTranSlic_myl44_110",
+      "name": "__myl_Fc_myl44_606",
       "ms": 0.09117,
       "calls_per_iter": 1.0,
-      "share": 0.000399
+      "share": 0.0004
     },
     {
-      "name": "__myl_Fc_myl44_130",
-      "ms": 0.090897,
+      "name": "__myl_Fc_myl44_250",
+      "ms": 0.091102,
       "calls_per_iter": 1.0,
-      "share": 0.000397
+      "share": 0.000399
     },
     {
       "name": "node_MatMul_6993_myl44_291",
-      "ms": 0.090726,
+      "ms": 0.089771,
       "calls_per_iter": 1.0,
-      "share": 0.000397
+      "share": 0.000394
     },
     {
-      "name": "__myl_Fc_myl44_462",
-      "ms": 0.09059,
+      "name": "__myl_Fc_myl44_494",
+      "ms": 0.089771,
       "calls_per_iter": 1.0,
-      "share": 0.000396
+      "share": 0.000394
     },
     {
-      "name": "__myl_Fc_myl44_194",
-      "ms": 0.089975,
+      "name": "node_MatMul_8626_myl44_615",
+      "ms": 0.089566,
       "calls_per_iter": 1.0,
       "share": 0.000393
     },
     {
-      "name": "node_MatMul_7726_myl44_495",
-      "ms": 0.089498,
+      "name": "__myl_Fc_myl44_470",
+      "ms": 0.089088,
       "calls_per_iter": 1.0,
       "share": 0.000391
     },
     {
-      "name": "__myl_Fc_myl44_226",
-      "ms": 0.089429,
-      "calls_per_iter": 1.0,
-      "share": 0.000391
-    },
-    {
-      "name": "__myl_Fc_myl44_274",
+      "name": "__myl_Fc_myl44_202",
       "ms": 0.088644,
+      "calls_per_iter": 1.0,
+      "share": 0.000389
+    },
+    {
+      "name": "node_MatMul_8386_myl44_583",
+      "ms": 0.088439,
       "calls_per_iter": 1.0,
       "share": 0.000388
     },
     {
-      "name": "__myl_Fc_myl44_566",
-      "ms": 0.088542,
+      "name": "node_MatMul_5793_myl44_131",
+      "ms": 0.088405,
+      "calls_per_iter": 1.0,
+      "share": 0.000388
+    },
+    {
+      "name": "node_MatMul_6633_myl44_243",
+      "ms": 0.088303,
       "calls_per_iter": 1.0,
       "share": 0.000387
     },
     {
-      "name": "__myl_Fc_myl44_550",
-      "ms": 0.088337,
-      "calls_per_iter": 1.0,
-      "share": 0.000386
-    },
-    {
-      "name": "__myl_Fc_myl44_510",
-      "ms": 0.088064,
+      "name": "node_MatMul_5913_myl44_147",
+      "ms": 0.087757,
       "calls_per_iter": 1.0,
       "share": 0.000385
     },
     {
-      "name": "node_MatMul_6333_myl44_203",
-      "ms": 0.087996,
+      "name": "__myl_Fc_myl44_298",
+      "ms": 0.087689,
       "calls_per_iter": 1.0,
-      "share": 0.000385
+      "share": 0.000384
     },
     {
-      "name": "__myl_Fc_myl44_146",
-      "ms": 0.087962,
+      "name": "__myl_Fc_myl44_314",
+      "ms": 0.087654,
       "calls_per_iter": 1.0,
-      "share": 0.000385
+      "share": 0.000384
+    },
+    {
+      "name": "node_MatMul_7966_myl44_527",
+      "ms": 0.087177,
+      "calls_per_iter": 1.0,
+      "share": 0.000382
+    },
+    {
+      "name": "node_MatMul_7306_myl44_439",
+      "ms": 0.087006,
+      "calls_per_iter": 1.0,
+      "share": 0.000381
+    },
+    {
+      "name": "node_MatMul_8566_myl44_607",
+      "ms": 0.086972,
+      "calls_per_iter": 1.0,
+      "share": 0.000381
+    },
+    {
+      "name": "__myl_Fc_myl44_558",
+      "ms": 0.086835,
+      "calls_per_iter": 1.0,
+      "share": 0.000381
     },
     {
       "name": "__myl_Fc_myl44_170",
-      "ms": 0.087962,
-      "calls_per_iter": 1.0,
-      "share": 0.000385
-    },
-    {
-      "name": "node_MatMul_7606_myl44_479",
-      "ms": 0.087927,
-      "calls_per_iter": 1.0,
-      "share": 0.000384
-    },
-    {
-      "name": "node_MatMul_7366_myl44_447",
-      "ms": 0.087859,
-      "calls_per_iter": 1.0,
-      "share": 0.000384
-    },
-    {
-      "name": "__myl_Fc_myl44_242",
-      "ms": 0.087757,
-      "calls_per_iter": 1.0,
-      "share": 0.000384
-    },
-    {
-      "name": "__myl_Fc_myl44_598",
-      "ms": 0.086938,
+      "ms": 0.086596,
       "calls_per_iter": 1.0,
       "share": 0.00038
     },
     {
-      "name": "node_MatMul_6573_myl44_235",
-      "ms": 0.086494,
+      "name": "__myl_Fc_myl44_138",
+      "ms": 0.086391,
+      "calls_per_iter": 1.0,
+      "share": 0.000379
+    },
+    {
+      "name": "node_MatMul_6513_myl44_227",
+      "ms": 0.086153,
       "calls_per_iter": 1.0,
       "share": 0.000378
     },
     {
-      "name": "node_MatMul_6273_myl44_195",
-      "ms": 0.086221,
+      "name": "__myl_Fc_myl44_154",
+      "ms": 0.085231,
       "calls_per_iter": 1.0,
-      "share": 0.000377
+      "share": 0.000374
     },
     {
-      "name": "__myl_Fc_myl44_202",
-      "ms": 0.086187,
-      "calls_per_iter": 1.0,
-      "share": 0.000377
-    },
-    {
-      "name": "__myl_Fc_myl44_470",
-      "ms": 0.085982,
-      "calls_per_iter": 1.0,
-      "share": 0.000376
-    },
-    {
-      "name": "node_MatMul_6753_myl44_259",
-      "ms": 0.085879,
-      "calls_per_iter": 1.0,
-      "share": 0.000375
-    },
-    {
-      "name": "__myl_Fc_myl44_526",
-      "ms": 0.085094,
+      "name": "__myl_Fc_myl44_186",
+      "ms": 0.084924,
       "calls_per_iter": 1.0,
       "share": 0.000372
     },
     {
-      "name": "__myl_Fc_myl44_258",
-      "ms": 0.084924,
+      "name": "__myl_Fc_myl44_234",
+      "ms": 0.084855,
+      "calls_per_iter": 1.0,
+      "share": 0.000372
+    },
+    {
+      "name": "node_MatMul_8446_myl44_591",
+      "ms": 0.084821,
+      "calls_per_iter": 1.0,
+      "share": 0.000372
+    },
+    {
+      "name": "__myl_Fc_myl44_130",
+      "ms": 0.084753,
+      "calls_per_iter": 1.0,
+      "share": 0.000372
+    },
+    {
+      "name": "__myl_Fc_myl44_454",
+      "ms": 0.084719,
       "calls_per_iter": 1.0,
       "share": 0.000371
     },
     {
-      "name": "__myl_Fc_myl44_486",
-      "ms": 0.08489,
+      "name": "node_MatMul_8086_myl44_543",
+      "ms": 0.084719,
       "calls_per_iter": 1.0,
       "share": 0.000371
     },
     {
-      "name": "node_MatMul_5913_myl44_147",
+      "name": "__myl_Fc_myl44_194",
       "ms": 0.084685,
       "calls_per_iter": 1.0,
-      "share": 0.00037
+      "share": 0.000371
     },
     {
-      "name": "node_MatMul_6213_myl44_187",
-      "ms": 0.084651,
+      "name": "__myl_Fc_myl44_274",
+      "ms": 0.084685,
+      "calls_per_iter": 1.0,
+      "share": 0.000371
+    },
+    {
+      "name": "__myl_Fc_myl44_478",
+      "ms": 0.084582,
+      "calls_per_iter": 1.0,
+      "share": 0.000371
+    },
+    {
+      "name": "node_MatMul_6033_myl44_163",
+      "ms": 0.084514,
+      "calls_per_iter": 1.0,
+      "share": 0.000371
+    },
+    {
+      "name": "node_MatMul_6693_myl44_251",
+      "ms": 0.08448,
       "calls_per_iter": 1.0,
       "share": 0.00037
     },
     {
-      "name": "node_MatMul_6873_myl44_275",
-      "ms": 0.084617,
-      "calls_per_iter": 1.0,
-      "share": 0.00037
-    },
-    {
-      "name": "__myl_Fc_myl44_178",
-      "ms": 0.084446,
-      "calls_per_iter": 1.0,
-      "share": 0.000369
-    },
-    {
-      "name": "__myl_Fc_myl44_210",
+      "name": "node_MatMul_5853_myl44_139",
       "ms": 0.084412,
       "calls_per_iter": 1.0,
-      "share": 0.000369
-    },
-    {
-      "name": "node_MatMul_6153_myl44_179",
-      "ms": 0.084207,
-      "calls_per_iter": 1.0,
-      "share": 0.000368
+      "share": 0.00037
     },
     {
       "name": "node_MatMul_6393_myl44_211",
+      "ms": 0.084309,
+      "calls_per_iter": 1.0,
+      "share": 0.00037
+    },
+    {
+      "name": "__myl_Fc_myl44_518",
+      "ms": 0.084241,
+      "calls_per_iter": 1.0,
+      "share": 0.000369
+    },
+    {
+      "name": "node_MatMul_8506_myl44_599",
+      "ms": 0.084241,
+      "calls_per_iter": 1.0,
+      "share": 0.000369
+    },
+    {
+      "name": "__myl_SlicSlicSlicSlicSlicSlicSlicSlicConcSlicSlicSlicSlicSlicSlicConcSlicSlicSlicSlicSlicSlicEtc_myl44_431",
+      "ms": 0.084173,
+      "calls_per_iter": 1.0,
+      "share": 0.000369
+    },
+    {
+      "name": "node_MatMul_7486_myl44_463",
+      "ms": 0.084173,
+      "calls_per_iter": 1.0,
+      "share": 0.000369
+    },
+    {
+      "name": "__myl_Fc_myl44_526",
+      "ms": 0.084173,
+      "calls_per_iter": 1.0,
+      "share": 0.000369
+    },
+    {
+      "name": "node_MatMul_6213_myl44_187",
       "ms": 0.084139,
       "calls_per_iter": 1.0,
-      "share": 0.000368
+      "share": 0.000369
     },
     {
-      "name": "node_MatMul_6813_myl44_267",
-      "ms": 0.084139,
-      "calls_per_iter": 1.0,
-      "share": 0.000368
-    },
-    {
-      "name": "node_MatMul_6633_myl44_243",
+      "name": "node_MatMul_6573_myl44_235",
       "ms": 0.084105,
       "calls_per_iter": 1.0,
-      "share": 0.000368
+      "share": 0.000369
     },
     {
-      "name": "node_MatMul_7113_myl44_307",
-      "ms": 0.084105,
-      "calls_per_iter": 1.0,
-      "share": 0.000368
-    },
-    {
-      "name": "node_MatMul_6093_myl44_171",
+      "name": "__myl_Fc_myl44_622",
       "ms": 0.08407,
+      "calls_per_iter": 1.0,
+      "share": 0.000369
+    },
+    {
+      "name": "node_MatMul_8146_myl44_551",
+      "ms": 0.084002,
+      "calls_per_iter": 1.0,
+      "share": 0.000368
+    },
+    {
+      "name": "node_MatMul_6933_myl44_283",
+      "ms": 0.083934,
       "calls_per_iter": 1.0,
       "share": 0.000368
     },
     {
       "name": "node_MatMul_5973_myl44_155",
-      "ms": 0.084036,
+      "ms": 0.0839,
       "calls_per_iter": 1.0,
-      "share": 0.000367
+      "share": 0.000368
     },
     {
-      "name": "__myl_Fc_myl44_478",
-      "ms": 0.084036,
+      "name": "__myl_Fc_myl44_258",
+      "ms": 0.0839,
       "calls_per_iter": 1.0,
-      "share": 0.000367
+      "share": 0.000368
     },
     {
-      "name": "node_MatMul_5793_myl44_131",
-      "ms": 0.084002,
+      "name": "node_MatMul_6153_myl44_179",
+      "ms": 0.083866,
       "calls_per_iter": 1.0,
-      "share": 0.000367
+      "share": 0.000368
     },
     {
-      "name": "node_MatMul_6033_myl44_163",
-      "ms": 0.084002,
-      "calls_per_iter": 1.0,
-      "share": 0.000367
-    },
-    {
-      "name": "__myl_Fc_myl44_314",
-      "ms": 0.084002,
-      "calls_per_iter": 1.0,
-      "share": 0.000367
-    },
-    {
-      "name": "node_MatMul_6513_myl44_227",
-      "ms": 0.083968,
-      "calls_per_iter": 1.0,
-      "share": 0.000367
-    },
-    {
-      "name": "node_MatMul_6693_myl44_251",
-      "ms": 0.083934,
-      "calls_per_iter": 1.0,
-      "share": 0.000367
-    },
-    {
-      "name": "__myl_Fc_myl44_438",
+      "name": "node_MatMul_6873_myl44_275",
       "ms": 0.083831,
       "calls_per_iter": 1.0,
-      "share": 0.000366
+      "share": 0.000368
     },
     {
-      "name": "__myl_Fc_myl44_162",
+      "name": "node_MatMul_7173_myl44_315",
+      "ms": 0.083797,
+      "calls_per_iter": 1.0,
+      "share": 0.000367
+    },
+    {
+      "name": "__myl_Fc_myl44_218",
       "ms": 0.083763,
       "calls_per_iter": 1.0,
-      "share": 0.000366
+      "share": 0.000367
     },
     {
-      "name": "__myl_Fc_myl44_306",
+      "name": "__myl_Fc_myl44_590",
       "ms": 0.083763,
       "calls_per_iter": 1.0,
-      "share": 0.000366
+      "share": 0.000367
     },
     {
-      "name": "node_MatMul_8326_myl44_575",
+      "name": "__myl_Fc_myl44_614",
       "ms": 0.083763,
       "calls_per_iter": 1.0,
-      "share": 0.000366
+      "share": 0.000367
     },
     {
-      "name": "node_MatMul_5853_myl44_139",
+      "name": "node_MatMul_6093_myl44_171",
       "ms": 0.083729,
       "calls_per_iter": 1.0,
-      "share": 0.000366
+      "share": 0.000367
+    },
+    {
+      "name": "__myl_Fc_myl44_462",
+      "ms": 0.083729,
+      "calls_per_iter": 1.0,
+      "share": 0.000367
     },
     {
       "name": "node_MatMul_6453_myl44_219",
-      "ms": 0.083729,
+      "ms": 0.083695,
       "calls_per_iter": 1.0,
-      "share": 0.000366
+      "share": 0.000367
     },
     {
-      "name": "node_MatMul_6933_myl44_283",
-      "ms": 0.083729,
+      "name": "node_MatMul_6753_myl44_259",
+      "ms": 0.083627,
       "calls_per_iter": 1.0,
-      "share": 0.000366
+      "share": 0.000367
     },
     {
       "name": "node_MatMul_7546_myl44_471",
-      "ms": 0.083729,
-      "calls_per_iter": 1.0,
-      "share": 0.000366
-    },
-    {
-      "name": "node_MatMul_8146_myl44_551",
-      "ms": 0.083729,
-      "calls_per_iter": 1.0,
-      "share": 0.000366
-    },
-    {
-      "name": "node_MatMul_7426_myl44_455",
-      "ms": 0.083695,
-      "calls_per_iter": 1.0,
-      "share": 0.000366
-    },
-    {
-      "name": "__myl_Fc_myl44_622",
-      "ms": 0.083661,
-      "calls_per_iter": 1.0,
-      "share": 0.000366
-    },
-    {
-      "name": "node_MatMul_7786_myl44_503",
       "ms": 0.083627,
+      "calls_per_iter": 1.0,
+      "share": 0.000367
+    },
+    {
+      "name": "__myl_Fc_myl44_210",
+      "ms": 0.083593,
+      "calls_per_iter": 1.0,
+      "share": 0.000367
+    },
+    {
+      "name": "__myl_Fc_myl44_226",
+      "ms": 0.083593,
+      "calls_per_iter": 1.0,
+      "share": 0.000367
+    },
+    {
+      "name": "__myl_Fc_myl44_282",
+      "ms": 0.083593,
+      "calls_per_iter": 1.0,
+      "share": 0.000367
+    },
+    {
+      "name": "__myl_Fc_myl44_162",
+      "ms": 0.083558,
+      "calls_per_iter": 1.0,
+      "share": 0.000366
+    },
+    {
+      "name": "node_MatMul_6273_myl44_195",
+      "ms": 0.083558,
+      "calls_per_iter": 1.0,
+      "share": 0.000366
+    },
+    {
+      "name": "node_MatMul_7726_myl44_495",
+      "ms": 0.083524,
+      "calls_per_iter": 1.0,
+      "share": 0.000366
+    },
+    {
+      "name": "node_MatMul_6813_myl44_267",
+      "ms": 0.08349,
+      "calls_per_iter": 1.0,
+      "share": 0.000366
+    },
+    {
+      "name": "node_MatMul_7113_myl44_307",
+      "ms": 0.08349,
+      "calls_per_iter": 1.0,
+      "share": 0.000366
+    },
+    {
+      "name": "__myl_Fc_myl44_486",
+      "ms": 0.08349,
+      "calls_per_iter": 1.0,
+      "share": 0.000366
+    },
+    {
+      "name": "node_MatMul_6333_myl44_203",
+      "ms": 0.083456,
       "calls_per_iter": 1.0,
       "share": 0.000366
     },
     {
       "name": "node_MatMul_7053_myl44_299",
-      "ms": 0.083593,
+      "ms": 0.083456,
       "calls_per_iter": 1.0,
-      "share": 0.000365
+      "share": 0.000366
+    },
+    {
+      "name": "node_MatMul_7786_myl44_503",
+      "ms": 0.083456,
+      "calls_per_iter": 1.0,
+      "share": 0.000366
+    },
+    {
+      "name": "node_MatMul_8326_myl44_575",
+      "ms": 0.083456,
+      "calls_per_iter": 1.0,
+      "share": 0.000366
     },
     {
       "name": "node_MatMul_8266_myl44_567",
-      "ms": 0.083593,
-      "calls_per_iter": 1.0,
-      "share": 0.000365
-    },
-    {
-      "name": "__myl_Fc_myl44_186",
-      "ms": 0.083558,
-      "calls_per_iter": 1.0,
-      "share": 0.000365
-    },
-    {
-      "name": "__myl_Fc_myl44_250",
-      "ms": 0.083558,
-      "calls_per_iter": 1.0,
-      "share": 0.000365
-    },
-    {
-      "name": "node_MatMul_7173_myl44_315",
-      "ms": 0.083524,
-      "calls_per_iter": 1.0,
-      "share": 0.000365
-    },
-    {
-      "name": "node_MatMul_7306_myl44_439",
-      "ms": 0.083524,
-      "calls_per_iter": 1.0,
-      "share": 0.000365
-    },
-    {
-      "name": "node_MatMul_7906_myl44_519",
-      "ms": 0.083524,
-      "calls_per_iter": 1.0,
-      "share": 0.000365
-    },
-    {
-      "name": "__myl_Fc_myl44_234",
-      "ms": 0.08349,
-      "calls_per_iter": 1.0,
-      "share": 0.000365
-    },
-    {
-      "name": "node_MatMul_7666_myl44_487",
-      "ms": 0.08349,
-      "calls_per_iter": 1.0,
-      "share": 0.000365
-    },
-    {
-      "name": "node_MatMul_7486_myl44_463",
-      "ms": 0.083456,
-      "calls_per_iter": 1.0,
-      "share": 0.000365
-    },
-    {
-      "name": "node_MatMul_8086_myl44_543",
-      "ms": 0.083456,
-      "calls_per_iter": 1.0,
-      "share": 0.000365
-    },
-    {
-      "name": "node_MatMul_8386_myl44_583",
-      "ms": 0.083456,
-      "calls_per_iter": 1.0,
-      "share": 0.000365
-    },
-    {
-      "name": "__myl_Fc_myl44_298",
       "ms": 0.083422,
       "calls_per_iter": 1.0,
-      "share": 0.000365
+      "share": 0.000366
     },
     {
-      "name": "__myl_Fc_myl44_590",
-      "ms": 0.083422,
+      "name": "__myl_Fc_myl44_146",
+      "ms": 0.083319,
       "calls_per_iter": 1.0,
       "share": 0.000365
     },
     {
-      "name": "node_MatMul_8626_myl44_615",
-      "ms": 0.083388,
+      "name": "__myl_Fc_myl44_242",
+      "ms": 0.083319,
       "calls_per_iter": 1.0,
       "share": 0.000365
     },
     {
-      "name": "node_MatMul_7966_myl44_527",
-      "ms": 0.083354,
+      "name": "__myl_Fc_myl44_306",
+      "ms": 0.083319,
       "calls_per_iter": 1.0,
-      "share": 0.000364
+      "share": 0.000365
+    },
+    {
+      "name": "node_MatMul_7366_myl44_447",
+      "ms": 0.083319,
+      "calls_per_iter": 1.0,
+      "share": 0.000365
     },
     {
       "name": "node_MatMul_8026_myl44_535",
       "ms": 0.083319,
       "calls_per_iter": 1.0,
-      "share": 0.000364
+      "share": 0.000365
     },
     {
-      "name": "__myl_Fc_myl44_218",
+      "name": "node_MatMul_7426_myl44_455",
       "ms": 0.083285,
       "calls_per_iter": 1.0,
-      "share": 0.000364
+      "share": 0.000365
     },
     {
-      "name": "__myl_Fc_myl44_446",
+      "name": "node_MatMul_7666_myl44_487",
       "ms": 0.083285,
       "calls_per_iter": 1.0,
-      "share": 0.000364
-    },
-    {
-      "name": "__myl_Fc_myl44_502",
-      "ms": 0.083285,
-      "calls_per_iter": 1.0,
-      "share": 0.000364
-    },
-    {
-      "name": "__myl_Fc_myl44_558",
-      "ms": 0.083285,
-      "calls_per_iter": 1.0,
-      "share": 0.000364
-    },
-    {
-      "name": "node_MatMul_8506_myl44_599",
-      "ms": 0.083285,
-      "calls_per_iter": 1.0,
-      "share": 0.000364
-    },
-    {
-      "name": "__myl_Fc_myl44_138",
-      "ms": 0.083251,
-      "calls_per_iter": 1.0,
-      "share": 0.000364
-    },
-    {
-      "name": "node_MatMul_7846_myl44_511",
-      "ms": 0.083251,
-      "calls_per_iter": 1.0,
-      "share": 0.000364
-    },
-    {
-      "name": "__myl_Fc_myl44_582",
-      "ms": 0.083217,
-      "calls_per_iter": 1.0,
-      "share": 0.000364
+      "share": 0.000365
     },
     {
       "name": "node_MatMul_8206_myl44_559",
-      "ms": 0.083183,
+      "ms": 0.083285,
       "calls_per_iter": 1.0,
-      "share": 0.000364
+      "share": 0.000365
     },
     {
-      "name": "node_MatMul_8446_myl44_591",
-      "ms": 0.083183,
+      "name": "node_MatMul_7606_myl44_479",
+      "ms": 0.083251,
       "calls_per_iter": 1.0,
-      "share": 0.000364
+      "share": 0.000365
     },
     {
-      "name": "node_MatMul_8566_myl44_607",
+      "name": "node_MatMul_7906_myl44_519",
+      "ms": 0.083251,
+      "calls_per_iter": 1.0,
+      "share": 0.000365
+    },
+    {
+      "name": "node_MatMul_8686_myl44_623",
+      "ms": 0.083183,
+      "calls_per_iter": 1.0,
+      "share": 0.000365
+    },
+    {
+      "name": "__myl_Fc_myl44_534",
       "ms": 0.083149,
+      "calls_per_iter": 1.0,
+      "share": 0.000365
+    },
+    {
+      "name": "__myl_Fc_myl44_510",
+      "ms": 0.083046,
       "calls_per_iter": 1.0,
       "share": 0.000364
     },
     {
       "name": "__myl_Fc_myl44_574",
-      "ms": 0.083115,
+      "ms": 0.082978,
       "calls_per_iter": 1.0,
-      "share": 0.000363
+      "share": 0.000364
     },
     {
-      "name": "node_MatMul_8686_myl44_623",
-      "ms": 0.083081,
+      "name": "__myl_Fc_myl44_542",
+      "ms": 0.082944,
       "calls_per_iter": 1.0,
-      "share": 0.000363
+      "share": 0.000364
     },
     {
-      "name": "__myl_Fc_myl44_606",
+      "name": "node_MatMul_7846_myl44_511",
       "ms": 0.082876,
       "calls_per_iter": 1.0,
+      "share": 0.000363
+    },
+    {
+      "name": "__myl_Fc_myl44_438",
+      "ms": 0.082671,
+      "calls_per_iter": 1.0,
       "share": 0.000362
     },
     {
-      "name": "__myl_Fc_myl44_282",
-      "ms": 0.082705,
+      "name": "__myl_Fc_myl44_502",
+      "ms": 0.082637,
       "calls_per_iter": 1.0,
       "share": 0.000362
+    },
+    {
+      "name": "__myl_Fc_myl44_598",
+      "ms": 0.082637,
+      "calls_per_iter": 1.0,
+      "share": 0.000362
+    },
+    {
+      "name": "__myl_Fc_myl44_566",
+      "ms": 0.082295,
+      "calls_per_iter": 1.0,
+      "share": 0.000361
     },
     {
       "name": "node_Conv_10511",
-      "ms": 0.076834,
-      "calls_per_iter": 1.0,
-      "share": 0.000336
-    },
-    {
-      "name": "node_convolution_7",
-      "ms": 0.076595,
+      "ms": 0.076356,
       "calls_per_iter": 1.0,
       "share": 0.000335
     },
     {
-      "name": "node_convolution",
-      "ms": 0.076254,
+      "name": "node_Conv_10513",
+      "ms": 0.076049,
       "calls_per_iter": 1.0,
       "share": 0.000333
     },
     {
-      "name": "node_convolution_8",
-      "ms": 0.075571,
+      "name": "node_convolution",
+      "ms": 0.075537,
       "calls_per_iter": 1.0,
-      "share": 0.00033
+      "share": 0.000331
+    },
+    {
+      "name": "node_convolution_8",
+      "ms": 0.075537,
+      "calls_per_iter": 1.0,
+      "share": 0.000331
     },
     {
       "name": "node_convolution_3",
-      "ms": 0.07523,
-      "calls_per_iter": 1.0,
-      "share": 0.000329
-    },
-    {
-      "name": "node_convolution_10",
-      "ms": 0.074786,
+      "ms": 0.074547,
       "calls_per_iter": 1.0,
       "share": 0.000327
     },
     {
-      "name": "node_Conv_10513",
-      "ms": 0.074172,
+      "name": "node_convolution_10",
+      "ms": 0.074411,
       "calls_per_iter": 1.0,
-      "share": 0.000324
+      "share": 0.000326
     },
     {
-      "name": "__myl_SlicSlicSlicSlicSlicSlicSlicSlicConcSlicSlicSlicSlicSlicSlicConcSlicSlicSlicSlicSlicSlicEtc_myl44_431",
-      "ms": 0.070963,
+      "name": "node_convolution_7",
+      "ms": 0.073762,
       "calls_per_iter": 1.0,
-      "share": 0.00031
+      "share": 0.000323
     },
     {
-      "name": "_gemm_mha_v2_myl44_127",
-      "ms": 0.06953,
+      "name": "node_MatMul_5735_myl44_125",
+      "ms": 0.067925,
       "calls_per_iter": 1.0,
-      "share": 0.000304
+      "share": 0.000298
     },
     {
       "name": "__myl_Slic_myl44_113",
-      "ms": 0.066867,
+      "ms": 0.064546,
       "calls_per_iter": 1.0,
-      "share": 0.000292
+      "share": 0.000283
     },
     {
-      "name": "_gemm_mha_v2_myl44_507",
-      "ms": 0.061542,
+      "name": "__myl_SlicSlicSlicSlicSlicSlicSlicSlicConcSlicSlicSlicSlicSlicSlicConcSlicSlicSlicSlicSlicSlicEtc_myl44_123",
+      "ms": 0.06144,
       "calls_per_iter": 1.0,
       "share": 0.000269
     },
     {
-      "name": "__myl_SlicSlicSlicSlicSlicSlicSlicSlicConcSlicSlicSlicSlicSlicSlicConcSlicSlicSlicSlicSlicSlicEtc_myl44_123",
-      "ms": 0.060143,
+      "name": "_gemm_mha_v2_myl44_127",
+      "ms": 0.060928,
       "calls_per_iter": 1.0,
-      "share": 0.000263
+      "share": 0.000267
     },
     {
       "name": "__myl_SlicSlicSlicSlicSlicSlicSlicSlicConcSlicSlicSlicSlicSlicSlicConcSlicSlicSlicSlicSlicSlicEtc_myl44_61",
       "ms": 0.060109,
       "calls_per_iter": 1.0,
-      "share": 0.000263
-    },
-    {
-      "name": "__myl_Slic_myl44_419",
-      "ms": 0.059938,
-      "calls_per_iter": 1.0,
-      "share": 0.000262
-    },
-    {
-      "name": "__myl_Slic_myl44_51",
-      "ms": 0.059699,
-      "calls_per_iter": 1.0,
-      "share": 0.000261
+      "share": 0.000264
     },
     {
       "name": "node_upsample_bilinear2d",
-      "ms": 0.059153,
+      "ms": 0.058846,
       "calls_per_iter": 1.0,
-      "share": 0.000259
+      "share": 0.000258
     },
     {
-      "name": "node_slice_62",
-      "ms": 0.058505,
+      "name": "__myl_Slic_myl44_423",
+      "ms": 0.058368,
       "calls_per_iter": 1.0,
       "share": 0.000256
     },
     {
-      "name": "node_MatMul_5735_myl44_125",
-      "ms": 0.058231,
+      "name": "__myl_Slic_myl44_51",
+      "ms": 0.057549,
       "calls_per_iter": 1.0,
-      "share": 0.000255
+      "share": 0.000252
     },
     {
-      "name": "_gemm_mha_v2_myl44_459",
-      "ms": 0.057958,
+      "name": "node_MatMul_5795_myl44_133",
+      "ms": 0.057515,
       "calls_per_iter": 1.0,
-      "share": 0.000253
+      "share": 0.000252
     },
     {
-      "name": "node_MatMul_6575_myl44_237",
-      "ms": 0.057856,
-      "calls_per_iter": 1.0,
-      "share": 0.000253
-    },
-    {
-      "name": "node_MatMul_7728_myl44_497",
-      "ms": 0.057412,
+      "name": "node_MatMul_6035_myl44_165",
+      "ms": 0.057276,
       "calls_per_iter": 1.0,
       "share": 0.000251
     },
     {
-      "name": "node_MatMul_6215_myl44_189",
+      "name": "node_MatMul_7368_myl44_449",
       "ms": 0.057276,
       "calls_per_iter": 1.0,
-      "share": 0.00025
-    },
-    {
-      "name": "node_MatMul_8328_myl44_577",
-      "ms": 0.057139,
-      "calls_per_iter": 1.0,
-      "share": 0.00025
-    },
-    {
-      "name": "node_MatMul_8448_myl44_593",
-      "ms": 0.057139,
-      "calls_per_iter": 1.0,
-      "share": 0.00025
-    },
-    {
-      "name": "node_MatMul_7368_myl44_449",
-      "ms": 0.057105,
-      "calls_per_iter": 1.0,
-      "share": 0.00025
-    },
-    {
-      "name": "node_MatMul_6035_myl44_165",
-      "ms": 0.057037,
-      "calls_per_iter": 1.0,
-      "share": 0.000249
-    },
-    {
-      "name": "node_MatMul_6155_myl44_181",
-      "ms": 0.057037,
-      "calls_per_iter": 1.0,
-      "share": 0.000249
-    },
-    {
-      "name": "node_MatMul_8088_myl44_545",
-      "ms": 0.057037,
-      "calls_per_iter": 1.0,
-      "share": 0.000249
-    },
-    {
-      "name": "node_MatMul_8568_myl44_609",
-      "ms": 0.057037,
-      "calls_per_iter": 1.0,
-      "share": 0.000249
-    },
-    {
-      "name": "node_MatMul_7608_myl44_481",
-      "ms": 0.057003,
-      "calls_per_iter": 1.0,
-      "share": 0.000249
+      "share": 0.000251
     },
     {
       "name": "node_MatMul_6275_myl44_197",
-      "ms": 0.056969,
+      "ms": 0.057207,
       "calls_per_iter": 1.0,
-      "share": 0.000249
+      "share": 0.000251
+    },
+    {
+      "name": "node_MatMul_7115_myl44_309",
+      "ms": 0.057071,
+      "calls_per_iter": 1.0,
+      "share": 0.00025
+    },
+    {
+      "name": "node_MatMul_7488_myl44_465",
+      "ms": 0.056934,
+      "calls_per_iter": 1.0,
+      "share": 0.00025
+    },
+    {
+      "name": "node_MatMul_7608_myl44_481",
+      "ms": 0.056934,
+      "calls_per_iter": 1.0,
+      "share": 0.00025
     },
     {
       "name": "node_MatMul_5915_myl44_149",
@@ -2235,787 +2192,853 @@
       "share": 0.000249
     },
     {
-      "name": "node_MatMul_7848_myl44_513",
-      "ms": 0.0569,
-      "calls_per_iter": 1.0,
-      "share": 0.000249
-    },
-    {
-      "name": "node_MatMul_7115_myl44_309",
-      "ms": 0.056866,
-      "calls_per_iter": 1.0,
-      "share": 0.000249
-    },
-    {
-      "name": "node_MatMul_7488_myl44_465",
+      "name": "node_MatMul_8088_myl44_545",
       "ms": 0.056832,
       "calls_per_iter": 1.0,
-      "share": 0.000248
+      "share": 0.000249
     },
     {
-      "name": "node_MatMul_5795_myl44_133",
+      "name": "node_MatMul_6515_myl44_229",
+      "ms": 0.056798,
+      "calls_per_iter": 1.0,
+      "share": 0.000249
+    },
+    {
+      "name": "node_MatMul_6695_myl44_253",
+      "ms": 0.056798,
+      "calls_per_iter": 1.0,
+      "share": 0.000249
+    },
+    {
+      "name": "node_MatMul_6875_myl44_277",
+      "ms": 0.056798,
+      "calls_per_iter": 1.0,
+      "share": 0.000249
+    },
+    {
+      "name": "node_MatMul_6215_myl44_189",
+      "ms": 0.056764,
+      "calls_per_iter": 1.0,
+      "share": 0.000249
+    },
+    {
+      "name": "node_MatMul_7848_myl44_513",
+      "ms": 0.056764,
+      "calls_per_iter": 1.0,
+      "share": 0.000249
+    },
+    {
+      "name": "node_MatMul_6095_myl44_173",
       "ms": 0.056695,
       "calls_per_iter": 1.0,
-      "share": 0.000248
+      "share": 0.000249
+    },
+    {
+      "name": "node_MatMul_6155_myl44_181",
+      "ms": 0.056695,
+      "calls_per_iter": 1.0,
+      "share": 0.000249
+    },
+    {
+      "name": "node_MatMul_7248_myl44_433",
+      "ms": 0.056695,
+      "calls_per_iter": 1.0,
+      "share": 0.000249
     },
     {
       "name": "node_MatMul_7968_myl44_529",
       "ms": 0.056695,
       "calls_per_iter": 1.0,
-      "share": 0.000248
+      "share": 0.000249
     },
     {
-      "name": "node_MatMul_8208_myl44_561",
+      "name": "node_MatMul_5855_myl44_141",
       "ms": 0.056661,
       "calls_per_iter": 1.0,
       "share": 0.000248
     },
     {
-      "name": "node_MatMul_6635_myl44_245",
-      "ms": 0.056627,
+      "name": "node_MatMul_7055_myl44_301",
+      "ms": 0.056661,
+      "calls_per_iter": 1.0,
+      "share": 0.000248
+    },
+    {
+      "name": "node_MatMul_8568_myl44_609",
+      "ms": 0.056661,
       "calls_per_iter": 1.0,
       "share": 0.000248
     },
     {
       "name": "node_MatMul_6755_myl44_261",
-      "ms": 0.056593,
+      "ms": 0.056559,
+      "calls_per_iter": 1.0,
+      "share": 0.000248
+    },
+    {
+      "name": "node_MatMul_6995_myl44_293",
+      "ms": 0.056559,
+      "calls_per_iter": 1.0,
+      "share": 0.000248
+    },
+    {
+      "name": "node_MatMul_6575_myl44_237",
+      "ms": 0.056525,
+      "calls_per_iter": 1.0,
+      "share": 0.000248
+    },
+    {
+      "name": "node_MatMul_6335_myl44_205",
+      "ms": 0.056491,
+      "calls_per_iter": 1.0,
+      "share": 0.000248
+    },
+    {
+      "name": "node_MatMul_6815_myl44_269",
+      "ms": 0.056491,
+      "calls_per_iter": 1.0,
+      "share": 0.000248
+    },
+    {
+      "name": "node_MatMul_7788_myl44_505",
+      "ms": 0.056491,
+      "calls_per_iter": 1.0,
+      "share": 0.000248
+    },
+    {
+      "name": "node_MatMul_6635_myl44_245",
+      "ms": 0.056457,
+      "calls_per_iter": 1.0,
+      "share": 0.000248
+    },
+    {
+      "name": "node_MatMul_5975_myl44_157",
+      "ms": 0.056388,
       "calls_per_iter": 1.0,
       "share": 0.000247
     },
     {
-      "name": "node_MatMul_6875_myl44_277",
-      "ms": 0.056593,
+      "name": "node_MatMul_7728_myl44_497",
+      "ms": 0.056388,
+      "calls_per_iter": 1.0,
+      "share": 0.000247
+    },
+    {
+      "name": "node_MatMul_8448_myl44_593",
+      "ms": 0.056388,
       "calls_per_iter": 1.0,
       "share": 0.000247
     },
     {
       "name": "node_MatMul_6395_myl44_213",
-      "ms": 0.056525,
-      "calls_per_iter": 1.0,
-      "share": 0.000247
-    },
-    {
-      "name": "node_MatMul_7055_myl44_301",
-      "ms": 0.056491,
+      "ms": 0.05632,
       "calls_per_iter": 1.0,
       "share": 0.000247
     },
     {
       "name": "node_MatMul_8628_myl44_617",
-      "ms": 0.056491,
-      "calls_per_iter": 1.0,
-      "share": 0.000247
-    },
-    {
-      "name": "node_MatMul_6695_myl44_253",
-      "ms": 0.056457,
-      "calls_per_iter": 1.0,
-      "share": 0.000247
-    },
-    {
-      "name": "node_MatMul_6995_myl44_293",
-      "ms": 0.056457,
-      "calls_per_iter": 1.0,
-      "share": 0.000247
-    },
-    {
-      "name": "node_MatMul_7248_myl44_433",
-      "ms": 0.056422,
-      "calls_per_iter": 1.0,
-      "share": 0.000247
-    },
-    {
-      "name": "node_MatMul_5855_myl44_141",
       "ms": 0.05632,
+      "calls_per_iter": 1.0,
+      "share": 0.000247
+    },
+    {
+      "name": "node_MatMul_6935_myl44_285",
+      "ms": 0.056218,
       "calls_per_iter": 1.0,
       "share": 0.000246
     },
     {
-      "name": "node_MatMul_6515_myl44_229",
-      "ms": 0.05632,
-      "calls_per_iter": 1.0,
-      "share": 0.000246
-    },
-    {
-      "name": "node_MatMul_6455_myl44_221",
+      "name": "_gemm_mha_v2_myl44_435",
       "ms": 0.056183,
       "calls_per_iter": 1.0,
       "share": 0.000246
     },
     {
-      "name": "node_MatMul_6095_myl44_173",
+      "name": "node_MatMul_7668_myl44_489",
       "ms": 0.056149,
       "calls_per_iter": 1.0,
-      "share": 0.000245
+      "share": 0.000246
     },
     {
-      "name": "node_MatMul_6335_myl44_205",
-      "ms": 0.056149,
-      "calls_per_iter": 1.0,
-      "share": 0.000245
-    },
-    {
-      "name": "__myl_Slic_myl44_121",
+      "name": "node_MatMul_7908_myl44_521",
       "ms": 0.056115,
       "calls_per_iter": 1.0,
-      "share": 0.000245
+      "share": 0.000246
     },
     {
-      "name": "node_MatMul_6935_myl44_285",
+      "name": "node_MatMul_6455_myl44_221",
       "ms": 0.056081,
       "calls_per_iter": 1.0,
-      "share": 0.000245
+      "share": 0.000246
+    },
+    {
+      "name": "node_MatMul_8508_myl44_601",
+      "ms": 0.056081,
+      "calls_per_iter": 1.0,
+      "share": 0.000246
+    },
+    {
+      "name": "node_MatMul_8028_myl44_537",
+      "ms": 0.056047,
+      "calls_per_iter": 1.0,
+      "share": 0.000246
+    },
+    {
+      "name": "node_MatMul_8208_myl44_561",
+      "ms": 0.056047,
+      "calls_per_iter": 1.0,
+      "share": 0.000246
+    },
+    {
+      "name": "node_MatMul_8328_myl44_577",
+      "ms": 0.056013,
+      "calls_per_iter": 1.0,
+      "share": 0.000246
+    },
+    {
+      "name": "node_conv2d_10 + node_add_98",
+      "ms": 0.056013,
+      "calls_per_iter": 1.0,
+      "share": 0.000246
     },
     {
       "name": "node_MatMul_7308_myl44_441",
-      "ms": 0.055979,
-      "calls_per_iter": 1.0,
-      "share": 0.000245
-    },
-    {
-      "name": "node_MatMul_7668_myl44_489",
-      "ms": 0.055979,
-      "calls_per_iter": 1.0,
-      "share": 0.000245
-    },
-    {
-      "name": "_gemm_mha_v2_myl44_435",
       "ms": 0.055945,
       "calls_per_iter": 1.0,
       "share": 0.000245
     },
     {
-      "name": "node_MatMul_6815_myl44_269",
+      "name": "node_MatMul_7428_myl44_457",
       "ms": 0.05591,
       "calls_per_iter": 1.0,
-      "share": 0.000244
+      "share": 0.000245
     },
     {
-      "name": "node_MatMul_7788_myl44_505",
-      "ms": 0.055808,
+      "name": "node_MatMul_8268_myl44_569",
+      "ms": 0.05591,
       "calls_per_iter": 1.0,
-      "share": 0.000244
+      "share": 0.000245
+    },
+    {
+      "name": "node_MatMul_8148_myl44_553",
+      "ms": 0.055876,
+      "calls_per_iter": 1.0,
+      "share": 0.000245
     },
     {
       "name": "node_MatMul_8388_myl44_585",
-      "ms": 0.055808,
+      "ms": 0.055842,
+      "calls_per_iter": 1.0,
+      "share": 0.000245
+    },
+    {
+      "name": "__myl_Slic_myl44_419",
+      "ms": 0.055706,
       "calls_per_iter": 1.0,
       "share": 0.000244
     },
     {
-      "name": "node_MatMul_8508_myl44_601",
-      "ms": 0.055808,
-      "calls_per_iter": 1.0,
-      "share": 0.000244
-    },
-    {
-      "name": "node_MatMul_7428_myl44_457",
-      "ms": 0.055774,
-      "calls_per_iter": 1.0,
-      "share": 0.000244
-    },
-    {
-      "name": "node_MatMul_8028_myl44_537",
-      "ms": 0.055671,
-      "calls_per_iter": 1.0,
-      "share": 0.000243
-    },
-    {
-      "name": "node_MatMul_5975_myl44_157",
-      "ms": 0.055637,
+      "name": "_gemm_mha_v2_myl44_143",
+      "ms": 0.055501,
       "calls_per_iter": 1.0,
       "share": 0.000243
     },
     {
       "name": "node_MatMul_7548_myl44_473",
-      "ms": 0.055637,
-      "calls_per_iter": 1.0,
-      "share": 0.000243
-    },
-    {
-      "name": "node_MatMul_8268_myl44_569",
-      "ms": 0.055637,
-      "calls_per_iter": 1.0,
-      "share": 0.000243
-    },
-    {
-      "name": "node_MatMul_7908_myl44_521",
-      "ms": 0.055603,
-      "calls_per_iter": 1.0,
-      "share": 0.000243
-    },
-    {
-      "name": "node_MatMul_8148_myl44_553",
-      "ms": 0.055433,
+      "ms": 0.055262,
       "calls_per_iter": 1.0,
       "share": 0.000242
     },
     {
       "name": "node_conv2d_11 + node_add_100 + PWN(node_relu_4)",
-      "ms": 0.054955,
+      "ms": 0.055023,
+      "calls_per_iter": 1.0,
+      "share": 0.000241
+    },
+    {
+      "name": "node_conv2d_38",
+      "ms": 0.054852,
       "calls_per_iter": 1.0,
       "share": 0.00024
     },
     {
-      "name": "node_conv2d_10 + node_add_98",
-      "ms": 0.054579,
-      "calls_per_iter": 1.0,
-      "share": 0.000239
-    },
-    {
-      "name": "_gemm_mha_v2_myl44_563",
-      "ms": 0.054204,
-      "calls_per_iter": 1.0,
-      "share": 0.000237
-    },
-    {
-      "name": "_gemm_mha_v2_myl44_491",
-      "ms": 0.053862,
-      "calls_per_iter": 1.0,
-      "share": 0.000235
-    },
-    {
-      "name": "_gemm_mha_v2_myl44_587",
-      "ms": 0.053623,
+      "name": "_gemm_mha_v2_myl44_215",
+      "ms": 0.053316,
       "calls_per_iter": 1.0,
       "share": 0.000234
     },
     {
-      "name": "_gemm_mha_v2_myl44_547",
-      "ms": 0.052463,
-      "calls_per_iter": 1.0,
-      "share": 0.000229
-    },
-    {
-      "name": "_gemm_mha_v2_myl44_443",
-      "ms": 0.051849,
+      "name": "_gemm_mha_v2_myl44_223",
+      "ms": 0.051712,
       "calls_per_iter": 1.0,
       "share": 0.000227
     },
     {
-      "name": "node_conv2d_38",
-      "ms": 0.051746,
+      "name": "__myl_Slic_myl44_117",
+      "ms": 0.051575,
       "calls_per_iter": 1.0,
       "share": 0.000226
     },
     {
-      "name": "_gemm_mha_v2_myl44_483",
-      "ms": 0.051234,
+      "name": "node_conv2d_9 + node_relu_1",
+      "ms": 0.051029,
       "calls_per_iter": 1.0,
       "share": 0.000224
     },
     {
       "name": "node_conv2d_1",
-      "ms": 0.050927,
+      "ms": 0.050381,
       "calls_per_iter": 1.0,
-      "share": 0.000223
+      "share": 0.000221
     },
     {
-      "name": "__myl_Slic_myl44_117",
-      "ms": 0.050893,
-      "calls_per_iter": 1.0,
-      "share": 0.000222
-    },
-    {
-      "name": "_gemm_mha_v2_myl44_579",
-      "ms": 0.050347,
-      "calls_per_iter": 1.0,
-      "share": 0.00022
-    },
-    {
-      "name": "_gemm_mha_v2_myl44_231",
+      "name": "_gemm_mha_v2_myl44_255",
       "ms": 0.050313,
       "calls_per_iter": 1.0,
+      "share": 0.000221
+    },
+    {
+      "name": "__myl_Slic_myl44_59",
+      "ms": 0.050244,
+      "calls_per_iter": 1.0,
       "share": 0.00022
     },
     {
-      "name": "_gemm_mha_v2_myl44_159",
-      "ms": 0.050005,
+      "name": "__myl_Slic_myl44_121",
+      "ms": 0.049903,
       "calls_per_iter": 1.0,
       "share": 0.000219
     },
     {
-      "name": "node_conv2d_9 + node_relu_1",
-      "ms": 0.049971,
+      "name": "_gemm_mha_v2_myl44_247",
+      "ms": 0.049766,
       "calls_per_iter": 1.0,
       "share": 0.000218
     },
     {
-      "name": "_gemm_mha_v2_myl44_555",
-      "ms": 0.049186,
+      "name": "_gemm_mha_v2_myl44_135",
+      "ms": 0.049698,
       "calls_per_iter": 1.0,
-      "share": 0.000215
+      "share": 0.000218
     },
     {
-      "name": "__myl_Slic_myl44_423",
-      "ms": 0.048879,
-      "calls_per_iter": 1.0,
-      "share": 0.000214
-    },
-    {
-      "name": "_gemm_mha_v2_myl44_451",
-      "ms": 0.048674,
-      "calls_per_iter": 1.0,
-      "share": 0.000213
-    },
-    {
-      "name": "_gemm_mha_v2_myl44_303",
-      "ms": 0.048367,
+      "name": "_gemm_mha_v2_myl44_183",
+      "ms": 0.048094,
       "calls_per_iter": 1.0,
       "share": 0.000211
     },
     {
-      "name": "_gemm_mha_v2_myl44_531",
-      "ms": 0.04806,
-      "calls_per_iter": 1.0,
-      "share": 0.00021
-    },
-    {
-      "name": "_gemm_mha_v2_myl44_167",
-      "ms": 0.048026,
-      "calls_per_iter": 1.0,
-      "share": 0.00021
-    },
-    {
-      "name": "_gemm_mha_v2_myl44_247",
-      "ms": 0.048026,
-      "calls_per_iter": 1.0,
-      "share": 0.00021
-    },
-    {
-      "name": "_gemm_mha_v2_myl44_539",
-      "ms": 0.048026,
-      "calls_per_iter": 1.0,
-      "share": 0.00021
-    },
-    {
-      "name": "_gemm_mha_v2_myl44_207",
-      "ms": 0.047991,
-      "calls_per_iter": 1.0,
-      "share": 0.00021
-    },
-    {
       "name": "cat_1 copy",
-      "ms": 0.047241,
+      "ms": 0.047343,
+      "calls_per_iter": 1.0,
+      "share": 0.000208
+    },
+    {
+      "name": "node_slice_60",
+      "ms": 0.047172,
       "calls_per_iter": 1.0,
       "share": 0.000207
     },
     {
-      "name": "__myl_Slic_myl44_55",
-      "ms": 0.047138,
+      "name": "__myl_Slic_myl44_427",
+      "ms": 0.04707,
       "calls_per_iter": 1.0,
       "share": 0.000206
     },
     {
-      "name": "Reformatting CopyNode for Output Tensor 0 to node_conv2d_42",
+      "name": "_gemm_mha_v2_myl44_151",
       "ms": 0.046524,
       "calls_per_iter": 1.0,
-      "share": 0.000203
+      "share": 0.000204
     },
     {
-      "name": "_gemm_mha_v2_myl44_467",
-      "ms": 0.046353,
+      "name": "_gemm_mha_v2_myl44_311",
+      "ms": 0.046524,
       "calls_per_iter": 1.0,
-      "share": 0.000203
+      "share": 0.000204
     },
     {
-      "name": "_gemm_mha_v2_myl44_499",
-      "ms": 0.046148,
-      "calls_per_iter": 1.0,
-      "share": 0.000202
-    },
-    {
-      "name": "_gemm_mha_v2_myl44_183",
-      "ms": 0.046012,
+      "name": "_gemm_mha_v2_myl44_619",
+      "ms": 0.045841,
       "calls_per_iter": 1.0,
       "share": 0.000201
     },
     {
-      "name": "_gemm_mha_v2_myl44_515",
-      "ms": 0.045124,
+      "name": "_gemm_mha_v2_myl44_587",
+      "ms": 0.045568,
       "calls_per_iter": 1.0,
-      "share": 0.000197
+      "share": 0.0002
     },
     {
-      "name": "_gemm_mha_v2_myl44_611",
-      "ms": 0.044954,
+      "name": "_gemm_mha_v2_myl44_271",
+      "ms": 0.045466,
       "calls_per_iter": 1.0,
-      "share": 0.000197
+      "share": 0.000199
     },
     {
-      "name": "_gemm_mha_v2_myl44_595",
-      "ms": 0.044851,
+      "name": "_gemm_mha_v2_myl44_287",
+      "ms": 0.045193,
       "calls_per_iter": 1.0,
-      "share": 0.000196
-    },
-    {
-      "name": "node_slice_6",
-      "ms": 0.044783,
-      "calls_per_iter": 1.0,
-      "share": 0.000196
+      "share": 0.000198
     },
     {
       "name": "_gemm_mha_v2_myl44_191",
+      "ms": 0.045158,
+      "calls_per_iter": 1.0,
+      "share": 0.000198
+    },
+    {
+      "name": "_gemm_mha_v2_myl44_231",
+      "ms": 0.044919,
+      "calls_per_iter": 1.0,
+      "share": 0.000197
+    },
+    {
+      "name": "__myl_Slic_myl44_55",
+      "ms": 0.044749,
+      "calls_per_iter": 1.0,
+      "share": 0.000196
+    },
+    {
+      "name": "node_slice_4",
       "ms": 0.044715,
+      "calls_per_iter": 1.0,
+      "share": 0.000196
+    },
+    {
+      "name": "_gemm_mha_v2_myl44_443",
+      "ms": 0.044578,
+      "calls_per_iter": 1.0,
+      "share": 0.000195
+    },
+    {
+      "name": "_gemm_mha_v2_myl44_279",
+      "ms": 0.044476,
       "calls_per_iter": 1.0,
       "share": 0.000195
     },
     {
       "name": "_gemm_mha_v2_myl44_199",
-      "ms": 0.044442,
-      "calls_per_iter": 1.0,
-      "share": 0.000194
-    },
-    {
-      "name": "_gemm_mha_v2_myl44_151",
       "ms": 0.044407,
       "calls_per_iter": 1.0,
+      "share": 0.000195
+    },
+    {
+      "name": "_gemm_mha_v2_myl44_263",
+      "ms": 0.044203,
+      "calls_per_iter": 1.0,
       "share": 0.000194
     },
     {
-      "name": "_gemm_mha_v2_myl44_619",
-      "ms": 0.044134,
+      "name": "_gemm_mha_v2_myl44_159",
+      "ms": 0.0441,
       "calls_per_iter": 1.0,
       "share": 0.000193
     },
     {
+      "name": "_gemm_mha_v2_myl44_303",
+      "ms": 0.043486,
+      "calls_per_iter": 1.0,
+      "share": 0.000191
+    },
+    {
+      "name": "_gemm_mha_v2_myl44_207",
+      "ms": 0.043452,
+      "calls_per_iter": 1.0,
+      "share": 0.000191
+    },
+    {
+      "name": "_gemm_mha_v2_myl44_491",
+      "ms": 0.043452,
+      "calls_per_iter": 1.0,
+      "share": 0.000191
+    },
+    {
       "name": "_gemm_mha_v2_myl44_475",
-      "ms": 0.043895,
+      "ms": 0.043247,
       "calls_per_iter": 1.0,
-      "share": 0.000192
+      "share": 0.00019
     },
     {
-      "name": "_gemm_mha_v2_myl44_263",
-      "ms": 0.043759,
-      "calls_per_iter": 1.0,
-      "share": 0.000191
-    },
-    {
-      "name": "_gemm_mha_v2_myl44_523",
-      "ms": 0.043588,
-      "calls_per_iter": 1.0,
-      "share": 0.000191
-    },
-    {
-      "name": "_gemm_mha_v2_myl44_215",
-      "ms": 0.043145,
+      "name": "_gemm_mha_v2_myl44_499",
+      "ms": 0.043213,
       "calls_per_iter": 1.0,
       "share": 0.000189
     },
     {
-      "name": "_gemm_mha_v2_myl44_143",
-      "ms": 0.042598,
+      "name": "_gemm_mha_v2_myl44_555",
+      "ms": 0.04311,
       "calls_per_iter": 1.0,
-      "share": 0.000186
+      "share": 0.000189
     },
     {
-      "name": "_gemm_mha_v2_myl44_223",
-      "ms": 0.042359,
+      "name": "_gemm_mha_v2_myl44_175",
+      "ms": 0.042906,
+      "calls_per_iter": 1.0,
+      "share": 0.000188
+    },
+    {
+      "name": "_gemm_mha_v2_myl44_167",
+      "ms": 0.042837,
+      "calls_per_iter": 1.0,
+      "share": 0.000188
+    },
+    {
+      "name": "_gemm_mha_v2_myl44_571",
+      "ms": 0.042701,
+      "calls_per_iter": 1.0,
+      "share": 0.000187
+    },
+    {
+      "name": "_gemm_mha_v2_myl44_611",
+      "ms": 0.042155,
       "calls_per_iter": 1.0,
       "share": 0.000185
     },
     {
-      "name": "_gemm_mha_v2_myl44_255",
-      "ms": 0.041711,
+      "name": "_gemm_mha_v2_myl44_603",
+      "ms": 0.041677,
+      "calls_per_iter": 1.0,
+      "share": 0.000183
+    },
+    {
+      "name": "_gemm_mha_v2_myl44_459",
+      "ms": 0.041574,
       "calls_per_iter": 1.0,
       "share": 0.000182
     },
     {
-      "name": "_gemm_mha_v2_myl44_135",
+      "name": "_gemm_mha_v2_myl44_239",
       "ms": 0.041438,
+      "calls_per_iter": 1.0,
+      "share": 0.000182
+    },
+    {
+      "name": "_gemm_mha_v2_myl44_523",
+      "ms": 0.041438,
+      "calls_per_iter": 1.0,
+      "share": 0.000182
+    },
+    {
+      "name": "_gemm_mha_v2_myl44_563",
+      "ms": 0.041335,
       "calls_per_iter": 1.0,
       "share": 0.000181
     },
     {
-      "name": "_gemm_mha_v2_myl44_571",
-      "ms": 0.040858,
+      "name": "_gemm_mha_v2_myl44_295",
+      "ms": 0.041199,
+      "calls_per_iter": 1.0,
+      "share": 0.000181
+    },
+    {
+      "name": "_gemm_mha_v2_myl44_531",
+      "ms": 0.040892,
       "calls_per_iter": 1.0,
       "share": 0.000179
     },
     {
-      "name": "_gemm_mha_v2_myl44_271",
-      "ms": 0.04055,
+      "name": "_gemm_mha_v2_myl44_507",
+      "ms": 0.040687,
+      "calls_per_iter": 1.0,
+      "share": 0.000178
+    },
+    {
+      "name": "_gemm_mha_v2_myl44_539",
+      "ms": 0.04038,
       "calls_per_iter": 1.0,
       "share": 0.000177
     },
     {
-      "name": "_gemm_mha_v2_myl44_239",
-      "ms": 0.039868,
+      "name": "_gemm_mha_v2_myl44_467",
+      "ms": 0.040277,
+      "calls_per_iter": 1.0,
+      "share": 0.000177
+    },
+    {
+      "name": "_gemm_mha_v2_myl44_595",
+      "ms": 0.039765,
       "calls_per_iter": 1.0,
       "share": 0.000174
     },
     {
-      "name": "_gemm_mha_v2_myl44_175",
-      "ms": 0.039799,
+      "name": "_gemm_mha_v2_myl44_451",
+      "ms": 0.039697,
       "calls_per_iter": 1.0,
       "share": 0.000174
     },
     {
-      "name": "_gemm_mha_v2_myl44_287",
-      "ms": 0.039151,
+      "name": "_gemm_mha_v2_myl44_483",
+      "ms": 0.038946,
       "calls_per_iter": 1.0,
       "share": 0.000171
     },
     {
-      "name": "_gemm_mha_v2_myl44_603",
-      "ms": 0.039049,
-      "calls_per_iter": 1.0,
-      "share": 0.000171
-    },
-    {
-      "name": "_gemm_mha_v2_myl44_279",
-      "ms": 0.039014,
-      "calls_per_iter": 1.0,
-      "share": 0.000171
-    },
-    {
-      "name": "node_slice_18",
+      "name": "_gemm_mha_v2_myl44_547",
       "ms": 0.038741,
       "calls_per_iter": 1.0,
-      "share": 0.000169
+      "share": 0.00017
     },
     {
-      "name": "__myl_Slic_myl44_59",
-      "ms": 0.038537,
+      "name": "Reformatting CopyNode for Output Tensor 0 to node_conv2d_42",
+      "ms": 0.037888,
       "calls_per_iter": 1.0,
-      "share": 0.000168
+      "share": 0.000166
     },
     {
-      "name": "_gemm_mha_v2_myl44_311",
-      "ms": 0.037854,
-      "calls_per_iter": 1.0,
-      "share": 0.000165
-    },
-    {
-      "name": "_gemm_mha_v2_myl44_295",
-      "ms": 0.037615,
+      "name": "_gemm_mha_v2_myl44_579",
+      "ms": 0.03741,
       "calls_per_iter": 1.0,
       "share": 0.000164
     },
     {
-      "name": "node_slice_30",
-      "ms": 0.037103,
+      "name": "_gemm_mha_v2_myl44_515",
+      "ms": 0.037308,
       "calls_per_iter": 1.0,
-      "share": 0.000162
+      "share": 0.000164
+    },
+    {
+      "name": "node_slice_40",
+      "ms": 0.035226,
+      "calls_per_iter": 1.0,
+      "share": 0.000154
     },
     {
       "name": "Reformatting CopyNode for Output Tensor 0 to node_conv2d_37 + node_relu_19",
-      "ms": 0.03543,
+      "ms": 0.035021,
       "calls_per_iter": 1.0,
-      "share": 0.000155
+      "share": 0.000154
     },
     {
-      "name": "__myl_Slic_myl44_427",
-      "ms": 0.033655,
+      "name": "__myl_FcMulAdd_myl44_572",
+      "ms": 0.034441,
+      "calls_per_iter": 1.0,
+      "share": 0.000151
+    },
+    {
+      "name": "node_slice_16",
+      "ms": 0.033929,
+      "calls_per_iter": 1.0,
+      "share": 0.000149
+    },
+    {
+      "name": "node_slice_28",
+      "ms": 0.033485,
       "calls_per_iter": 1.0,
       "share": 0.000147
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_517",
-      "ms": 0.033212,
+      "name": "__myl_FcMulAdd_myl44_176",
+      "ms": 0.032666,
       "calls_per_iter": 1.0,
-      "share": 0.000145
+      "share": 0.000143
     },
     {
-      "name": "node_slice_54",
-      "ms": 0.032563,
+      "name": "__myl_FcMulAdd_myl44_232",
+      "ms": 0.032461,
       "calls_per_iter": 1.0,
       "share": 0.000142
-    },
-    {
-      "name": "__myl_FcMulAdd_myl44_452",
-      "ms": 0.032529,
-      "calls_per_iter": 1.0,
-      "share": 0.000142
-    },
-    {
-      "name": "__myl_FcMulAdd_myl44_612",
-      "ms": 0.032324,
-      "calls_per_iter": 1.0,
-      "share": 0.000141
-    },
-    {
-      "name": "__myl_FcMulAdd_myl44_500",
-      "ms": 0.032256,
-      "calls_per_iter": 1.0,
-      "share": 0.000141
-    },
-    {
-      "name": "__myl_FcMulAdd_myl44_208",
-      "ms": 0.032222,
-      "calls_per_iter": 1.0,
-      "share": 0.000141
     },
     {
       "name": "__myl_FcMulAdd_myl44_620",
+      "ms": 0.032427,
+      "calls_per_iter": 1.0,
+      "share": 0.000142
+    },
+    {
+      "name": "__myl_FcMulAdd_myl44_168",
+      "ms": 0.032324,
+      "calls_per_iter": 1.0,
+      "share": 0.000142
+    },
+    {
+      "name": "__myl_FcMulAdd_myl44_296",
+      "ms": 0.032324,
+      "calls_per_iter": 1.0,
+      "share": 0.000142
+    },
+    {
+      "name": "__myl_FcMulAdd_myl44_216",
       "ms": 0.032222,
       "calls_per_iter": 1.0,
       "share": 0.000141
     },
     {
-      "name": "__myl_FcMulAdd_myl44_240",
+      "name": "__myl_FcMulAdd_myl44_436",
+      "ms": 0.032222,
+      "calls_per_iter": 1.0,
+      "share": 0.000141
+    },
+    {
+      "name": "__myl_FcMulAdd_myl44_272",
       "ms": 0.032188,
       "calls_per_iter": 1.0,
       "share": 0.000141
     },
     {
-      "name": "__myl_FcMulAdd_myl44_128",
+      "name": "__myl_FcMulAdd_myl44_304",
       "ms": 0.032154,
       "calls_per_iter": 1.0,
       "share": 0.000141
     },
     {
-      "name": "__myl_FcMulAdd_myl44_580",
+      "name": "__myl_FcMulAdd_myl44_208",
       "ms": 0.032119,
       "calls_per_iter": 1.0,
-      "share": 0.00014
+      "share": 0.000141
+    },
+    {
+      "name": "__myl_FcMulAdd_myl44_484",
+      "ms": 0.032119,
+      "calls_per_iter": 1.0,
+      "share": 0.000141
     },
     {
       "name": "__myl_FcMulAdd_myl44_604",
-      "ms": 0.032119,
+      "ms": 0.032085,
+      "calls_per_iter": 1.0,
+      "share": 0.000141
+    },
+    {
+      "name": "__myl_FcMulAdd_myl44_144",
+      "ms": 0.032051,
+      "calls_per_iter": 1.0,
+      "share": 0.000141
+    },
+    {
+      "name": "__myl_FcMulAdd_myl44_192",
+      "ms": 0.032017,
       "calls_per_iter": 1.0,
       "share": 0.00014
     },
     {
-      "name": "__myl_FcMulAdd_myl44_256",
-      "ms": 0.032085,
+      "name": "__myl_FcMulAdd_myl44_288",
+      "ms": 0.032017,
       "calls_per_iter": 1.0,
       "share": 0.00014
     },
     {
       "name": "__myl_FcMulAdd_myl44_160",
-      "ms": 0.032051,
-      "calls_per_iter": 1.0,
-      "share": 0.00014
-    },
-    {
-      "name": "__myl_FcMulAdd_myl44_232",
-      "ms": 0.032051,
-      "calls_per_iter": 1.0,
-      "share": 0.00014
-    },
-    {
-      "name": "__myl_FcMulAdd_myl44_596",
-      "ms": 0.032051,
-      "calls_per_iter": 1.0,
-      "share": 0.00014
-    },
-    {
-      "name": "__myl_FcMulAdd_myl44_168",
-      "ms": 0.032017,
-      "calls_per_iter": 1.0,
-      "share": 0.00014
-    },
-    {
-      "name": "__myl_FcMulAdd_myl44_280",
-      "ms": 0.032017,
-      "calls_per_iter": 1.0,
-      "share": 0.00014
-    },
-    {
-      "name": "__myl_FcMulAdd_myl44_312",
-      "ms": 0.032017,
-      "calls_per_iter": 1.0,
-      "share": 0.00014
-    },
-    {
-      "name": "__myl_FcMulAdd_myl44_224",
       "ms": 0.031983,
       "calls_per_iter": 1.0,
       "share": 0.00014
     },
     {
-      "name": "__myl_FcMulAdd_myl44_532",
+      "name": "__myl_FcMulAdd_myl44_240",
       "ms": 0.031983,
       "calls_per_iter": 1.0,
       "share": 0.00014
     },
     {
-      "name": "__myl_FcMulAdd_myl44_444",
-      "ms": 0.031949,
+      "name": "__myl_FcMulAdd_myl44_468",
+      "ms": 0.031983,
       "calls_per_iter": 1.0,
       "share": 0.00014
     },
     {
-      "name": "__myl_FcMulAdd_myl44_484",
-      "ms": 0.031949,
-      "calls_per_iter": 1.0,
-      "share": 0.00014
-    },
-    {
-      "name": "__myl_FcMulAdd_myl44_548",
-      "ms": 0.031949,
-      "calls_per_iter": 1.0,
-      "share": 0.00014
-    },
-    {
-      "name": "__myl_FcMulAdd_myl44_176",
+      "name": "__myl_FcMulAdd_myl44_136",
       "ms": 0.031915,
       "calls_per_iter": 1.0,
       "share": 0.00014
     },
     {
-      "name": "__myl_FcMulAdd_myl44_144",
-      "ms": 0.031881,
+      "name": "__myl_FcMulAdd_myl44_224",
+      "ms": 0.031915,
       "calls_per_iter": 1.0,
-      "share": 0.000139
+      "share": 0.00014
     },
     {
-      "name": "__myl_FcMulAdd_myl44_288",
-      "ms": 0.031881,
+      "name": "__myl_FcMulAdd_myl44_256",
+      "ms": 0.031915,
       "calls_per_iter": 1.0,
-      "share": 0.000139
+      "share": 0.00014
     },
     {
-      "name": "__myl_FcMulAdd_myl44_296",
-      "ms": 0.031846,
+      "name": "__myl_FcMulAdd_myl44_264",
+      "ms": 0.031915,
       "calls_per_iter": 1.0,
-      "share": 0.000139
+      "share": 0.00014
+    },
+    {
+      "name": "__myl_FcMulAdd_myl44_524",
+      "ms": 0.031915,
+      "calls_per_iter": 1.0,
+      "share": 0.00014
+    },
+    {
+      "name": "__myl_FcMulAdd_myl44_540",
+      "ms": 0.031915,
+      "calls_per_iter": 1.0,
+      "share": 0.00014
+    },
+    {
+      "name": "__myl_FcMulAdd_myl44_312",
+      "ms": 0.031881,
+      "calls_per_iter": 1.0,
+      "share": 0.00014
+    },
+    {
+      "name": "__myl_FcMulAdd_myl44_556",
+      "ms": 0.031881,
+      "calls_per_iter": 1.0,
+      "share": 0.00014
     },
     {
       "name": "__myl_FcMulAdd_myl44_152",
+      "ms": 0.031846,
+      "calls_per_iter": 1.0,
+      "share": 0.00014
+    },
+    {
+      "name": "__myl_FcMulAdd_myl44_248",
+      "ms": 0.031846,
+      "calls_per_iter": 1.0,
+      "share": 0.00014
+    },
+    {
+      "name": "__myl_FcMulAdd_myl44_280",
+      "ms": 0.031846,
+      "calls_per_iter": 1.0,
+      "share": 0.00014
+    },
+    {
+      "name": "__myl_FcMulAdd_myl44_476",
       "ms": 0.031812,
       "calls_per_iter": 1.0,
       "share": 0.000139
     },
     {
-      "name": "__myl_FcMulAdd_myl44_436",
+      "name": "__myl_FcMulAdd_myl44_548",
       "ms": 0.031812,
       "calls_per_iter": 1.0,
       "share": 0.000139
     },
     {
-      "name": "__myl_FcMulAdd_myl44_192",
+      "name": "__myl_FcMulAdd_myl44_128",
       "ms": 0.031778,
-      "calls_per_iter": 1.0,
-      "share": 0.000139
-    },
-    {
-      "name": "__myl_FcMulAdd_myl44_304",
-      "ms": 0.031778,
-      "calls_per_iter": 1.0,
-      "share": 0.000139
-    },
-    {
-      "name": "__myl_FcMulAdd_myl44_136",
-      "ms": 0.031744,
       "calls_per_iter": 1.0,
       "share": 0.000139
     },
     {
       "name": "__myl_FcMulAdd_myl44_184",
-      "ms": 0.031744,
+      "ms": 0.031778,
       "calls_per_iter": 1.0,
       "share": 0.000139
     },
     {
-      "name": "__myl_FcMulAdd_myl44_216",
-      "ms": 0.031744,
+      "name": "__myl_FcMulAdd_myl44_492",
+      "ms": 0.031778,
       "calls_per_iter": 1.0,
       "share": 0.000139
     },
     {
-      "name": "__myl_FcMulAdd_myl44_272",
+      "name": "__myl_FcMulAdd_myl44_580",
+      "ms": 0.031778,
+      "calls_per_iter": 1.0,
+      "share": 0.000139
+    },
+    {
+      "name": "__myl_FcMulAdd_myl44_200",
       "ms": 0.031744,
       "calls_per_iter": 1.0,
       "share": 0.000139
@@ -3027,104 +3050,74 @@
       "share": 0.000139
     },
     {
-      "name": "__myl_FcMulAdd_myl44_200",
-      "ms": 0.03171,
+      "name": "__myl_FcMulAdd_myl44_532",
+      "ms": 0.031744,
       "calls_per_iter": 1.0,
       "share": 0.000139
-    },
-    {
-      "name": "__myl_FcMulAdd_myl44_264",
-      "ms": 0.03171,
-      "calls_per_iter": 1.0,
-      "share": 0.000139
-    },
-    {
-      "name": "__myl_FcMulAdd_myl44_460",
-      "ms": 0.03171,
-      "calls_per_iter": 1.0,
-      "share": 0.000139
-    },
-    {
-      "name": "__myl_FcMulAdd_myl44_564",
-      "ms": 0.031642,
-      "calls_per_iter": 1.0,
-      "share": 0.000138
     },
     {
       "name": "__myl_FcMulAdd_myl44_516",
-      "ms": 0.031573,
+      "ms": 0.03171,
       "calls_per_iter": 1.0,
-      "share": 0.000138
+      "share": 0.000139
     },
     {
-      "name": "__myl_FcMulAdd_myl44_540",
-      "ms": 0.031573,
+      "name": "__myl_FcMulAdd_myl44_444",
+      "ms": 0.031676,
       "calls_per_iter": 1.0,
-      "share": 0.000138
+      "share": 0.000139
     },
     {
-      "name": "__myl_FcMulAdd_myl44_556",
-      "ms": 0.031573,
+      "name": "__myl_FcMulAdd_myl44_452",
+      "ms": 0.031676,
       "calls_per_iter": 1.0,
-      "share": 0.000138
+      "share": 0.000139
     },
     {
-      "name": "__myl_FcMulAdd_myl44_468",
+      "name": "__myl_FcMulAdd_myl44_500",
+      "ms": 0.031642,
+      "calls_per_iter": 1.0,
+      "share": 0.000139
+    },
+    {
+      "name": "__myl_FcMulAdd_myl44_588",
       "ms": 0.031539,
       "calls_per_iter": 1.0,
       "share": 0.000138
     },
     {
-      "name": "__myl_FcMulAdd_myl44_476",
+      "name": "__myl_FcMulAdd_myl44_596",
       "ms": 0.031539,
       "calls_per_iter": 1.0,
       "share": 0.000138
     },
     {
-      "name": "__myl_FcMulAdd_myl44_492",
+      "name": "__myl_FcMulAdd_myl44_612",
       "ms": 0.031539,
       "calls_per_iter": 1.0,
       "share": 0.000138
     },
     {
-      "name": "__myl_FcMulAdd_myl44_572",
-      "ms": 0.031539,
+      "name": "__myl_FcMulAdd_myl44_460",
+      "ms": 0.031471,
+      "calls_per_iter": 1.0,
+      "share": 0.000138
+    },
+    {
+      "name": "__myl_FcMulAdd_myl44_564",
+      "ms": 0.031471,
       "calls_per_iter": 1.0,
       "share": 0.000138
     },
     {
       "name": "node_convolution_9",
-      "ms": 0.031539,
-      "calls_per_iter": 1.0,
-      "share": 0.000138
-    },
-    {
-      "name": "__myl_FcMulAdd_myl44_248",
-      "ms": 0.031505,
-      "calls_per_iter": 1.0,
-      "share": 0.000138
-    },
-    {
-      "name": "__myl_FcMulAdd_myl44_588",
-      "ms": 0.031369,
-      "calls_per_iter": 1.0,
-      "share": 0.000137
-    },
-    {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_525",
       "ms": 0.031334,
       "calls_per_iter": 1.0,
       "share": 0.000137
     },
     {
-      "name": "__myl_FcMulAdd_myl44_524",
-      "ms": 0.0313,
-      "calls_per_iter": 1.0,
-      "share": 0.000137
-    },
-    {
-      "name": "__myl_Slic_myl44_426",
-      "ms": 0.030481,
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_565",
+      "ms": 0.030447,
       "calls_per_iter": 1.0,
       "share": 0.000133
     },
@@ -3132,484 +3125,460 @@
       "name": "node_Conv_10514",
       "ms": 0.030003,
       "calls_per_iter": 1.0,
-      "share": 0.000131
+      "share": 0.000132
     },
     {
-      "name": "node_slice_42",
-      "ms": 0.02857,
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_453",
+      "ms": 0.029013,
       "calls_per_iter": 1.0,
-      "share": 0.000125
+      "share": 0.000127
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_485",
-      "ms": 0.027477,
+      "name": "__myl_Slic_myl44_52",
+      "ms": 0.026692,
       "calls_per_iter": 1.0,
-      "share": 0.00012
+      "share": 0.000117
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_249",
-      "ms": 0.026965,
+      "name": "__myl_Slic_myl44_60",
+      "ms": 0.025634,
       "calls_per_iter": 1.0,
-      "share": 0.000118
+      "share": 0.000112
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_225",
-      "ms": 0.026283,
-      "calls_per_iter": 1.0,
-      "share": 0.000115
-    },
-    {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_201",
-      "ms": 0.025327,
-      "calls_per_iter": 1.0,
-      "share": 0.000111
-    },
-    {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_501",
-      "ms": 0.025259,
+      "name": "__myl_Slic_myl44_56",
+      "ms": 0.025156,
       "calls_per_iter": 1.0,
       "share": 0.00011
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_217",
-      "ms": 0.02502,
-      "calls_per_iter": 1.0,
-      "share": 0.000109
-    },
-    {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_541",
-      "ms": 0.02502,
-      "calls_per_iter": 1.0,
-      "share": 0.000109
-    },
-    {
-      "name": "__myl_Slic_myl44_430",
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_257",
       "ms": 0.024747,
       "calls_per_iter": 1.0,
-      "share": 0.000108
+      "share": 0.000109
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_573",
-      "ms": 0.024713,
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_549",
+      "ms": 0.024474,
       "calls_per_iter": 1.0,
-      "share": 0.000108
+      "share": 0.000107
     },
     {
-      "name": "__myl_Slic_myl44_52",
-      "ms": 0.024337,
-      "calls_per_iter": 1.0,
-      "share": 0.000106
-    },
-    {
-      "name": "node_slice_46",
-      "ms": 0.024235,
+      "name": "node_slice_62",
+      "ms": 0.024132,
       "calls_per_iter": 1.0,
       "share": 0.000106
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_565",
-      "ms": 0.024064,
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_461",
+      "ms": 0.023927,
       "calls_per_iter": 1.0,
       "share": 0.000105
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_469",
+      "name": "node_slice_42",
       "ms": 0.023893,
       "calls_per_iter": 1.0,
-      "share": 0.000104
+      "share": 0.000105
     },
     {
-      "name": "node_slice_28",
-      "ms": 0.023825,
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_581",
+      "ms": 0.023757,
       "calls_per_iter": 1.0,
       "share": 0.000104
     },
     {
-      "name": "__myl_Slic_myl44_56",
-      "ms": 0.023245,
+      "name": "node_slice_6",
+      "ms": 0.023313,
       "calls_per_iter": 1.0,
       "share": 0.000102
     },
     {
-      "name": "node_slice_34",
-      "ms": 0.02304,
+      "name": "node_slice_18",
+      "ms": 0.022733,
       "calls_per_iter": 1.0,
-      "share": 0.000101
+      "share": 0.0001
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_557",
-      "ms": 0.02304,
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_501",
+      "ms": 0.022733,
       "calls_per_iter": 1.0,
-      "share": 0.000101
+      "share": 0.0001
     },
     {
-      "name": "node_slice_48",
-      "ms": 0.02263,
+      "name": "node_slice_30",
+      "ms": 0.022426,
       "calls_per_iter": 1.0,
-      "share": 9.9e-05
+      "share": 9.8e-05
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_265",
-      "ms": 0.022221,
-      "calls_per_iter": 1.0,
-      "share": 9.7e-05
-    },
-    {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_493",
-      "ms": 0.022153,
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_613",
+      "ms": 0.022016,
       "calls_per_iter": 1.0,
       "share": 9.7e-05
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_477",
-      "ms": 0.022084,
-      "calls_per_iter": 1.0,
-      "share": 9.7e-05
-    },
-    {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_185",
-      "ms": 0.021572,
-      "calls_per_iter": 1.0,
-      "share": 9.4e-05
-    },
-    {
-      "name": "node_slice_16",
-      "ms": 0.021299,
+      "name": "__myl_Slic_myl44_114",
+      "ms": 0.021231,
       "calls_per_iter": 1.0,
       "share": 9.3e-05
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_193",
-      "ms": 0.021197,
+      "name": "node_slice_46",
+      "ms": 0.02089,
       "calls_per_iter": 1.0,
-      "share": 9.3e-05
+      "share": 9.2e-05
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_461",
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_589",
       "ms": 0.020855,
       "calls_per_iter": 1.0,
       "share": 9.1e-05
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_509",
-      "ms": 0.020787,
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_209",
+      "ms": 0.02048,
       "calls_per_iter": 1.0,
-      "share": 9.1e-05
+      "share": 9e-05
     },
     {
-      "name": "node_slice_22",
-      "ms": 0.020343,
-      "calls_per_iter": 1.0,
-      "share": 8.9e-05
-    },
-    {
-      "name": "__myl_Slic_myl44_422",
-      "ms": 0.020309,
+      "name": "__myl_Slic_myl44_122",
+      "ms": 0.020207,
       "calls_per_iter": 1.0,
       "share": 8.9e-05
     },
     {
-      "name": "node_slice_4",
-      "ms": 0.020105,
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_541",
+      "ms": 0.020173,
       "calls_per_iter": 1.0,
       "share": 8.8e-05
     },
     {
-      "name": "__myl_Slic_myl44_114",
-      "ms": 0.0199,
+      "name": "node_conv2d_42",
+      "ms": 0.019934,
       "calls_per_iter": 1.0,
       "share": 8.7e-05
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_621",
-      "ms": 0.019729,
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_137",
+      "ms": 0.019797,
       "calls_per_iter": 1.0,
-      "share": 8.6e-05
+      "share": 8.7e-05
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_313",
-      "ms": 0.019627,
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_241",
+      "ms": 0.019797,
       "calls_per_iter": 1.0,
-      "share": 8.6e-05
+      "share": 8.7e-05
     },
     {
-      "name": "__myl_Slic_myl44_60",
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_445",
+      "ms": 0.019763,
+      "calls_per_iter": 1.0,
+      "share": 8.7e-05
+    },
+    {
+      "name": "node_slice_44",
       "ms": 0.019422,
       "calls_per_iter": 1.0,
       "share": 8.5e-05
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_177",
-      "ms": 0.019354,
-      "calls_per_iter": 1.0,
-      "share": 8.5e-05
-    },
-    {
-      "name": "node_slice_36",
-      "ms": 0.019149,
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_225",
+      "ms": 0.019251,
       "calls_per_iter": 1.0,
       "share": 8.4e-05
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_533",
-      "ms": 0.019081,
+      "name": "__myl_Slic_myl44_118",
+      "ms": 0.019183,
       "calls_per_iter": 1.0,
-      "share": 8.3e-05
+      "share": 8.4e-05
     },
     {
-      "name": "node_slice_60",
-      "ms": 0.01891,
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_485",
+      "ms": 0.019046,
       "calls_per_iter": 1.0,
-      "share": 8.3e-05
+      "share": 8.4e-05
     },
     {
       "name": "node_conv2d_39 + node_relu_20",
+      "ms": 0.019046,
+      "calls_per_iter": 1.0,
+      "share": 8.4e-05
+    },
+    {
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_469",
       "ms": 0.01891,
       "calls_per_iter": 1.0,
       "share": 8.3e-05
     },
     {
-      "name": "__myl_SlicSlicSlicSlicConcSlicSlicSlicSlicConcSlicSlicSlicSlicConcConc_myl44_418",
-      "ms": 0.018671,
+      "name": "node_slice_34",
+      "ms": 0.018807,
       "calls_per_iter": 1.0,
       "share": 8.2e-05
     },
     {
-      "name": "__myl_Slic_myl44_118",
-      "ms": 0.018637,
+      "name": "__myl_SlicSlicSlicSlicConcSlicSlicSlicSlicConcSlicSlicSlicSlicConcConc_myl44_418",
+      "ms": 0.018773,
       "calls_per_iter": 1.0,
-      "share": 8.1e-05
+      "share": 8.2e-05
     },
     {
-      "name": "node_slice_40",
-      "ms": 0.0185,
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_533",
+      "ms": 0.018705,
       "calls_per_iter": 1.0,
-      "share": 8.1e-05
+      "share": 8.2e-05
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_453",
-      "ms": 0.0185,
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_477",
+      "ms": 0.018603,
       "calls_per_iter": 1.0,
-      "share": 8.1e-05
+      "share": 8.2e-05
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_437",
-      "ms": 0.018432,
-      "calls_per_iter": 1.0,
-      "share": 8.1e-05
-    },
-    {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_257",
-      "ms": 0.018295,
-      "calls_per_iter": 1.0,
-      "share": 8e-05
-    },
-    {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_445",
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_201",
       "ms": 0.018261,
       "calls_per_iter": 1.0,
       "share": 8e-05
     },
     {
-      "name": "node_conv2d_42",
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_265",
+      "ms": 0.018125,
+      "calls_per_iter": 1.0,
+      "share": 7.9e-05
+    },
+    {
+      "name": "node_slice_22",
       "ms": 0.018091,
       "calls_per_iter": 1.0,
       "share": 7.9e-05
     },
     {
-      "name": "node_slice_10",
+      "name": "node_slice_32",
       "ms": 0.018022,
       "calls_per_iter": 1.0,
       "share": 7.9e-05
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_137",
-      "ms": 0.017715,
+      "name": "__myl_Slic_myl44_430",
+      "ms": 0.017988,
       "calls_per_iter": 1.0,
-      "share": 7.7e-05
+      "share": 7.9e-05
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_289",
-      "ms": 0.017647,
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_517",
+      "ms": 0.017988,
       "calls_per_iter": 1.0,
-      "share": 7.7e-05
+      "share": 7.9e-05
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_581",
-      "ms": 0.017408,
+      "name": "node_slice_14",
+      "ms": 0.017818,
       "calls_per_iter": 1.0,
-      "share": 7.6e-05
-    },
-    {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_145",
-      "ms": 0.01734,
-      "calls_per_iter": 1.0,
-      "share": 7.6e-05
+      "share": 7.8e-05
     },
     {
       "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_273",
-      "ms": 0.017306,
+      "ms": 0.017476,
+      "calls_per_iter": 1.0,
+      "share": 7.7e-05
+    },
+    {
+      "name": "__myl_Slic_myl44_426",
+      "ms": 0.017442,
       "calls_per_iter": 1.0,
       "share": 7.6e-05
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_241",
-      "ms": 0.016998,
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_161",
+      "ms": 0.017067,
       "calls_per_iter": 1.0,
-      "share": 7.4e-05
+      "share": 7.5e-05
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_281",
-      "ms": 0.016862,
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_509",
+      "ms": 0.016998,
       "calls_per_iter": 1.0,
-      "share": 7.4e-05
+      "share": 7.5e-05
+    },
+    {
+      "name": "node_slice_50",
+      "ms": 0.016657,
+      "calls_per_iter": 1.0,
+      "share": 7.3e-05
     },
     {
       "name": "__myl_Slic_myl44_429",
-      "ms": 0.016759,
+      "ms": 0.016555,
       "calls_per_iter": 1.0,
       "share": 7.3e-05
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_233",
-      "ms": 0.016623,
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_573",
+      "ms": 0.016452,
       "calls_per_iter": 1.0,
-      "share": 7.3e-05
+      "share": 7.2e-05
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_589",
-      "ms": 0.016589,
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_217",
+      "ms": 0.016247,
       "calls_per_iter": 1.0,
-      "share": 7.3e-05
+      "share": 7.1e-05
     },
     {
-      "name": "node_slice_24",
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_145",
       "ms": 0.016179,
       "calls_per_iter": 1.0,
       "share": 7.1e-05
     },
     {
-      "name": "__myl_Slic_myl44_122",
-      "ms": 0.016179,
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_193",
+      "ms": 0.016111,
       "calls_per_iter": 1.0,
       "share": 7.1e-05
     },
     {
-      "name": "node_slice_38",
+      "name": "node_slice_48",
+      "ms": 0.016077,
+      "calls_per_iter": 1.0,
+      "share": 7e-05
+    },
+    {
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_249",
       "ms": 0.015872,
+      "calls_per_iter": 1.0,
+      "share": 7e-05
+    },
+    {
+      "name": "node_slice_12",
+      "ms": 0.015667,
       "calls_per_iter": 1.0,
       "share": 6.9e-05
     },
     {
       "name": "node_conv2d_40 + node_relu_21",
-      "ms": 0.015633,
+      "ms": 0.015599,
       "calls_per_iter": 1.0,
       "share": 6.8e-05
     },
     {
-      "name": "node_slice_32",
-      "ms": 0.015428,
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_185",
+      "ms": 0.015497,
       "calls_per_iter": 1.0,
-      "share": 6.7e-05
+      "share": 6.8e-05
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_297",
-      "ms": 0.015326,
+      "name": "node_slice_36",
+      "ms": 0.015087,
       "calls_per_iter": 1.0,
-      "share": 6.7e-05
+      "share": 6.6e-05
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_169",
-      "ms": 0.015292,
+      "name": "node_slice_24",
+      "ms": 0.014985,
       "calls_per_iter": 1.0,
-      "share": 6.7e-05
+      "share": 6.6e-05
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_209",
-      "ms": 0.014746,
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_557",
+      "ms": 0.014814,
+      "calls_per_iter": 1.0,
+      "share": 6.5e-05
+    },
+    {
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_605",
+      "ms": 0.014507,
       "calls_per_iter": 1.0,
       "share": 6.4e-05
     },
     {
-      "name": "node_slice_26",
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_214",
       "ms": 0.014473,
       "calls_per_iter": 1.0,
       "share": 6.3e-05
     },
     {
-      "name": "node_MatMul_8688_myl44_625",
-      "ms": 0.014473,
-      "calls_per_iter": 1.0,
-      "share": 6.3e-05
-    },
-    {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_129",
+      "name": "__myl_Slic_myl44_120",
       "ms": 0.014438,
       "calls_per_iter": 1.0,
       "share": 6.3e-05
     },
     {
-      "name": "node_slice_12",
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_621",
       "ms": 0.014404,
       "calls_per_iter": 1.0,
       "share": 6.3e-05
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_153",
+      "name": "node_MatMul_8688_myl44_625",
       "ms": 0.014336,
       "calls_per_iter": 1.0,
       "share": 6.3e-05
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_597",
-      "ms": 0.014336,
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_578",
+      "ms": 0.014268,
       "calls_per_iter": 1.0,
       "share": 6.3e-05
     },
     {
-      "name": "node_slice_50",
+      "name": "node_slice_8",
+      "ms": 0.014234,
+      "calls_per_iter": 1.0,
+      "share": 6.2e-05
+    },
+    {
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_206",
       "ms": 0.014199,
       "calls_per_iter": 1.0,
       "share": 6.2e-05
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_482",
-      "ms": 0.014063,
+      "name": "node_slice_10",
+      "ms": 0.014097,
       "calls_per_iter": 1.0,
-      "share": 6.1e-05
+      "share": 6.2e-05
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_549",
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_305",
+      "ms": 0.014063,
+      "calls_per_iter": 1.0,
+      "share": 6.2e-05
+    },
+    {
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_450",
       "ms": 0.013995,
       "calls_per_iter": 1.0,
       "share": 6.1e-05
     },
     {
-      "name": "node_slice_44",
+      "name": "node_slice_68",
       "ms": 0.013961,
       "calls_per_iter": 1.0,
       "share": 6.1e-05
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_230",
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_506",
       "ms": 0.013961,
       "calls_per_iter": 1.0,
       "share": 6.1e-05
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_562",
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_594",
       "ms": 0.013961,
       "calls_per_iter": 1.0,
       "share": 6.1e-05
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_222",
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_198",
       "ms": 0.013926,
       "calls_per_iter": 1.0,
       "share": 6.1e-05
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_134",
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_142",
       "ms": 0.013892,
       "calls_per_iter": 1.0,
       "share": 6.1e-05
@@ -3621,55 +3590,49 @@
       "share": 6.1e-05
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_182",
-      "ms": 0.013892,
-      "calls_per_iter": 1.0,
-      "share": 6.1e-05
-    },
-    {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_198",
-      "ms": 0.013892,
-      "calls_per_iter": 1.0,
-      "share": 6.1e-05
-    },
-    {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_214",
-      "ms": 0.013892,
-      "calls_per_iter": 1.0,
-      "share": 6.1e-05
-    },
-    {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_490",
+      "name": "__myl_Slic_myl44_422",
       "ms": 0.013858,
       "calls_per_iter": 1.0,
       "share": 6.1e-05
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_278",
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_166",
       "ms": 0.013824,
+      "calls_per_iter": 1.0,
+      "share": 6.1e-05
+    },
+    {
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_442",
+      "ms": 0.013824,
+      "calls_per_iter": 1.0,
+      "share": 6.1e-05
+    },
+    {
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_562",
+      "ms": 0.013824,
+      "calls_per_iter": 1.0,
+      "share": 6.1e-05
+    },
+    {
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_222",
+      "ms": 0.01379,
+      "calls_per_iter": 1.0,
+      "share": 6e-05
+    },
+    {
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_230",
+      "ms": 0.01379,
+      "calls_per_iter": 1.0,
+      "share": 6e-05
+    },
+    {
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_246",
+      "ms": 0.01379,
       "calls_per_iter": 1.0,
       "share": 6e-05
     },
     {
       "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_286",
-      "ms": 0.013824,
-      "calls_per_iter": 1.0,
-      "share": 6e-05
-    },
-    {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_310",
-      "ms": 0.013824,
-      "calls_per_iter": 1.0,
-      "share": 6e-05
-    },
-    {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_434",
-      "ms": 0.013824,
-      "calls_per_iter": 1.0,
-      "share": 6e-05
-    },
-    {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_262",
       "ms": 0.01379,
       "calls_per_iter": 1.0,
       "share": 6e-05
@@ -3681,74 +3644,74 @@
       "share": 6e-05
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_554",
-      "ms": 0.01379,
-      "calls_per_iter": 1.0,
-      "share": 6e-05
-    },
-    {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_246",
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_150",
       "ms": 0.013756,
       "calls_per_iter": 1.0,
       "share": 6e-05
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_466",
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_238",
       "ms": 0.013756,
-      "calls_per_iter": 1.0,
-      "share": 6e-05
-    },
-    {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_498",
-      "ms": 0.013756,
-      "calls_per_iter": 1.0,
-      "share": 6e-05
-    },
-    {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_166",
-      "ms": 0.013722,
       "calls_per_iter": 1.0,
       "share": 6e-05
     },
     {
       "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_514",
-      "ms": 0.013722,
+      "ms": 0.013756,
       "calls_per_iter": 1.0,
       "share": 6e-05
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_142",
-      "ms": 0.013687,
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_597",
+      "ms": 0.013756,
       "calls_per_iter": 1.0,
       "share": 6e-05
     },
     {
       "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_254",
+      "ms": 0.013722,
+      "calls_per_iter": 1.0,
+      "share": 6e-05
+    },
+    {
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_482",
+      "ms": 0.013722,
+      "calls_per_iter": 1.0,
+      "share": 6e-05
+    },
+    {
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_490",
+      "ms": 0.013722,
+      "calls_per_iter": 1.0,
+      "share": 6e-05
+    },
+    {
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_466",
       "ms": 0.013687,
       "calls_per_iter": 1.0,
       "share": 6e-05
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_302",
-      "ms": 0.013687,
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_158",
+      "ms": 0.013653,
       "calls_per_iter": 1.0,
       "share": 6e-05
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_458",
-      "ms": 0.013687,
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_182",
+      "ms": 0.013653,
       "calls_per_iter": 1.0,
       "share": 6e-05
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_474",
-      "ms": 0.013687,
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_310",
+      "ms": 0.013653,
       "calls_per_iter": 1.0,
       "share": 6e-05
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_538",
-      "ms": 0.013687,
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_498",
+      "ms": 0.013653,
       "calls_per_iter": 1.0,
       "share": 6e-05
     },
@@ -3759,37 +3722,43 @@
       "share": 6e-05
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_610",
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_586",
       "ms": 0.013653,
       "calls_per_iter": 1.0,
       "share": 6e-05
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_190",
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_618",
+      "ms": 0.013653,
+      "calls_per_iter": 1.0,
+      "share": 6e-05
+    },
+    {
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_134",
       "ms": 0.013619,
       "calls_per_iter": 1.0,
       "share": 6e-05
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_238",
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_262",
       "ms": 0.013619,
       "calls_per_iter": 1.0,
       "share": 6e-05
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_270",
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_278",
       "ms": 0.013619,
       "calls_per_iter": 1.0,
       "share": 6e-05
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_450",
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_474",
       "ms": 0.013619,
       "calls_per_iter": 1.0,
       "share": 6e-05
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_522",
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_546",
       "ms": 0.013619,
       "calls_per_iter": 1.0,
       "share": 6e-05
@@ -3801,332 +3770,356 @@
       "share": 6e-05
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_594",
-      "ms": 0.013619,
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_126",
+      "ms": 0.013585,
       "calls_per_iter": 1.0,
       "share": 6e-05
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_126",
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_190",
       "ms": 0.013585,
       "calls_per_iter": 1.0,
-      "share": 5.9e-05
+      "share": 6e-05
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_150",
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_610",
       "ms": 0.013585,
       "calls_per_iter": 1.0,
-      "share": 5.9e-05
+      "share": 6e-05
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_161",
-      "ms": 0.013585,
-      "calls_per_iter": 1.0,
-      "share": 5.9e-05
-    },
-    {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_506",
-      "ms": 0.013585,
-      "calls_per_iter": 1.0,
-      "share": 5.9e-05
-    },
-    {
-      "name": "Reformatting CopyNode for Output Tensor 0 to node_upsample_bilinear2d_1",
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_302",
       "ms": 0.013551,
       "calls_per_iter": 1.0,
       "share": 5.9e-05
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_158",
-      "ms": 0.013551,
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_458",
+      "ms": 0.013517,
       "calls_per_iter": 1.0,
       "share": 5.9e-05
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_206",
-      "ms": 0.013551,
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_522",
+      "ms": 0.013517,
       "calls_per_iter": 1.0,
       "share": 5.9e-05
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_442",
-      "ms": 0.013551,
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_554",
+      "ms": 0.013517,
       "calls_per_iter": 1.0,
       "share": 5.9e-05
     },
     {
       "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_602",
-      "ms": 0.013551,
-      "calls_per_iter": 1.0,
-      "share": 5.9e-05
-    },
-    {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_618",
-      "ms": 0.013551,
-      "calls_per_iter": 1.0,
-      "share": 5.9e-05
-    },
-    {
-      "name": "node_slice_14",
       "ms": 0.013517,
       "calls_per_iter": 1.0,
       "share": 5.9e-05
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_586",
-      "ms": 0.013517,
-      "calls_per_iter": 1.0,
-      "share": 5.9e-05
-    },
-    {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_546",
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_270",
       "ms": 0.013483,
       "calls_per_iter": 1.0,
       "share": 5.9e-05
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_578",
-      "ms": 0.013414,
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_538",
+      "ms": 0.013449,
       "calls_per_iter": 1.0,
       "share": 5.9e-05
     },
     {
-      "name": "__myl_TranReshConcAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_124",
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl44_434",
+      "ms": 0.01338,
+      "calls_per_iter": 1.0,
+      "share": 5.9e-05
+    },
+    {
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_525",
+      "ms": 0.01338,
+      "calls_per_iter": 1.0,
+      "share": 5.9e-05
+    },
+    {
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_129",
+      "ms": 0.013312,
+      "calls_per_iter": 1.0,
+      "share": 5.8e-05
+    },
+    {
+      "name": "node_slice_26",
       "ms": 0.013244,
       "calls_per_iter": 1.0,
       "share": 5.8e-05
     },
     {
-      "name": "upsample_bilinear2d_1 copy",
-      "ms": 0.013175,
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_493",
+      "ms": 0.013244,
       "calls_per_iter": 1.0,
       "share": 5.8e-05
     },
     {
-      "name": "node_slice_66",
-      "ms": 0.013141,
+      "name": "node_conv2d_41 + node_relu_22",
+      "ms": 0.013244,
       "calls_per_iter": 1.0,
-      "share": 5.7e-05
+      "share": 5.8e-05
     },
     {
-      "name": "node_conv2d_41 + node_relu_22",
-      "ms": 0.013039,
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_289",
+      "ms": 0.013141,
       "calls_per_iter": 1.0,
-      "share": 5.7e-05
+      "share": 5.8e-05
+    },
+    {
+      "name": "Reformatting CopyNode for Output Tensor 0 to node_upsample_bilinear2d_1",
+      "ms": 0.012868,
+      "calls_per_iter": 1.0,
+      "share": 5.6e-05
+    },
+    {
+      "name": "upsample_bilinear2d_1 copy",
+      "ms": 0.012868,
+      "calls_per_iter": 1.0,
+      "share": 5.6e-05
+    },
+    {
+      "name": "node_slice_20",
+      "ms": 0.012834,
+      "calls_per_iter": 1.0,
+      "share": 5.6e-05
     },
     {
       "name": "__myl_TranReshConcAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_432",
-      "ms": 0.012937,
+      "ms": 0.012834,
       "calls_per_iter": 1.0,
-      "share": 5.7e-05
+      "share": 5.6e-05
     },
     {
-      "name": "__myl_Slic_myl44_58",
+      "name": "__myl_TranReshConcAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_124",
+      "ms": 0.012698,
+      "calls_per_iter": 1.0,
+      "share": 5.6e-05
+    },
+    {
+      "name": "node_slice_64",
       "ms": 0.012493,
       "calls_per_iter": 1.0,
       "share": 5.5e-05
     },
     {
-      "name": "node_slice_2",
-      "ms": 0.012459,
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_313",
+      "ms": 0.012425,
       "calls_per_iter": 1.0,
       "share": 5.4e-05
     },
     {
-      "name": "node_slice_20",
-      "ms": 0.01239,
+      "name": "node_slice_38",
+      "ms": 0.012356,
       "calls_per_iter": 1.0,
       "share": 5.4e-05
     },
     {
-      "name": "node_slice_64",
-      "ms": 0.012322,
-      "calls_per_iter": 1.0,
-      "share": 5.4e-05
-    },
-    {
-      "name": "node_slice_8",
-      "ms": 0.012322,
-      "calls_per_iter": 1.0,
-      "share": 5.4e-05
-    },
-    {
-      "name": "node_slice_52",
-      "ms": 0.012186,
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_177",
+      "ms": 0.012049,
       "calls_per_iter": 1.0,
       "share": 5.3e-05
     },
     {
-      "name": "__myl_Slic_myl44_120",
-      "ms": 0.012186,
-      "calls_per_iter": 1.0,
-      "share": 5.3e-05
-    },
-    {
-      "name": "node_slice_58",
-      "ms": 0.012117,
+      "name": "__myl_Slic_myl44_112",
+      "ms": 0.012015,
       "calls_per_iter": 1.0,
       "share": 5.3e-05
     },
     {
       "name": "node_slice_56",
-      "ms": 0.011981,
+      "ms": 0.011947,
       "calls_per_iter": 1.0,
       "share": 5.2e-05
     },
     {
-      "name": "node_slice_68",
-      "ms": 0.011878,
+      "name": "node_slice_2",
+      "ms": 0.011776,
       "calls_per_iter": 1.0,
       "share": 5.2e-05
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_305",
-      "ms": 0.01181,
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_233",
+      "ms": 0.011742,
       "calls_per_iter": 1.0,
-      "share": 5.2e-05
+      "share": 5.1e-05
     },
     {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_488",
-      "ms": 0.011401,
+      "name": "node_slice_54",
+      "ms": 0.011708,
+      "calls_per_iter": 1.0,
+      "share": 5.1e-05
+    },
+    {
+      "name": "node_slice_66",
+      "ms": 0.011708,
+      "calls_per_iter": 1.0,
+      "share": 5.1e-05
+    },
+    {
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_153",
+      "ms": 0.011708,
+      "calls_per_iter": 1.0,
+      "share": 5.1e-05
+    },
+    {
+      "name": "node_slice_52",
+      "ms": 0.011537,
+      "calls_per_iter": 1.0,
+      "share": 5.1e-05
+    },
+    {
+      "name": "__myl_Slic_myl44_50",
+      "ms": 0.011332,
       "calls_per_iter": 1.0,
       "share": 5e-05
     },
     {
-      "name": "__myl_Slic_myl44_425",
-      "ms": 0.011298,
-      "calls_per_iter": 1.0,
-      "share": 4.9e-05
-    },
-    {
-      "name": "__myl_Slic_myl44_112",
-      "ms": 0.011264,
-      "calls_per_iter": 1.0,
-      "share": 4.9e-05
-    },
-    {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_164",
+      "name": "node_slice_58",
       "ms": 0.011162,
       "calls_per_iter": 1.0,
       "share": 4.9e-05
     },
     {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_592",
-      "ms": 0.011127,
-      "calls_per_iter": 1.0,
-      "share": 4.9e-05
-    },
-    {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_156",
-      "ms": 0.010991,
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_164",
+      "ms": 0.011025,
       "calls_per_iter": 1.0,
       "share": 4.8e-05
     },
     {
-      "name": "__myl_Slic_myl44_50",
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_281",
+      "ms": 0.010957,
+      "calls_per_iter": 1.0,
+      "share": 4.8e-05
+    },
+    {
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_472",
+      "ms": 0.010957,
+      "calls_per_iter": 1.0,
+      "share": 4.8e-05
+    },
+    {
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_236",
+      "ms": 0.010923,
+      "calls_per_iter": 1.0,
+      "share": 4.8e-05
+    },
+    {
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_156",
+      "ms": 0.010889,
+      "calls_per_iter": 1.0,
+      "share": 4.8e-05
+    },
+    {
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_568",
+      "ms": 0.010889,
+      "calls_per_iter": 1.0,
+      "share": 4.8e-05
+    },
+    {
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_132",
       "ms": 0.010854,
+      "calls_per_iter": 1.0,
+      "share": 4.8e-05
+    },
+    {
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_169",
+      "ms": 0.010854,
+      "calls_per_iter": 1.0,
+      "share": 4.8e-05
+    },
+    {
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_172",
+      "ms": 0.010854,
+      "calls_per_iter": 1.0,
+      "share": 4.8e-05
+    },
+    {
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_300",
+      "ms": 0.01082,
       "calls_per_iter": 1.0,
       "share": 4.7e-05
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMean_myl44_316",
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_140",
       "ms": 0.010786,
       "calls_per_iter": 1.0,
       "share": 4.7e-05
     },
     {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_292",
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_148",
+      "ms": 0.010786,
+      "calls_per_iter": 1.0,
+      "share": 4.7e-05
+    },
+    {
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_592",
+      "ms": 0.010786,
+      "calls_per_iter": 1.0,
+      "share": 4.7e-05
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMean_myl44_316",
       "ms": 0.010752,
       "calls_per_iter": 1.0,
       "share": 4.7e-05
     },
     {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_480",
-      "ms": 0.010752,
-      "calls_per_iter": 1.0,
-      "share": 4.7e-05
-    },
-    {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_496",
-      "ms": 0.010752,
-      "calls_per_iter": 1.0,
-      "share": 4.7e-05
-    },
-    {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_472",
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_220",
       "ms": 0.010718,
       "calls_per_iter": 1.0,
       "share": 4.7e-05
     },
     {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_300",
-      "ms": 0.01065,
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_188",
+      "ms": 0.010684,
       "calls_per_iter": 1.0,
       "share": 4.7e-05
     },
     {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_512",
-      "ms": 0.01065,
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_608",
+      "ms": 0.010684,
       "calls_per_iter": 1.0,
       "share": 4.7e-05
-    },
-    {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_520",
-      "ms": 0.01065,
-      "calls_per_iter": 1.0,
-      "share": 4.7e-05
-    },
-    {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_560",
-      "ms": 0.01065,
-      "calls_per_iter": 1.0,
-      "share": 4.7e-05
-    },
-    {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_584",
-      "ms": 0.01065,
-      "calls_per_iter": 1.0,
-      "share": 4.7e-05
-    },
-    {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_616",
-      "ms": 0.01065,
-      "calls_per_iter": 1.0,
-      "share": 4.7e-05
-    },
-    {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_132",
-      "ms": 0.010615,
-      "calls_per_iter": 1.0,
-      "share": 4.6e-05
     },
     {
       "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_276",
       "ms": 0.010615,
       "calls_per_iter": 1.0,
-      "share": 4.6e-05
+      "share": 4.7e-05
     },
     {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_568",
+      "name": "__myl_Slic_myl44_421",
       "ms": 0.010615,
       "calls_per_iter": 1.0,
-      "share": 4.6e-05
+      "share": 4.7e-05
     },
     {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_172",
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_308",
       "ms": 0.010581,
       "calls_per_iter": 1.0,
       "share": 4.6e-05
     },
     {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_260",
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_448",
       "ms": 0.010581,
       "calls_per_iter": 1.0,
       "share": 4.6e-05
     },
     {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_528",
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_480",
       "ms": 0.010581,
+      "calls_per_iter": 1.0,
+      "share": 4.6e-05
+    },
+    {
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_204",
+      "ms": 0.010547,
       "calls_per_iter": 1.0,
       "share": 4.6e-05
     },
@@ -4137,109 +4130,79 @@
       "share": 4.6e-05
     },
     {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_236",
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_244",
       "ms": 0.010547,
-      "calls_per_iter": 1.0,
-      "share": 4.6e-05
-    },
-    {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_448",
-      "ms": 0.010547,
-      "calls_per_iter": 1.0,
-      "share": 4.6e-05
-    },
-    {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_536",
-      "ms": 0.010547,
-      "calls_per_iter": 1.0,
-      "share": 4.6e-05
-    },
-    {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_552",
-      "ms": 0.010547,
-      "calls_per_iter": 1.0,
-      "share": 4.6e-05
-    },
-    {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_576",
-      "ms": 0.010547,
-      "calls_per_iter": 1.0,
-      "share": 4.6e-05
-    },
-    {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_148",
-      "ms": 0.010513,
-      "calls_per_iter": 1.0,
-      "share": 4.6e-05
-    },
-    {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_308",
-      "ms": 0.010513,
-      "calls_per_iter": 1.0,
-      "share": 4.6e-05
-    },
-    {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_440",
-      "ms": 0.010513,
-      "calls_per_iter": 1.0,
-      "share": 4.6e-05
-    },
-    {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_608",
-      "ms": 0.010513,
-      "calls_per_iter": 1.0,
-      "share": 4.6e-05
-    },
-    {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_140",
-      "ms": 0.010479,
-      "calls_per_iter": 1.0,
-      "share": 4.6e-05
-    },
-    {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_196",
-      "ms": 0.010479,
-      "calls_per_iter": 1.0,
-      "share": 4.6e-05
-    },
-    {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_220",
-      "ms": 0.010479,
       "calls_per_iter": 1.0,
       "share": 4.6e-05
     },
     {
       "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_268",
-      "ms": 0.010479,
+      "ms": 0.010547,
       "calls_per_iter": 1.0,
       "share": 4.6e-05
     },
     {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_464",
-      "ms": 0.010479,
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_488",
+      "ms": 0.010547,
       "calls_per_iter": 1.0,
       "share": 4.6e-05
     },
     {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_600",
-      "ms": 0.010479,
-      "calls_per_iter": 1.0,
-      "share": 4.6e-05
-    },
-    {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_188",
-      "ms": 0.010445,
-      "calls_per_iter": 1.0,
-      "share": 4.6e-05
-    },
-    {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_456",
-      "ms": 0.010445,
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_512",
+      "ms": 0.010547,
       "calls_per_iter": 1.0,
       "share": 4.6e-05
     },
     {
       "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_544",
+      "ms": 0.010547,
+      "calls_per_iter": 1.0,
+      "share": 4.6e-05
+    },
+    {
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_292",
+      "ms": 0.010513,
+      "calls_per_iter": 1.0,
+      "share": 4.6e-05
+    },
+    {
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_520",
+      "ms": 0.010513,
+      "calls_per_iter": 1.0,
+      "share": 4.6e-05
+    },
+    {
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_528",
+      "ms": 0.010513,
+      "calls_per_iter": 1.0,
+      "share": 4.6e-05
+    },
+    {
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_552",
+      "ms": 0.010513,
+      "calls_per_iter": 1.0,
+      "share": 4.6e-05
+    },
+    {
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_260",
+      "ms": 0.010479,
+      "calls_per_iter": 1.0,
+      "share": 4.6e-05
+    },
+    {
+      "name": "__myl_Slic_myl44_425",
+      "ms": 0.010479,
+      "calls_per_iter": 1.0,
+      "share": 4.6e-05
+    },
+    {
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_284",
+      "ms": 0.010445,
+      "calls_per_iter": 1.0,
+      "share": 4.6e-05
+    },
+    {
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_536",
       "ms": 0.010445,
       "calls_per_iter": 1.0,
       "share": 4.6e-05
@@ -4251,100 +4214,142 @@
       "share": 4.6e-05
     },
     {
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_464",
+      "ms": 0.010411,
+      "calls_per_iter": 1.0,
+      "share": 4.6e-05
+    },
+    {
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_600",
+      "ms": 0.010411,
+      "calls_per_iter": 1.0,
+      "share": 4.6e-05
+    },
+    {
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_584",
+      "ms": 0.010377,
+      "calls_per_iter": 1.0,
+      "share": 4.5e-05
+    },
+    {
+      "name": "__myl_Slic_myl44_58",
+      "ms": 0.010342,
+      "calls_per_iter": 1.0,
+      "share": 4.5e-05
+    },
+    {
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_196",
+      "ms": 0.010342,
+      "calls_per_iter": 1.0,
+      "share": 4.5e-05
+    },
+    {
       "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_212",
-      "ms": 0.010377,
-      "calls_per_iter": 1.0,
-      "share": 4.5e-05
-    },
-    {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_284",
-      "ms": 0.010377,
-      "calls_per_iter": 1.0,
-      "share": 4.5e-05
-    },
-    {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_204",
       "ms": 0.010342,
       "calls_per_iter": 1.0,
       "share": 4.5e-05
     },
     {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_244",
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_560",
       "ms": 0.010342,
       "calls_per_iter": 1.0,
       "share": 4.5e-05
     },
     {
-      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_504",
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_616",
       "ms": 0.010342,
       "calls_per_iter": 1.0,
       "share": 4.5e-05
     },
     {
       "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_252",
+      "ms": 0.010308,
+      "calls_per_iter": 1.0,
+      "share": 4.5e-05
+    },
+    {
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_496",
+      "ms": 0.010274,
+      "calls_per_iter": 1.0,
+      "share": 4.5e-05
+    },
+    {
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_504",
       "ms": 0.010274,
       "calls_per_iter": 1.0,
       "share": 4.5e-05
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_624",
-      "ms": 0.010274,
+      "ms": 0.01024,
       "calls_per_iter": 1.0,
       "share": 4.5e-05
     },
     {
-      "name": "__myl_Slic_myl44_49",
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_440",
+      "ms": 0.010206,
+      "calls_per_iter": 1.0,
+      "share": 4.5e-05
+    },
+    {
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_456",
       "ms": 0.010172,
       "calls_per_iter": 1.0,
-      "share": 4.4e-05
+      "share": 4.5e-05
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_613",
-      "ms": 0.010069,
+      "name": "__myl_MulAddReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_576",
+      "ms": 0.010172,
       "calls_per_iter": 1.0,
-      "share": 4.4e-05
+      "share": 4.5e-05
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_605",
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_437",
       "ms": 0.009967,
       "calls_per_iter": 1.0,
       "share": 4.4e-05
     },
     {
       "name": "__myl_Slic_myl44_111",
-      "ms": 0.009796,
-      "calls_per_iter": 1.0,
-      "share": 4.3e-05
-    },
-    {
-      "name": "__myl_Slic_myl44_57",
-      "ms": 0.00966,
+      "ms": 0.009626,
       "calls_per_iter": 1.0,
       "share": 4.2e-05
     },
     {
-      "name": "__myl_Slic_myl44_424",
-      "ms": 0.009557,
+      "name": "__myl_Slic_myl44_49",
+      "ms": 0.009591,
       "calls_per_iter": 1.0,
       "share": 4.2e-05
     },
     {
       "name": "__myl_Slic_myl44_428",
-      "ms": 0.009455,
+      "ms": 0.009557,
       "calls_per_iter": 1.0,
-      "share": 4.1e-05
+      "share": 4.2e-05
     },
     {
-      "name": "__myl_Slic_myl44_115",
+      "name": "__myl_Slic_myl44_116",
       "ms": 0.009421,
       "calls_per_iter": 1.0,
       "share": 4.1e-05
     },
     {
-      "name": "__myl_AddSqrtDivMulCastMulAddSlicReshTran_myl44_317",
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl44_297",
+      "ms": 0.009353,
+      "calls_per_iter": 1.0,
+      "share": 4.1e-05
+    },
+    {
+      "name": "__myl_Slic_myl44_54",
+      "ms": 0.009318,
+      "calls_per_iter": 1.0,
+      "share": 4.1e-05
+    },
+    {
+      "name": "__myl_Slic_myl44_420",
       "ms": 0.00925,
       "calls_per_iter": 1.0,
-      "share": 4e-05
+      "share": 4.1e-05
     },
     {
       "name": "__myl_Slic_myl44_119",
@@ -4353,58 +4358,58 @@
       "share": 4e-05
     },
     {
-      "name": "__myl_Slic_myl44_53",
+      "name": "__myl_Slic_myl44_424",
+      "ms": 0.009182,
+      "calls_per_iter": 1.0,
+      "share": 4e-05
+    },
+    {
+      "name": "__myl_Slic_myl44_57",
       "ms": 0.009148,
       "calls_per_iter": 1.0,
       "share": 4e-05
     },
     {
-      "name": "__myl_Slic_myl44_116",
-      "ms": 0.009114,
+      "name": "__myl_Slic_myl44_115",
+      "ms": 0.009148,
+      "calls_per_iter": 1.0,
+      "share": 4e-05
+    },
+    {
+      "name": "__myl_AddSqrtDivMulCastMulAddSlicReshTran_myl44_317",
+      "ms": 0.009148,
       "calls_per_iter": 1.0,
       "share": 4e-05
     },
     {
       "name": "__myl_Slic_myl44_417",
-      "ms": 0.009011,
+      "ms": 0.009114,
       "calls_per_iter": 1.0,
-      "share": 3.9e-05
+      "share": 4e-05
     },
     {
-      "name": "__myl_Slic_myl44_420",
-      "ms": 0.009011,
+      "name": "__myl_Slic_myl44_53",
+      "ms": 0.009079,
       "calls_per_iter": 1.0,
-      "share": 3.9e-05
-    },
-    {
-      "name": "__myl_Slic_myl44_421",
-      "ms": 0.008943,
-      "calls_per_iter": 1.0,
-      "share": 3.9e-05
-    },
-    {
-      "name": "__myl_Slic_myl44_54",
-      "ms": 0.008875,
-      "calls_per_iter": 1.0,
-      "share": 3.9e-05
+      "share": 4e-05
     },
     {
       "name": "__myl_Slic_myl44_416",
-      "ms": 0.008841,
+      "ms": 0.008567,
       "calls_per_iter": 1.0,
-      "share": 3.9e-05
-    },
-    {
-      "name": "PWN(node_add_160)",
-      "ms": 0.007612,
-      "calls_per_iter": 1.0,
-      "share": 3.3e-05
+      "share": 3.8e-05
     },
     {
       "name": "__myl_SlicTranResh_myl44_626",
-      "ms": 0.006076,
+      "ms": 0.008329,
       "calls_per_iter": 1.0,
-      "share": 2.7e-05
+      "share": 3.7e-05
+    },
+    {
+      "name": "PWN(node_add_160)",
+      "ms": 0.007748,
+      "calls_per_iter": 1.0,
+      "share": 3.4e-05
     },
     {
       "name": "Reformatting CopyNode for Network Input input",

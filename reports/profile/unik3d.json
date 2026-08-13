@@ -2,7 +2,11 @@
   "model": "unik3d",
   "variant": "single",
   "precision": "fp16",
+  "clock_mhz": 1800,
+  "clock_max_mhz": 2130,
   "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\unik3d\\engine\\unik3d_vits_518x518_dynamo_fp16.engine",
+  "engine_bytes": 77860692,
+  "engine_mtime": 1786612531,
   "input_shape": [
     1,
     3,
@@ -13,10 +17,11 @@
   "summary": {
     "layers_profiled": 329,
     "layers_in_engine": 329,
-    "profile_total_ms": 8.4251,
-    "benchmark_mean_ms": 8.4407,
-    "top10_share": 0.1374,
-    "fp32_output_share": 0.0158,
+    "profile_total_ms": 8.9336,
+    "benchmark_mean_ms": 8.3706,
+    "top10_share": 0.1182,
+    "fp32_output_share": 0.0146,
+    "movement_share": 0.0992,
     "layer_types": {
       "kgen": 117,
       "gemm": 63,
@@ -41,1641 +46,1641 @@
   },
   "suspects": [
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d",
-      "ms": 0.131895,
+      "name": "node_pad_3",
+      "ms": 0.09373,
       "calls_per_iter": 1.0,
-      "share": 0.015655,
-      "layer_type": "Reformat"
+      "share": 0.010492,
+      "layer_type": "Slice"
     },
     {
       "name": "node_pad_1",
-      "ms": 0.096324,
+      "ms": 0.09373,
       "calls_per_iter": 1.0,
-      "share": 0.011433,
+      "share": 0.010492,
       "layer_type": "Slice"
     },
     {
-      "name": "node_pad_3",
-      "ms": 0.096188,
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d",
+      "ms": 0.090666,
       "calls_per_iter": 1.0,
-      "share": 0.011417,
-      "layer_type": "Slice"
+      "share": 0.010149,
+      "layer_type": "Reformat"
     }
   ],
   "layers": [
     {
       "name": "node_conv2d_17 + PWN(node_leaky_relu_12)",
-      "ms": 0.134144,
+      "ms": 0.139776,
       "calls_per_iter": 1.0,
-      "share": 0.015922
+      "share": 0.015646
     },
     {
       "name": "node_conv2d_20 + PWN(node_leaky_relu_13)",
-      "ms": 0.131925,
+      "ms": 0.131823,
       "calls_per_iter": 1.0,
-      "share": 0.015659
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d",
-      "ms": 0.131895,
-      "calls_per_iter": 1.0,
-      "share": 0.015655
-    },
-    {
-      "name": "node_MatMul_697_myl7_82",
-      "ms": 0.126635,
-      "calls_per_iter": 1.0,
-      "share": 0.015031
-    },
-    {
-      "name": "node_conv2d_12 + pixel_decoder.radial_module.ups.2.convs.0.gamma + node_mul_77 + node_add_48 + PWN(node_leaky_relu_10)",
-      "ms": 0.114654,
-      "calls_per_iter": 1.0,
-      "share": 0.013609
-    },
-    {
-      "name": "node_conv2d_7 + pixel_decoder.radial_module.ups.1.convs.0.gamma + node_mul_75 + node_add_45 + PWN(node_leaky_relu_6)",
-      "ms": 0.110046,
-      "calls_per_iter": 1.0,
-      "share": 0.013062
-    },
-    {
-      "name": "__myl_FcAdd_myl7_79",
-      "ms": 0.106155,
-      "calls_per_iter": 1.0,
-      "share": 0.0126
+      "share": 0.014756
     },
     {
       "name": "node_conv2d_6 + PWN(node_leaky_relu_5)",
-      "ms": 0.105404,
+      "ms": 0.107657,
       "calls_per_iter": 1.0,
-      "share": 0.012511
+      "share": 0.012051
+    },
+    {
+      "name": "node_conv2d_12 + pixel_decoder.radial_module.ups.2.convs.0.gamma + node_mul_77 + node_add_48 + PWN(node_leaky_relu_10)",
+      "ms": 0.105916,
+      "calls_per_iter": 1.0,
+      "share": 0.011856
+    },
+    {
+      "name": "node_conv2d_7 + pixel_decoder.radial_module.ups.1.convs.0.gamma + node_mul_75 + node_add_45 + PWN(node_leaky_relu_6)",
+      "ms": 0.099362,
+      "calls_per_iter": 1.0,
+      "share": 0.011122
     },
     {
       "name": "node_conv2d_13 + PWN(node_leaky_relu_11)",
-      "ms": 0.099908,
+      "ms": 0.098202,
       "calls_per_iter": 1.0,
-      "share": 0.011858
-    },
-    {
-      "name": "node_conv2d_11 + PWN(node_leaky_relu_9)",
-      "ms": 0.097212,
-      "calls_per_iter": 1.0,
-      "share": 0.011538
-    },
-    {
-      "name": "node_pad_1",
-      "ms": 0.096324,
-      "calls_per_iter": 1.0,
-      "share": 0.011433
-    },
-    {
-      "name": "node_pad_3",
-      "ms": 0.096188,
-      "calls_per_iter": 1.0,
-      "share": 0.011417
+      "share": 0.010992
     },
     {
       "name": "node_conv2d_8 + PWN(node_leaky_relu_7)",
-      "ms": 0.093901,
+      "ms": 0.094071,
       "calls_per_iter": 1.0,
-      "share": 0.011145
+      "share": 0.01053
+    },
+    {
+      "name": "node_pad_3",
+      "ms": 0.09373,
+      "calls_per_iter": 1.0,
+      "share": 0.010492
+    },
+    {
+      "name": "node_pad_1",
+      "ms": 0.09373,
+      "calls_per_iter": 1.0,
+      "share": 0.010492
     },
     {
       "name": "node_conv2d_9 + pixel_decoder.radial_module.ups.1.convs.1.gamma + node_mul_76 + node_add_46",
-      "ms": 0.087347,
+      "ms": 0.091785,
       "calls_per_iter": 1.0,
-      "share": 0.010367
+      "share": 0.010274
     },
     {
-      "name": "node_conv2d_19",
-      "ms": 0.084378,
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d",
+      "ms": 0.090666,
       "calls_per_iter": 1.0,
-      "share": 0.010015
+      "share": 0.010149
+    },
+    {
+      "name": "node_conv2d_11 + PWN(node_leaky_relu_9)",
+      "ms": 0.090658,
+      "calls_per_iter": 1.0,
+      "share": 0.010148
     },
     {
       "name": "node_conv2d_14 + pixel_decoder.radial_module.ups.2.convs.1.gamma + node_mul_78 + node_add_49",
-      "ms": 0.083012,
+      "ms": 0.081715,
       "calls_per_iter": 1.0,
-      "share": 0.009853
+      "share": 0.009147
     },
     {
       "name": "node_conv2d_16",
-      "ms": 0.082227,
+      "ms": 0.078029,
       "calls_per_iter": 1.0,
-      "share": 0.00976
+      "share": 0.008734
     },
     {
-      "name": "__myl_Tran_myl39_4",
-      "ms": 0.081579,
+      "name": "node_conv2d_19",
+      "ms": 0.077585,
       "calls_per_iter": 1.0,
-      "share": 0.009683
-    },
-    {
-      "name": "node_MatMul_1480_myl39_6",
-      "ms": 0.078609,
-      "calls_per_iter": 1.0,
-      "share": 0.00933
-    },
-    {
-      "name": "node_upsample_bilinear2d_6",
-      "ms": 0.076151,
-      "calls_per_iter": 1.0,
-      "share": 0.009039
-    },
-    {
-      "name": "node_upsample_bilinear2d_5",
-      "ms": 0.075947,
-      "calls_per_iter": 1.0,
-      "share": 0.009014
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_20 + PWN(node_leaky_relu_13)",
-      "ms": 0.070485,
-      "calls_per_iter": 1.0,
-      "share": 0.008366
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_17 + PWN(node_leaky_relu_12)",
-      "ms": 0.070417,
-      "calls_per_iter": 1.0,
-      "share": 0.008358
-    },
-    {
-      "name": "node_pad_2",
-      "ms": 0.068062,
-      "calls_per_iter": 1.0,
-      "share": 0.008078
-    },
-    {
-      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAddMulAdd_myl39_1",
-      "ms": 0.066423,
-      "calls_per_iter": 1.0,
-      "share": 0.007884
+      "share": 0.008685
     },
     {
       "name": "__myl_ReshReshMulReshMulMulMulMulMulMulMulMulMulReshMulMulMulReshMulReshMulReshMulReshMulReshMulEtc_myl3_131",
-      "ms": 0.06615,
+      "ms": 0.077517,
       "calls_per_iter": 1.0,
-      "share": 0.007852
+      "share": 0.008677
     },
     {
-      "name": "node_pad",
-      "ms": 0.06557,
+      "name": "node_upsample_bilinear2d_6",
+      "ms": 0.074001,
       "calls_per_iter": 1.0,
-      "share": 0.007783
+      "share": 0.008283
     },
     {
-      "name": "Reformatting CopyNode for Output Tensor 0 to {ForeignNode[ONNXTRT_Broadcast_1762...node_mul_79]}",
-      "ms": 0.064717,
+      "name": "node_upsample_bilinear2d_5",
+      "ms": 0.073284,
       "calls_per_iter": 1.0,
-      "share": 0.007681
+      "share": 0.008203
+    },
+    {
+      "name": "node_MatMul_1480_myl39_6",
+      "ms": 0.070451,
+      "calls_per_iter": 1.0,
+      "share": 0.007886
+    },
+    {
+      "name": "__myl_Tran_myl39_4",
+      "ms": 0.070007,
+      "calls_per_iter": 1.0,
+      "share": 0.007836
+    },
+    {
+      "name": "node_pad_2",
+      "ms": 0.066458,
+      "calls_per_iter": 1.0,
+      "share": 0.007439
     },
     {
       "name": "node_MatMul_11_myl3_2",
-      "ms": 0.063659,
+      "ms": 0.066082,
       "calls_per_iter": 1.0,
-      "share": 0.007556
+      "share": 0.007397
     },
     {
-      "name": "node_MatMul_1492_myl39_3",
-      "ms": 0.061679,
+      "name": "node_pad",
+      "ms": 0.064341,
       "calls_per_iter": 1.0,
-      "share": 0.007321
+      "share": 0.007202
     },
     {
-      "name": "node_upsample_bilinear2d",
-      "ms": 0.05946,
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_20 + PWN(node_leaky_relu_13)",
+      "ms": 0.064,
       "calls_per_iter": 1.0,
-      "share": 0.007057
+      "share": 0.007164
     },
     {
-      "name": "__myl_Tran_myl39_7",
-      "ms": 0.058607,
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_17 + PWN(node_leaky_relu_12)",
+      "ms": 0.063863,
       "calls_per_iter": 1.0,
-      "share": 0.006956
+      "share": 0.007149
     },
     {
-      "name": "_gemm_mha_v2_myl3_54",
-      "ms": 0.054955,
+      "name": "__myl_FcAdd_myl7_79",
+      "ms": 0.061235,
       "calls_per_iter": 1.0,
-      "share": 0.006523
-    },
-    {
-      "name": "_gemm_mha_v2_myl3_12",
-      "ms": 0.054818,
-      "calls_per_iter": 1.0,
-      "share": 0.006506
-    },
-    {
-      "name": "node_conv2d_21 + PWN(PWN(node_clamp_5), PWN(node_exp_1))",
-      "ms": 0.054477,
-      "calls_per_iter": 1.0,
-      "share": 0.006466
-    },
-    {
-      "name": "node_einsum_myl3_143",
-      "ms": 0.054272,
-      "calls_per_iter": 1.0,
-      "share": 0.006442
-    },
-    {
-      "name": "node_MatMul_302_myl3_49",
-      "ms": 0.054204,
-      "calls_per_iter": 1.0,
-      "share": 0.006434
-    },
-    {
-      "name": "node_conv2d_18 + PWN(node_clamp_4)",
-      "ms": 0.05318,
-      "calls_per_iter": 1.0,
-      "share": 0.006312
-    },
-    {
-      "name": "_gemm_mha_v2_myl7_95",
-      "ms": 0.052463,
-      "calls_per_iter": 1.0,
-      "share": 0.006227
-    },
-    {
-      "name": "_gemm_mha_v2_myl3_45",
-      "ms": 0.052429,
-      "calls_per_iter": 1.0,
-      "share": 0.006223
-    },
-    {
-      "name": "__myl_SlicCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_136",
-      "ms": 0.05219,
-      "calls_per_iter": 1.0,
-      "share": 0.006195
-    },
-    {
-      "name": "node_upsample_bilinear2d_3",
-      "ms": 0.051507,
-      "calls_per_iter": 1.0,
-      "share": 0.006114
-    },
-    {
-      "name": "_gemm_mha_v2_myl3_20",
-      "ms": 0.051234,
-      "calls_per_iter": 1.0,
-      "share": 0.006081
-    },
-    {
-      "name": "__myl_Tran_myl39_0",
-      "ms": 0.050483,
-      "calls_per_iter": 1.0,
-      "share": 0.005992
-    },
-    {
-      "name": "_gemm_mha_v2_myl7_51",
-      "ms": 0.050449,
-      "calls_per_iter": 1.0,
-      "share": 0.005988
-    },
-    {
-      "name": "_gemm_mha_v2_myl3_79",
-      "ms": 0.049869,
-      "calls_per_iter": 1.0,
-      "share": 0.005919
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_19",
-      "ms": 0.049869,
-      "calls_per_iter": 1.0,
-      "share": 0.005919
-    },
-    {
-      "name": "_gemm_mha_v2_myl3_37",
-      "ms": 0.049801,
-      "calls_per_iter": 1.0,
-      "share": 0.005911
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_16",
-      "ms": 0.04922,
-      "calls_per_iter": 1.0,
-      "share": 0.005842
-    },
-    {
-      "name": "_gemm_mha_v2_myl7_75",
-      "ms": 0.048674,
-      "calls_per_iter": 1.0,
-      "share": 0.005777
-    },
-    {
-      "name": "_gemm_mha_v2_myl3_4",
-      "ms": 0.047991,
-      "calls_per_iter": 1.0,
-      "share": 0.005696
-    },
-    {
-      "name": "node_MatMul_62_myl3_8",
-      "ms": 0.047138,
-      "calls_per_iter": 1.0,
-      "share": 0.005595
-    },
-    {
-      "name": "_gemm_mha_v2_myl3_29",
-      "ms": 0.047138,
-      "calls_per_iter": 1.0,
-      "share": 0.005595
-    },
-    {
-      "name": "_gemm_mha_v2_myl3_95",
-      "ms": 0.046729,
-      "calls_per_iter": 1.0,
-      "share": 0.005546
+      "share": 0.006854
     },
     {
       "name": "__myl_FcAdd_myl7_32",
-      "ms": 0.046592,
+      "ms": 0.061133,
       "calls_per_iter": 1.0,
-      "share": 0.00553
+      "share": 0.006843
     },
     {
-      "name": "_gemm_mha_v2_myl3_87",
-      "ms": 0.046319,
+      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAddMulAdd_myl39_1",
+      "ms": 0.059836,
       "calls_per_iter": 1.0,
-      "share": 0.005498
+      "share": 0.006698
     },
     {
-      "name": "_gemm_mha_v2_myl7_28",
-      "ms": 0.045705,
+      "name": "Reformatting CopyNode for Output Tensor 0 to {ForeignNode[ONNXTRT_Broadcast_1762...node_mul_79]}",
+      "ms": 0.059051,
       "calls_per_iter": 1.0,
-      "share": 0.005425
+      "share": 0.00661
+    },
+    {
+      "name": "node_MatMul_542_myl3_91",
+      "ms": 0.05847,
+      "calls_per_iter": 1.0,
+      "share": 0.006545
+    },
+    {
+      "name": "node_MatMul_1492_myl39_3",
+      "ms": 0.056593,
+      "calls_per_iter": 1.0,
+      "share": 0.006335
+    },
+    {
+      "name": "node_MatMul_446_myl3_74",
+      "ms": 0.055296,
+      "calls_per_iter": 1.0,
+      "share": 0.00619
+    },
+    {
+      "name": "node_MatMul_110_myl3_16",
+      "ms": 0.054784,
+      "calls_per_iter": 1.0,
+      "share": 0.006132
+    },
+    {
+      "name": "node_MatMul_254_myl3_41",
+      "ms": 0.054511,
+      "calls_per_iter": 1.0,
+      "share": 0.006102
+    },
+    {
+      "name": "__myl_FcAdd_myl7_99",
+      "ms": 0.054374,
+      "calls_per_iter": 1.0,
+      "share": 0.006086
+    },
+    {
+      "name": "node_conv2d_1 + PWN(node_leaky_relu_1)",
+      "ms": 0.05434,
+      "calls_per_iter": 1.0,
+      "share": 0.006083
+    },
+    {
+      "name": "node_MatMul_703_myl7_9",
+      "ms": 0.05376,
+      "calls_per_iter": 1.0,
+      "share": 0.006018
+    },
+    {
+      "name": "_gemm_mha_v2_myl3_54",
+      "ms": 0.053009,
+      "calls_per_iter": 1.0,
+      "share": 0.005934
+    },
+    {
+      "name": "__myl_FcAdd_myl7_55",
+      "ms": 0.052736,
+      "calls_per_iter": 1.0,
+      "share": 0.005903
+    },
+    {
+      "name": "node_MatMul_302_myl3_49",
+      "ms": 0.052497,
+      "calls_per_iter": 1.0,
+      "share": 0.005876
+    },
+    {
+      "name": "node_einsum_myl3_143",
+      "ms": 0.052395,
+      "calls_per_iter": 1.0,
+      "share": 0.005865
+    },
+    {
+      "name": "__myl_Tran_myl39_7",
+      "ms": 0.051951,
+      "calls_per_iter": 1.0,
+      "share": 0.005815
+    },
+    {
+      "name": "node_MatMul_158_myl3_24",
+      "ms": 0.051541,
+      "calls_per_iter": 1.0,
+      "share": 0.005769
+    },
+    {
+      "name": "node_conv2d_21 + PWN(PWN(node_clamp_5), PWN(node_exp_1))",
+      "ms": 0.051098,
+      "calls_per_iter": 1.0,
+      "share": 0.00572
+    },
+    {
+      "name": "node_upsample_bilinear2d_3",
+      "ms": 0.050995,
+      "calls_per_iter": 1.0,
+      "share": 0.005708
+    },
+    {
+      "name": "_gemm_mha_v2_myl3_79",
+      "ms": 0.050927,
+      "calls_per_iter": 1.0,
+      "share": 0.005701
+    },
+    {
+      "name": "node_MatMul_697_myl7_82",
+      "ms": 0.05062,
+      "calls_per_iter": 1.0,
+      "share": 0.005666
+    },
+    {
+      "name": "node_MatMul_590_myl3_99",
+      "ms": 0.050039,
+      "calls_per_iter": 1.0,
+      "share": 0.005601
+    },
+    {
+      "name": "_gemm_mha_v2_myl3_37",
+      "ms": 0.049869,
+      "calls_per_iter": 1.0,
+      "share": 0.005582
+    },
+    {
+      "name": "_gemm_mha_v2_myl3_29",
+      "ms": 0.049254,
+      "calls_per_iter": 1.0,
+      "share": 0.005513
+    },
+    {
+      "name": "node_conv2d_18 + PWN(node_clamp_4)",
+      "ms": 0.048981,
+      "calls_per_iter": 1.0,
+      "share": 0.005483
+    },
+    {
+      "name": "_gemm_mha_v2_myl3_12",
+      "ms": 0.048742,
+      "calls_per_iter": 1.0,
+      "share": 0.005456
     },
     {
       "name": "node_MatMul_398_myl3_66",
-      "ms": 0.045397,
+      "ms": 0.048708,
       "calls_per_iter": 1.0,
-      "share": 0.005388
+      "share": 0.005452
     },
     {
-      "name": "_gemm_mha_v2_myl3_70",
-      "ms": 0.044885,
+      "name": "__myl_SlicCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_136",
+      "ms": 0.048196,
       "calls_per_iter": 1.0,
-      "share": 0.005328
+      "share": 0.005395
     },
     {
       "name": "_gemm_mha_v2_myl3_62",
-      "ms": 0.044749,
+      "ms": 0.047821,
+      "calls_per_iter": 1.0,
+      "share": 0.005353
+    },
+    {
+      "name": "_gemm_mha_v2_myl3_87",
+      "ms": 0.047787,
+      "calls_per_iter": 1.0,
+      "share": 0.005349
+    },
+    {
+      "name": "_gemm_mha_v2_myl3_20",
+      "ms": 0.047445,
       "calls_per_iter": 1.0,
       "share": 0.005311
     },
     {
-      "name": "node_MatMul_590_myl3_99",
-      "ms": 0.043861,
+      "name": "_gemm_mha_v2_myl3_70",
+      "ms": 0.047377,
       "calls_per_iter": 1.0,
-      "share": 0.005206
+      "share": 0.005303
     },
     {
-      "name": "node_conv2d_3 + PWN(node_leaky_relu_3)",
-      "ms": 0.043418,
+      "name": "_gemm_mha_v2_myl3_45",
+      "ms": 0.047138,
       "calls_per_iter": 1.0,
-      "share": 0.005153
+      "share": 0.005276
     },
     {
-      "name": "node_MatMul_158_myl3_24",
-      "ms": 0.043042,
+      "name": "node_MatMul_62_myl3_8",
+      "ms": 0.047104,
       "calls_per_iter": 1.0,
-      "share": 0.005109
+      "share": 0.005273
     },
     {
-      "name": "node_MatMul_206_myl3_33",
-      "ms": 0.042633,
+      "name": "_gemm_mha_v2_myl3_95",
+      "ms": 0.046455,
       "calls_per_iter": 1.0,
-      "share": 0.00506
+      "share": 0.0052
     },
     {
-      "name": "node_MatMul_254_myl3_41",
-      "ms": 0.042394,
+      "name": "_gemm_mha_v2_myl3_4",
+      "ms": 0.046114,
       "calls_per_iter": 1.0,
-      "share": 0.005032
+      "share": 0.005162
     },
     {
-      "name": "node_MatMul_350_myl3_58",
-      "ms": 0.041677,
+      "name": "__myl_Tran_myl3_146",
+      "ms": 0.04608,
       "calls_per_iter": 1.0,
-      "share": 0.004947
+      "share": 0.005158
     },
     {
-      "name": "__myl_FcAdd_myl7_99",
-      "ms": 0.041574,
+      "name": "__myl_Tran_myl39_0",
+      "ms": 0.045943,
       "calls_per_iter": 1.0,
-      "share": 0.004935
+      "share": 0.005143
     },
     {
-      "name": "node_convolution_2 + node_add_47",
-      "ms": 0.041472,
+      "name": "node_MatMul_699_myl7_58",
+      "ms": 0.045773,
       "calls_per_iter": 1.0,
-      "share": 0.004922
+      "share": 0.005124
     },
     {
-      "name": "__myl_FcAdd_myl7_55",
-      "ms": 0.040994,
+      "name": "node_linear_78_myl7_85",
+      "ms": 0.045261,
       "calls_per_iter": 1.0,
-      "share": 0.004866
+      "share": 0.005066
     },
     {
-      "name": "node_conv2d_2 + pixel_decoder.radial_module.ups.0.convs.0.gamma + node_mul_73 + node_add_42 + PWN(node_leaky_relu_2)",
-      "ms": 0.039936,
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_16",
+      "ms": 0.044851,
       "calls_per_iter": 1.0,
-      "share": 0.00474
+      "share": 0.00502
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_19",
+      "ms": 0.044783,
+      "calls_per_iter": 1.0,
+      "share": 0.005013
+    },
+    {
+      "name": "__myl_ReshMove_myl7_47",
+      "ms": 0.044066,
+      "calls_per_iter": 1.0,
+      "share": 0.004933
     },
     {
       "name": "node_MatMul_494_myl3_83",
-      "ms": 0.039253,
+      "ms": 0.043827,
       "calls_per_iter": 1.0,
-      "share": 0.004659
+      "share": 0.004906
     },
     {
-      "name": "node_linear_79_myl7_84",
-      "ms": 0.039014,
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl7_30",
+      "ms": 0.043179,
       "calls_per_iter": 1.0,
-      "share": 0.004631
+      "share": 0.004833
     },
     {
-      "name": "__myl_MoveConc_myl3_132",
-      "ms": 0.038741,
+      "name": "node_linear_94_myl7_11",
+      "ms": 0.041847,
       "calls_per_iter": 1.0,
-      "share": 0.004598
+      "share": 0.004684
     },
     {
-      "name": "node_MatMul_446_myl3_74",
-      "ms": 0.038161,
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl7_77",
+      "ms": 0.041677,
       "calls_per_iter": 1.0,
-      "share": 0.004529
+      "share": 0.004665
     },
     {
-      "name": "__myl_Fc_myl3_57",
-      "ms": 0.037581,
+      "name": "node_linear_88_myl7_39",
+      "ms": 0.040721,
       "calls_per_iter": 1.0,
-      "share": 0.004461
+      "share": 0.004558
     },
     {
-      "name": "node_conv2d",
-      "ms": 0.037444,
+      "name": "_gemm_mha_v2_myl7_75",
+      "ms": 0.04055,
       "calls_per_iter": 1.0,
-      "share": 0.004444
+      "share": 0.004539
     },
     {
-      "name": "node_MatMul_110_myl3_16",
-      "ms": 0.036454,
+      "name": "_gemm_mha_v2_myl7_95",
+      "ms": 0.040414,
       "calls_per_iter": 1.0,
-      "share": 0.004327
-    },
-    {
-      "name": "__myl_Fc_myl3_40",
-      "ms": 0.036181,
-      "calls_per_iter": 1.0,
-      "share": 0.004294
-    },
-    {
-      "name": "node_MatMul_542_myl3_91",
-      "ms": 0.03584,
-      "calls_per_iter": 1.0,
-      "share": 0.004254
-    },
-    {
-      "name": "__myl_MoveSlicReshSlicReshAbsMaxMinGtrEqlGtrOrCastMulAddCastMulDivAtanAddAddSeleLtSeleIsnaSeleEtc_myl7_12",
-      "ms": 0.033997,
-      "calls_per_iter": 1.0,
-      "share": 0.004035
-    },
-    {
-      "name": "__myl_Fc_myl3_98",
-      "ms": 0.033519,
-      "calls_per_iter": 1.0,
-      "share": 0.003978
+      "share": 0.004524
     },
     {
       "name": "node_conv2d_4 + pixel_decoder.radial_module.ups.0.convs.1.gamma + node_mul_74 + node_add_43",
-      "ms": 0.033417,
+      "ms": 0.040277,
       "calls_per_iter": 1.0,
-      "share": 0.003966
+      "share": 0.004509
     },
     {
-      "name": "__myl_Fc_myl3_15",
-      "ms": 0.032973,
+      "name": "__myl_Fc_myl3_98",
+      "ms": 0.040141,
       "calls_per_iter": 1.0,
-      "share": 0.003914
+      "share": 0.004493
     },
     {
-      "name": "__myl_Fc_myl3_7",
-      "ms": 0.032905,
+      "name": "_gemm_mha_v2_myl7_28",
+      "ms": 0.040038,
       "calls_per_iter": 1.0,
-      "share": 0.003906
+      "share": 0.004482
     },
     {
-      "name": "__myl_Fc_myl3_23",
-      "ms": 0.032836,
+      "name": "_gemm_mha_v2_myl7_51",
+      "ms": 0.03997,
       "calls_per_iter": 1.0,
-      "share": 0.003897
-    },
-    {
-      "name": "__myl_Fc_myl3_65",
-      "ms": 0.032768,
-      "calls_per_iter": 1.0,
-      "share": 0.003889
-    },
-    {
-      "name": "__myl_Fc_myl3_90",
-      "ms": 0.032666,
-      "calls_per_iter": 1.0,
-      "share": 0.003877
-    },
-    {
-      "name": "__myl_Fc_myl3_32",
-      "ms": 0.032631,
-      "calls_per_iter": 1.0,
-      "share": 0.003873
-    },
-    {
-      "name": "__myl_Fc_myl3_48",
-      "ms": 0.032631,
-      "calls_per_iter": 1.0,
-      "share": 0.003873
-    },
-    {
-      "name": "__myl_Fc_myl3_82",
-      "ms": 0.032529,
-      "calls_per_iter": 1.0,
-      "share": 0.003861
-    },
-    {
-      "name": "__myl_Fc_myl3_73",
-      "ms": 0.032324,
-      "calls_per_iter": 1.0,
-      "share": 0.003837
-    },
-    {
-      "name": "__myl_Fc_myl3_140",
-      "ms": 0.03229,
-      "calls_per_iter": 1.0,
-      "share": 0.003833
-    },
-    {
-      "name": "node_conv2d_1 + PWN(node_leaky_relu_1)",
-      "ms": 0.032119,
-      "calls_per_iter": 1.0,
-      "share": 0.003812
-    },
-    {
-      "name": "__myl_Fc_myl7_54",
-      "ms": 0.031539,
-      "calls_per_iter": 1.0,
-      "share": 0.003743
-    },
-    {
-      "name": "__myl_FcAdd_myl7_29",
-      "ms": 0.0313,
-      "calls_per_iter": 1.0,
-      "share": 0.003715
-    },
-    {
-      "name": "__myl_SlicReshMoveTran_myl7_45",
-      "ms": 0.029321,
-      "calls_per_iter": 1.0,
-      "share": 0.00348
-    },
-    {
-      "name": "node_MatMul_932_myl3_138",
-      "ms": 0.02915,
-      "calls_per_iter": 1.0,
-      "share": 0.00346
-    },
-    {
-      "name": "node_MatMul_352_myl3_60",
-      "ms": 0.028979,
-      "calls_per_iter": 1.0,
-      "share": 0.00344
-    },
-    {
-      "name": "node_MatMul_496_myl3_85",
-      "ms": 0.028911,
-      "calls_per_iter": 1.0,
-      "share": 0.003432
-    },
-    {
-      "name": "node_MatMul_400_myl3_68",
-      "ms": 0.028774,
-      "calls_per_iter": 1.0,
-      "share": 0.003415
-    },
-    {
-      "name": "node_MatMul_208_myl3_35",
-      "ms": 0.028638,
-      "calls_per_iter": 1.0,
-      "share": 0.003399
-    },
-    {
-      "name": "node_MatMul_256_myl3_43",
-      "ms": 0.028638,
-      "calls_per_iter": 1.0,
-      "share": 0.003399
-    },
-    {
-      "name": "node_MatMul_304_myl3_52",
-      "ms": 0.028604,
-      "calls_per_iter": 1.0,
-      "share": 0.003395
-    },
-    {
-      "name": "node_MatMul_112_myl3_18",
-      "ms": 0.028535,
-      "calls_per_iter": 1.0,
-      "share": 0.003387
-    },
-    {
-      "name": "node_MatMul_544_myl3_93",
-      "ms": 0.028433,
-      "calls_per_iter": 1.0,
-      "share": 0.003375
+      "share": 0.004474
     },
     {
       "name": "node_convolution_1 + node_add_44",
-      "ms": 0.028365,
+      "ms": 0.039595,
       "calls_per_iter": 1.0,
-      "share": 0.003367
+      "share": 0.004432
+    },
+    {
+      "name": "__myl_FcMulAdd_myl3_116",
+      "ms": 0.039253,
+      "calls_per_iter": 1.0,
+      "share": 0.004394
+    },
+    {
+      "name": "node_MatMul_701_myl7_35",
+      "ms": 0.039151,
+      "calls_per_iter": 1.0,
+      "share": 0.004382
+    },
+    {
+      "name": "node_convolution_2 + node_add_47",
+      "ms": 0.039151,
+      "calls_per_iter": 1.0,
+      "share": 0.004382
+    },
+    {
+      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl7_36",
+      "ms": 0.038844,
+      "calls_per_iter": 1.0,
+      "share": 0.004348
+    },
+    {
+      "name": "node_MatMul_350_myl3_58",
+      "ms": 0.037581,
+      "calls_per_iter": 1.0,
+      "share": 0.004207
+    },
+    {
+      "name": "node_linear_83_myl7_62",
+      "ms": 0.037001,
+      "calls_per_iter": 1.0,
+      "share": 0.004142
+    },
+    {
+      "name": "node_conv2d",
+      "ms": 0.036932,
+      "calls_per_iter": 1.0,
+      "share": 0.004134
+    },
+    {
+      "name": "PWN(node_acos)",
+      "ms": 0.036284,
+      "calls_per_iter": 1.0,
+      "share": 0.004061
+    },
+    {
+      "name": "__myl_SlicCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_127",
+      "ms": 0.036215,
+      "calls_per_iter": 1.0,
+      "share": 0.004054
+    },
+    {
+      "name": "node_conv2d_3 + PWN(node_leaky_relu_3)",
+      "ms": 0.036147,
+      "calls_per_iter": 1.0,
+      "share": 0.004046
+    },
+    {
+      "name": "__myl_MoveConc_myl3_132",
+      "ms": 0.035601,
+      "calls_per_iter": 1.0,
+      "share": 0.003985
+    },
+    {
+      "name": "node_MatMul_206_myl3_33",
+      "ms": 0.035396,
+      "calls_per_iter": 1.0,
+      "share": 0.003962
+    },
+    {
+      "name": "__myl_Fc_myl3_7",
+      "ms": 0.035191,
+      "calls_per_iter": 1.0,
+      "share": 0.003939
+    },
+    {
+      "name": "node_conv2d_2 + pixel_decoder.radial_module.ups.0.convs.0.gamma + node_mul_73 + node_add_42 + PWN(node_leaky_relu_2)",
+      "ms": 0.035191,
+      "calls_per_iter": 1.0,
+      "share": 0.003939
+    },
+    {
+      "name": "__myl_Fc_myl3_65",
+      "ms": 0.034782,
+      "calls_per_iter": 1.0,
+      "share": 0.003893
+    },
+    {
+      "name": "__myl_Fc_myl3_73",
+      "ms": 0.034236,
+      "calls_per_iter": 1.0,
+      "share": 0.003832
+    },
+    {
+      "name": "__myl_Fc_myl3_82",
+      "ms": 0.033587,
+      "calls_per_iter": 1.0,
+      "share": 0.00376
+    },
+    {
+      "name": "__myl_TranSlic_myl7_86",
+      "ms": 0.033587,
+      "calls_per_iter": 1.0,
+      "share": 0.00376
+    },
+    {
+      "name": "__myl_Fc_myl3_90",
+      "ms": 0.033109,
+      "calls_per_iter": 1.0,
+      "share": 0.003706
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 1 to node_convolution + node_add_41",
+      "ms": 0.033007,
+      "calls_per_iter": 1.0,
+      "share": 0.003695
+    },
+    {
+      "name": "__myl_Fc_myl3_40",
+      "ms": 0.032529,
+      "calls_per_iter": 1.0,
+      "share": 0.003641
+    },
+    {
+      "name": "__myl_FcMulAdd_myl3_126",
+      "ms": 0.032529,
+      "calls_per_iter": 1.0,
+      "share": 0.003641
+    },
+    {
+      "name": "node_linear_79_myl7_84",
+      "ms": 0.032427,
+      "calls_per_iter": 1.0,
+      "share": 0.00363
+    },
+    {
+      "name": "__myl_Fc_myl3_48",
+      "ms": 0.032324,
+      "calls_per_iter": 1.0,
+      "share": 0.003618
+    },
+    {
+      "name": "node_linear_56_myl3_106",
+      "ms": 0.032324,
+      "calls_per_iter": 1.0,
+      "share": 0.003618
+    },
+    {
+      "name": "__myl_ConcConc_myl3_142",
+      "ms": 0.032222,
+      "calls_per_iter": 1.0,
+      "share": 0.003607
+    },
+    {
+      "name": "__myl_Fc_myl3_140",
+      "ms": 0.031949,
+      "calls_per_iter": 1.0,
+      "share": 0.003576
+    },
+    {
+      "name": "__myl_Fc_myl3_32",
+      "ms": 0.031881,
+      "calls_per_iter": 1.0,
+      "share": 0.003569
+    },
+    {
+      "name": "__myl_Fc_myl3_57",
+      "ms": 0.031437,
+      "calls_per_iter": 1.0,
+      "share": 0.003519
+    },
+    {
+      "name": "node_linear_57_myl3_105",
+      "ms": 0.031061,
+      "calls_per_iter": 1.0,
+      "share": 0.003477
+    },
+    {
+      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_114",
+      "ms": 0.030993,
+      "calls_per_iter": 1.0,
+      "share": 0.003469
+    },
+    {
+      "name": "__myl_Fc_myl7_54",
+      "ms": 0.030959,
+      "calls_per_iter": 1.0,
+      "share": 0.003465
+    },
+    {
+      "name": "__myl_Fc_myl3_23",
+      "ms": 0.030891,
+      "calls_per_iter": 1.0,
+      "share": 0.003458
     },
     {
       "name": "__myl_Fc_myl7_31",
-      "ms": 0.028228,
+      "ms": 0.030891,
       "calls_per_iter": 1.0,
-      "share": 0.00335
+      "share": 0.003458
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_upsample_bilinear2d_5",
-      "ms": 0.028092,
+      "name": "__myl_MulSum_myl3_129",
+      "ms": 0.030788,
       "calls_per_iter": 1.0,
-      "share": 0.003334
+      "share": 0.003446
     },
     {
-      "name": "node_MatMul_160_myl3_27",
-      "ms": 0.028058,
+      "name": "__myl_Fc_myl3_15",
+      "ms": 0.030686,
       "calls_per_iter": 1.0,
-      "share": 0.00333
+      "share": 0.003435
     },
     {
-      "name": "node_MatMul_448_myl3_77",
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_convolution + node_add_41",
+      "ms": 0.030686,
+      "calls_per_iter": 1.0,
+      "share": 0.003435
+    },
+    {
+      "name": "node_linear_58_myl3_104",
+      "ms": 0.030379,
+      "calls_per_iter": 1.0,
+      "share": 0.0034
+    },
+    {
+      "name": "node_MatMul_544_myl3_93",
+      "ms": 0.030071,
+      "calls_per_iter": 1.0,
+      "share": 0.003366
+    },
+    {
+      "name": "__myl_MoveSlicReshSlicReshAbsMaxMinGtrEqlGtrOrCastMulAddCastMulDivAtanAddAddSeleLtSeleIsnaSeleEtc_myl7_12",
+      "ms": 0.030071,
+      "calls_per_iter": 1.0,
+      "share": 0.003366
+    },
+    {
+      "name": "__myl_Fc_myl7_98",
+      "ms": 0.029764,
+      "calls_per_iter": 1.0,
+      "share": 0.003332
+    },
+    {
+      "name": "node_linear_65_myl3_120",
+      "ms": 0.029696,
+      "calls_per_iter": 1.0,
+      "share": 0.003324
+    },
+    {
+      "name": "__myl_FcMulAdd_myl3_123",
+      "ms": 0.029662,
+      "calls_per_iter": 1.0,
+      "share": 0.00332
+    },
+    {
+      "name": "node_MatMul_932_myl3_138",
+      "ms": 0.028945,
+      "calls_per_iter": 1.0,
+      "share": 0.00324
+    },
+    {
+      "name": "__myl_Fc_myl3_125",
+      "ms": 0.028843,
+      "calls_per_iter": 1.0,
+      "share": 0.003229
+    },
+    {
+      "name": "node_MatMul_400_myl3_68",
+      "ms": 0.028809,
+      "calls_per_iter": 1.0,
+      "share": 0.003225
+    },
+    {
+      "name": "node_MatMul_352_myl3_60",
+      "ms": 0.02874,
+      "calls_per_iter": 1.0,
+      "share": 0.003217
+    },
+    {
+      "name": "node_MatMul_256_myl3_43",
+      "ms": 0.02857,
+      "calls_per_iter": 1.0,
+      "share": 0.003198
+    },
+    {
+      "name": "node_MatMul_496_myl3_85",
+      "ms": 0.02857,
+      "calls_per_iter": 1.0,
+      "share": 0.003198
+    },
+    {
+      "name": "node_linear_84_myl7_60",
+      "ms": 0.028535,
+      "calls_per_iter": 1.0,
+      "share": 0.003194
+    },
+    {
+      "name": "node_MatMul_208_myl3_35",
+      "ms": 0.028501,
+      "calls_per_iter": 1.0,
+      "share": 0.00319
+    },
+    {
+      "name": "node_convolution + node_add_41",
+      "ms": 0.028501,
+      "calls_per_iter": 1.0,
+      "share": 0.00319
+    },
+    {
+      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl7_59",
+      "ms": 0.028433,
+      "calls_per_iter": 1.0,
+      "share": 0.003183
+    },
+    {
+      "name": "node_MatMul_112_myl3_18",
+      "ms": 0.028194,
+      "calls_per_iter": 1.0,
+      "share": 0.003156
+    },
+    {
+      "name": "node_MatMul_304_myl3_52",
       "ms": 0.028023,
       "calls_per_iter": 1.0,
-      "share": 0.003326
+      "share": 0.003137
     },
     {
       "name": "node_MatMul_64_myl3_10",
       "ms": 0.027921,
       "calls_per_iter": 1.0,
-      "share": 0.003314
-    },
-    {
-      "name": "__myl_FcAdd_myl7_76",
-      "ms": 0.027887,
-      "calls_per_iter": 1.0,
-      "share": 0.00331
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_upsample_bilinear2d_6",
-      "ms": 0.027887,
-      "calls_per_iter": 1.0,
-      "share": 0.00331
-    },
-    {
-      "name": "__myl_TranSlic_myl7_65",
-      "ms": 0.027785,
-      "calls_per_iter": 1.0,
-      "share": 0.003298
-    },
-    {
-      "name": "__myl_ReshTran_myl7_80",
-      "ms": 0.027785,
-      "calls_per_iter": 1.0,
-      "share": 0.003298
-    },
-    {
-      "name": "__myl_Fc_myl7_78",
-      "ms": 0.027648,
-      "calls_per_iter": 1.0,
-      "share": 0.003282
-    },
-    {
-      "name": "__myl_ReshTran_myl7_56",
-      "ms": 0.027614,
-      "calls_per_iter": 1.0,
-      "share": 0.003278
-    },
-    {
-      "name": "__myl_ReshMove_myl7_91",
-      "ms": 0.02758,
-      "calls_per_iter": 1.0,
-      "share": 0.003274
-    },
-    {
-      "name": "node_linear_65_myl3_120",
-      "ms": 0.026556,
-      "calls_per_iter": 1.0,
-      "share": 0.003152
-    },
-    {
-      "name": "PWN(node_leaky_relu_8)",
-      "ms": 0.02618,
-      "calls_per_iter": 1.0,
-      "share": 0.003107
+      "share": 0.003125
     },
     {
       "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl7_53",
-      "ms": 0.026078,
+      "ms": 0.027716,
       "calls_per_iter": 1.0,
-      "share": 0.003095
+      "share": 0.003102
     },
     {
-      "name": "__myl_Fc_myl7_98",
-      "ms": 0.025771,
+      "name": "node_MatMul_448_myl3_77",
+      "ms": 0.027614,
       "calls_per_iter": 1.0,
-      "share": 0.003059
+      "share": 0.003091
     },
     {
-      "name": "__myl_ConcConc_myl3_142",
-      "ms": 0.025225,
+      "name": "node_MatMul_160_myl3_27",
+      "ms": 0.027443,
       "calls_per_iter": 1.0,
-      "share": 0.002994
+      "share": 0.003072
     },
     {
-      "name": "node_linear_83_myl7_62",
-      "ms": 0.024883,
+      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl7_97",
+      "ms": 0.027238,
       "calls_per_iter": 1.0,
-      "share": 0.002953
-    },
-    {
-      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_124",
-      "ms": 0.023859,
-      "calls_per_iter": 1.0,
-      "share": 0.002832
-    },
-    {
-      "name": "__myl_SlicReshMoveTran_myl7_68",
-      "ms": 0.023757,
-      "calls_per_iter": 1.0,
-      "share": 0.00282
-    },
-    {
-      "name": "node_linear_89_myl7_37",
-      "ms": 0.023689,
-      "calls_per_iter": 1.0,
-      "share": 0.002812
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 1 to node_convolution + node_add_41",
-      "ms": 0.023552,
-      "calls_per_iter": 1.0,
-      "share": 0.002795
-    },
-    {
-      "name": "node_MatMul_701_myl7_35",
-      "ms": 0.022938,
-      "calls_per_iter": 1.0,
-      "share": 0.002723
-    },
-    {
-      "name": "node_linear_94_myl7_11",
-      "ms": 0.022596,
-      "calls_per_iter": 1.0,
-      "share": 0.002682
-    },
-    {
-      "name": "__myl_FcAdd_myl7_52",
-      "ms": 0.022562,
-      "calls_per_iter": 1.0,
-      "share": 0.002678
-    },
-    {
-      "name": "__myl_ReshMove_myl7_24",
-      "ms": 0.022494,
-      "calls_per_iter": 1.0,
-      "share": 0.00267
-    },
-    {
-      "name": "node_linear_78_myl7_85",
-      "ms": 0.022255,
-      "calls_per_iter": 1.0,
-      "share": 0.002641
-    },
-    {
-      "name": "__myl_ReshMove_myl7_71",
-      "ms": 0.021743,
-      "calls_per_iter": 1.0,
-      "share": 0.002581
-    },
-    {
-      "name": "__myl_SlicCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_127",
-      "ms": 0.021299,
-      "calls_per_iter": 1.0,
-      "share": 0.002528
-    },
-    {
-      "name": "__myl_FcMulAdd_myl3_116",
-      "ms": 0.021129,
-      "calls_per_iter": 1.0,
-      "share": 0.002508
+      "share": 0.003049
     },
     {
       "name": "__myl_Fc_myl3_128",
-      "ms": 0.02106,
+      "ms": 0.026999,
       "calls_per_iter": 1.0,
-      "share": 0.0025
+      "share": 0.003022
     },
     {
-      "name": "__myl_Slic_myl7_57",
-      "ms": 0.02089,
+      "name": "__myl_Fc_myl3_115",
+      "ms": 0.026965,
       "calls_per_iter": 1.0,
-      "share": 0.002479
+      "share": 0.003018
     },
     {
-      "name": "node_MatMul_703_myl7_9",
-      "ms": 0.020753,
+      "name": "node_linear_89_myl7_37",
+      "ms": 0.026795,
       "calls_per_iter": 1.0,
-      "share": 0.002463
+      "share": 0.002999
     },
     {
-      "name": "__myl_Slic_myl7_34",
-      "ms": 0.020685,
+      "name": "__myl_Fc_myl7_78",
+      "ms": 0.026795,
       "calls_per_iter": 1.0,
-      "share": 0.002455
-    },
-    {
-      "name": "node_linear_93_myl7_15",
-      "ms": 0.020548,
-      "calls_per_iter": 1.0,
-      "share": 0.002439
-    },
-    {
-      "name": "__myl_TranSlicSlicReshMoveTranReshMove_myl3_121",
-      "ms": 0.020173,
-      "calls_per_iter": 1.0,
-      "share": 0.002394
-    },
-    {
-      "name": "__myl_SlicReshMoveTran_myl7_88",
-      "ms": 0.020173,
-      "calls_per_iter": 1.0,
-      "share": 0.002394
-    },
-    {
-      "name": "__myl_Fc_myl3_125",
-      "ms": 0.020036,
-      "calls_per_iter": 1.0,
-      "share": 0.002378
-    },
-    {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl3_53",
-      "ms": 0.019729,
-      "calls_per_iter": 1.0,
-      "share": 0.002342
-    },
-    {
-      "name": "node_conv2d_15",
-      "ms": 0.019285,
-      "calls_per_iter": 1.0,
-      "share": 0.002289
-    },
-    {
-      "name": "node_linear_58_myl3_104",
-      "ms": 0.019251,
-      "calls_per_iter": 1.0,
-      "share": 0.002285
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_64",
-      "ms": 0.019081,
-      "calls_per_iter": 1.0,
-      "share": 0.002265
-    },
-    {
-      "name": "__myl_TranSlic_myl7_86",
-      "ms": 0.018705,
-      "calls_per_iter": 1.0,
-      "share": 0.00222
-    },
-    {
-      "name": "__myl_MulSum_myl3_129",
-      "ms": 0.018671,
-      "calls_per_iter": 1.0,
-      "share": 0.002216
-    },
-    {
-      "name": "__myl_ReplReshTranReshConcReshSlicReshSlicReshAddReshSlicReshSigmReshSlicReshSigmReshSlicReshAddEtc_myl3_130",
-      "ms": 0.018637,
-      "calls_per_iter": 1.0,
-      "share": 0.002212
-    },
-    {
-      "name": "__myl_FcMulAdd_myl3_126",
-      "ms": 0.018603,
-      "calls_per_iter": 1.0,
-      "share": 0.002208
-    },
-    {
-      "name": "__myl_FcMulAdd_myl3_113",
-      "ms": 0.018364,
-      "calls_per_iter": 1.0,
-      "share": 0.00218
-    },
-    {
-      "name": "__myl_FcMulAdd_myl3_123",
-      "ms": 0.01833,
-      "calls_per_iter": 1.0,
-      "share": 0.002176
-    },
-    {
-      "name": "node_MatMul_699_myl7_58",
-      "ms": 0.018193,
-      "calls_per_iter": 1.0,
-      "share": 0.002159
-    },
-    {
-      "name": "node_linear_61_myl3_108",
-      "ms": 0.017818,
-      "calls_per_iter": 1.0,
-      "share": 0.002115
-    },
-    {
-      "name": "node_linear_84_myl7_60",
-      "ms": 0.017715,
-      "calls_per_iter": 1.0,
-      "share": 0.002103
-    },
-    {
-      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl7_10",
-      "ms": 0.017647,
-      "calls_per_iter": 1.0,
-      "share": 0.002095
-    },
-    {
-      "name": "node_linear_66_myl3_118",
-      "ms": 0.017545,
-      "calls_per_iter": 1.0,
-      "share": 0.002082
+      "share": 0.002999
     },
     {
       "name": "node_linear_60_myl3_110",
-      "ms": 0.017408,
+      "ms": 0.026761,
       "calls_per_iter": 1.0,
-      "share": 0.002066
+      "share": 0.002995
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_92",
-      "ms": 0.01734,
+      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl7_83",
+      "ms": 0.026692,
       "calls_per_iter": 1.0,
-      "share": 0.002058
+      "share": 0.002988
+    },
+    {
+      "name": "__myl_FcMulAdd_myl3_113",
+      "ms": 0.026624,
+      "calls_per_iter": 1.0,
+      "share": 0.00298
+    },
+    {
+      "name": "node_linear_93_myl7_15",
+      "ms": 0.026351,
+      "calls_per_iter": 1.0,
+      "share": 0.00295
+    },
+    {
+      "name": "PWN(node_leaky_relu)",
+      "ms": 0.026351,
+      "calls_per_iter": 1.0,
+      "share": 0.00295
+    },
+    {
+      "name": "__myl_TranSlicSlicReshMoveTranReshMove_myl3_121",
+      "ms": 0.026214,
+      "calls_per_iter": 1.0,
+      "share": 0.002934
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_upsample_bilinear2d_5",
+      "ms": 0.026078,
+      "calls_per_iter": 1.0,
+      "share": 0.002919
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_upsample_bilinear2d_6",
+      "ms": 0.026044,
+      "calls_per_iter": 1.0,
+      "share": 0.002915
+    },
+    {
+      "name": "node_MatMul_928_myl3_141",
+      "ms": 0.025975,
+      "calls_per_iter": 1.0,
+      "share": 0.002908
+    },
+    {
+      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_124",
+      "ms": 0.025771,
+      "calls_per_iter": 1.0,
+      "share": 0.002885
+    },
+    {
+      "name": "node_linear_61_myl3_108",
+      "ms": 0.025429,
+      "calls_per_iter": 1.0,
+      "share": 0.002846
+    },
+    {
+      "name": "__myl_Fc_myl3_137",
+      "ms": 0.025395,
+      "calls_per_iter": 1.0,
+      "share": 0.002843
+    },
+    {
+      "name": "__myl_TranSlicSlicReshMoveTranReshMove_myl3_111",
+      "ms": 0.025054,
+      "calls_per_iter": 1.0,
+      "share": 0.002804
     },
     {
       "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAddMulAdd_myl3_117",
-      "ms": 0.01734,
+      "ms": 0.024986,
       "calls_per_iter": 1.0,
-      "share": 0.002058
+      "share": 0.002797
     },
     {
-      "name": "node_convolution + node_add_41",
-      "ms": 0.017306,
+      "name": "__myl_ConcCastMeanSubMulMeanAddSqrtDivMulCastMulAddMulAdd_myl3_107",
+      "ms": 0.02461,
       "calls_per_iter": 1.0,
-      "share": 0.002054
+      "share": 0.002755
     },
     {
-      "name": "__myl_Slic_myl7_8",
-      "ms": 0.017203,
+      "name": "__myl_SlicCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_139",
+      "ms": 0.024576,
       "calls_per_iter": 1.0,
-      "share": 0.002042
+      "share": 0.002751
     },
     {
-      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_114",
-      "ms": 0.017169,
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_convolution_1 + node_add_44",
+      "ms": 0.023757,
       "calls_per_iter": 1.0,
-      "share": 0.002038
+      "share": 0.002659
     },
     {
-      "name": "__myl_ReshTran_myl7_33",
-      "ms": 0.017067,
+      "name": "PWN(node_leaky_relu_8)",
+      "ms": 0.023757,
       "calls_per_iter": 1.0,
-      "share": 0.002026
+      "share": 0.002659
     },
     {
-      "name": "node_linear_88_myl7_39",
-      "ms": 0.016759,
+      "name": "__myl_Tran_myl7_101",
+      "ms": 0.023279,
       "calls_per_iter": 1.0,
-      "share": 0.001989
+      "share": 0.002606
     },
     {
-      "name": "__myl_AddSqrtDivMulCastMulAddMulAddTranSlicReshMulSum_myl3_76",
-      "ms": 0.016657,
+      "name": "__myl_TranAddReshMove_myl3_109",
+      "ms": 0.023142,
       "calls_per_iter": 1.0,
-      "share": 0.001977
+      "share": 0.00259
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl3_28",
-      "ms": 0.016623,
+      "name": "__myl_Slic_myl7_57",
+      "ms": 0.022391,
       "calls_per_iter": 1.0,
-      "share": 0.001973
+      "share": 0.002506
     },
     {
-      "name": "node_upsample_bilinear2d_2",
-      "ms": 0.016247,
+      "name": "__myl_ReshMove_myl7_71",
+      "ms": 0.022187,
       "calls_per_iter": 1.0,
-      "share": 0.001928
+      "share": 0.002484
     },
     {
-      "name": "_gemm_mha_v2_myl3_122",
-      "ms": 0.016179,
+      "name": "node_upsample_bilinear2d",
+      "ms": 0.021948,
       "calls_per_iter": 1.0,
-      "share": 0.00192
+      "share": 0.002457
     },
     {
-      "name": "node_conv2d_10",
-      "ms": 0.015974,
+      "name": "__myl_TranAddReshMove_myl3_119",
+      "ms": 0.021777,
       "calls_per_iter": 1.0,
-      "share": 0.001896
+      "share": 0.002438
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 1 to {ForeignNode[ONNXTRT_Broadcast_1762...node_mul_79]}",
-      "ms": 0.015667,
+      "name": "__myl_ReshMove_myl7_24",
+      "ms": 0.021709,
       "calls_per_iter": 1.0,
-      "share": 0.00186
+      "share": 0.00243
+    },
+    {
+      "name": "node_linear_59_myl3_103",
+      "ms": 0.021572,
+      "calls_per_iter": 1.0,
+      "share": 0.002415
+    },
+    {
+      "name": "__myl_SlicReshMoveTran_myl7_88",
+      "ms": 0.021367,
+      "calls_per_iter": 1.0,
+      "share": 0.002392
+    },
+    {
+      "name": "__myl_Slic_myl7_34",
+      "ms": 0.021333,
+      "calls_per_iter": 1.0,
+      "share": 0.002388
+    },
+    {
+      "name": "__myl_TranSlic_myl7_65",
+      "ms": 0.021333,
+      "calls_per_iter": 1.0,
+      "share": 0.002388
+    },
+    {
+      "name": "node_linear_66_myl3_118",
+      "ms": 0.021231,
+      "calls_per_iter": 1.0,
+      "share": 0.002377
+    },
+    {
+      "name": "__myl_AddAddAddAddConcSlicSlicSlicSlic_myl3_102",
+      "ms": 0.02106,
+      "calls_per_iter": 1.0,
+      "share": 0.002357
+    },
+    {
+      "name": "__myl_Slic_myl7_81",
+      "ms": 0.021026,
+      "calls_per_iter": 1.0,
+      "share": 0.002354
+    },
+    {
+      "name": "PWN(node_leaky_relu_4)",
+      "ms": 0.020685,
+      "calls_per_iter": 1.0,
+      "share": 0.002315
+    },
+    {
+      "name": "__myl_AddSqrtDivMulCastMulAddTranSlicReshMulSum_myl3_101",
+      "ms": 0.0199,
+      "calls_per_iter": 1.0,
+      "share": 0.002228
     },
     {
       "name": "__myl_FcAdd_myl7_96",
-      "ms": 0.015599,
+      "ms": 0.019183,
       "calls_per_iter": 1.0,
-      "share": 0.001851
+      "share": 0.002147
     },
     {
-      "name": "__myl_AddSqrtDivMulCastMulAddTranSlicMulAddReshMulSum_myl3_26",
-      "ms": 0.015565,
+      "name": "_gemm_mha_v2_myl3_112",
+      "ms": 0.018534,
       "calls_per_iter": 1.0,
-      "share": 0.001847
+      "share": 0.002075
     },
     {
-      "name": "__myl_AddSqrtDivMulCastMulAddMulAddTranSlicReshMulSum_myl3_51",
-      "ms": 0.015531,
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl3_28",
+      "ms": 0.018466,
       "calls_per_iter": 1.0,
-      "share": 0.001843
+      "share": 0.002067
+    },
+    {
+      "name": "node_conv2d_15",
+      "ms": 0.018398,
+      "calls_per_iter": 1.0,
+      "share": 0.002059
+    },
+    {
+      "name": "node_conv2d_5",
+      "ms": 0.018057,
+      "calls_per_iter": 1.0,
+      "share": 0.002021
+    },
+    {
+      "name": "__myl_Fc_myl3_134",
+      "ms": 0.017988,
+      "calls_per_iter": 1.0,
+      "share": 0.002014
+    },
+    {
+      "name": "node_upsample_bilinear2d_1",
+      "ms": 0.017783,
+      "calls_per_iter": 1.0,
+      "share": 0.001991
+    },
+    {
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl3_53",
+      "ms": 0.017545,
+      "calls_per_iter": 1.0,
+      "share": 0.001964
     },
     {
       "name": "node_MatMul_1451_myl7_100",
-      "ms": 0.01536,
+      "ms": 0.017408,
+      "calls_per_iter": 1.0,
+      "share": 0.001949
+    },
+    {
+      "name": "node_MatMul_586_myl3_96",
+      "ms": 0.017101,
+      "calls_per_iter": 1.0,
+      "share": 0.001914
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMean_myl3_100",
+      "ms": 0.01693,
+      "calls_per_iter": 1.0,
+      "share": 0.001895
+    },
+    {
+      "name": "__myl_ReshTran_myl7_80",
+      "ms": 0.016828,
+      "calls_per_iter": 1.0,
+      "share": 0.001884
+    },
+    {
+      "name": "__myl_FcAdd_myl7_52",
+      "ms": 0.016759,
+      "calls_per_iter": 1.0,
+      "share": 0.001876
+    },
+    {
+      "name": "__myl_ReplReshTranReshConcReshSlicReshSlicReshAddReshSlicReshSigmReshSlicReshSigmReshSlicReshAddEtc_myl3_130",
+      "ms": 0.016691,
+      "calls_per_iter": 1.0,
+      "share": 0.001868
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_14",
+      "ms": 0.016623,
+      "calls_per_iter": 1.0,
+      "share": 0.001861
+    },
+    {
+      "name": "node_conv2d_10",
+      "ms": 0.016486,
+      "calls_per_iter": 1.0,
+      "share": 0.001845
+    },
+    {
+      "name": "__myl_FcAdd_myl7_76",
+      "ms": 0.016316,
+      "calls_per_iter": 1.0,
+      "share": 0.001826
+    },
+    {
+      "name": "__myl_ReshTran_myl7_56",
+      "ms": 0.016282,
       "calls_per_iter": 1.0,
       "share": 0.001823
     },
     {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl7_77",
-      "ms": 0.015326,
+      "name": "__myl_AddSqrtDivMulCastMulAddMulAddTranSlicReshMulSum_myl3_76",
+      "ms": 0.01594,
       "calls_per_iter": 1.0,
-      "share": 0.001819
+      "share": 0.001784
     },
     {
-      "name": "Reformatting CopyNode for Output Tensor 0 to node_conv2d_21 + PWN(PWN(node_clamp_5), PWN(node_exp_1))",
-      "ms": 0.015326,
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_97",
+      "ms": 0.015394,
       "calls_per_iter": 1.0,
-      "share": 0.001819
-    },
-    {
-      "name": "__myl_Slic_myl3_144",
-      "ms": 0.015223,
-      "calls_per_iter": 1.0,
-      "share": 0.001807
-    },
-    {
-      "name": "node_MatMul_442_myl3_71",
-      "ms": 0.014677,
-      "calls_per_iter": 1.0,
-      "share": 0.001742
-    },
-    {
-      "name": "node_MatMul_154_myl3_21",
-      "ms": 0.014609,
-      "calls_per_iter": 1.0,
-      "share": 0.001734
+      "share": 0.001723
     },
     {
       "name": "__myl_TranSlic_myl7_42",
-      "ms": 0.014541,
+      "ms": 0.01536,
       "calls_per_iter": 1.0,
-      "share": 0.001726
+      "share": 0.001719
     },
     {
-      "name": "__myl_TranSlicReshMoveTranSlicReshMoveSlicReshMove_myl3_3",
+      "name": "__myl_AddSqrtDivMulCastMulAddMulAddTranSlicReshMulSum_myl3_51",
+      "ms": 0.014848,
+      "calls_per_iter": 1.0,
+      "share": 0.001662
+    },
+    {
+      "name": "node_upsample_bilinear2d_2",
+      "ms": 0.014848,
+      "calls_per_iter": 1.0,
+      "share": 0.001662
+    },
+    {
+      "name": "__myl_AddSqrtDivMulCastMulAddTranSlicMulAddReshMulSum_myl3_26",
+      "ms": 0.014643,
+      "calls_per_iter": 1.0,
+      "share": 0.001639
+    },
+    {
+      "name": "node_MatMul_442_myl3_71",
+      "ms": 0.014507,
+      "calls_per_iter": 1.0,
+      "share": 0.001624
+    },
+    {
+      "name": "Reformatting CopyNode for Output Tensor 0 to node_conv2d_21 + PWN(PWN(node_clamp_5), PWN(node_exp_1))",
       "ms": 0.014473,
       "calls_per_iter": 1.0,
-      "share": 0.001718
-    },
-    {
-      "name": "node_MatMul_490_myl3_80",
-      "ms": 0.014473,
-      "calls_per_iter": 1.0,
-      "share": 0.001718
-    },
-    {
-      "name": "node_MatMul_202_myl3_30",
-      "ms": 0.014438,
-      "calls_per_iter": 1.0,
-      "share": 0.001714
-    },
-    {
-      "name": "node_MatMul_586_myl3_96",
-      "ms": 0.014438,
-      "calls_per_iter": 1.0,
-      "share": 0.001714
-    },
-    {
-      "name": "node_MatMul_106_myl3_13",
-      "ms": 0.014404,
-      "calls_per_iter": 1.0,
-      "share": 0.00171
-    },
-    {
-      "name": "node_MatMul_298_myl3_46",
-      "ms": 0.01437,
-      "calls_per_iter": 1.0,
-      "share": 0.001706
-    },
-    {
-      "name": "node_MatMul_346_myl3_55",
-      "ms": 0.014336,
-      "calls_per_iter": 1.0,
-      "share": 0.001702
-    },
-    {
-      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl7_83",
-      "ms": 0.014336,
-      "calls_per_iter": 1.0,
-      "share": 0.001702
-    },
-    {
-      "name": "node_MatMul_58_myl3_5",
-      "ms": 0.014302,
-      "calls_per_iter": 1.0,
-      "share": 0.001698
+      "share": 0.00162
     },
     {
       "name": "node_MatMul_394_myl3_63",
-      "ms": 0.014268,
+      "ms": 0.014438,
       "calls_per_iter": 1.0,
-      "share": 0.001693
+      "share": 0.001616
     },
     {
-      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl7_59",
-      "ms": 0.014268,
+      "name": "node_MatMul_490_myl3_80",
+      "ms": 0.014438,
       "calls_per_iter": 1.0,
-      "share": 0.001693
+      "share": 0.001616
+    },
+    {
+      "name": "node_MatMul_202_myl3_30",
+      "ms": 0.014404,
+      "calls_per_iter": 1.0,
+      "share": 0.001612
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 1 to {ForeignNode[ONNXTRT_Broadcast_1762...node_mul_79]}",
+      "ms": 0.01437,
+      "calls_per_iter": 1.0,
+      "share": 0.001609
+    },
+    {
+      "name": "node_MatMul_106_myl3_13",
+      "ms": 0.014302,
+      "calls_per_iter": 1.0,
+      "share": 0.001601
     },
     {
       "name": "node_MatMul_250_myl3_38",
+      "ms": 0.014302,
+      "calls_per_iter": 1.0,
+      "share": 0.001601
+    },
+    {
+      "name": "node_MatMul_154_myl3_21",
       "ms": 0.014234,
       "calls_per_iter": 1.0,
-      "share": 0.001689
+      "share": 0.001593
     },
     {
-      "name": "node_linear_59_myl3_103",
+      "name": "node_MatMul_58_myl3_5",
       "ms": 0.014199,
       "calls_per_iter": 1.0,
-      "share": 0.001685
+      "share": 0.001589
     },
     {
-      "name": "__myl_Fc_myl3_115",
+      "name": "node_MatMul_346_myl3_55",
       "ms": 0.014199,
       "calls_per_iter": 1.0,
-      "share": 0.001685
+      "share": 0.001589
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMean_myl3_75",
-      "ms": 0.014131,
+      "name": "node_MatMul_298_myl3_46",
+      "ms": 0.014165,
       "calls_per_iter": 1.0,
-      "share": 0.001677
-    },
-    {
-      "name": "node_MatMul_936_myl3_135",
-      "ms": 0.014131,
-      "calls_per_iter": 1.0,
-      "share": 0.001677
-    },
-    {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl7_30",
-      "ms": 0.014097,
-      "calls_per_iter": 1.0,
-      "share": 0.001673
-    },
-    {
-      "name": "node_MatMul_538_myl3_88",
-      "ms": 0.014029,
-      "calls_per_iter": 1.0,
-      "share": 0.001665
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMean_myl3_50",
-      "ms": 0.013995,
-      "calls_per_iter": 1.0,
-      "share": 0.001661
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_72",
-      "ms": 0.013892,
-      "calls_per_iter": 1.0,
-      "share": 0.001649
-    },
-    {
-      "name": "node_linear_56_myl3_106",
-      "ms": 0.013722,
-      "calls_per_iter": 1.0,
-      "share": 0.001629
-    },
-    {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl3_61",
-      "ms": 0.013517,
-      "calls_per_iter": 1.0,
-      "share": 0.001604
-    },
-    {
-      "name": "__myl_TranSlic_myl7_18",
-      "ms": 0.013483,
-      "calls_per_iter": 1.0,
-      "share": 0.0016
-    },
-    {
-      "name": "PWN(node_leaky_relu_4)",
-      "ms": 0.013483,
-      "calls_per_iter": 1.0,
-      "share": 0.0016
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMean_myl3_25",
-      "ms": 0.013449,
-      "calls_per_iter": 1.0,
-      "share": 0.001596
-    },
-    {
-      "name": "_gemm_mha_v2_myl3_112",
-      "ms": 0.013449,
-      "calls_per_iter": 1.0,
-      "share": 0.001596
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_upsample_bilinear2d_3",
-      "ms": 0.013414,
-      "calls_per_iter": 1.0,
-      "share": 0.001592
-    },
-    {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl3_36",
-      "ms": 0.01338,
-      "calls_per_iter": 1.0,
-      "share": 0.001588
-    },
-    {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl3_86",
-      "ms": 0.013346,
-      "calls_per_iter": 1.0,
-      "share": 0.001584
+      "share": 0.001586
     },
     {
       "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl3_78",
-      "ms": 0.013312,
+      "ms": 0.014097,
       "calls_per_iter": 1.0,
-      "share": 0.00158
+      "share": 0.001578
     },
     {
-      "name": "__myl_Slic_myl7_81",
-      "ms": 0.013244,
+      "name": "node_MatMul_538_myl3_88",
+      "ms": 0.014097,
       "calls_per_iter": 1.0,
-      "share": 0.001572
+      "share": 0.001578
     },
     {
-      "name": "__myl_SlicCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_139",
-      "ms": 0.013039,
+      "name": "__myl_MulAddCastMeanSubMulMean_myl3_50",
+      "ms": 0.013961,
       "calls_per_iter": 1.0,
-      "share": 0.001548
+      "share": 0.001563
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl3_44",
-      "ms": 0.013005,
+      "name": "node_MatMul_936_myl3_135",
+      "ms": 0.013824,
       "calls_per_iter": 1.0,
-      "share": 0.001544
+      "share": 0.001547
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl3_19",
-      "ms": 0.012902,
+      "name": "__myl_Slic_myl3_144",
+      "ms": 0.013653,
       "calls_per_iter": 1.0,
-      "share": 0.001531
-    },
-    {
-      "name": "node_MatMul_928_myl3_141",
-      "ms": 0.012902,
-      "calls_per_iter": 1.0,
-      "share": 0.001531
-    },
-    {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl3_11",
-      "ms": 0.012868,
-      "calls_per_iter": 1.0,
-      "share": 0.001527
-    },
-    {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl3_94",
-      "ms": 0.012868,
-      "calls_per_iter": 1.0,
-      "share": 0.001527
-    },
-    {
-      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl3_69",
-      "ms": 0.012766,
-      "calls_per_iter": 1.0,
-      "share": 0.001515
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_56",
-      "ms": 0.012663,
-      "calls_per_iter": 1.0,
-      "share": 0.001503
-    },
-    {
-      "name": "__myl_AddSqrtDivMulCastMulAddTranSlicReshMulSum_myl3_101",
-      "ms": 0.012629,
-      "calls_per_iter": 1.0,
-      "share": 0.001499
-    },
-    {
-      "name": "node_conv2d_5",
-      "ms": 0.012561,
-      "calls_per_iter": 1.0,
-      "share": 0.001491
-    },
-    {
-      "name": "__myl_Tran_myl60_0",
-      "ms": 0.012561,
-      "calls_per_iter": 1.0,
-      "share": 0.001491
+      "share": 0.001528
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_39",
-      "ms": 0.012356,
+      "ms": 0.013619,
       "calls_per_iter": 1.0,
-      "share": 0.001467
-    },
-    {
-      "name": "__myl_SlicReshMoveTran_myl7_21",
-      "ms": 0.012254,
-      "calls_per_iter": 1.0,
-      "share": 0.001454
+      "share": 0.001524
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_89",
-      "ms": 0.01222,
+      "ms": 0.013244,
       "calls_per_iter": 1.0,
-      "share": 0.00145
+      "share": 0.001482
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_34",
-      "ms": 0.012083,
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl3_94",
+      "ms": 0.01321,
       "calls_per_iter": 1.0,
-      "share": 0.001434
+      "share": 0.001479
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_convolution + node_add_41",
-      "ms": 0.012015,
+      "name": "__myl_MulAddCastMeanSubMulMean_myl3_25",
+      "ms": 0.013175,
       "calls_per_iter": 1.0,
-      "share": 0.001426
+      "share": 0.001475
     },
     {
-      "name": "__myl_TranAddReshMove_myl3_119",
-      "ms": 0.011913,
+      "name": "__myl_MulAddCastMeanSubMulMean_myl3_75",
+      "ms": 0.013175,
+      "calls_per_iter": 1.0,
+      "share": 0.001475
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_upsample_bilinear2d_3",
+      "ms": 0.013005,
+      "calls_per_iter": 1.0,
+      "share": 0.001456
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_81",
+      "ms": 0.012937,
+      "calls_per_iter": 1.0,
+      "share": 0.001448
+    },
+    {
+      "name": "__myl_FcAdd_myl7_29",
+      "ms": 0.0128,
+      "calls_per_iter": 1.0,
+      "share": 0.001433
+    },
+    {
+      "name": "__myl_ReshTran_myl7_33",
+      "ms": 0.012663,
+      "calls_per_iter": 1.0,
+      "share": 0.001418
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_64",
+      "ms": 0.012629,
       "calls_per_iter": 1.0,
       "share": 0.001414
     },
     {
-      "name": "__myl_TranAddReshMove_myl3_109",
-      "ms": 0.011844,
-      "calls_per_iter": 1.0,
-      "share": 0.001406
-    },
-    {
-      "name": "__myl_ConcCastMeanSubMulMeanAddSqrtDivMulCastMulAddMulAdd_myl3_107",
-      "ms": 0.011674,
-      "calls_per_iter": 1.0,
-      "share": 0.001386
-    },
-    {
-      "name": "__myl_ReshCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl7_97",
-      "ms": 0.011674,
-      "calls_per_iter": 1.0,
-      "share": 0.001386
-    },
-    {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_67",
-      "ms": 0.011605,
+      "ms": 0.012595,
       "calls_per_iter": 1.0,
-      "share": 0.001377
+      "share": 0.00141
     },
     {
-      "name": "__myl_TranSlicSlicReshMoveTranReshMove_myl3_111",
-      "ms": 0.011571,
+      "name": "__myl_TranSlic_myl7_18",
+      "ms": 0.012595,
       "calls_per_iter": 1.0,
-      "share": 0.001373
+      "share": 0.00141
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_84",
-      "ms": 0.011537,
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl3_86",
+      "ms": 0.012527,
       "calls_per_iter": 1.0,
-      "share": 0.001369
+      "share": 0.001402
+    },
+    {
+      "name": "__myl_TranSlicReshMoveTranSlicReshMoveSlicReshMove_myl3_3",
+      "ms": 0.012493,
+      "calls_per_iter": 1.0,
+      "share": 0.001398
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_6",
+      "ms": 0.012459,
+      "calls_per_iter": 1.0,
+      "share": 0.001395
+    },
+    {
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl3_44",
+      "ms": 0.01239,
+      "calls_per_iter": 1.0,
+      "share": 0.001387
+    },
+    {
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl3_11",
+      "ms": 0.012356,
+      "calls_per_iter": 1.0,
+      "share": 0.001383
+    },
+    {
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl3_36",
+      "ms": 0.01222,
+      "calls_per_iter": 1.0,
+      "share": 0.001368
+    },
+    {
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl3_69",
+      "ms": 0.012186,
+      "calls_per_iter": 1.0,
+      "share": 0.001364
+    },
+    {
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl3_19",
+      "ms": 0.012151,
+      "calls_per_iter": 1.0,
+      "share": 0.00136
+    },
+    {
+      "name": "__myl_TranSlicSlicReshMoveTranSlicReshMoveReshMove_myl3_61",
+      "ms": 0.011981,
+      "calls_per_iter": 1.0,
+      "share": 0.001341
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_59",
-      "ms": 0.011469,
+      "ms": 0.011913,
       "calls_per_iter": 1.0,
-      "share": 0.001361
+      "share": 0.001333
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMean_myl3_100",
-      "ms": 0.011401,
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_31",
+      "ms": 0.011878,
       "calls_per_iter": 1.0,
-      "share": 0.001353
+      "share": 0.00133
+    },
+    {
+      "name": "__myl_SlicReshMoveTran_myl7_45",
+      "ms": 0.011742,
+      "calls_per_iter": 1.0,
+      "share": 0.001314
+    },
+    {
+      "name": "__myl_ReshTranMulSlicSlicAddSlicAddSqrtMaxMinDivSlic_myl5_0",
+      "ms": 0.011674,
+      "calls_per_iter": 1.0,
+      "share": 0.001307
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_22",
+      "ms": 0.011605,
+      "calls_per_iter": 1.0,
+      "share": 0.001299
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_47",
+      "ms": 0.011571,
+      "calls_per_iter": 1.0,
+      "share": 0.001295
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_56",
+      "ms": 0.011571,
+      "calls_per_iter": 1.0,
+      "share": 0.001295
+    },
+    {
+      "name": "__myl_SlicReshMoveTran_myl7_21",
+      "ms": 0.011537,
+      "calls_per_iter": 1.0,
+      "share": 0.001291
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_42",
-      "ms": 0.011366,
-      "calls_per_iter": 1.0,
-      "share": 0.001349
-    },
-    {
-      "name": "__myl_MulSlicSlicAddSlicAddSqrtMaxMinDiv_myl3_145",
-      "ms": 0.011162,
-      "calls_per_iter": 1.0,
-      "share": 0.001325
-    },
-    {
-      "name": "__myl_Tran_myl3_146",
-      "ms": 0.011162,
-      "calls_per_iter": 1.0,
-      "share": 0.001325
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_17",
-      "ms": 0.011093,
-      "calls_per_iter": 1.0,
-      "share": 0.001317
-    },
-    {
-      "name": "__myl_ConcAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_1",
-      "ms": 0.011025,
-      "calls_per_iter": 1.0,
-      "share": 0.001309
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_9",
-      "ms": 0.010923,
-      "calls_per_iter": 1.0,
-      "share": 0.001296
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_14",
-      "ms": 0.010889,
-      "calls_per_iter": 1.0,
-      "share": 0.001292
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_97",
-      "ms": 0.010889,
-      "calls_per_iter": 1.0,
-      "share": 0.001292
-    },
-    {
-      "name": "__myl_ReshMove_myl7_47",
-      "ms": 0.010854,
+      "ms": 0.011503,
       "calls_per_iter": 1.0,
       "share": 0.001288
     },
     {
-      "name": "node_linear_57_myl3_105",
-      "ms": 0.010752,
+      "name": "__myl_MulSlicSlicAddSlicAddSqrtMaxMinDiv_myl3_145",
+      "ms": 0.011093,
       "calls_per_iter": 1.0,
-      "share": 0.001276
+      "share": 0.001242
     },
     {
-      "name": "__myl_Fc_myl3_137",
-      "ms": 0.01065,
+      "name": "__myl_ReshMove_myl7_91",
+      "ms": 0.011059,
       "calls_per_iter": 1.0,
-      "share": 0.001264
+      "share": 0.001238
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_convolution_2 + node_add_47",
-      "ms": 0.01065,
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_84",
+      "ms": 0.010991,
       "calls_per_iter": 1.0,
-      "share": 0.001264
+      "share": 0.00123
     },
     {
-      "name": "__myl_Fc_myl3_134",
-      "ms": 0.010547,
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_34",
+      "ms": 0.010923,
       "calls_per_iter": 1.0,
-      "share": 0.001252
+      "share": 0.001223
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_81",
-      "ms": 0.010479,
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_92",
+      "ms": 0.010923,
       "calls_per_iter": 1.0,
-      "share": 0.001244
+      "share": 0.001223
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_31",
-      "ms": 0.010274,
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_17",
+      "ms": 0.010889,
       "calls_per_iter": 1.0,
       "share": 0.001219
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_convolution_1 + node_add_44",
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_72",
+      "ms": 0.010752,
+      "calls_per_iter": 1.0,
+      "share": 0.001204
+    },
+    {
+      "name": "_gemm_mha_v2_myl3_122",
+      "ms": 0.010615,
+      "calls_per_iter": 1.0,
+      "share": 0.001188
+    },
+    {
+      "name": "__myl_ConcAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_1",
+      "ms": 0.010445,
+      "calls_per_iter": 1.0,
+      "share": 0.001169
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_convolution_2 + node_add_47",
+      "ms": 0.010342,
+      "calls_per_iter": 1.0,
+      "share": 0.001158
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_9",
+      "ms": 0.010274,
+      "calls_per_iter": 1.0,
+      "share": 0.00115
+    },
+    {
+      "name": "__myl_Tran_myl60_0",
       "ms": 0.01024,
       "calls_per_iter": 1.0,
-      "share": 0.001215
+      "share": 0.001146
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_47",
-      "ms": 0.009899,
+      "name": "__myl_SlicReshMoveTran_myl7_68",
+      "ms": 0.010138,
       "calls_per_iter": 1.0,
-      "share": 0.001175
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_6",
-      "ms": 0.009865,
-      "calls_per_iter": 1.0,
-      "share": 0.001171
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_22",
-      "ms": 0.009591,
-      "calls_per_iter": 1.0,
-      "share": 0.001138
-    },
-    {
-      "name": "node_upsample_bilinear2d_1",
-      "ms": 0.009455,
-      "calls_per_iter": 1.0,
-      "share": 0.001122
-    },
-    {
-      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl7_36",
-      "ms": 0.009216,
-      "calls_per_iter": 1.0,
-      "share": 0.001094
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to {ForeignNode[ONNXTRT_castHelper_1296_output[Constant]...node_view_66 + node_permute_24]}",
-      "ms": 0.009079,
-      "calls_per_iter": 1.0,
-      "share": 0.001078
+      "share": 0.001135
     },
     {
       "name": "__myl_ReshAddExpMul_myl60_1",
-      "ms": 0.008943,
+      "ms": 0.009387,
       "calls_per_iter": 1.0,
-      "share": 0.001061
+      "share": 0.001051
     },
     {
-      "name": "PWN(node_leaky_relu)",
-      "ms": 0.008636,
+      "name": "__myl_Slic_myl7_8",
+      "ms": 0.009182,
       "calls_per_iter": 1.0,
-      "share": 0.001025
+      "share": 0.001028
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to {ForeignNode[ONNXTRT_castHelper_1296_output[Constant]...node_view_66 + node_permute_24]}",
+      "ms": 0.009148,
+      "calls_per_iter": 1.0,
+      "share": 0.001024
     },
     {
       "name": "__myl_ReshTran_myl3_0",
-      "ms": 0.008567,
+      "ms": 0.008704,
       "calls_per_iter": 1.0,
-      "share": 0.001017
+      "share": 0.000974
     },
     {
-      "name": "__myl_ReshTranMulSlicSlicAddSlicAddSqrtMaxMinDivSlic_myl5_0",
-      "ms": 0.008294,
+      "name": "__myl_CastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl7_10",
+      "ms": 0.007373,
       "calls_per_iter": 1.0,
-      "share": 0.000984
-    },
-    {
-      "name": "__myl_Tran_myl7_101",
-      "ms": 0.008226,
-      "calls_per_iter": 1.0,
-      "share": 0.000976
+      "share": 0.000825
     },
     {
       "name": "__myl_SlicCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl3_133",
-      "ms": 0.007066,
+      "ms": 0.006793,
       "calls_per_iter": 1.0,
-      "share": 0.000839
-    },
-    {
-      "name": "PWN(node_acos)",
-      "ms": 0.006383,
-      "calls_per_iter": 1.0,
-      "share": 0.000758
-    },
-    {
-      "name": "__myl_AddAddAddAddConcSlicSlicSlicSlic_myl3_102",
-      "ms": 0.006042,
-      "calls_per_iter": 1.0,
-      "share": 0.000717
+      "share": 0.00076
     },
     {
       "name": "entry^bb^signal^1_myl7_0",

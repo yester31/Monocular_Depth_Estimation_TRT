@@ -92,11 +92,12 @@ def _size(r):
 
 
 def _load_profiles():
-    try:
-        from core.profile import load_saved
-        return load_saved()
-    except Exception:                                         # noqa: BLE001
-        return {}
+    # profile_store, not profile: the latter subclasses trt.IProfiler and does
+    # not import without TensorRT, which this machine has none of. That import
+    # error used to be swallowed here and every health column printed "-",
+    # which reads as "not measured yet" rather than "not loaded".
+    from core.profile_store import load_saved
+    return load_saved()
 
 
 PROFILES = _load_profiles()
