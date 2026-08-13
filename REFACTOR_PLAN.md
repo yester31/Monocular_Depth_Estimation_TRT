@@ -515,3 +515,141 @@ git 커밋은 **실험마다가 아니라 Phase 완료 시점에만**.
 - 성능 수치는 모델 README에 적지 않음 (단일 출처 원칙)
 - optical flow 4개 제거 — 완료
 - 모델별 라이선스 표 — 완료
+
+---
+
+## 10. 작업 상태 — 2026-08-13 (`f8cbe5b`, 커밋 144개, 브랜치 `refactor/planning`)
+
+이 문서에 적힌 항목 전부에 현재 상태를 붙인다. **측정 수치는 여기 적지 않는다**
+— 속도는 `reports/comparison.md`, 정확도는 `reports/accuracy.md`,
+빌드·측정 여부는 `python models.py` 가 단일 출처다. 여기 있는 것은
+**"계획한 일이 됐는가"** 뿐이다.
+
+기호: ✅ 완료 · ⚠️ 완료하되 계획과 다름 · ⏸ 보류(사유 명시) · ⬜ 미착수
+
+### 10.1 §3 Phase 0~6
+
+| Phase | 상태 | 비고 |
+| --- | --- | --- |
+| **0** 사실 조사 | ✅ | `docs/model_contracts.md`, 결함 D1~D19 |
+| **1** 버그 수정 | ✅ | B7 제외 — §10.2 |
+| **2** `get_engine()` 통합 | ✅ | 19벌 → `common.py` 1벌, fingerprint 포함 |
+| **3** 결과 기계 판독 + 벤치마크 통일 | ✅ | `core/bench.py`, `compare.py`. README 수치 손입력 없음 |
+| **4** manifest + 구조 재배치 | ⚠️ | 루트 CLI 일부 대체 — §10.3 |
+| **5** uint8 전처리 | ⚠️ | 측정 완료, **채택 보류** — §10.4 |
+| **6** 이후 | ⬜ | 범위 미결정 — §10.8 |
+
+### 10.2 §1.2 버그 B1~B8
+
+| | 상태 | 처리 |
+| --- | --- | --- |
+| B1 cuda-python 13 ImportError | ✅ | try/except 2단 + README에 `cuda-python<13` 핀 |
+| B2 MoGe-2 두 번째 입력 미초기화 | ✅ | **다른 방식** — `num_tokens` 를 export 시 상수로 접어 입력이 1개가 됨 |
+| B3 fp16 버퍼 2배 참조 | ✅ | 바이트로 할당 후 재해석 |
+| B4 바인딩 이름 하드코딩 | ✅ | 제거 |
+| B5 낡은 엔진 로드 | ✅ | ONNX SHA + 빌더 옵션 + TRT 버전 + GPU fingerprint |
+| B6 parser 반환값 미확인 | ✅ | 실패 시 에러 전부 출력 후 중단 |
+| **B7 Torch/TRT 전처리 불일치** | ⚠️ | **수정 아님 — 문서화로 종결.** D11. 고치려면 정적 엔진을 포기해야 한다. 대가(metric 3.15배)를 소스와 문서에 명시 |
+| B8 SPARSE_WEIGHTS | ✅ | 제거 |
+
+### 10.3 §3 Phase 4 — 계획 대비
+
+| 계획서 문장 | 상태 |
+| --- | --- |
+| `spec.json` 도입 | ✅ 12개 + `core/spec.py` + 스키마 테스트 |
+| `artifacts/` 배포 단위 | ✅ `core/artifact.py`, manifest + sha256, `--verify` |
+| `models/` 하위 이동 · 소문자화 | ✅ 12개, 전부 새 경로에서 실행 확인 |
+| README 마이그레이션 표 | ✅ README §2 |
+| 루트 CLI `compare.py` | ✅ |
+| 루트 CLI `build_engine.py` | ❌ **만들지 않음** |
+| 루트 CLI `benchmark.py` | ❌ **만들지 않음** |
+| 루트 CLI `demo.py` | ⬜ 미구현 |
+
+**두 개를 만들지 않은 이유**: `onnx2trt.py` 가 빌드와 측정을 한 번에 한다.
+두 명령을 만들면 **같은 명령이 두 개**가 되고, 존재하지 않는 분리를 있다고
+말하게 된다. 대신 `run.py <stage> <model>` 하나 — `export` / `build` / `infer`,
+환경은 `spec.json` 에서 읽는다.
+
+**계획에 없던 루트 CLI**: `models.py`, `package_artifacts.py`,
+`verify_accuracy.py`, `ab_input_dtype.py`
+
+### 10.4 §3 Phase 5 / §2.4
+
+| 요구 | 상태 |
+| --- | --- |
+| compute / H2D / D2H / host 분리 측정 | ✅ `common_runtime.StageTimer` — **계획 시점에 이 도구가 없어서 요구한 측정을 할 수 없었다.** A/B 보다 계측기가 먼저였다 |
+| `depth_anything_v2` A/B | ✅ |
+| `depth_pro` A/B | ✅ |
+| `vggt` A/B (5차원) | ✅ |
+| 이득 확인된 프로필에만 적용 | ⏸ **보류** |
+
+측정 결과와 해석은 `docs/model_contracts.md` §5.8. 요지는 **절감이 비율이 아니라
+입력 바이트가 정하는 고정된 밀리초**(3개 모델 전부 0.238~0.240 ms/MB)라는 것이고,
+따라서 적용 대상은 "입력이 크고 모델이 빠른" 조합 하나뿐이다.
+
+### 10.5 §4 검증 전략 L1~L5
+
+| 계층 | 상태 |
+| --- | --- |
+| L1 단위 테스트 | ✅ 테스트 13종 |
+| L2 정적 검사 | ✅ + `test_profiles` / `test_bench_wiring` / `test_undefined_names` / `test_console_ascii` / `test_torch_load` |
+| L3 canary 5개 | ✅ **12개 전부로 확대** |
+| L4 golden parity | ✅ `verify_accuracy.py` — 12/12, 출력 22개, 실패 0 |
+| L5 미검증을 `unverified` 로 명시 | ✅ **해당 없음** — 남은 모델이 없다 |
+
+규칙 두 개 다 지켜졌다: 기존 스크립트를 지운 것 없고, 검증 안 된 모델을
+지원 완료로 표시한 것 없다.
+
+### 10.6 §7 later/ · §9 미결
+
+| 항목 | 상태 |
+| --- | --- |
+| WAFT 삭제 (17 → 16) | ✅ |
+| 16개 보류 유지 | ✅ |
+| 루트 README 에 "작업 예정" 한 줄 | ✅ 추가됨 (그전까지 README 에 `later` 언급 자체가 없었다) |
+| §9 미결 5건 | ✅ 전부 결정대로 반영 |
+
+### 10.7 계획에 없던 작업
+
+계획 수립 뒤 **실제로 돌려보며** 나온 것들. 전부 `docs/model_contracts.md` 에 있다.
+
+| | 내용 | 상태 |
+| --- | --- | --- |
+| — | **float64 오염** — unidepth_v2 가 20% 느렸던 원인 | ✅ 수정 |
+| D12 | metric3d_v2 는 metric 이 아니라 canonical depth | ✅ 문서화 |
+| D13 | metric_anything 이 4:3 사진에 정사각 화각 부여 | ✅ 388×518 |
+| D14 | depth_pro 가 후처리를 측정 안에 포함 | ✅ |
+| D15 | 안 쓰는 업스트림 패키지 하드 import 3건 | ✅ |
+| D16 | **스크립트 6개가 실행조차 안 됐다** | ✅ |
+| D17 | vggt/streamvggt "export 불가" — 오진 | ✅ 정정, 손편집을 `core/export_compat` 로 자동화 |
+| D18 | moge_2 utils3d 이름 드리프트 | ✅ (메시 블록은 게이트, §10.9) |
+| D19 | **vggt split 은 현재 업스트림에서 export 불가** | ⏸ 원인 규명·문서화 완료 |
+| — | `tools/sync_desktop.sh` — 측정 결과 유실 방지 | ✅ 벤치마크를 두 번 날린 뒤 |
+
+### 10.8 남은 결정 3건
+
+진행하려면 **판단이 필요해서** 멈춘 것들이다. 기술적으로 막힌 것이 아니다.
+
+| | 항목 | 무엇을 정해야 하나 |
+| --- | --- | --- |
+| 1 | **Phase 5 채택** | 표의 일관성(12행이 같은 것을 잼) vs depth_anything_v2 0.89 ms. 채택하면 그 모델만 엔진 안에서 전처리를 한다 |
+| 2 | **§5.7 리사이즈 민감도 3행** | **기존 6행의 기준선을 코드에서 재구성할 수 없다.** 문서는 "원본을 넣은 결과"라는데 그러면 `700×518` 행이 자기 자신과 비교되어 0% 여야 하는데 19.3% 로 적혀 있다. 잘못 정하면 새 3행이 기존 6행과 비교 불가능해진다. 측정 코드(`core/resize_sensitivity.py`)는 합성 데이터로 검증까지 끝나 있다 |
+| 3 | **Phase 6 범위** | `later/` 16개(각각이 프로젝트) / CPU 백엔드(`verify_accuracy.py` 가 이미 ONNX Runtime CPU 로 12개를 돌리므로 입구는 열려 있다) / BF16·INT8·CUDA Graph(전제조건인 정확도 기준선은 이미 확보) |
+
+### 10.9 자잘한 미완
+
+| | 상태 |
+| --- | --- |
+| 루트 `demo.py` | ⬜ 미구현. 엔진 데모는 각 `onnx2trt.py` 가, PyTorch 참조는 `run.py infer` 가 대신하고 있다 |
+| MoGe-2 메시 출력 | ⏸ `export_mesh = False`. utils3d `3fab839f` 에서 이름·시그니처가 다른 호출 3개. 모델 README 에 명시 |
+| vggt split 포팅 | ⏸ D19 |
+| 이 문서의 절 번호 | `## 6.` 이 두 번 나온다 (§6 잔재 파일 / §6 확정 사항). 참조가 깨질까 봐 그대로 뒀다 |
+
+### 10.10 이 표를 갱신하는 법
+
+- **무엇이 빌드·측정됐는가** → `python models.py` (`--stale` 로 빈 곳만)
+- **비교표가 최신인가** → `python compare.py --check` (낡으면 종료 코드 1)
+- **정확도** → `python verify_accuracy.py` → `reports/accuracy.md`
+- **아티팩트가 매니페스트와 맞는가** → `python package_artifacts.py --verify`
+
+**여기 수치를 손으로 적지 말 것.** 그렇게 하지 않기 위해 Phase 3 을 했다.
