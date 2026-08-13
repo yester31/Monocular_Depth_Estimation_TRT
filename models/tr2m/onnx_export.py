@@ -175,8 +175,16 @@ def main():
     img_encoder = "vitl"            # DINOv2 size for the ScaleMap features
     text_encoder = "ViT-L/14"
     weight = "weights/da_s_vitl_vitl.pth"
-    prompt = ("The image shows a classroom with rows of desks and chairs, "
-              "and blue bookshelves.")
+    # Describes data/example.jpg, which is what the benchmark runs on. This
+    # matters more here than anywhere else in the repository: TR2M reads the
+    # sentence to decide the metric scale, so a prompt about a different room
+    # produces depth in metres that are confidently wrong. The first version of
+    # this file said "a classroom with rows of desks and chairs, and blue
+    # bookshelves" against a close-up of a child on a playground slide, and the
+    # output was 0.7 to 11.0 m -- entirely plausible, and meaningless.
+    prompt = ("A close-up photo of a young child in a red polka-dot cardigan "
+              "crawling inside a green plastic tube slide at a playground, "
+              "with asphalt ground visible around the slide.")
     opset = 20
     onnx_sim = False                # untested on this graph; 1.4 GB of weights
     device = torch.device("cpu")    # tracing only; the fused graph is large
@@ -194,12 +202,24 @@ def main():
     onnx_path = os.path.join(out_dir, f"{model_name}.onnx")
     text_path = os.path.join(out_dir, f"{model_name}_text_features.npy")
 
+    # Changing the prompt must not cost a 1.4 GB re-export. The sentence is the
+    # one thing here anyone will actually want to change -- it is what TR2M
+    # reads to decide the metric scale -- and re-tracing DINOv2 and Depth
+    # Anything to rewrite a 3 KB vector would make getting it right expensive
+    # enough to skip. So the graph is rebuilt only when it is missing; delete
+    # the .onnx to force one.
+    have_onnx = os.path.exists(onnx_path)
+    if have_onnx:
+        print(f"[MDET] onnx already present, encoding the prompt only "
+              f"({os.path.basename(onnx_path)})")
+
     # Upstream resolves torchhub/, weights/ and depth_anything/ against its own
     # root. Output paths are absolute above, so the chdir cannot redirect them.
     here = os.getcwd()
     os.chdir(CLONE)
     try:
-        da, dino, head = build_pipeline(depth_model, img_encoder, weight, device)
+        if not have_onnx:
+            da, dino, head = build_pipeline(depth_model, img_encoder, weight, device)
         text_features = encode_prompt(prompt, text_encoder, device)
     finally:
         os.chdir(here)
@@ -207,6 +227,8 @@ def main():
     np.save(text_path, text_features)
     print(f"[MDET] prompt -> {os.path.basename(text_path)} {text_features.shape}")
     print(f'[MDET] prompt text : "{prompt}"')
+    if have_onnx:
+        return
 
     model = TR2MFused(da, dino, head, input_h // 14, input_w // 14).eval()
     dummy_image = torch.randn(1, 3, input_h, input_w, device=device)
