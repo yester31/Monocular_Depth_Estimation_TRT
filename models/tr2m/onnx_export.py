@@ -47,9 +47,13 @@ import torch.nn as nn  # noqa: E402
 import torch.nn.functional as F  # noqa: E402
 
 # The clone's modules import each other by bare name (`depth_anything.dpt`,
-# `scalemap_depth`), so it has to be importable as a top-level location.
-if CLONE not in sys.path:
-    sys.path.insert(0, CLONE)
+# `scalemap_depth`), so it has to be importable as a top-level location. CLIP
+# is vendored a directory deeper -- TR2M/CLIP/clip -- so `import clip` needs
+# TR2M/CLIP as well, and pip-installing OpenAI's package instead would get a
+# different copy from the one upstream tested against.
+for _p in (CLONE, os.path.join(CLONE, "CLIP")):
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
 
 INPUT_NAMES = ["image", "text_features"]
 OUTPUT_NAMES = ["metric_depth", "relative_depth", "scale_map", "shift_map"]

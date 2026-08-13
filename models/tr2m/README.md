@@ -48,19 +48,32 @@ engines and regenerate with `python compare.py`.
 
     conda create -n tr2m -y python=3.10
     conda activate tr2m
-    cd TR2M
-    pip install -r requirements.txt
-    pip install onnx onnxsim
+    pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+    pip install numpy onnx ftfy regex huggingface_hub tqdm
     ```
+    **CPU torch on purpose.** The export traces on the CPU -- the fused graph
+    carries about 1.4 GB of weights and tracing it on a small GPU is the first
+    thing that fails -- and the engine build happens in `trte`, so nothing in
+    this environment ever needs CUDA. It is ~400 MB instead of ~2.5 GB.
 
-2. download the weights.
-    ```
-    python download_weights.py
-    ```
-    Three separate downloads: the TR2M ScaleMap head (~75 MB, in the upstream
-    release), Depth Anything ViT-S (~100 MB, from Hugging Face), and DINOv2
-    ViT-L plus CLIP ViT-L/14 (~1.2 GB and ~900 MB, cached by torch.hub and the
-    `clip` package on first use).
+    Upstream's own file is `requirements_eval.txt` and it does not list torch;
+    it also carries dataset and evaluation dependencies this repository does
+    not use. The list above is what the export actually imports.
+
+2. the weights.
+
+    | what | where from | size |
+    | :--- | :--- | ---: |
+    | TR2M ScaleMap head | **already in the clone**, `weights/da_s_vitl_vitl.pth` | 72 MB |
+    | Depth Anything ViT-S | `huggingface.co/LiheYoung/depth_anything_vits14` -> save as `depth_anything/depth_anything_vits14.pth` | 95 MB |
+    | DINOv2 ViT-L | fetched by `torch.hub` on first run, from the skeleton in `torchhub/` | 1.2 GB |
+    | CLIP ViT-L/14 | fetched by the vendored `CLIP/` package on first run | 900 MB |
+
+    The Hugging Face file is named `pytorch_model.bin` and is renamed on the
+    way in. It is the same state dict: upstream builds `DPT_DINOv2` directly
+    rather than through the Hub mixin precisely because the keys match.
+
+    There is no `download_weights.py` upstream.
 
 --------------------------------------------------------------------
 
