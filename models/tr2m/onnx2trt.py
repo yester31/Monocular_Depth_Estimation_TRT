@@ -118,7 +118,11 @@ def main():
                      input_h=input_h, input_w=input_w,
                      engine_path=engine_file_path,
                      outputs={"metric_depth": metric, "relative_depth": relative},
-                     model_input=batch_images)
+                     model_input=batch_images,
+                     # Saved so verify_accuracy can feed the ONNX reference the
+                     # same sentence the engine ran on. Without it the check
+                     # cannot build a feed for this graph at all.
+                     extra_inputs={"text_features": text_features})
         print(f"[MDET] metric depth : min {metric.min():.3f} m, "
               f"max {metric.max():.3f} m, mean {metric.mean():.3f} m")
 

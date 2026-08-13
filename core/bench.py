@@ -350,6 +350,7 @@ INPUTS = os.path.join(
 
 def record(model: str, samples_ms, *, outputs: Optional[Dict[str, np.ndarray]] = None,
            model_input: Optional[np.ndarray] = None,
+           extra_inputs: Optional[Dict[str, np.ndarray]] = None,
            out_dir: Optional[str] = None, echo: bool = True, **kw) -> Bench:
     """Print the usual [MDET] lines and write the result file. One call per script.
 
@@ -375,6 +376,16 @@ def record(model: str, samples_ms, *, outputs: Optional[Dict[str, np.ndarray]] =
         if echo:
             print(f"[MDET] input -> {os.path.basename(path)} "
                   f"{tuple(np.shape(model_input))} {np.asarray(model_input).dtype}")
+    # Anything the graph needs besides the image. verify_accuracy feeds these
+    # to the ONNX reference by name, so a two-input model is compared against
+    # the same computation the engine performed rather than against a zero.
+    for name, value in (extra_inputs or {}).items():
+        os.makedirs(INPUTS, exist_ok=True)
+        p2 = os.path.join(INPUTS, f"{model}__{name}.npy")
+        np.save(p2, np.ascontiguousarray(value))
+        if echo:
+            print(f"[MDET] input -> {os.path.basename(p2)} "
+                  f"{tuple(np.shape(value))} {np.asarray(value).dtype}")
     if echo:
         print(b.report())
     path = save(b, out_dir or REPORTS)

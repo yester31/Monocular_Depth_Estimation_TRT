@@ -76,19 +76,44 @@ def onnx_path_for(run):
     return None
 
 
-def run_onnx(path, x):
+def extra_inputs_for(model):
+    """{name: array} for a graph that takes more than an image.
+
+    Written by core.bench.record as reports/inputs/<model>__<name>.npy. Only
+    tr2m has any today -- its [1,1,768] CLIP text embedding -- and the point of
+    keeping them beside the image tensor is that the reference run feeds the
+    engine exactly what the benchmark fed it, second input included. Feeding a
+    zero vector instead would compare two different computations and report the
+    difference as fp16 error.
+    """
+    found = {}
+    for path in sorted(glob.glob(os.path.join(INPUTS, f"{model}__*.npy"))):
+        name = os.path.basename(path)[len(model) + 2:-4]
+        found[name] = np.load(path)
+    return found
+
+
+def run_onnx(path, x, extras=None):
     import onnxruntime as ort
     so = ort.SessionOptions()
     so.log_severity_level = 3
     # CPU deliberately: the point is a trustworthy fp32 reference, not speed,
     # and the CUDA provider may pick different kernels than the CPU one.
     sess = ort.InferenceSession(path, so, providers=["CPUExecutionProvider"])
-    name = sess.get_inputs()[0].name
-    outs = sess.run(None, {name: x.astype(np.float32)})
+    names = [i.name for i in sess.get_inputs()]
+    feed = {names[0]: x.astype(np.float32)}
+    for name in names[1:]:
+        if name not in (extras or {}):
+            raise ValueError(
+                f"{path} wants an input named {name!r} and nothing saved it. "
+                f"Pass it to bench.record(extra_inputs=...) in the model's "
+                f"onnx2trt.py so the reference sees what the engine saw.")
+        feed[name] = np.asarray(extras[name], dtype=np.float32)
+    outs = sess.run(None, feed)
     return [np.asarray(o) for o in outs]
 
 
-def run_trt(engine_path, x, out_shapes):
+def run_trt(engine_path, x, out_shapes, extras=None):
     """Deserialize the built engine and run it once.
 
     Deliberately not common.get_engine: that checks a fingerprint and rebuilds
@@ -108,6 +133,10 @@ def run_trt(engine_path, x, out_shapes):
     with engine, engine.create_execution_context() as context:
         inputs, outputs, bindings, stream = common.allocate_buffers(engine)
         inputs[0].host = np.ascontiguousarray(x, dtype=np.float32)
+        # Extra inputs follow the engine's binding order, which is the ONNX
+        # input order, which is the order they were saved in.
+        for slot, value in zip(inputs[1:], (extras or {}).values()):
+            slot.host = np.ascontiguousarray(value, dtype=np.float32)
         raw = common.do_inference(context, engine=engine, bindings=bindings,
                                   inputs=inputs, outputs=outputs, stream=stream)
         got = [np.array(r[: int(np.prod(s))]).reshape(s)
@@ -129,8 +158,9 @@ def verify(run, onnx_override=None):
         return {"model": model, "skip": f"engine missing: {engine}"}
 
     x = np.load(xp)
-    ref = run_onnx(onnx_file, x)
-    got = run_trt(engine, x, [o.shape for o in ref])
+    extras = extra_inputs_for(model)
+    ref = run_onnx(onnx_file, x, extras)
+    got = run_trt(engine, x, [o.shape for o in ref], extras)
 
     per_output = []
     for i, (a, b) in enumerate(zip(ref, got)):
