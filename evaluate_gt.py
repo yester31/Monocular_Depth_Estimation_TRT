@@ -268,6 +268,34 @@ def check_adapter(model, example_bgr, size):
     return diff < 1e-4, f"max|diff| {diff:.3e}"
 
 
+def pick_runs(records, want_size=None):
+    """model -> the one benchmark record to score, by input size when asked.
+
+    A model can have more than one engine on disk -- that is the whole point of
+    a size-sensitivity experiment -- and a dict built by iterating the files
+    silently keeps whichever came last. That is not a choice anyone made. When
+    several records exist and no size is given, none is returned for that model
+    and the run says so.
+    """
+    by_model = {}
+    for r in records:
+        if r.get("variant", "single") != "single":
+            continue
+        by_model.setdefault(r["model"], []).append(r)
+    out = {}
+    for model, rs in by_model.items():
+        if want_size:
+            rs = [r for r in rs
+                  if f"{r.get('input_h')}x{r.get('input_w')}" == want_size]
+        if len(rs) == 1:
+            out[model] = rs[0]
+        elif len(rs) > 1:
+            have = ", ".join(sorted(f"{r.get('input_h')}x{r.get('input_w')}"
+                                    for r in rs))
+            print(f"  {model}: {len(rs)} records ({have}); pass --size to choose")
+    return out
+
+
 def load_engine(path):
     import tensorrt as trt
     with open(path, "rb") as f, trt.Runtime(trt.Logger(trt.Logger.ERROR)) as rt:
@@ -514,6 +542,11 @@ def main():
     ap.add_argument("--root", default=None,
                     help="dataset root; default: the manifest's own directory tree")
     ap.add_argument("--limit", type=int, default=None, help="first N images only")
+    ap.add_argument("--size", default=None, metavar="HxW",
+                    help="pick among several engines of one model by input "
+                         "size, e.g. 672x896. Required when more than one "
+                         "record exists, because which one wins is otherwise "
+                         "whatever order the files were read in")
     ap.add_argument("--variant", default=None, choices=("uint8",),
                     help="score the uint8-NHWC engine instead of the float32 one")
     ap.add_argument("--precision", default=None,
@@ -535,10 +568,9 @@ def main():
               f"have {', '.join(sorted(ADAPTERS))}")
         return 2
 
-    sizes = {}
-    for r in bench.load_all(os.path.join(ROOT, "reports", "bench")):
-        if r.get("variant", "single") == "single":
-            sizes[r["model"]] = (r.get("input_h"), r.get("input_w"))
+    sizes = {m: (r.get("input_h"), r.get("input_w")) for m, r in
+             pick_runs(bench.load_all(os.path.join(ROOT, "reports", "bench")),
+                       args.size).items()}
     example = cv2.imread(os.path.join(ROOT, "data", "example.jpg"))
     if example is None:
         print("data/example.jpg is missing; the adapters cannot be checked")
@@ -570,9 +602,8 @@ def main():
         return 1
 
     root = args.root or os.path.dirname(os.path.abspath(args.manifest))
-    runs = {}
-    for r in bench.load_all(os.path.join(ROOT, "reports", "bench")):
-        runs[r["model"]] = r
+    runs = pick_runs(bench.load_all(os.path.join(ROOT, "reports", "bench")),
+                     args.size)
 
     results = []
     for m in good:
