@@ -135,7 +135,7 @@ def main():
 
         # Results - printed as before, and written to reports/bench/ so
         # compare.py can build the table without anyone retyping a number.
-        bench.record('depth_pro', samples, warmup=warmup, precision=precision,
+        bench.record('depth_pro', samples, encoder='fixed', warmup=warmup, precision=precision,
                      profile='native', input_h=img_size, input_w=img_size,
                      engine_path=engine_file_path,
                      outputs={'depth': depth, 'f_px': f_px},

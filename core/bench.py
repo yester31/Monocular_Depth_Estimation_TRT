@@ -62,6 +62,11 @@ class Bench:
     precision: str = "fp32"
     profile: str = "bench"          # bench | native
     variant: str = "single"         # single | split, for VGGT-style layouts
+    # Which backbone produced this number. Four of these models offer several
+    # and the choice moves the time by more than anything in the builder, so a
+    # speed without it is not comparable to a speed with a different one.
+    # Declared in spec.json; recorded here so the measurement carries it.
+    encoder: str = ""
     input_h: int = 0
     input_w: int = 0
 

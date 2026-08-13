@@ -66,7 +66,7 @@ def main():
     os.makedirs(save_dir_path, exist_ok=True)
 
     print('[MDET] Load model & image')
-    encoder = 'vitb' # 'vits' or vitb or vitl
+    encoder = 'vits' # 'vits' or vitb or vitl
     dtype = torch.half
     model = set_model(encoder, dtype)
 

@@ -51,7 +51,7 @@ def main():
     print('[MDET] Load model & image')
     input_h, input_w = 518, 518 # 518, 518
     dtype = torch.half
-    encoder = 'vitb' # 'vits' or 'vitb' or 'vitl'
+    encoder = 'vits' # 'vits' or 'vitb' or 'vitl'
     print(f'[MDET] backbone : {encoder}')
     if 1 :
         with open(f"{CUR_DIR}/UniK3D/configs/eval/{encoder}.json") as f:

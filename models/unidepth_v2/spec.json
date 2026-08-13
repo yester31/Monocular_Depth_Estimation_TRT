@@ -39,5 +39,16 @@
   "caveats": [
     "metric scale is roughly 3.1x upstream at 518x518 (D11)",
     "float64 in the exported graph is rewritten to float32 after export (core/onnx_tools.demote_float64)"
-  ]
+  ],
+  "encoder": {
+    "used": "vits",
+    "available": [
+      "vits",
+      "vitb",
+      "vitl"
+    ],
+    "smallest": "vits",
+    "source": "upstream clone, checked 2026-08-13"
+  },
+  "depth_scale": "metric"
 }

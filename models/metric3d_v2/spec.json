@@ -31,5 +31,17 @@
   "caveats": [
     "output is canonical depth; metres need real_focal * scale / 1000 (D12)",
     "built at fp32 while every other model is fp16"
-  ]
+  ],
+  "encoder": {
+    "used": "vits",
+    "available": [
+      "vits",
+      "vitl",
+      "vitg2"
+    ],
+    "smallest": "vits",
+    "source": "upstream clone Metric3D/hubconf.py MODEL_TYPE, checked 2026-08-13",
+    "note": "ConvNeXt-Tiny and ConvNeXt-Large also ship, but they are the v1 line and a different architecture, not a smaller point on this encoder axis. vits also uses a RAFT-4iter head where vitl uses 8iter, so this is not purely an encoder swap."
+  },
+  "depth_scale": "metric"
 }

@@ -25,7 +25,7 @@ def main ():
 
     input_h = 616
     input_w = 1064 
-    encoder = 'vitl' # 'vits' or vitl or vitg
+    encoder = 'vits' # 'vits' or vitl or vitg
     if encoder == 'vits':
         model = metric3d_vit_small(pretrain=True)
     elif encoder == 'vitl':

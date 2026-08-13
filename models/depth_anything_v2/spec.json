@@ -41,5 +41,16 @@
       "profile": "bench",
       "precision": "fp16"
     }
-  ]
+  ],
+  "encoder": {
+    "used": "vits",
+    "available": [
+      "vits",
+      "vitb",
+      "vitg"
+    ],
+    "smallest": "vits",
+    "source": "upstream clone, checked 2026-08-13"
+  },
+  "depth_scale": "metric"
 }

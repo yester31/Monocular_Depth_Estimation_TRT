@@ -48,5 +48,14 @@
   ],
   "caveats": [
     "1536x1536 is upstream's fixed size; there is no 518 bench profile"
-  ]
+  ],
+  "encoder": {
+    "used": "fixed",
+    "available": [
+      "fixed"
+    ],
+    "smallest": "fixed",
+    "source": "upstream clone, checked 2026-08-13"
+  },
+  "depth_scale": "metric"
 }

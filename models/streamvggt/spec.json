@@ -30,5 +30,14 @@
   ],
   "caveats": [
     "cartesian_prod is replaced at export time; TorchScript has no symbolic for it (core/export_compat.no_cartesian_prod)"
-  ]
+  ],
+  "encoder": {
+    "used": "fixed",
+    "available": [
+      "fixed"
+    ],
+    "smallest": "fixed",
+    "source": "upstream clone, checked 2026-08-13"
+  },
+  "depth_scale": "unknown"
 }

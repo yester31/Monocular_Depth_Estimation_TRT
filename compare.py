@@ -38,7 +38,9 @@ KIND = {
     # onnx_export.py and onnx2trt.py together for the relative one.
     "depth_anything_v2": "metric (hypersim) by default",
     "depth_anything_ac": "relative",
-    "depth_anything_v3": "relative + sky mask",
+    # DA3Metric-Large is the Metric series (upstream README): the depth
+    # output is metric. This said "relative" until the clone was read.
+    "depth_anything_v3": "metric + sky mask",
     "distill_any_depth": "relative",
     "depth_pro": "metric",
     "metric3d_v2": "canonical (not metres - D12)",
@@ -95,6 +97,10 @@ def _rows(runs):
         yield [
             f"`{r['model']}`",
             r.get("variant", "single"),
+            # Four of these models offer several backbones and the choice moves
+            # the time more than anything in the builder. A row without it
+            # invites a comparison that is really about model size.
+            r.get("encoder") or "-",
             r.get("precision", "?"),
             _fmt(s.get("mean_ms")),
             _fmt(s.get("p50_ms")),
@@ -104,7 +110,7 @@ def _rows(runs):
         ]
 
 
-HEAD = ["model", "variant", "precision", "mean ms", "p50", "p90", "fps", "output"]
+HEAD = ["model", "variant", "encoder", "precision", "mean ms", "p50", "p90", "fps", "output"]
 
 
 # Columns whose values are numbers and should sit right-aligned. Decided by

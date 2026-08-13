@@ -146,7 +146,7 @@ def main():
 
         # Results - printed as before, and written to reports/bench/ so
         # compare.py can build the table without anyone retyping a number.
-        bench.record('metric_anything', samples, warmup=warmup, precision=precision,
+        bench.record('metric_anything', samples, encoder='fixed', warmup=warmup, precision=precision,
                      profile='bench', input_h=new_height, input_w=new_width,
                      engine_path=engine_file_path,
                      model_input=batch_images)

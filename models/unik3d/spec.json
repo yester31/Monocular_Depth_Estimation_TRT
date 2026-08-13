@@ -35,5 +35,16 @@
   "caveats": [
     "metric scale is 3.15x upstream at 518x518 (D11)",
     "exported with antialias disabled; TensorRT cannot parse antialias=1"
-  ]
+  ],
+  "encoder": {
+    "used": "vits",
+    "available": [
+      "vits",
+      "vitb",
+      "vitl"
+    ],
+    "smallest": "vits",
+    "source": "upstream clone, checked 2026-08-13"
+  },
+  "depth_scale": "metric"
 }

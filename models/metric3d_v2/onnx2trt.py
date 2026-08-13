@@ -105,7 +105,7 @@ def main():
 
     # Model and engine paths (ff)
     precision = "fp32"  # 'fp32'
-    encoder = 'vitl'    # 'vits' or vitl or vitg
+    encoder = 'vits'    # 'vits' or vitl or vitg
     onnx_sim = False     # True or False
     model_name = f"metric3d_{encoder}_{input_h}x{input_w}"
     model_name = f"{model_name}_sim" if onnx_sim else model_name
@@ -148,7 +148,7 @@ def main():
         
         # Results - printed as before, and written to reports/bench/ so
         # compare.py can build the table without anyone retyping a number.
-        bench.record('metric3d_v2', samples, warmup=warmup, precision=precision,
+        bench.record('metric3d_v2', samples, encoder=encoder, warmup=warmup, precision=precision,
                      profile='native', input_h=input_h, input_w=input_w,
                      engine_path=engine_file_path, outputs={'depth': pred_depth},
                      model_input=batch_images)

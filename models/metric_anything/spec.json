@@ -39,5 +39,14 @@
   "caveats": [
     "388x518 assumes a 4:3 source, matching moge_2 (D13)",
     "post-process calls MoGe's recover_focal_shift, so trte needs the pinned utils3d commit (D15)"
-  ]
+  ],
+  "encoder": {
+    "used": "fixed",
+    "available": [
+      "fixed"
+    ],
+    "smallest": "fixed",
+    "source": "upstream clone, checked 2026-08-13"
+  },
+  "depth_scale": "metric"
 }

@@ -55,7 +55,7 @@ def main():
     os.makedirs(save_dir_path, exist_ok=True)
 
     print('[MDET] Load model & image')
-    encoder = 'vitl' # 'vits' or vitl or vitg
+    encoder = 'vits' # 'vits' or vitl or vitg
     #model = torch.hub.load('yvanyin/metric3d', 'metric3d_vit_small', pretrain=True)
     if encoder == 'vits':
         model = metric3d_vit_small(pretrain=True)

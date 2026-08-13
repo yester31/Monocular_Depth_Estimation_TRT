@@ -120,7 +120,7 @@ def main():
 
     # Model and engine paths
     precision = "fp16"  # 'fp32' or 'fp16'
-    encoder = 'vitb'    # 'vits' or 'vitb'  or 'vitl' 
+    encoder = 'vits'    # 'vits' or 'vitb'  or 'vitl' 
     dynamic = False      # False
     onnx_sim = False     # True or False
     # The dynamo exporter is what produces a working graph for this
@@ -177,7 +177,7 @@ def main():
 
         # Results - printed as before, and written to reports/bench/ so
         # compare.py can build the table without anyone retyping a number.
-        bench.record('unik3d', samples, warmup=warmup, precision=precision,
+        bench.record('unik3d', samples, encoder=encoder, warmup=warmup, precision=precision,
                      profile='bench', input_h=input_h, input_w=input_w,
                      engine_path=engine_file_path, outputs={'depth': depth},
                      model_input=batch_images)

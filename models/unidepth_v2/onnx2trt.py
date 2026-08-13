@@ -115,7 +115,7 @@ def main():
 
     # Model and engine paths
     precision = "fp16"  # 'fp32' or 'fp16'
-    encoder = 'vitb'    # 'vits' or 'vitb'  or 'vitl' 
+    encoder = 'vits'    # 'vits' or 'vitb'  or 'vitl' 
     dynamo = False      # False
     onnx_sim = False     # True or False
     model_name = f"uni_depth_v2_{encoder}_{input_h}x{input_w}"
@@ -163,7 +163,7 @@ def main():
 
         # Results - printed as before, and written to reports/bench/ so
         # compare.py can build the table without anyone retyping a number.
-        bench.record('unidepth_v2', samples, warmup=warmup, precision=precision,
+        bench.record('unidepth_v2', samples, encoder=encoder, warmup=warmup, precision=precision,
                      profile='bench', input_h=input_h, input_w=input_w,
                      engine_path=engine_file_path, outputs={'depth': depth},
                      model_input=batch_images)

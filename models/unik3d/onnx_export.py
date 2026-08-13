@@ -89,7 +89,7 @@ def main ():
     # 518x518 — the repo-wide comparison size. Must match onnx2trt.py,
     # which documents why no aspect-preserving variant is offered.
     input_h, input_w = 518, 518
-    encoder = 'vitb' # 'vits' or 'vitb' or 'vitl'
+    encoder = 'vits' # 'vits' or 'vitb' or 'vitl'
     with open(f"{CUR_DIR}/UniK3D/configs/eval/{encoder}.json") as f:
         config = json.load(f)
     model = UniK3DONNX(config)

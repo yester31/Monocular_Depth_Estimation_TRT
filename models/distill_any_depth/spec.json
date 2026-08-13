@@ -27,5 +27,16 @@
       "profile": "bench",
       "precision": "fp16"
     }
-  ]
+  ],
+  "encoder": {
+    "used": "small",
+    "available": [
+      "small",
+      "base",
+      "large"
+    ],
+    "smallest": "small",
+    "source": "upstream clone, checked 2026-08-13"
+  },
+  "depth_scale": "relative"
 }

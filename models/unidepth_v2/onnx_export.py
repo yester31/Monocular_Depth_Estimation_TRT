@@ -30,7 +30,7 @@ def main ():
     # 518x518 — the repo-wide comparison size. Must match onnx2trt.py,
     # which documents why no aspect-preserving variant is offered.
     input_h, input_w = 518, 518
-    encoder = 'vitb' # 'vits' or vitb or vitl
+    encoder = 'vits' # 'vits' or vitb or vitl
     with open(os.path.join(f"{CUR_DIR}/UniDepth/configs", f"config_v2_{encoder}14.json")) as f:
         config = json.load(f)
         config["training"]["export"] = True

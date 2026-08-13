@@ -117,7 +117,7 @@ def main():
 
         # Results - printed as before, and written to reports/bench/ so
         # compare.py can build the table without anyone retyping a number.
-        bench.record('depth_anything_v3', samples, warmup=warmup,
+        bench.record('depth_anything_v3', samples, encoder='DA3Metric-Large', warmup=warmup,
                      precision=precision, profile='bench', input_h=input_h,
                      input_w=input_w, engine_path=engine_file_path,
                      outputs={'depth': depth},
