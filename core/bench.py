@@ -51,6 +51,12 @@ class Bench:
     samples_ms: List[float] = field(default_factory=list)
     warmup: int = 0
 
+    # Optional GPU-side breakdown of each sample, from common_runtime.StageTimer.
+    # Absent in every record written before it existed, and absent in any run
+    # that did not ask for it, so readers must treat it as missing rather than
+    # zero -- a zero here would read as "the copy is free".
+    stage_samples_ms: Dict[str, List[float]] = field(default_factory=dict)
+
     # what was run
     backend: str = "tensorrt"
     precision: str = "fp32"
@@ -101,7 +107,7 @@ class Bench:
     def stats(self) -> dict:
         if not self.samples_ms:
             return {}
-        return {
+        s = {
             "iterations": self.iterations,
             "warmup": self.warmup,
             "mean_ms": round(self.mean_ms, 4),
@@ -114,6 +120,18 @@ class Bench:
             if self.iterations > 1 else 0.0,
             "fps": round(self.fps, 2),
         }
+        for name, vals in self.stage_samples_ms.items():
+            if vals:
+                s[name] = round(statistics.fmean(vals), 4)
+        if self.stage_samples_ms:
+            # What the phases do not account for: launch overhead, the
+            # synchronize, and any gap between the copies. Named rather than
+            # left to subtraction, because on a fast model it is the largest
+            # term and a breakdown that quietly omits it invites the reader to
+            # conclude the kernels are the whole cost.
+            accounted = sum(s.get(k, 0.0) for k in ("h2d_ms", "compute_ms", "d2h_ms"))
+            s["host_overhead_ms"] = round(max(0.0, s["mean_ms"] - accounted), 4)
+        return s
 
     def report(self) -> str:
         """The lines the old loops printed, plus the spread they omitted."""
@@ -121,14 +139,20 @@ class Bench:
             return "[MDET] no samples"
         s = self.stats()
         total = sum(self.samples_ms) / 1000.0
-        return "\n".join([
+        lines = [
             f"[MDET] {self.iterations} iterations time: {total:.4f} [sec]",
             f"[MDET] Average FPS: {s['fps']:.2f} [fps]",
             f"[MDET] Average inference time: {s['mean_ms']:.2f} [msec]",
             f"[MDET] p50 {s['p50_ms']:.2f} / p90 {s['p90_ms']:.2f} / "
             f"p99 {s['p99_ms']:.2f} [msec], min {s['min_ms']:.2f}, "
             f"stdev {s['stdev_ms']:.2f}",
-        ])
+        ]
+        if "compute_ms" in s:
+            lines.append(
+                f"[MDET] h2d {s.get('h2d_ms', 0):.3f} / "
+                f"compute {s['compute_ms']:.3f} / d2h {s.get('d2h_ms', 0):.3f} / "
+                f"host {s.get('host_overhead_ms', 0):.3f} [msec]")
+        return "\n".join(lines)
 
     def to_dict(self) -> dict:
         d = asdict(self)
@@ -168,6 +192,44 @@ def measure(fn: Callable[[], object], *, warmup: int = 10, iterations: int = 100
         sync()
         samples.append((time.perf_counter() - t0) * 1000.0)
     return out, samples
+
+
+def measure_staged(fn: Callable[[], object], probe: Callable[[], Dict[str, float]],
+                   *, warmup: int = 10, iterations: int = 100,
+                   sync: Optional[Callable[[], None]] = None):
+    """measure(), plus a per-phase breakdown of each iteration.
+
+    Returns (last return value, samples_ms, {phase: [ms, ...]}).
+
+    `probe` is called after each timed iteration and returns that iteration's
+    phase durations -- normally common_runtime.StageTimer.last, which the
+    inference call has just filled in. It is read outside the timed region, so
+    reading it cannot inflate the total.
+
+    The wall-clock samples this returns are still the number to publish. The
+    breakdown answers a different question, and the two do not sum: see
+    StageTimer.
+    """
+    if sync is None:
+        try:
+            import torch
+            sync = torch.cuda.synchronize if torch.cuda.is_available() else lambda: None
+        except ImportError:
+            sync = lambda: None
+
+    for _ in range(warmup):
+        fn()
+    sync()
+
+    out, samples, stages = None, [], {}
+    for _ in range(iterations):
+        t0 = time.perf_counter()
+        out = fn()
+        sync()
+        samples.append((time.perf_counter() - t0) * 1000.0)
+        for name, ms in (probe() or {}).items():
+            stages.setdefault(name, []).append(float(ms))
+    return out, samples, stages
 
 
 def summarize_outputs(outputs: Dict[str, np.ndarray]) -> Dict[str, dict]:

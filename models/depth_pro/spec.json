@@ -6,7 +6,21 @@
     "name": "input",
     "rank": 4,
     "dtype": "float32",
-    "layout": "NCHW"
+    "layout": "NCHW",
+    "normalize": {
+      "mean": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "std": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "scale": 255.0,
+      "source": "onnx2trt.py Compose([ToTensor(), Normalize([0.5]*3,[0.5]*3)])"
+    }
   },
   "outputs": [
     {

@@ -6,7 +6,21 @@
     "name": "images",
     "rank": 5,
     "dtype": "float32",
-    "layout": "NSCHW"
+    "layout": "NSCHW",
+    "normalize": {
+      "mean": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "std": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "scale": 255.0,
+      "source": "onnx2trt.py: /255 only, no mean/std"
+    }
   },
   "outputs": [
     {

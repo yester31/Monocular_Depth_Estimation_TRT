@@ -6,7 +6,21 @@
     "name": "input",
     "rank": 4,
     "dtype": "float32",
-    "layout": "NCHW"
+    "layout": "NCHW",
+    "normalize": {
+      "mean": [
+        0.485,
+        0.456,
+        0.406
+      ],
+      "std": [
+        0.229,
+        0.224,
+        0.225
+      ],
+      "scale": 255.0,
+      "source": "onnx2trt.py preprocess_image: /255 then ImageNet mean/std"
+    }
   },
   "outputs": [
     {

@@ -193,28 +193,83 @@ def memcpy_device_to_host(host_arr: np.ndarray, device_ptr: int):
     cuda_call(cudart.cudaMemcpy(host_arr, device_ptr, nbytes, cudart.cudaMemcpyKind.cudaMemcpyDeviceToHost))
 
 
-def _do_inference_base(inputs, outputs, stream, execute_async_func):
+class StageTimer:
+    """CUDA events between the three phases of one inference.
+
+    The loop in core/bench times a whole do_inference and stops after the
+    stream synchronizes. That is what a caller waits for, and it is the right
+    number to publish -- but it cannot say where the time went, and some
+    questions are only about that. Whether a uint8 input is worth it, for
+    instance, is entirely a question of whether the smaller host-to-device copy
+    pays for the Cast and Transpose it adds to the graph. One total cannot
+    answer that; two totals that differ by 3% cannot either.
+
+    Events are recorded on the same stream, between the phases already there,
+    so nothing about the work changes. They are created once and reused --
+    creating four per iteration would add its own cost to the measurement.
+
+    Note these are GPU-side durations. They will not sum to the wall clock the
+    outer loop reports, which also carries launch overhead and the final
+    synchronize. That gap is itself worth looking at: on a small model it can
+    be most of the time.
+    """
+
+    STAGES = ("h2d_ms", "compute_ms", "d2h_ms")
+
+    def __init__(self):
+        self._events = [cuda_call(cudart.cudaEventCreate()) for _ in range(4)]
+        self.last = {}
+
+    def mark(self, i, stream):
+        cuda_call(cudart.cudaEventRecord(self._events[i], stream))
+
+    def read(self):
+        """Milliseconds per phase. Only valid after the stream has synchronized."""
+        self.last = {
+            name: float(cuda_call(cudart.cudaEventElapsedTime(
+                self._events[i], self._events[i + 1])))
+            for i, name in enumerate(self.STAGES)
+        }
+        return self.last
+
+    def free(self):
+        for e in self._events:
+            cuda_call(cudart.cudaEventDestroy(e))
+        self._events = []
+
+
+def _do_inference_base(inputs, outputs, stream, execute_async_func, timer=None):
+    if timer is not None:
+        timer.mark(0, stream)
     # Transfer input data to the GPU.
     kind = cudart.cudaMemcpyKind.cudaMemcpyHostToDevice
     [cuda_call(cudart.cudaMemcpyAsync(inp.device, inp.host, inp.nbytes, kind, stream)) for inp in inputs]
+    if timer is not None:
+        timer.mark(1, stream)
     # Run inference.
     execute_async_func()
+    if timer is not None:
+        timer.mark(2, stream)
     # Transfer predictions back from the GPU.
     kind = cudart.cudaMemcpyKind.cudaMemcpyDeviceToHost
     [cuda_call(cudart.cudaMemcpyAsync(out.host, out.device, out.nbytes, kind, stream)) for out in outputs]
+    if timer is not None:
+        timer.mark(3, stream)
     # Synchronize the stream
     cuda_call(cudart.cudaStreamSynchronize(stream))
+    if timer is not None:
+        timer.read()
     # Return only the host outputs.
     return [out.host for out in outputs]
 
 
 # This function is generalized for multiple inputs/outputs.
 # inputs and outputs are expected to be lists of HostDeviceMem objects.
-def do_inference(context, engine, bindings, inputs, outputs, stream):
+def do_inference(context, engine, bindings, inputs, outputs, stream, timer=None):
     def execute_async_func():
         context.execute_async_v3(stream_handle=stream)
     # Setup context tensor address.
     num_io = engine.num_io_tensors
     for i in range(num_io):
         context.set_tensor_address(engine.get_tensor_name(i), bindings[i])
-    return _do_inference_base(inputs, outputs, stream, execute_async_func)
+    return _do_inference_base(inputs, outputs, stream, execute_async_func, timer)

@@ -14,7 +14,8 @@ import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from core.bench import (  # noqa: E402
-    SCHEMA, Bench, load, load_all, measure, save, summarize_outputs,
+    SCHEMA, Bench, load, load_all, measure, measure_staged, save,
+    summarize_outputs,
 )
 
 _failures = []
@@ -155,6 +156,93 @@ def test_report_mentions_spread():
     txt = b.report()
     check("report has fps", "fps" in txt, txt)
     check("report has percentiles", "p99" in txt, txt)
+
+
+def test_stage_breakdown_is_absent_unless_measured():
+    """A missing breakdown must stay missing. Filling it with zeros would read
+    as "the copies are free", which is the opposite of what is unknown."""
+    b = Bench(model="m", samples_ms=[10.0, 10.0])
+    s = b.stats()
+    check("no h2d key", "h2d_ms" not in s, str(sorted(s)))
+    check("no overhead key", "host_overhead_ms" not in s, str(sorted(s)))
+    check("report stays quiet", "compute" not in b.report())
+
+
+def test_stage_breakdown_names_what_it_does_not_cover():
+    """GPU phases will not sum to the wall clock. The remainder is launch
+    overhead and the synchronize, and on a fast model it is most of the time,
+    so it is reported rather than left for the reader to subtract."""
+    b = Bench(model="m", samples_ms=[10.0, 10.0],
+              stage_samples_ms={"h2d_ms": [1.0, 1.0], "compute_ms": [4.0, 4.0],
+                                "d2h_ms": [1.0, 1.0]})
+    s = b.stats()
+    check("h2d averaged", s["h2d_ms"] == 1.0, str(s.get("h2d_ms")))
+    check("compute averaged", s["compute_ms"] == 4.0, str(s.get("compute_ms")))
+    check("remainder named", s["host_overhead_ms"] == 4.0,
+          str(s.get("host_overhead_ms")))
+    check("report shows the split", "compute" in b.report(), b.report())
+
+
+def test_stage_remainder_never_goes_negative():
+    """Event timing and perf_counter measure different things and can disagree
+    by a hair; a negative "overhead" would be nonsense in a published table."""
+    b = Bench(model="m", samples_ms=[5.0],
+              stage_samples_ms={"h2d_ms": [1.0], "compute_ms": [4.5],
+                                "d2h_ms": [1.0]})
+    check("clamped at zero", b.stats()["host_overhead_ms"] == 0.0,
+          str(b.stats()["host_overhead_ms"]))
+
+
+def test_measure_staged_collects_one_probe_per_iteration():
+    calls = {"n": 0}
+
+    def fn():
+        calls["n"] += 1
+        return calls["n"]
+
+    def probe():
+        return {"h2d_ms": 0.5, "compute_ms": 2.0, "d2h_ms": 0.25}
+
+    out, samples, stages = measure_staged(fn, probe, warmup=2, iterations=5,
+                                          sync=lambda: None)
+    check("warmup not sampled", len(samples) == 5, str(len(samples)))
+    check("fn ran warmup+iterations", calls["n"] == 7, str(calls["n"]))
+    check("one probe per sample", len(stages["compute_ms"]) == 5,
+          str(len(stages["compute_ms"])))
+    check("last value returned", out == 7, str(out))
+
+
+def test_measure_staged_tolerates_a_silent_probe():
+    """A run configured without a timer should degrade to plain measure(),
+    not raise partway through a hundred iterations."""
+    _, samples, stages = measure_staged(lambda: None, lambda: None,
+                                        warmup=0, iterations=3, sync=lambda: None)
+    check("samples still collected", len(samples) == 3)
+    check("no stages invented", stages == {}, str(stages))
+
+
+def test_stage_samples_survive_a_roundtrip():
+    with tempfile.TemporaryDirectory() as td:
+        b = Bench(model="m", samples_ms=[10.0], precision="fp16",
+                  stage_samples_ms={"h2d_ms": [1.0], "compute_ms": [4.0],
+                                    "d2h_ms": [1.0]})
+        d = load(save(b, td))
+        check("samples kept", d["stage_samples_ms"]["compute_ms"] == [4.0],
+              str(d.get("stage_samples_ms")))
+        check("stats kept", d["stats"]["compute_ms"] == 4.0)
+
+
+def test_old_records_still_load():
+    """Twelve records were written before the breakdown existed. Adding an
+    optional field must not strand them."""
+    with tempfile.TemporaryDirectory() as td:
+        path = os.path.join(td, "old.json")
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump({"schema": SCHEMA, "model": "m", "samples_ms": [1.0],
+                       "stats": {"mean_ms": 1.0}}, f)
+        d = load(path)
+        check("loads", d["model"] == "m")
+        check("no breakdown claimed", "h2d_ms" not in d["stats"])
 
 
 if __name__ == "__main__":
