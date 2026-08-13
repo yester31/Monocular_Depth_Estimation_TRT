@@ -1,0 +1,71 @@
+[
+  {
+    "model": "depth_anything_v3",
+    "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\depth_anything_v3\\onnx\\DA3METRIC-LARGE_518x518_sim.onnx",
+    "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\depth_anything_v3\\engine\\tune\\DA3METRIC-LARGE_518x518_sim_fp16_as_fp32_optd_wsd.engine",
+    "precision": "fp32",
+    "opt_level": null,
+    "workspace_gib": null,
+    "repeat": 1,
+    "stats": {
+      "iterations": 100,
+      "warmup": 0,
+      "mean_ms": 74.3244,
+      "min_ms": 74.1719,
+      "p50_ms": 74.3083,
+      "p90_ms": 74.458,
+      "p99_ms": 74.5679,
+      "max_ms": 74.6957,
+      "stdev_ms": 0.0926,
+      "fps": 13.45
+    },
+    "environment": {
+      "versions": {
+        "torch": "2.11.0+cu128",
+        "cuda": "12.8",
+        "tensorrt": "10.16.1.11",
+        "python": "3.11.15"
+      },
+      "device": "NVIDIA GeForce RTX 3080",
+      "driver": "591.86",
+      "clock_mhz": 1800,
+      "clock_max_mhz": 2130
+    },
+    "profile_summary": {
+      "layers_profiled": 313,
+      "layers_in_engine": 313,
+      "profile_total_ms": 73.4061,
+      "benchmark_mean_ms": null,
+      "top10_share": 0.1242,
+      "fp32_output_share": 1.0,
+      "movement_share": 0.0018,
+      "layer_types": {
+        "gemm": 144,
+        "kgen": 109,
+        "CaskConvolution": 29,
+        "PointWiseV2": 8,
+        "NoOp": 7,
+        "Reformat": 6,
+        "Resize": 5,
+        "CaskGemmConvolution": 3,
+        "CaskDeconvolutionV2": 1,
+        "CaskGemmDeconvolution": 1
+      },
+      "layer_precisions": {
+        "Float": 313
+      }
+    },
+    "layer_type_time_shares": {
+      "CaskConvolution": 0.16126899999999997,
+      "gemm": 0.6263279999999999,
+      "kgen": 0.19048999999999994,
+      "Resize": 0.008006000000000001,
+      "CaskGemmDeconvolution": 0.003323,
+      "CaskDeconvolutionV2": 0.00239,
+      "CaskGemmConvolution": 0.0034660000000000003,
+      "PointWiseV2": 0.002952,
+      "Reformat": 0.001777,
+      "NoOp": 0.0
+    }
+  }
+]
