@@ -101,8 +101,9 @@ def test_kind_table_covers_every_model_folder():
     """A model folder with no KIND entry would render as '?' in the output
     column, which is how a table quietly stops being trustworthy."""
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    folders = {d for d in os.listdir(root)
-               if os.path.isfile(os.path.join(root, d, "onnx2trt.py"))}
+    models = os.path.join(root, "models")
+    folders = {d for d in os.listdir(models)
+               if os.path.isfile(os.path.join(models, d, "onnx2trt.py"))}
     # A key maps to its folder either by an explicit FOLDER entry or by the
     # lowercase convention every other model already follows.
     resolved = {k: FOLDER.get(k, k) for k in KIND}
@@ -124,7 +125,7 @@ def test_folder_overrides_are_still_needed():
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     for key, folder in FOLDER.items():
         check(f"{key} override points at a real folder",
-              os.path.isdir(os.path.join(root, folder)), folder)
+              os.path.isdir(os.path.join(root, "models", folder)), folder)
         check(f"{key} override is not redundant", folder.lower() != key,
               f"{folder} already lowercases to {key} - drop the entry")
 
@@ -146,11 +147,12 @@ def test_readmes_are_up_to_date():
 def test_every_model_readme_has_markers():
     """A model folder whose README has no BENCH block would quietly never show
     a measurement, and compare.py would not complain loudly enough."""
-    for d in sorted(os.listdir(ROOT)):
-        p = os.path.join(ROOT, d, "onnx2trt.py")
+    models = os.path.join(ROOT, "models")
+    for d in sorted(os.listdir(models)):
+        p = os.path.join(models, d, "onnx2trt.py")
         if not os.path.isfile(p):
             continue
-        readme = os.path.join(ROOT, d, "README.md")
+        readme = os.path.join(models, d, "README.md")
         check(f"{d}/README.md exists", os.path.isfile(readme))
         if not os.path.isfile(readme):
             continue

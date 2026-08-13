@@ -78,7 +78,43 @@ pip install "utils3d @ git+https://github.com/EasternJournalist/utils3d.git@3fab
 > AttributeError: module 'utils3d' has no attribute 'torch'
 > ```
 
-## 2. Supported Models
+## 2. Layout — moved 2026-08-13
+
+Every model now lives under `models/` with a lowercase directory name matching
+the key used in reports and result files. Before this, the same model went by
+three spellings — the directory `Uni_Depth_V2`, the key `unidepth_v2`, and
+upstream's `UniDepthV2` — and code had to carry a mapping between them.
+
+| was | now |
+| :--- | :--- |
+| `Depth_Anything_V2/` | `models/depth_anything_v2/` |
+| `Depth_Anything_AC/` | `models/depth_anything_ac/` |
+| `Depth_Anything_V3/` | `models/depth_anything_v3/` |
+| `Distill_Any_Depth/` | `models/distill_any_depth/` |
+| `Depth_Pro/` | `models/depth_pro/` |
+| `Metric3D_V2/` | `models/metric3d_v2/` |
+| `Metric_Anything/` | `models/metric_anything/` |
+| `MoGe_2/` | `models/moge_2/` |
+| `StreamVGGT/` | `models/streamvggt/` |
+| `UniK3D/` | `models/unik3d/` |
+| **`Uni_Depth_V2/`** | **`models/unidepth_v2/`** — note the name change |
+| `VGGT/` | `models/vggt/` |
+
+Commands gain one path component:
+
+```bash
+cd models/depth_anything_v2 && python onnx_export.py    # was: cd Depth_Anything_V2
+```
+
+Scripts no longer count `..` to find the repository root; they walk up to the
+directory containing `core/`. That is why the move did not require touching
+every path by hand, and why the next move will not either.
+
+If you have upstream clones inside the old directories, move them with the
+rest — the model scripts still expect them alongside, e.g.
+`models/vggt/vggt/`.
+
+## 3. Supported Models
 
 Each model directory contains a `README.md` file with detailed instructions.
 
@@ -92,23 +128,23 @@ few need a caveat that travels with the number:
 
 | Model Name | Link to TensorRT Conversion | Input | Output | Upstream License |
 | :--- | :--- | :--- | :--- | :--- |
-| **Depth Anything V2** | [TensorRT Conversion](Depth_Anything_V2/README.md) | 518×518 | Metric (hypersim) by default; relative checkpoint also ships | Apache-2.0 (code) / **CC BY-NC 4.0** (Base, Large weights) |
-| **Distill Any Depth** | [TensorRT Conversion](Distill_Any_Depth/README.md) | 518×518 | Relative | MIT |
-| **Depth Anything AC** | [TensorRT Conversion](Depth_Anything_AC/README.md) | 518×518 | Relative | **No license file** |
-| **Depth Pro** | [TensorRT Conversion](Depth_Pro/README.md) | **1536×1536** | Metric + focal length | Apple Sample Code License |
-| **Uni Depth V2** | [TensorRT Conversion](Uni_Depth_V2/README.md) | 518×518 | Point map + intrinsics — **metric scale off ~3.1×, see D11** | **CC BY-NC 4.0** |
-| **Metric3D V2** | [TensorRT Conversion](Metric3D_V2/README.md) | **616×1064** | **Canonical depth, not metres — see D12** | BSD-2-Clause |
-| **UniK3D** | [TensorRT Conversion](UniK3D/README.md) | 518×518 | Point map + intrinsics — **metric scale 3.15× off, see D11** | **CC BY-NC-SA 4.0** |
-| **MoGe-2** | [TensorRT Conversion](MoGe_2/README.md) | **388×518** | Point map + metric scale | MIT |
-| **VGGT** | [TensorRT Conversion](VGGT/README.md) | 518×518 | Geometry; scale unknown | VGGT License (Meta custom) |
-| **StreamVGGT** | [TensorRT Conversion](StreamVGGT/README.md) | 518×518 | Geometry; scale unknown | **CC BY-NC-SA 4.0** |
-| **Depth Anything V3** | [TensorRT Conversion](Depth_Anything_V3/README.md) | 518×518 | Relative + sky mask | Apache-2.0 |
-| **Metric Anything** | [TensorRT Conversion](Metric_Anything/README.md) | **388×518** | Point map + metric scale | Apache-2.0 |
+| **Depth Anything V2** | [TensorRT Conversion](models/depth_anything_v2/README.md) | 518×518 | Metric (hypersim) by default; relative checkpoint also ships | Apache-2.0 (code) / **CC BY-NC 4.0** (Base, Large weights) |
+| **Distill Any Depth** | [TensorRT Conversion](models/distill_any_depth/README.md) | 518×518 | Relative | MIT |
+| **Depth Anything AC** | [TensorRT Conversion](models/depth_anything_ac/README.md) | 518×518 | Relative | **No license file** |
+| **Depth Pro** | [TensorRT Conversion](models/depth_pro/README.md) | **1536×1536** | Metric + focal length | Apple Sample Code License |
+| **Uni Depth V2** | [TensorRT Conversion](models/unidepth_v2/README.md) | 518×518 | Point map + intrinsics — **metric scale off ~3.1×, see D11** | **CC BY-NC 4.0** |
+| **Metric3D V2** | [TensorRT Conversion](models/metric3d_v2/README.md) | **616×1064** | **Canonical depth, not metres — see D12** | BSD-2-Clause |
+| **UniK3D** | [TensorRT Conversion](models/unik3d/README.md) | 518×518 | Point map + intrinsics — **metric scale 3.15× off, see D11** | **CC BY-NC-SA 4.0** |
+| **MoGe-2** | [TensorRT Conversion](models/moge_2/README.md) | **388×518** | Point map + metric scale | MIT |
+| **VGGT** | [TensorRT Conversion](models/vggt/README.md) | 518×518 | Geometry; scale unknown | VGGT License (Meta custom) |
+| **StreamVGGT** | [TensorRT Conversion](models/streamvggt/README.md) | 518×518 | Geometry; scale unknown | **CC BY-NC-SA 4.0** |
+| **Depth Anything V3** | [TensorRT Conversion](models/depth_anything_v3/README.md) | 518×518 | Relative + sky mask | Apache-2.0 |
+| **Metric Anything** | [TensorRT Conversion](models/metric_anything/README.md) | **388×518** | Point map + metric scale | Apache-2.0 |
 
 The D-numbers refer to [docs/model_contracts.md](docs/model_contracts.md),
 which records what was measured and how.
 
-## 3. Performance
+## 4. Performance
 
 <!-- BENCH:BEGIN -->
 Measured on NVIDIA GeForce RTX 3080, TensorRT 10.16.1.11, on `data/example.jpg`.
@@ -149,7 +185,7 @@ Generated by `compare.py` — do not edit between the markers.
 Speeds do **not** compare across those groups: attention cost grows faster than pixel count, so a model at a smaller input is not therefore faster. Full table with p90/p99 and the per-model caveats: [reports/comparison.md](reports/comparison.md).
 <!-- BENCH:END -->
 
-## 4. Licensing
+## 5. Licensing
 
 The conversion scripts in this repository are MIT (see [LICENSE](LICENSE)). **The upstream models
 are not.** Each model's `README.md` carries a `## License` table covering both the upstream code and

@@ -50,15 +50,13 @@ KIND = {
     "streamvggt": "geometry (scale unknown)",
 }
 
-# Model key -> folder, for the cases where the two disagree today. The key is
-# what goes in a result file and a report; the folder is where the scripts
-# live. Phase 4 renames the folders to match, at which point this collapses to
-# a plain lowercase() and can go away. Until then the mismatch is written down
-# rather than papered over -- an undeclared one silently drops a model from
-# the coverage check in tests/test_compare.py.
-FOLDER = {
-    "unidepth_v2": "Uni_Depth_V2",   # upstream calls it UniDepthV2
-}
+# Every model directory now matches its key exactly, so there is no mapping to
+# keep. FOLDER survives as an empty dict because callers still consult it and
+# a future upstream rename could reintroduce a mismatch; the coverage check in
+# tests/test_compare.py fails loudly if one appears undeclared.
+FOLDER = {}
+
+MODELS = os.path.join(ROOT, "models")
 
 # Caveats that must travel with the number, or a reader will draw the wrong
 # conclusion from a table that looks authoritative.
@@ -292,12 +290,7 @@ def write_readmes(runs, check=False):
     targets = [(os.path.join(ROOT, "README.md"), render_summary(runs))]
     for r in runs:
         folder = FOLDER.get(r["model"], r["model"])
-        path = os.path.join(ROOT, folder, "README.md")
-        if not os.path.exists(path):
-            for d in os.listdir(ROOT):
-                if d.lower() == folder.lower():
-                    path = os.path.join(ROOT, d, "README.md")
-                    break
+        path = os.path.join(MODELS, folder, "README.md")
         targets.append((path, render_model_block(r)))
 
     changed, missing = [], []

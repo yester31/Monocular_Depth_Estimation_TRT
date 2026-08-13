@@ -3,7 +3,7 @@
 These scripts cannot be imported on a machine without the model packages and a
 GPU, so a plain NameError hides until the script runs -- and by then it has
 often already spent minutes exporting an ONNX or building an engine. That is
-exactly how `profile` survived in Uni_Depth_V2/onnx2trt.py after the profile
+exactly how `profile` survived in unidepth_v2/onnx2trt.py after the profile
 switch was reverted: the assignment went, a print using it stayed, and the
 failure appeared only on the desktop mid-batch.
 
@@ -148,27 +148,35 @@ def undefined_in(path):
 
 
 def test_no_undefined_names():
-    skipped = []
-    for d in sorted(os.listdir(ROOT)):
-        sub = os.path.join(ROOT, d)
-        if not os.path.isdir(sub):
-            continue
-        for f in sorted(os.listdir(sub)):
+    # Recursive: the model scripts moved a level down into models/ in Phase 4,
+    # and a one-level scan silently stopped covering them -- a checker that
+    # quietly inspects nothing is worse than no checker.
+    skipped, seen = [], 0
+    for dirpath, dirnames, filenames in os.walk(ROOT):
+        dirnames[:] = [d for d in dirnames
+                       if d not in {"__pycache__", ".git", "later"}
+                       and not d.startswith(".")]
+        if os.path.abspath(dirpath) == os.path.abspath(ROOT):
+            continue                       # root scripts are covered by import
+        for f in sorted(filenames):
             if not f.endswith(".py"):
                 continue
-            p = os.path.join(sub, f)
+            p = os.path.join(dirpath, f)
+            rel = os.path.relpath(p, ROOT).replace(os.sep, "/")
             bad = undefined_in(p)
+            seen += 1
             if bad is None:
-                skipped.append(f"{d}/{f}")
+                skipped.append(rel)
                 continue
-            check(f"{d}/{f}", not bad,
+            check(rel, not bad,
                   ", ".join(f"{n} (line {l})" for n, l in bad))
+    check("found the model scripts", seen >= 40, f"only {seen} files scanned")
     if skipped:
         print(f"  ..    {len(skipped)} skipped (star import hides the namespace)")
 
 
 def test_the_case_that_motivated_this():
-    """A synthetic file with exactly the Uni_Depth_V2 shape must be caught."""
+    """A synthetic file with exactly the unidepth_v2 shape must be caught."""
     import tempfile
     src = ("def main():\n"
            "    input_h = 518\n"

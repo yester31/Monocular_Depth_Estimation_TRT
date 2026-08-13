@@ -1,7 +1,13 @@
 # by yhpark 2025-8-1
 import os
 import sys
-sys.path.insert(1, os.path.join(sys.path[0], ".."))
+# Repo root, found by walking up to the directory holding core/ rather
+# than counting "..". Counting breaks the moment a script moves, and
+# this one has moved: Phase 4 put every model under models/.
+_R = os.path.dirname(os.path.abspath(__file__))
+while not os.path.isdir(os.path.join(_R, "core")) and os.path.dirname(_R) != _R:
+    _R = os.path.dirname(_R)
+sys.path.insert(1, _R)
 
 import tensorrt as trt
 import torch

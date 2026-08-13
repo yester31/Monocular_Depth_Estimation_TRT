@@ -81,8 +81,8 @@ except ImportError:
 
 | 파일 | 처음 판단 | 실제 (2026-08-12 확인) |
 | --- | --- | --- |
-| `Metric_Anything/infer0.py` | 이전 버전으로 보임 | **아님.** 점군 데모 → `demo_pointcloud.py` 로 개명 |
-| `VGGT/onnx_export2.py`, `onnx2trt2.py` | 실험 잔재 | **아님.** 3분할 엔진 경로, 실제로 동작 →<br>`onnx_export_split.py` / `onnx2trt_split.py` 로 개명 |
+| `models/metric_anything/infer0.py` | 이전 버전으로 보임 | **아님.** 점군 데모 → `demo_pointcloud.py` 로 개명 |
+| `models/vggt/onnx_export2.py`, `onnx2trt2.py` | 실험 잔재 | **아님.** 3분할 엔진 경로, 실제로 동작 →<br>`onnx_export_split.py` / `onnx2trt_split.py` 로 개명 |
 | `later/` 17개 폴더 | WIP 보관함 | 유지 (방침 확정) |
 
 **3개 다 지울 대상이 아니었습니다.** 이름이 의도를 감추고 있었을 뿐입니다.

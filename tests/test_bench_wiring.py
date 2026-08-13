@@ -23,9 +23,12 @@ def check(name, cond, detail=""):
         _failures.append(name)
 
 
+MODELS = os.path.join(ROOT, "models")
+
+
 def scripts():
-    for d in sorted(os.listdir(ROOT)):
-        p = os.path.join(ROOT, d, "onnx2trt.py")
+    for d in sorted(os.listdir(MODELS)):
+        p = os.path.join(MODELS, d, "onnx2trt.py")
         if os.path.isfile(p):
             yield d, p, open(p, encoding="utf-8").read()
 
@@ -76,7 +79,7 @@ def test_record_names_the_model():
         if not m:
             continue
         key, folder = m.group(1), d.lower()
-        # unidepth_v2 lives in Uni_Depth_V2; compare.py declares that
+        # unidepth_v2 lives in unidepth_v2; compare.py declares that
         from compare import FOLDER
         expected = {v.lower(): k for k, v in FOLDER.items()}.get(folder, folder)
         check(f"{d} record key matches the folder", key == expected,
@@ -118,16 +121,16 @@ def test_onnx2trt_runs_in_the_shared_env():
     """Everything after the ONNX file is meant to run in one `trte` env.
 
     Three scripts used to break that by importing a model's upstream package
-    at module scope without ever calling it -- Metric3D_V2 imported UniDepth,
+    at module scope without ever calling it -- metric3d_v2 imported UniDepth,
     of all things. A hard import means the script cannot even start unless
     that package is installed, so the shared environment stops being shared.
 
     moge_2 and metric_anything are the documented exceptions: they really do
     call MoGe's recover_focal_shift as post-process.
     """
-    ALLOWED = {"MoGe_2", "Metric_Anything"}
+    ALLOWED = {"moge_2", "metric_anything"}
     # upstream project roots, not pip packages like utils3d or trimesh
-    UPSTREAM = {"unidepth", "UniDepth", "UniK3D", "unik3d", "MoGe", "moge",
+    UPSTREAM = {"unidepth", "UniDepth", "unik3d", "unik3d", "MoGe", "moge",
                 "metric_anything", "depth_anything_v2", "vggt", "streamvggt",
                 "Metric3D", "depth_pro", "distillanydepth"}
 
@@ -151,7 +154,7 @@ def test_onnx2trt_runs_in_the_shared_env():
 def test_no_unused_upstream_imports():
     """An upstream import that is never called is pure cost: it pins a package
     into the shared env for nothing. This is how all three of the above got in."""
-    UPSTREAM = {"unidepth", "UniDepth", "UniK3D", "unik3d", "MoGe", "moge",
+    UPSTREAM = {"unidepth", "UniDepth", "unik3d", "unik3d", "MoGe", "moge",
                 "metric_anything", "Metric3D", "depth_pro", "distillanydepth"}
     for d, _, src in scripts():
         tree = ast.parse(src)

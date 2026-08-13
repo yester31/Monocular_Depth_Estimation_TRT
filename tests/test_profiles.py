@@ -26,7 +26,7 @@ def check(name, cond, detail=""):
 
 def code_of(rel):
     """File contents with comments and docstrings stripped."""
-    path = os.path.join(ROOT, rel.replace("/", os.sep))
+    path = os.path.join(ROOT, "models", rel.replace("/", os.sep))
     if not os.path.exists(path):
         return None
     src = open(path, encoding="utf-8").read()
@@ -48,12 +48,12 @@ def sizes_in(code):
 
 # models whose two scripts must pin the same size
 PAIRS = [
-    "Depth_Anything_V2", "Depth_Anything_AC", "Depth_Anything_V3",
-    "Distill_Any_Depth", "Metric3D_V2", "Metric_Anything", "MoGe_2",
-    "StreamVGGT", "Uni_Depth_V2", "UniK3D", "VGGT",
+    "depth_anything_v2", "depth_anything_ac", "depth_anything_v3",
+    "distill_any_depth", "metric3d_v2", "metric_anything", "moge_2",
+    "streamvggt", "unidepth_v2", "unik3d", "vggt",
 ]
 
-# Depth_Pro is excluded on purpose: it spells its size as `img_size = 1536`
+# depth_pro is excluded on purpose: it spells its size as `img_size = 1536`
 # for both dimensions rather than input_h/input_w, so sizes_in() finds
 # nothing to compare. Checked separately below.
 
@@ -63,11 +63,11 @@ PAIRS = [
 # reverted: they pick their own input size from the source aspect ratio, so no
 # single native size exists — see the WARNING at the top of their onnx2trt.py
 # and docs/model_contracts.md 5.7. They ship bench only.
-PROFILED = ["Depth_Anything_AC"]
+PROFILED = ["depth_anything_ac"]
 
 # Models pinned to 518x518 with no native variant, where the metric output is
 # known to differ from upstream. Each must say so in its own source.
-BENCH_ONLY_WITH_CAVEAT = ["Uni_Depth_V2", "UniK3D"]
+BENCH_ONLY_WITH_CAVEAT = ["unidepth_v2", "unik3d"]
 
 
 def test_export_and_trt_agree():
@@ -105,7 +105,7 @@ def test_bench_only_models_document_the_caveat():
     reader will see it, not only in the docs."""
     for model in BENCH_ONLY_WITH_CAVEAT:
         for script in ("onnx_export.py", "onnx2trt.py"):
-            src = open(os.path.join(ROOT, model, script), encoding="utf-8").read()
+            src = open(os.path.join(ROOT, "models", model, script), encoding="utf-8").read()
             if script == "onnx2trt.py":
                 check(f"{model}/{script} warns about metric depth",
                       "WARNING" in src and "metric" in src.lower())
@@ -118,13 +118,13 @@ def test_bench_only_models_document_the_caveat():
         # keyword argument to bench.record(), which is just labelling the
         # result file and is not a switch that changes the input size.
         for script in ("onnx_export.py", "onnx2trt.py"):
-            src = open(os.path.join(ROOT, model, script), encoding="utf-8").read()
+            src = open(os.path.join(ROOT, "models", model, script), encoding="utf-8").read()
             check(f"{model}/{script} has no profile switch",
                   not re.search(r"^\s*profile\s*=\s*'[a-z]+'\s*(#.*)?$", src, re.M))
 
 
 def test_depth_pro_size():
-    """Depth_Pro uses one `img_size` for both dimensions and takes it from the
+    """depth_pro uses one `img_size` for both dimensions and takes it from the
     model on the export side, so it needs its own check rather than an
     exception in PAIRS.
 
@@ -132,29 +132,29 @@ def test_depth_pro_size():
     Without it, an export at one size and a load at another does not fail as a
     missing file -- it builds an engine whose buffers silently disagree.
     """
-    exp, trt = code_of("Depth_Pro/onnx_export.py"), code_of("Depth_Pro/onnx2trt.py")
+    exp, trt = code_of("depth_pro/onnx_export.py"), code_of("depth_pro/onnx2trt.py")
     for name, code in (("export", exp), ("trt", trt)):
-        check(f"Depth_Pro {name} puts the size in the model name",
+        check(f"depth_pro {name} puts the size in the model name",
               bool(re.search(r'model_name\s*=\s*f?"depth_pro_\{img_size\}x\{img_size\}"',
                              code)), code[:0])
-    check("Depth_Pro trt pins img_size",
+    check("depth_pro trt pins img_size",
           bool(re.search(r"^\s*img_size\s*=\s*\d+", trt, re.M)))
-    check("Depth_Pro export takes img_size from the model",
+    check("depth_pro export takes img_size from the model",
           "img_size = model.img_size" in exp)
 
 
 def test_metric_anything_keeps_the_source_aspect():
     """D13: a square input makes the derived intrinsics square, giving a 4:3
-    photo a 1:1 field of view. It must stay rectangular, and match MoGe_2,
+    photo a 1:1 field of view. It must stay rectangular, and match moge_2,
     which runs the identical MoGe post-process."""
-    trt = code_of("Metric_Anything/onnx2trt.py")
+    trt = code_of("metric_anything/onnx2trt.py")
     sizes = set(sizes_in(trt))
     check("metric_anything is not square",
           all(h != w for h, w in sizes), str(sorted(sizes)))
     check("metric_anything matches moge_2",
-          sizes == set(sizes_in(code_of("MoGe_2/onnx2trt.py"))),
+          sizes == set(sizes_in(code_of("moge_2/onnx2trt.py"))),
           f"metric_anything={sorted(sizes)} "
-          f"moge_2={sorted(set(sizes_in(code_of('MoGe_2/onnx2trt.py'))))}")
+          f"moge_2={sorted(set(sizes_in(code_of('moge_2/onnx2trt.py'))))}")
 
 
 def _resolved_name(path, drop_sim):
@@ -166,7 +166,7 @@ def _resolved_name(path, drop_sim):
     literal assignments and the model_name chain in an empty namespace.
 
     Returns None when a value comes from something other than a literal --
-    Depth_Pro takes its size from `model.img_size`, which cannot be evaluated
+    depth_pro takes its size from `model.img_size`, which cannot be evaluated
     without loading the model. Those are checked separately.
     """
     import ast as _ast
@@ -246,12 +246,12 @@ def test_model_name_resolves_the_same():
 
     This also catches the latent case where the two files agree today only
     because a flag is False on both sides -- flip `dynamo` in onnx_export.py
-    alone and VGGT writes vggt_..._dynamo.onnx while onnx2trt.py still looks
+    alone and vggt writes vggt_..._dynamo.onnx while onnx2trt.py still looks
     for vggt_....onnx.
     """
     for model in PAIRS:
-        e = _resolved_name(os.path.join(ROOT, model, "onnx_export.py"), False)
-        t = _resolved_name(os.path.join(ROOT, model, "onnx2trt.py"), True)
+        e = _resolved_name(os.path.join(ROOT, "models", model, "onnx_export.py"), False)
+        t = _resolved_name(os.path.join(ROOT, "models", model, "onnx2trt.py"), True)
         if e is None or t is None:
             print(f"  ..    {model} model_name not statically decidable")
             continue
@@ -264,23 +264,23 @@ def test_exporter_choice_is_explicit():
 
     Omitting it takes whatever the installed torch defaults to, and that
     default has flipped to the dynamo exporter. Three scripts were relying on
-    it. Metric3D_V2 simply started failing on a graph it had exported for a
+    it. metric3d_v2 simply started failing on a graph it had exported for a
     year:
 
         GuardOnDataDependentSymNode: Could not guard on data-dependent
         expression Eq(u0, 1)
 
-    MoGe_2 was worse: `dynamo = True` already decided its filename suffix but
+    moge_2 was worse: `dynamo = True` already decided its filename suffix but
     was never handed to the exporter, so the name agreed with reality only
     because torch's default happened to match. The two exporters emit
     different graphs, and the filename is how a stale ONNX gets noticed.
     """
-    for model in PAIRS + ["Depth_Pro"]:
-        path = os.path.join(ROOT, model, "onnx_export.py")
+    for model in PAIRS + ["depth_pro"]:
+        path = os.path.join(ROOT, "models", model, "onnx_export.py")
         if not os.path.exists(path):
             continue
         # code_of strips comments. Reading the raw source instead let
-        # StreamVGGT pass with `# dynamo=dynamo,` commented out inside the
+        # streamvggt pass with `# dynamo=dynamo,` commented out inside the
         # call, which is exactly the bug this is meant to catch.
         src = code_of(f"{model}/onnx_export.py")
         call = re.sub(r"\s+", "", src).split("torch.onnx.export(")[-1][:400]
@@ -290,7 +290,7 @@ def test_exporter_choice_is_explicit():
 
 def test_moge_regression():
     """The mismatch that motivated this file."""
-    exp, trt = code_of("MoGe_2/onnx_export.py"), code_of("MoGe_2/onnx2trt.py")
+    exp, trt = code_of("moge_2/onnx_export.py"), code_of("moge_2/onnx2trt.py")
     check("moge_2 export matches trt", set(sizes_in(exp)) == set(sizes_in(trt)),
           f"export={sorted(set(sizes_in(exp)))} trt={sorted(set(sizes_in(trt)))}")
 

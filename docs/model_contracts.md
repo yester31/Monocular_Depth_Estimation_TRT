@@ -705,8 +705,8 @@ pred_depth = pred_depth * canonical_to_real_scale   # 여기서부터 metric
 
 | 파일 | 상태 |
 | --- | --- |
-| `Metric3D_V2/infer.py` | `if 0:` 로 막혀 있고, 안에 `real_focal_length` 후보가 네 개 나열돼 있다 |
-| `Metric3D_V2/onnx2trt.py` | 변환 자체가 없다. `###### canonical camera space ######` 주석만 남았다 |
+| `models/metric3d_v2/infer.py` | `if 0:` 로 막혀 있고, 안에 `real_focal_length` 후보가 네 개 나열돼 있다 |
+| `models/metric3d_v2/onnx2trt.py` | 변환 자체가 없다. `###### canonical camera space ######` 주석만 남았다 |
 
 **왜 이렇게 됐는지는 분명하다** — `real_focal_length` 를 알 수 없기 때문이다.
 `infer.py` 의 후보 목록(707.0493 → 1440 → 2890 → 3365.20)이 그 흔적이다.
@@ -771,7 +771,7 @@ D11 과 달리 이건 고정 크기로 고칠 수 있고, 저장소 안에 이�
 
 ### D14 — `depth_pro` 만 후처리를 측정 구간 안에 넣고 있었다
 
-`Depth_Pro/onnx2trt.py` 의 타이밍 루프가 추론뿐 아니라 **후처리 전체**를
+`models/depth_pro/onnx2trt.py` 의 타이밍 루프가 추론뿐 아니라 **후처리 전체**를
 감싸고 있었다. 그 안에는 1536×1536 → 3024×2268 CPU `interpolate` 가 들어 있다.
 다른 11개 모델은 전부 추론만 잰다.
 
@@ -796,9 +796,9 @@ AST 로 확인한 결과 **셋 다 한 번도 호출되지 않는다.**
 
 | 파일 | import | 실제 사용 |
 | --- | --- | --- |
-| `Metric3D_V2/onnx2trt.py` | `unidepth.models.unidepthv2.unidepthv2` | **없음.** 애초에 다른 모델 코드다 |
-| `Uni_Depth_V2/onnx2trt.py` | `UniDepth.unidepth...` | `''' '''` 주석 블록 안에만 등장 |
-| `UniK3D/onnx2trt.py` | `UniK3D.unik3d.models.unik3d` | `''' '''` 주석 블록 안에만 등장 |
+| `models/metric3d_v2/onnx2trt.py` | `unidepth.models.unidepthv2.unidepthv2` | **없음.** 애초에 다른 모델 코드다 |
+| `models/unidepth_v2/onnx2trt.py` | `UniDepth.unidepth...` | `''' '''` 주석 블록 안에만 등장 |
+| `models/unik3d/onnx2trt.py` | `UniK3D.unik3d.models.unik3d` | `''' '''` 주석 블록 안에만 등장 |
 
 `Metric3D_V2` 는 특히 명백하다 — Metric3D 스크립트에 UniDepth 코드가 들어 있고,
 이 파일은 cv2 로 자체 keep-ratio 리사이즈·패딩을 한다.
@@ -882,12 +882,12 @@ inner file: ...\vggt\vggt\layers\rope.py
 
 | 파일 | 증상 | 원인 |
 | --- | --- | --- |
-| `Uni_Depth_V2/onnx2trt.py` | `NameError: 'profile'` | **내가 만든 것.** D11 되돌릴 때 대입문만 지우고 그걸 쓰는 `print` 를 남겼다 |
-| `StreamVGGT/onnx2trt.py` | `NameError: 'original_coord'` | 오타. 변수는 `original_coords`(리스트)다. **추론이 다 끝난 뒤** 마지막 줄에서 터진다 |
-| `VGGT/onnx_export.py`<br>`VGGT/onnx_export_split.py`<br>`VGGT/infer.py` | `No module named 'vggt.models'` | 업스트림 `models/vggt.py` 가 형제 모듈을 절대 import 한다.<br>클론 루트가 `sys.path` 에 있어야 하는데 `onnx2trt_split.py` 만 그 줄을 갖고 있었다 |
-| `Depth_Anything_AC/onnx_export.py` | `FileNotFoundError` (dinov2) | `infer.py` 의 `main()` 만 `copy_checkpoints()` 를 호출했다.<br>export 는 그 부수효과 없이 `set_model()` 을 부른다 |
-| `UniK3D/onnx2trt.py` | ONNX 파싱 실패 | `Resize` 의 `antialias=1` — TensorRT 미지원 |
-| `Metric3D_V2/onnx_export.py` | `No module named 'mmcv'` | mmcv 1.x 레이아웃. Windows 휠 없음 |
+| `models/unidepth_v2/onnx2trt.py` | `NameError: 'profile'` | **내가 만든 것.** D11 되돌릴 때 대입문만 지우고 그걸 쓰는 `print` 를 남겼다 |
+| `models/streamvggt/onnx2trt.py` | `NameError: 'original_coord'` | 오타. 변수는 `original_coords`(리스트)다. **추론이 다 끝난 뒤** 마지막 줄에서 터진다 |
+| `models/vggt/onnx_export.py`<br>`models/vggt/onnx_export_split.py`<br>`models/vggt/infer.py` | `No module named 'vggt.models'` | 업스트림 `models/vggt.py` 가 형제 모듈을 절대 import 한다.<br>클론 루트가 `sys.path` 에 있어야 하는데 `onnx2trt_split.py` 만 그 줄을 갖고 있었다 |
+| `models/depth_anything_ac/onnx_export.py` | `FileNotFoundError` (dinov2) | `infer.py` 의 `main()` 만 `copy_checkpoints()` 를 호출했다.<br>export 는 그 부수효과 없이 `set_model()` 을 부른다 |
+| `models/unik3d/onnx2trt.py` | ONNX 파싱 실패 | `Resize` 의 `antialias=1` — TensorRT 미지원 |
+| `models/metric3d_v2/onnx_export.py` | `No module named 'mmcv'` | mmcv 1.x 레이아웃. Windows 휠 없음 |
 
 `tests/test_undefined_names.py` 를 추가해 `NameError` 부류를 정적으로 잡는다.
 이 스크립트들은 모델 패키지와 GPU 없이는 import 조차 안 되므로, 그냥 두면
@@ -1021,7 +1021,7 @@ Windows 한글 콘솔(cp949)도 걸린다 — `torch.onnx` 가 찍는 ✅ 를 �
 | depth_anything_v2 | `Depth-Anything-V2` |
 | depth_anything_ac | `DepthAnythingAC` |
 | metric3d_v2 | `Metric3D` |
-| streamvggt | `StreamVGGT/src` ← 하위 디렉터리 |
+| streamvggt | `models/streamvggt/src` ← 하위 디렉터리 |
 | metric_anything | `metric_anything/models/student_pointmap` ← 3단계 하위 |
 
 깊이가 제각각. spec에 `import_path`로 선언.
@@ -1207,7 +1207,7 @@ rel_mean = d.mean() / np.abs(a[finite]).mean()   # 표의 "오차"
 
 ### VGGT 두 가지 운용 방식 — 측정 필요
 
-`VGGT/onnx_export2.py` + `onnx2trt2.py`는 실험 잔재가 아니라 **실제로 동작하는 대안 경로**다.
+`models/vggt/onnx_export2.py` + `onnx2trt2.py`는 실험 잔재가 아니라 **실제로 동작하는 대안 경로**다.
 
 | 변형 | 엔진 | 출력 |
 | --- | --- | --- |

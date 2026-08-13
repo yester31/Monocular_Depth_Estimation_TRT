@@ -438,9 +438,9 @@ git 커밋은 **실험마다가 아니라 Phase 완료 시점에만**.
 
 | 파일 | 실제 정체 | 조치 |
 | --- | --- | --- |
-| `Metric_Anything/infer0.py` | **포인트클라우드·메시 출력 데모** (`save_glb`/`save_ply`/`save_plt`, 성능측정은 주석 처리) | `demo_pointcloud.py` 로 개명 |
-| `VGGT/onnx_export2.py` | **3분할 엔진 export** — aggregator / depth_head / camera_head. **실제로 동작함** | `export_split.py` 로 개명 |
-| `VGGT/onnx2trt2.py` | 위 3엔진 빌드·실행 | `build_split.py` 로 개명 |
+| `models/metric_anything/infer0.py` | **포인트클라우드·메시 출력 데모** (`save_glb`/`save_ply`/`save_plt`, 성능측정은 주석 처리) | `demo_pointcloud.py` 로 개명 |
+| `models/vggt/onnx_export2.py` | **3분할 엔진 export** — aggregator / depth_head / camera_head. **실제로 동작함** | `export_split.py` 로 개명 |
+| `models/vggt/onnx2trt2.py` | 위 3엔진 빌드·실행 | `build_split.py` 로 개명 |
 
 `0`·`2` 접미사가 "구버전"으로 오해를 부른다. **VGGT 3분할은 README에 전혀 언급이 없다** — 문서화가 진짜 문제.
 

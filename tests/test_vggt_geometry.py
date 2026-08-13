@@ -91,7 +91,7 @@ def test_crop_is_within_bounds():
 def test_no_1024_left_in_source():
     """D3/D8: neither script should still route through target_size=1024."""
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    for rel in ("VGGT/onnx2trt.py", "StreamVGGT/onnx2trt.py"):
+    for rel in ("models/vggt/onnx2trt.py", "models/streamvggt/onnx2trt.py"):
         p = os.path.join(root, rel.replace("/", os.sep))
         # strip comments and docstrings so prose mentioning the old constant
         # does not count as code

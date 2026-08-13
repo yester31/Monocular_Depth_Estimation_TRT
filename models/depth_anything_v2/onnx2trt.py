@@ -20,6 +20,7 @@ import numpy as np
 import time
 import common
 from common import *
+from core import bench
 
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -27,68 +28,6 @@ print(f"[MDET] using device: {DEVICE}")
 TRT_LOGGER = trt.Logger(trt.Logger.INFO)
 TRT_LOGGER.min_severity = trt.Logger.Severity.INFO
 
-def get_engine(onnx_file_path, engine_file_path="", precision='fp32', dynamic_input_shapes=None):
-    """Load or build a TensorRT engine based on the ONNX model."""
-    def build_engine():
-        with trt.Builder(TRT_LOGGER) as builder, \
-                builder.create_network(0) as network, \
-                builder.create_builder_config() as config, \
-                trt.OnnxParser(network, TRT_LOGGER) as parser, \
-                trt.Runtime(TRT_LOGGER) as runtime:
-            
-            if not os.path.exists(onnx_file_path):
-                raise FileNotFoundError(f"[TRT] ONNX file {onnx_file_path} not found.")
-            parser.parse_from_file(onnx_file_path)
-
-            timing_cache = f"{os.path.dirname(engine_file_path)}/{os.path.splitext(os.path.basename(engine_file_path))[0]}_timing.cache"
-            common.setup_timing_cache(config, timing_cache)
-
-            config.profiling_verbosity = trt.ProfilingVerbosity.DETAILED
-            config.set_memory_pool_limit(trt.MemoryPoolType.WORKSPACE, common.GiB(2))
-            config.set_flag(trt.BuilderFlag.SPARSE_WEIGHTS)
-            if precision == "fp16" and builder.platform_has_fast_fp16:
-                config.set_flag(trt.BuilderFlag.FP16)
-                print(f'[MDET] set fp16 model')
-
-            if dynamic_input_shapes is not None :
-                profile = builder.create_optimization_profile()
-                for i_idx in range(network.num_inputs):
-                    input = network.get_input(i_idx)
-                    assert input.shape[0] == -1
-                    min_shape = dynamic_input_shapes[0]
-                    opt_shape = dynamic_input_shapes[1]
-                    max_shape = dynamic_input_shapes[2]
-                    profile.set_shape(input.name, min_shape, opt_shape, max_shape) # any dynamic input tensors
-                    print("[TRT_E] Input '{}' Optimization Profile with shape MIN {} / OPT {} / MAX {}".format(input.name, min_shape, opt_shape, max_shape))
-                config.add_optimization_profile(profile)
-
-            for i_idx in range(network.num_inputs):
-                print(f'[MDET] input({i_idx}) name: {network.get_input(i_idx).name}, shape= {network.get_input(i_idx).shape}')
-                
-            for o_idx in range(network.num_outputs):
-                print(f'[MDET] output({o_idx}) name: {network.get_output(o_idx).name}, shape= {network.get_output(o_idx).shape}')
-    
-            plan = builder.build_serialized_network(network, config)
-            engine = runtime.deserialize_cuda_engine(plan)
-            common.save_timing_cache(config, timing_cache)
-            with open(engine_file_path, "wb") as f:
-                f.write(plan)
-            
-            return engine
-
-    if os.path.exists(engine_file_path):
-        print(f"[MDET] Load engine from file ({engine_file_path})")
-        with open(engine_file_path, "rb") as f, trt.Runtime(TRT_LOGGER) as runtime:
-            return runtime.deserialize_cuda_engine(f.read())
-    else:
-        print(f'[MDET] Build engine ({engine_file_path})')
-        begin = time.time()
-        engine = build_engine()
-        build_time = time.time() - begin
-        build_time_str = f"{build_time:.2f} [sec]" if build_time < 60 else f"{build_time // 60 :.1f} [min] {build_time % 60 :.2f} [sec]"
-        print(f'[MDET] Engine build done! ({build_time_str})')
-
-        return engine
     
 def constrain_to_multiple_of(x, min_val=0, max_val=None, ensure_multiple_of=14):
     y = (np.round(x / ensure_multiple_of) * ensure_multiple_of).astype(int)
@@ -145,7 +84,7 @@ def main():
 
     # Input
     image_file_name = 'example.jpg'
-    image_path = os.path.join(CUR_DIR, '..', 'data', image_file_name)
+    image_path = os.path.join(_R, 'data', image_file_name)
     raw_img = cv2.imread(image_path)
     h, w = raw_img.shape[:2]
     print(f'[MDET] original shape : {raw_img.shape}')
@@ -186,7 +125,7 @@ def main():
         dynamic_input_shapes = None
 
     iteration = 100
-    dur_time = 0
+    warmup = 20
     # Load or build the TensorRT engine and do inference
     with get_engine(onnx_model_path, engine_file_path, precision, dynamic_input_shapes) as engine, \
             engine.create_execution_context() as context:
@@ -197,17 +136,12 @@ def main():
         if dynamic:
             context.set_input_shape('input', batch_images.shape)
         
-        # Warm-up      
-        for _ in range(10):  
-            common.do_inference(context, engine=engine, bindings=bindings, inputs=inputs, outputs=outputs, stream=stream)
-        torch.cuda.synchronize()
-
-        # Inference loop
-        for _ in range(iteration):
-            begin = time.time()
-            trt_outputs = common.do_inference(context, engine=engine, bindings=bindings, inputs=inputs, outputs=outputs, stream=stream)
-            torch.cuda.synchronize()
-            dur_time += time.time() - begin
+        # Warm-up and timed loop both live in core/bench.py so every model
+        # measures the same thing. See that module for what the number covers.
+        trt_outputs, samples = bench.measure(
+            lambda: common.do_inference(context, engine=engine, bindings=bindings,
+                                        inputs=inputs, outputs=outputs, stream=stream),
+            warmup=warmup, iterations=iteration)
 
         # ===================================================================
         print('[MDET] Post process')
@@ -216,11 +150,15 @@ def main():
         depth = torch.clamp(depth, min=1e-3, max=1e3)
         depth = torch.squeeze(depth).numpy()
 
-        # Results
-        print(f'[MDET] {iteration} iterations time: {dur_time:.4f} [sec]')
-        avg_time = dur_time / iteration
-        print(f'[MDET] Average FPS: {1 / avg_time:.2f} [fps]')
-        print(f'[MDET] Average inference time: {avg_time * 1000:.2f} [msec]')
+        # Results — printed as before, and written to reports/bench/ so
+        # compare.py can build the table without anyone retyping a number.
+        bench.record('depth_anything_v2', samples, warmup=warmup,
+                     precision=precision, profile='bench',
+                     input_h=input_h, input_w=input_w,
+                     engine_path=engine_file_path, outputs={'depth': depth},
+                     notes=f"encoder={encoder}, "
+                           f"weights={'metric_' + dataset if metric_model else 'relative'}",
+                     model_input=batch_images)
         print(f'[MDET] max : {depth.max():0.5f} , min : {depth.min():0.5f}')
 
     # ===================================================================
