@@ -29,7 +29,9 @@ experiment cannot quietly become the published number.
 """
 
 import argparse
+import json
 import os
+import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -59,7 +61,8 @@ def measure_engine(engine_path, feed, iterations, warmup, want_profile):
             lambda: common_runtime.do_inference(context, engine, bindings,
                                                 inputs, outputs, stream),
             warmup=warmup, iterations=iterations)
-        share = None
+        summary = None
+        type_shares = {}
         if want_profile:
             timer = prof.LayerTimer()
             context.profiler = timer
@@ -68,12 +71,25 @@ def measure_engine(engine_path, feed, iterations, warmup, want_profile):
                                             outputs, stream)
             rows = timer.rows(10)
             layers = prof.inspect(engine)
-            share = prof.summarize(rows, layers)["fp32_output_share"]
+            summary = prof.summarize(rows, layers)
+            layer_types = {l.get("Name"): l.get("LayerType", "?")
+                           for l in layers if l.get("Name")}
+            for row in rows:
+                kind = layer_types.get(row["name"], "?")
+                type_shares[kind] = type_shares.get(kind, 0.0) + row["share"]
     finally:
         common.free_buffers(inputs, outputs, stream)
 
     b = bench.Bench(model="tune", samples_ms=samples)
-    return b.stats(), share
+    return b.stats(), summary, type_shares
+
+
+def _safe_tag(value):
+    """Keep experiment labels usable as filenames on both Windows and Linux."""
+    tag = re.sub(r"[^A-Za-z0-9_.-]+", "_", value).strip("._")
+    if not tag:
+        raise ValueError("experiment tag is empty after filename sanitization")
+    return tag
 
 
 def main():
@@ -85,7 +101,18 @@ def main():
     ap.add_argument("--iterations", type=int, default=100)
     ap.add_argument("--warmup", type=int, default=20)
     ap.add_argument("--no-profile", action="store_true")
+    ap.add_argument("--onnx", default=None,
+                    help="build this ONNX instead of the model's recorded graph")
+    ap.add_argument("--tag", default=None,
+                    help="filename label for a custom ONNX experiment")
+    ap.add_argument("--repeats", type=int, default=1,
+                    help="independent builds per setting (separate timing caches)")
+    ap.add_argument("--out", default=None,
+                    help="optional JSON file for all measurements and profile shares")
     args = ap.parse_args()
+
+    if args.repeats < 1:
+        ap.error("--repeats must be at least 1")
 
     specs = spec_mod.load_all()
     if args.model not in specs:
@@ -101,9 +128,12 @@ def main():
         return 1
 
     from package_artifacts import onnx_beside
-    onnx_path = onnx_beside(run_rec.get("engine_path") or "")
+    if args.onnx:
+        onnx_path = os.path.abspath(args.onnx)
+    else:
+        onnx_path = onnx_beside(run_rec.get("engine_path") or "")
     if not onnx_path or not os.path.isfile(onnx_path):
-        print(f"{args.model}: source ONNX not found for {run_rec.get('engine_path')}")
+        print(f"{args.model}: source ONNX not found: {onnx_path or run_rec.get('engine_path')}")
         return 1
 
     feed = np.load(os.path.join(ROOT, "reports", "inputs", f"{args.model}.npy"))
@@ -112,32 +142,70 @@ def main():
 
     out_dir = os.path.join(os.path.dirname(run_rec["engine_path"]), "tune")
     os.makedirs(out_dir, exist_ok=True)
-    stem = os.path.splitext(os.path.basename(run_rec["engine_path"]))[0]
+    if args.onnx:
+        label = _safe_tag(args.tag or os.path.splitext(os.path.basename(onnx_path))[0])
+        stem = f"{label}_{precision}"
+    else:
+        stem = os.path.splitext(os.path.basename(run_rec["engine_path"]))[0]
 
     import common
     print(f"\n{args.model}  ({precision}, recorded build {baseline} ms)")
-    print(f"{'opt':>4}{'ws':>4}{'mean ms':>10}{'p50':>9}{'fp32':>8}  vs recorded")
-    print("-" * 52)
+    print(f"source ONNX  {onnx_path}")
+    print(f"{'opt':>4}{'ws':>4}{'run':>5}{'mean ms':>10}{'p50':>9}"
+          f"{'fp32':>8}{'reformat':>10}{'slice':>8}  vs recorded")
+    print("-" * 84)
+
+    results = []
 
     for opt in args.opt_level:
         for ws in args.workspace:
-            tag = f"opt{opt if opt is not None else 'd'}_ws{ws if ws is not None else 'd'}"
-            engine_path = os.path.join(out_dir, f"{stem}_{tag}.engine")
-            kw = {}
-            if opt is not None:
-                kw["opt_level"] = opt
-            if ws is not None:
-                kw["workspace_gib"] = ws
-            common.get_engine(onnx_path, engine_path, precision, **kw)
-            stats, share = measure_engine(engine_path, feed, args.iterations,
-                                          args.warmup, not args.no_profile)
-            delta = ""
-            if baseline:
-                pct = (stats["mean_ms"] / baseline - 1.0) * 100.0
-                delta = f"{pct:+.1f}%"
-            fp32 = f"{share * 100:.1f}%" if share is not None else "-"
-            print(f"{str(opt):>4}{str(ws):>4}{stats['mean_ms']:10.2f}"
-                  f"{stats['p50_ms']:9.2f}{fp32:>8}  {delta}")
+            setting = f"opt{opt if opt is not None else 'd'}_ws{ws if ws is not None else 'd'}"
+            for repeat in range(1, args.repeats + 1):
+                suffix = f"_{setting}"
+                if args.repeats > 1 or args.onnx:
+                    suffix += f"_r{repeat}"
+                engine_path = os.path.join(out_dir, f"{stem}{suffix}.engine")
+                kw = {}
+                if opt is not None:
+                    kw["opt_level"] = opt
+                if ws is not None:
+                    kw["workspace_gib"] = ws
+                common.get_engine(onnx_path, engine_path, precision, **kw)
+                stats, summary, type_shares = measure_engine(
+                    engine_path, feed, args.iterations, args.warmup,
+                    not args.no_profile)
+                delta = ""
+                if baseline:
+                    pct = (stats["mean_ms"] / baseline - 1.0) * 100.0
+                    delta = f"{pct:+.1f}%"
+                fp32_share = summary["fp32_output_share"] if summary else None
+                fp32 = f"{fp32_share * 100:.1f}%" if fp32_share is not None else "-"
+                reformat = type_shares.get("Reformat")
+                slice_share = type_shares.get("Slice")
+                refmt_text = f"{reformat * 100:.1f}%" if reformat is not None else "-"
+                slice_text = f"{slice_share * 100:.1f}%" if slice_share is not None else "-"
+                print(f"{str(opt):>4}{str(ws):>4}{repeat:5d}{stats['mean_ms']:10.2f}"
+                      f"{stats['p50_ms']:9.2f}{fp32:>8}{refmt_text:>10}"
+                      f"{slice_text:>8}  {delta}")
+                results.append({
+                    "model": args.model,
+                    "onnx_path": onnx_path,
+                    "engine_path": engine_path,
+                    "precision": precision,
+                    "opt_level": opt,
+                    "workspace_gib": ws,
+                    "repeat": repeat,
+                    "stats": stats,
+                    "profile_summary": summary,
+                    "layer_type_time_shares": type_shares,
+                })
+
+    if args.out:
+        out_path = os.path.abspath(args.out)
+        os.makedirs(os.path.dirname(out_path), exist_ok=True)
+        with open(out_path, "w", encoding="utf-8") as f:
+            json.dump(results, f, indent=2)
+        print(f"\nMeasurements written to {out_path}")
 
     print("\nNothing was written to reports/bench. Engines are under "
           f"{os.path.relpath(out_dir, ROOT)}.")

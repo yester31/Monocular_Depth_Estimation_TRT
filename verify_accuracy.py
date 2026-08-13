@@ -116,12 +116,12 @@ def run_trt(engine_path, x, out_shapes):
         return got
 
 
-def verify(run):
+def verify(run, onnx_override=None):
     model = run["model"]
     xp = os.path.join(INPUTS, f"{model}.npy")
     if not os.path.exists(xp):
         return {"model": model, "skip": "no reports/inputs/*.npy — rerun onnx2trt.py"}
-    onnx_file = onnx_path_for(run)
+    onnx_file = onnx_override or onnx_path_for(run)
     if not onnx_file:
         return {"model": model, "skip": f"onnx not found next to {run.get('engine_path')}"}
     engine = run.get("engine_path")
@@ -256,7 +256,16 @@ def main():
     ap.add_argument("--json", action="store_true", help="also dump raw numbers")
     ap.add_argument("--from-json", metavar="PATH",
                     help="re-render the report from a previous run, no GPU needed")
+    ap.add_argument("--onnx", default=None,
+                    help="compare this ONNX instead of the recorded graph")
+    ap.add_argument("--engine", default=None,
+                    help="compare this engine instead of the recorded engine")
     args = ap.parse_args()
+
+    if bool(args.onnx) != bool(args.engine):
+        ap.error("--onnx and --engine must be supplied together")
+    if args.onnx and len(args.models) != 1:
+        ap.error("a custom ONNX/engine pair requires exactly one model")
 
     # Checking one model used to overwrite reports/accuracy.md with a table
     # holding only that model, silently deleting the other eleven rows -- which
@@ -279,6 +288,8 @@ def main():
     runs = load_all(os.path.join(ROOT, "reports", "bench"))
     if args.models:
         runs = [r for r in runs if r["model"] in set(args.models)]
+    if args.engine and runs:
+        runs[0] = dict(runs[0], engine_path=os.path.abspath(args.engine))
     if not runs:
         print("no benchmark results to verify")
         return 1
@@ -287,7 +298,7 @@ def main():
     for run in runs:
         print(f"[{run['model']}] ", end="", flush=True)
         try:
-            r = verify(run)
+            r = verify(run, os.path.abspath(args.onnx) if args.onnx else None)
         except Exception as e:                      # noqa: BLE001
             r = {"model": run["model"], "skip": f"{type(e).__name__}: {e}"}
         results.append(r)
