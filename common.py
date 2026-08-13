@@ -232,7 +232,9 @@ def get_engine(
                 return runtime.deserialize_cuda_engine(f.read())
         # The old code loaded any engine that merely existed, so edits to the
         # ONNX or the builder options were silently ignored.
-        print(f"[MDET] Rebuilding engine — {stale}")
+        # ASCII: this prints on a cp949 console, where an em dash raises inside
+        # print and replaces the explanation with a UnicodeEncodeError.
+        print(f"[MDET] Rebuilding engine - {stale}")
 
     print(f"[MDET] Build engine ({engine_file_path})")
     begin = time.time()

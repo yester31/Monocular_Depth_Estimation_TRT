@@ -134,17 +134,42 @@ def compare_outputs(a, b):
     return rows
 
 
+def builder_options(engine_path):
+    """The builder settings the baseline engine was built with.
+
+    They differ per model -- vggt asks for workspace_gib=4, the rest take the
+    default -- and they are not recorded in spec.json or in the benchmark. They
+    are in the .fingerprint file get_engine writes beside every engine, which
+    exists precisely so a stale engine is not reused, and it turns out to be
+    the only machine-readable record of how each one was built.
+
+    Building the variant with different settings would put a second difference
+    into a two-way comparison.
+    """
+    opts = {"workspace_gib": 2, "opt_level": None}
+    fp = os.path.splitext(engine_path)[0] + ".fingerprint"
+    if not os.path.isfile(fp):
+        return opts
+    for line in open(fp, encoding="utf-8"):
+        key, _, value = line.strip().partition("=")
+        if key == "workspace":
+            opts["workspace_gib"] = int(float(value))
+        elif key == "opt_level" and value not in ("None", ""):
+            opts["opt_level"] = int(value)
+    return opts
+
+
 def one(name, spec, args):
     norm = (spec.get("input") or {}).get("normalize")
     if not norm:
-        print(f"{name:20} no input.normalize in spec.json — cannot build the "
+        print(f"{name:20} no input.normalize in spec.json - cannot build the "
               f"preamble without the constants the host uses")
         return None
 
     runs = {r["model"]: r for r in bench.load_all(os.path.join(ROOT, "reports", "bench"))}
     run = runs.get(name)
     if not run:
-        print(f"{name:20} not measured — build it first")
+        print(f"{name:20} not measured - build it first")
         return None
     base_onnx = onnx_beside(run.get("engine_path") or "")
     if not base_onnx or not os.path.isfile(base_onnx):
@@ -163,9 +188,17 @@ def one(name, spec, args):
     b_engine = os.path.join(
         eng_dir, os.path.splitext(os.path.basename(u8_onnx))[0] + f"_{precision}.engine")
 
-    print(f"\n=== {name} | {precision} | building")
-    common.get_engine(base_onnx, a_engine, precision)
-    common.get_engine(u8_onnx, b_engine, precision)
+    opts = builder_options(a_engine)
+    print(f"\n=== {name} | {precision} | {opts}")
+    if not os.path.isfile(a_engine):
+        print(f"{name:20} baseline engine not on this machine")
+        return None
+    # The baseline is used exactly as measured, never rebuilt. get_engine would
+    # rebuild it on any fingerprint difference, and that is not a hypothetical:
+    # vggt's onnx2trt.py passes workspace_gib=4, so the default would have
+    # replaced a 4.7 GB engine mid-comparison and compared the variant against
+    # something the reports never measured.
+    common.get_engine(u8_onnx, b_engine, precision, **opts)
 
     import onnx
     dims = [d.dim_value for d in

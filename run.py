@@ -98,7 +98,7 @@ def main():
     envs, exe = conda_envs()
     if not envs and not args.dry_run:
         print("conda found no environments here. This stage has to run where "
-              "they are — see tools/sync_desktop.sh.")
+              "they are - see tools/sync_desktop.sh.")
         return 1
 
     failed = []

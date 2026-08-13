@@ -79,7 +79,7 @@ def main():
             continue
         run = runs.get(name)
         if not run:
-            print(f"{name:20} not measured — build it first")
+            print(f"{name:20} not measured - build it first")
             continue
         engine = run.get("engine_path") or ""
         onnx = onnx_beside(engine)
