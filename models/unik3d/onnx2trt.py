@@ -154,7 +154,18 @@ def main():
     iteration = 100
     warmup = 20
     # Load or build the TensorRT engine and do inference
-    with get_engine(onnx_model_path, engine_file_path, precision, dynamic_input_shapes) as engine, \
+    # opt_level 5 rather than TensorRT's default 3. Measured 2026-08-13 on the
+    # vits graph: 16.22 ms at level 3 against 14.42 at level 5, with the share
+    # of time in fp32 layers dropping from 87.7% to 67.7%.
+    #
+    # Why this model needs it: the vits and vitb graphs are identical -- 881
+    # nodes, same op counts -- and differ only in tensor sizes. At vitb sizes
+    # TensorRT found fp16 tactics and 18 fusion layers; at vits sizes the
+    # default search gave up on both, so the transformer body grew by 2 ms on a
+    # model with a third of the weights. Searching harder gets some of it back,
+    # and vits at level 5 finally beats vitb's 14.47 ms.
+    with get_engine(onnx_model_path, engine_file_path, precision, dynamic_input_shapes,
+                    opt_level=5) as engine, \
             engine.create_execution_context() as context:
                 
         inputs, outputs, bindings, stream = common.allocate_buffers(engine, output_shape, profile_idx=0)

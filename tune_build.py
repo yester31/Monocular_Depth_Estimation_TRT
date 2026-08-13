@@ -5,8 +5,11 @@
     python tune_build.py unik3d --workspace 2 4 8
 
 Builder optimisation level is how hard TensorRT searches for kernels. It does
-not change what the engine computes, only how long the build takes and which
-tactics get considered -- so this can be swept without re-verifying accuracy.
+not change what the engine computes in the mathematical sense, only how long
+the build takes and which tactics are considered -- but it still needs an
+accuracy check afterwards, because different kernels round differently. On
+unik3d, level 5 moved a fifth of the runtime out of fp32 layers into fp16 ones,
+which is exactly the kind of change that shows up in the last digits.
 
 Why it earns a tool: unik3d on a backbone with a third of the weights came out
 slower than the larger one, and the profile showed why -- the transformer body
