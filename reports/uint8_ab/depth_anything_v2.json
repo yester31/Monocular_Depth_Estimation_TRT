@@ -1,0 +1,54 @@
+{
+  "model": "depth_anything_v2",
+  "precision": "fp16",
+  "input_bytes": {
+    "float32_nchw": 3219888,
+    "uint8_nhwc": 804972
+  },
+  "float32_nchw": {
+    "iterations": 100,
+    "warmup": 0,
+    "mean_ms": 4.2885,
+    "min_ms": 4.1804,
+    "p50_ms": 4.254,
+    "p90_ms": 4.4429,
+    "p99_ms": 4.4876,
+    "max_ms": 4.5122,
+    "stdev_ms": 0.0855,
+    "fps": 233.18,
+    "h2d_ms": 1.0338,
+    "compute_ms": 2.8401,
+    "d2h_ms": 0.3498,
+    "host_overhead_ms": 0.0648
+  },
+  "uint8_nhwc": {
+    "iterations": 100,
+    "warmup": 0,
+    "mean_ms": 3.4005,
+    "min_ms": 3.3344,
+    "p50_ms": 3.3854,
+    "p90_ms": 3.4588,
+    "p99_ms": 3.4804,
+    "max_ms": 3.6639,
+    "stdev_ms": 0.0459,
+    "fps": 294.07,
+    "h2d_ms": 0.2685,
+    "compute_ms": 2.7467,
+    "d2h_ms": 0.353,
+    "host_overhead_ms": 0.0323
+  },
+  "delta_ms": -0.888,
+  "delta_pct": -20.71,
+  "outputs": [
+    {
+      "output": 0,
+      "rel": 0.0012181618425580179,
+      "corr": 0.999110312230062,
+      "ref_abs_mean": 0.8236493645363209
+    }
+  ],
+  "engines": {
+    "float32_nchw": "C:\\Users\\soy\\mde_trt\\work\\models\\depth_anything_v2\\engine\\depth_anything_v2_vits_518x518_metric_hypersim_dynamo_sim_fp16.engine",
+    "uint8_nhwc": "C:\\Users\\soy\\mde_trt\\work\\models\\depth_anything_v2\\engine\\depth_anything_v2_vits_518x518_metric_hypersim_dynamo_sim_u8_fp16.engine"
+  }
+}

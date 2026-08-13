@@ -26,7 +26,8 @@ ssh_() { ssh -i "$KEY" "$HOST" "$@"; }
 
 pull_results() {
   echo "== collecting results from the desktop"
-  for d in bench inputs; do
+  for d in bench inputs uint8_ab; do
+    mkdir -p "$ROOT/reports/$d"
     scp -i "$KEY" "$HOST:$WORK/reports/$d/*" "$ROOT/reports/$d/" 2>/dev/null \
       && echo "   reports/$d" || echo "   reports/$d — nothing new"
   done
