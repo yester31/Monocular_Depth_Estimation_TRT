@@ -17,11 +17,11 @@
   "summary": {
     "layers_profiled": 393,
     "layers_in_engine": 393,
-    "profile_total_ms": 65.1939,
-    "benchmark_mean_ms": 67.8401,
-    "top10_share": 0.0989,
-    "fp32_output_share": 0.0127,
-    "movement_share": 0.1476,
+    "profile_total_ms": 65.7579,
+    "benchmark_mean_ms": 66.9979,
+    "top10_share": 0.0994,
+    "fp32_output_share": 0.0126,
+    "movement_share": 0.1471,
     "layer_types": {
       "Reformat": 83,
       "kgen": 79,
@@ -48,2271 +48,2271 @@
   "layers": [
     {
       "name": "_gemm_mha_v2_myl9_3",
-      "ms": 0.656964,
+      "ms": 0.67014,
       "calls_per_iter": 1.0,
-      "share": 0.010077
+      "share": 0.010191
     },
     {
       "name": "_gemm_mha_v2_myl9_167",
-      "ms": 0.647817,
+      "ms": 0.655326,
       "calls_per_iter": 1.0,
-      "share": 0.009937
+      "share": 0.009966
     },
     {
       "name": "_gemm_mha_v2_myl9_160",
-      "ms": 0.646485,
+      "ms": 0.654677,
       "calls_per_iter": 1.0,
-      "share": 0.009916
+      "share": 0.009956
     },
     {
       "name": "_gemm_mha_v2_myl9_153",
-      "ms": 0.64512,
+      "ms": 0.652322,
+      "calls_per_iter": 1.0,
+      "share": 0.00992
+    },
+    {
+      "name": "_gemm_mha_v2_myl9_10",
+      "ms": 0.650957,
+      "calls_per_iter": 1.0,
+      "share": 0.009899
+    },
+    {
+      "name": "_gemm_mha_v2_myl9_132",
+      "ms": 0.65082,
+      "calls_per_iter": 1.0,
+      "share": 0.009897
+    },
+    {
+      "name": "_gemm_mha_v2_myl9_17",
+      "ms": 0.65065,
       "calls_per_iter": 1.0,
       "share": 0.009895
     },
     {
-      "name": "_gemm_mha_v2_myl9_132",
-      "ms": 0.643755,
-      "calls_per_iter": 1.0,
-      "share": 0.009874
-    },
-    {
-      "name": "_gemm_mha_v2_myl9_10",
-      "ms": 0.642423,
-      "calls_per_iter": 1.0,
-      "share": 0.009854
-    },
-    {
       "name": "_gemm_mha_v2_myl9_146",
-      "ms": 0.642321,
+      "ms": 0.650479,
       "calls_per_iter": 1.0,
-      "share": 0.009852
+      "share": 0.009892
     },
     {
       "name": "_gemm_mha_v2_myl9_139",
-      "ms": 0.642116,
+      "ms": 0.649728,
       "calls_per_iter": 1.0,
-      "share": 0.009849
+      "share": 0.009881
     },
     {
       "name": "_gemm_mha_v2_myl9_46",
-      "ms": 0.641775,
+      "ms": 0.648431,
       "calls_per_iter": 1.0,
-      "share": 0.009844
-    },
-    {
-      "name": "_gemm_mha_v2_myl9_17",
-      "ms": 0.641195,
-      "calls_per_iter": 1.0,
-      "share": 0.009835
-    },
-    {
-      "name": "_gemm_mha_v2_myl9_89",
-      "ms": 0.640068,
-      "calls_per_iter": 1.0,
-      "share": 0.009818
+      "share": 0.009861
     },
     {
       "name": "_gemm_mha_v2_myl9_24",
-      "ms": 0.639522,
+      "ms": 0.647202,
       "calls_per_iter": 1.0,
-      "share": 0.00981
+      "share": 0.009842
     },
     {
       "name": "_gemm_mha_v2_myl9_31",
-      "ms": 0.639386,
+      "ms": 0.647066,
       "calls_per_iter": 1.0,
-      "share": 0.009807
-    },
-    {
-      "name": "_gemm_mha_v2_myl9_124",
-      "ms": 0.63901,
-      "calls_per_iter": 1.0,
-      "share": 0.009802
+      "share": 0.00984
     },
     {
       "name": "_gemm_mha_v2_myl9_38",
-      "ms": 0.638054,
+      "ms": 0.645837,
       "calls_per_iter": 1.0,
-      "share": 0.009787
+      "share": 0.009821
+    },
+    {
+      "name": "_gemm_mha_v2_myl9_124",
+      "ms": 0.645461,
+      "calls_per_iter": 1.0,
+      "share": 0.009816
+    },
+    {
+      "name": "_gemm_mha_v2_myl9_89",
+      "ms": 0.644233,
+      "calls_per_iter": 1.0,
+      "share": 0.009797
     },
     {
       "name": "_gemm_mha_v2_myl9_117",
-      "ms": 0.63802,
+      "ms": 0.643379,
       "calls_per_iter": 1.0,
-      "share": 0.009787
+      "share": 0.009784
     },
     {
       "name": "_gemm_mha_v2_myl9_53",
-      "ms": 0.63744,
+      "ms": 0.643004,
       "calls_per_iter": 1.0,
       "share": 0.009778
     },
     {
-      "name": "_gemm_mha_v2_myl9_110",
-      "ms": 0.636587,
-      "calls_per_iter": 1.0,
-      "share": 0.009765
-    },
-    {
       "name": "_gemm_mha_v2_myl9_60",
-      "ms": 0.636484,
+      "ms": 0.642048,
       "calls_per_iter": 1.0,
-      "share": 0.009763
+      "share": 0.009764
     },
     {
-      "name": "_gemm_mha_v2_myl9_67",
-      "ms": 0.635767,
+      "name": "_gemm_mha_v2_myl9_110",
+      "ms": 0.640546,
       "calls_per_iter": 1.0,
-      "share": 0.009752
+      "share": 0.009741
     },
     {
       "name": "_gemm_mha_v2_myl9_74",
-      "ms": 0.635767,
-      "calls_per_iter": 1.0,
-      "share": 0.009752
-    },
-    {
-      "name": "_gemm_mha_v2_myl9_81",
-      "ms": 0.63546,
-      "calls_per_iter": 1.0,
-      "share": 0.009747
-    },
-    {
-      "name": "_gemm_mha_v2_myl9_96",
-      "ms": 0.635392,
-      "calls_per_iter": 1.0,
-      "share": 0.009746
-    },
-    {
-      "name": "_gemm_mha_v2_myl9_103",
-      "ms": 0.634982,
+      "ms": 0.640478,
       "calls_per_iter": 1.0,
       "share": 0.00974
     },
     {
-      "name": "/model/neck/resamplers.3/resamplers.3.1/Conv",
-      "ms": 0.577126,
+      "name": "_gemm_mha_v2_myl9_67",
+      "ms": 0.640273,
       "calls_per_iter": 1.0,
-      "share": 0.008852
+      "share": 0.009737
     },
     {
-      "name": "/model/points_head/resamplers.3/resamplers.3.1/Conv",
-      "ms": 0.574669,
+      "name": "_gemm_mha_v2_myl9_81",
+      "ms": 0.640068,
       "calls_per_iter": 1.0,
-      "share": 0.008815
+      "share": 0.009734
+    },
+    {
+      "name": "_gemm_mha_v2_myl9_103",
+      "ms": 0.640068,
+      "calls_per_iter": 1.0,
+      "share": 0.009734
+    },
+    {
+      "name": "_gemm_mha_v2_myl9_96",
+      "ms": 0.639761,
+      "calls_per_iter": 1.0,
+      "share": 0.009729
+    },
+    {
+      "name": "/model/neck/resamplers.3/resamplers.3.1/Conv",
+      "ms": 0.586786,
+      "calls_per_iter": 1.0,
+      "share": 0.008923
     },
     {
       "name": "/model/mask_head/resamplers.3/resamplers.3.1/Conv",
-      "ms": 0.573065,
+      "ms": 0.583851,
       "calls_per_iter": 1.0,
-      "share": 0.00879
+      "share": 0.008879
+    },
+    {
+      "name": "/model/points_head/resamplers.3/resamplers.3.1/Conv",
+      "ms": 0.583817,
+      "calls_per_iter": 1.0,
+      "share": 0.008878
     },
     {
       "name": "/model/neck/resamplers.3/resamplers.3.1/Pad_3696",
-      "ms": 0.488789,
+      "ms": 0.495514,
       "calls_per_iter": 1.0,
-      "share": 0.007497
+      "share": 0.007535
     },
     {
       "name": "/model/points_head/resamplers.3/resamplers.3.1/Pad_4266",
-      "ms": 0.488311,
+      "ms": 0.494797,
       "calls_per_iter": 1.0,
-      "share": 0.00749
+      "share": 0.007525
     },
     {
       "name": "/model/mask_head/resamplers.3/resamplers.3.1/Pad_4836",
-      "ms": 0.486537,
+      "ms": 0.49309,
       "calls_per_iter": 1.0,
-      "share": 0.007463
-    },
-    {
-      "name": "/model/neck/resamplers.3/resamplers.3.0/Resize",
-      "ms": 0.470903,
-      "calls_per_iter": 1.0,
-      "share": 0.007223
-    },
-    {
-      "name": "/model/points_head/resamplers.3/resamplers.3.0/Resize",
-      "ms": 0.470289,
-      "calls_per_iter": 1.0,
-      "share": 0.007214
+      "share": 0.007499
     },
     {
       "name": "/model/mask_head/resamplers.3/resamplers.3.0/Resize",
-      "ms": 0.468651,
+      "ms": 0.480631,
       "calls_per_iter": 1.0,
-      "share": 0.007189
+      "share": 0.007309
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/resamplers.3/resamplers.3.1/Conv",
-      "ms": 0.37062,
+      "name": "/model/neck/resamplers.3/resamplers.3.0/Resize",
+      "ms": 0.477286,
       "calls_per_iter": 1.0,
-      "share": 0.005685
+      "share": 0.007258
+    },
+    {
+      "name": "/model/points_head/resamplers.3/resamplers.3.0/Resize",
+      "ms": 0.476979,
+      "calls_per_iter": 1.0,
+      "share": 0.007254
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to /model/points_head/resamplers.3/resamplers.3.1/Conv",
-      "ms": 0.370313,
+      "ms": 0.369971,
       "calls_per_iter": 1.0,
-      "share": 0.00568
+      "share": 0.005626
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/resamplers.3/resamplers.3.1/Conv",
+      "ms": 0.369664,
+      "calls_per_iter": 1.0,
+      "share": 0.005622
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/resamplers.3/resamplers.3.1/Conv",
-      "ms": 0.367206,
+      "ms": 0.366694,
       "calls_per_iter": 1.0,
-      "share": 0.005633
+      "share": 0.005576
     },
     {
       "name": "__myl_Fc_myl9_170",
-      "ms": 0.329148,
+      "ms": 0.334131,
       "calls_per_iter": 1.0,
-      "share": 0.005049
+      "share": 0.005081
     },
     {
       "name": "__myl_Fc_myl9_163",
-      "ms": 0.328977,
+      "ms": 0.33321,
+      "calls_per_iter": 1.0,
+      "share": 0.005067
+    },
+    {
+      "name": "__myl_Fc_myl9_149",
+      "ms": 0.331844,
       "calls_per_iter": 1.0,
       "share": 0.005046
     },
     {
       "name": "__myl_Fc_myl9_156",
-      "ms": 0.328329,
+      "ms": 0.331639,
       "calls_per_iter": 1.0,
-      "share": 0.005036
-    },
-    {
-      "name": "__myl_Fc_myl9_149",
-      "ms": 0.328124,
-      "calls_per_iter": 1.0,
-      "share": 0.005033
+      "share": 0.005043
     },
     {
       "name": "__myl_Fc_myl9_6",
-      "ms": 0.327339,
+      "ms": 0.331264,
+      "calls_per_iter": 1.0,
+      "share": 0.005038
+    },
+    {
+      "name": "__myl_Fc_myl9_13",
+      "ms": 0.331093,
+      "calls_per_iter": 1.0,
+      "share": 0.005035
+    },
+    {
+      "name": "__myl_Fc_myl9_142",
+      "ms": 0.330172,
       "calls_per_iter": 1.0,
       "share": 0.005021
     },
     {
-      "name": "__myl_Fc_myl9_142",
-      "ms": 0.326417,
+      "name": "__myl_Fc_myl9_20",
+      "ms": 0.329967,
       "calls_per_iter": 1.0,
-      "share": 0.005007
-    },
-    {
-      "name": "__myl_Fc_myl9_13",
-      "ms": 0.326383,
-      "calls_per_iter": 1.0,
-      "share": 0.005006
+      "share": 0.005018
     },
     {
       "name": "__myl_Fc_myl9_135",
-      "ms": 0.326144,
+      "ms": 0.329694,
       "calls_per_iter": 1.0,
-      "share": 0.005003
-    },
-    {
-      "name": "__myl_Fc_myl9_20",
-      "ms": 0.325871,
-      "calls_per_iter": 1.0,
-      "share": 0.004998
+      "share": 0.005014
     },
     {
       "name": "__myl_Fc_myl9_27",
-      "ms": 0.325666,
+      "ms": 0.329421,
       "calls_per_iter": 1.0,
-      "share": 0.004995
+      "share": 0.00501
     },
     {
       "name": "__myl_Fc_myl9_127",
-      "ms": 0.325495,
+      "ms": 0.328841,
       "calls_per_iter": 1.0,
-      "share": 0.004993
+      "share": 0.005001
     },
     {
       "name": "__myl_Fc_myl9_34",
-      "ms": 0.324745,
+      "ms": 0.328806,
       "calls_per_iter": 1.0,
-      "share": 0.004981
-    },
-    {
-      "name": "__myl_Fc_myl9_49",
-      "ms": 0.324676,
-      "calls_per_iter": 1.0,
-      "share": 0.00498
-    },
-    {
-      "name": "__myl_Fc_myl9_63",
-      "ms": 0.324642,
-      "calls_per_iter": 1.0,
-      "share": 0.00498
+      "share": 0.005
     },
     {
       "name": "__myl_Fc_myl9_41",
-      "ms": 0.324574,
+      "ms": 0.32826,
       "calls_per_iter": 1.0,
-      "share": 0.004979
+      "share": 0.004992
     },
     {
       "name": "__myl_Fc_myl9_120",
-      "ms": 0.324369,
+      "ms": 0.327373,
       "calls_per_iter": 1.0,
-      "share": 0.004975
+      "share": 0.004978
     },
     {
-      "name": "__myl_Fc_myl9_113",
-      "ms": 0.32413,
+      "name": "__myl_Fc_myl9_49",
+      "ms": 0.327339,
       "calls_per_iter": 1.0,
-      "share": 0.004972
-    },
-    {
-      "name": "__myl_Fc_myl9_77",
-      "ms": 0.324062,
-      "calls_per_iter": 1.0,
-      "share": 0.004971
-    },
-    {
-      "name": "__myl_Fc_myl9_106",
-      "ms": 0.323857,
-      "calls_per_iter": 1.0,
-      "share": 0.004968
+      "share": 0.004978
     },
     {
       "name": "__myl_Fc_myl9_56",
-      "ms": 0.32355,
+      "ms": 0.326622,
+      "calls_per_iter": 1.0,
+      "share": 0.004967
+    },
+    {
+      "name": "__myl_Fc_myl9_63",
+      "ms": 0.326383,
       "calls_per_iter": 1.0,
       "share": 0.004963
     },
     {
-      "name": "__myl_Fc_myl9_70",
-      "ms": 0.32355,
-      "calls_per_iter": 1.0,
-      "share": 0.004963
-    },
-    {
-      "name": "__myl_Fc_myl9_99",
-      "ms": 0.323516,
+      "name": "__myl_Fc_myl9_113",
+      "ms": 0.326315,
       "calls_per_iter": 1.0,
       "share": 0.004962
     },
     {
-      "name": "__myl_Fc_myl9_84",
-      "ms": 0.32297,
+      "name": "__myl_Fc_myl9_77",
+      "ms": 0.326007,
       "calls_per_iter": 1.0,
-      "share": 0.004954
+      "share": 0.004958
     },
     {
-      "name": "__myl_Fc_myl9_92",
-      "ms": 0.322901,
+      "name": "__myl_Fc_myl9_99",
+      "ms": 0.325666,
       "calls_per_iter": 1.0,
       "share": 0.004953
     },
     {
-      "name": "/model/encoder/blocks.23/mlp/fc2/MatMul_myl9_171",
-      "ms": 0.310716,
+      "name": "__myl_Fc_myl9_106",
+      "ms": 0.325666,
       "calls_per_iter": 1.0,
-      "share": 0.004766
+      "share": 0.004953
+    },
+    {
+      "name": "__myl_Fc_myl9_70",
+      "ms": 0.325495,
+      "calls_per_iter": 1.0,
+      "share": 0.00495
+    },
+    {
+      "name": "__myl_Fc_myl9_92",
+      "ms": 0.325052,
+      "calls_per_iter": 1.0,
+      "share": 0.004943
+    },
+    {
+      "name": "__myl_Fc_myl9_84",
+      "ms": 0.324915,
+      "calls_per_iter": 1.0,
+      "share": 0.004941
+    },
+    {
+      "name": "/model/encoder/blocks.23/mlp/fc2/MatMul_myl9_171",
+      "ms": 0.315085,
+      "calls_per_iter": 1.0,
+      "share": 0.004792
     },
     {
       "name": "/model/encoder/blocks.22/mlp/fc2/MatMul_myl9_164",
-      "ms": 0.310579,
+      "ms": 0.314402,
       "calls_per_iter": 1.0,
-      "share": 0.004764
+      "share": 0.004781
     },
     {
       "name": "/model/encoder/blocks.21/mlp/fc2/MatMul_myl9_157",
-      "ms": 0.309521,
+      "ms": 0.313549,
       "calls_per_iter": 1.0,
-      "share": 0.004748
+      "share": 0.004768
     },
     {
       "name": "/model/encoder/blocks.20/mlp/fc2/MatMul_myl9_150",
-      "ms": 0.309111,
+      "ms": 0.312934,
       "calls_per_iter": 1.0,
-      "share": 0.004741
+      "share": 0.004759
     },
     {
       "name": "/model/encoder/blocks.1/mlp/fc2/MatMul_myl9_14",
-      "ms": 0.308087,
+      "ms": 0.312286,
       "calls_per_iter": 1.0,
-      "share": 0.004726
-    },
-    {
-      "name": "/model/encoder/blocks.19/mlp/fc2/MatMul_myl9_143",
-      "ms": 0.308087,
-      "calls_per_iter": 1.0,
-      "share": 0.004726
+      "share": 0.004749
     },
     {
       "name": "/model/encoder/blocks.0/mlp/fc2/MatMul_myl9_7",
-      "ms": 0.307849,
+      "ms": 0.311979,
       "calls_per_iter": 1.0,
-      "share": 0.004722
+      "share": 0.004744
+    },
+    {
+      "name": "/model/encoder/blocks.19/mlp/fc2/MatMul_myl9_143",
+      "ms": 0.311569,
+      "calls_per_iter": 1.0,
+      "share": 0.004738
     },
     {
       "name": "/model/encoder/blocks.18/mlp/fc2/MatMul_myl9_136",
-      "ms": 0.307814,
+      "ms": 0.311433,
       "calls_per_iter": 1.0,
-      "share": 0.004722
-    },
-    {
-      "name": "/model/encoder/blocks.17/mlp/fc2/MatMul_myl9_128",
-      "ms": 0.30778,
-      "calls_per_iter": 1.0,
-      "share": 0.004721
-    },
-    {
-      "name": "/model/encoder/blocks.3/mlp/fc2/MatMul_myl9_28",
-      "ms": 0.307166,
-      "calls_per_iter": 1.0,
-      "share": 0.004712
-    },
-    {
-      "name": "/model/encoder/blocks.5/mlp/fc2/MatMul_myl9_42",
-      "ms": 0.306722,
-      "calls_per_iter": 1.0,
-      "share": 0.004705
+      "share": 0.004736
     },
     {
       "name": "/model/encoder/blocks.2/mlp/fc2/MatMul_myl9_21",
-      "ms": 0.306654,
+      "ms": 0.310852,
       "calls_per_iter": 1.0,
-      "share": 0.004704
+      "share": 0.004727
     },
     {
-      "name": "/model/encoder/blocks.16/mlp/fc2/MatMul_myl9_121",
-      "ms": 0.306551,
+      "name": "/model/encoder/blocks.3/mlp/fc2/MatMul_myl9_28",
+      "ms": 0.310647,
       "calls_per_iter": 1.0,
-      "share": 0.004702
+      "share": 0.004724
     },
     {
-      "name": "/model/encoder/blocks.6/mlp/fc2/MatMul_myl9_50",
-      "ms": 0.306244,
+      "name": "/model/encoder/blocks.17/mlp/fc2/MatMul_myl9_128",
+      "ms": 0.310306,
       "calls_per_iter": 1.0,
-      "share": 0.004697
+      "share": 0.004719
     },
     {
       "name": "/model/encoder/blocks.4/mlp/fc2/MatMul_myl9_35",
-      "ms": 0.306176,
+      "ms": 0.310135,
       "calls_per_iter": 1.0,
-      "share": 0.004696
+      "share": 0.004716
+    },
+    {
+      "name": "/model/encoder/blocks.5/mlp/fc2/MatMul_myl9_42",
+      "ms": 0.309589,
+      "calls_per_iter": 1.0,
+      "share": 0.004708
+    },
+    {
+      "name": "/model/encoder/blocks.16/mlp/fc2/MatMul_myl9_121",
+      "ms": 0.309146,
+      "calls_per_iter": 1.0,
+      "share": 0.004701
+    },
+    {
+      "name": "/model/encoder/blocks.6/mlp/fc2/MatMul_myl9_50",
+      "ms": 0.308941,
+      "calls_per_iter": 1.0,
+      "share": 0.004698
     },
     {
       "name": "/model/encoder/blocks.15/mlp/fc2/MatMul_myl9_114",
-      "ms": 0.306108,
-      "calls_per_iter": 1.0,
-      "share": 0.004695
-    },
-    {
-      "name": "/model/encoder/blocks.8/mlp/fc2/MatMul_myl9_64",
-      "ms": 0.305869,
-      "calls_per_iter": 1.0,
-      "share": 0.004692
-    },
-    {
-      "name": "/model/encoder/blocks.13/mlp/fc2/MatMul_myl9_100",
-      "ms": 0.305766,
+      "ms": 0.308429,
       "calls_per_iter": 1.0,
       "share": 0.00469
-    },
-    {
-      "name": "/model/encoder/blocks.14/mlp/fc2/MatMul_myl9_107",
-      "ms": 0.305732,
-      "calls_per_iter": 1.0,
-      "share": 0.00469
-    },
-    {
-      "name": "/model/encoder/blocks.10/mlp/fc2/MatMul_myl9_78",
-      "ms": 0.305493,
-      "calls_per_iter": 1.0,
-      "share": 0.004686
     },
     {
       "name": "/model/encoder/blocks.7/mlp/fc2/MatMul_myl9_57",
-      "ms": 0.305254,
+      "ms": 0.307985,
+      "calls_per_iter": 1.0,
+      "share": 0.004684
+    },
+    {
+      "name": "/model/encoder/blocks.8/mlp/fc2/MatMul_myl9_64",
+      "ms": 0.307917,
+      "calls_per_iter": 1.0,
+      "share": 0.004683
+    },
+    {
+      "name": "/model/encoder/blocks.10/mlp/fc2/MatMul_myl9_78",
+      "ms": 0.307883,
       "calls_per_iter": 1.0,
       "share": 0.004682
     },
     {
-      "name": "/model/encoder/blocks.12/mlp/fc2/MatMul_myl9_93",
-      "ms": 0.305152,
+      "name": "/model/encoder/blocks.13/mlp/fc2/MatMul_myl9_100",
+      "ms": 0.307746,
       "calls_per_iter": 1.0,
-      "share": 0.004681
-    },
-    {
-      "name": "/model/encoder/blocks.11/mlp/fc2/MatMul_myl9_85",
-      "ms": 0.304981,
-      "calls_per_iter": 1.0,
-      "share": 0.004678
+      "share": 0.00468
     },
     {
       "name": "/model/encoder/blocks.9/mlp/fc2/MatMul_myl9_71",
-      "ms": 0.304913,
+      "ms": 0.307678,
       "calls_per_iter": 1.0,
-      "share": 0.004677
+      "share": 0.004679
+    },
+    {
+      "name": "/model/encoder/blocks.12/mlp/fc2/MatMul_myl9_93",
+      "ms": 0.307234,
+      "calls_per_iter": 1.0,
+      "share": 0.004672
+    },
+    {
+      "name": "/model/encoder/blocks.14/mlp/fc2/MatMul_myl9_107",
+      "ms": 0.3072,
+      "calls_per_iter": 1.0,
+      "share": 0.004672
+    },
+    {
+      "name": "/model/encoder/blocks.11/mlp/fc2/MatMul_myl9_85",
+      "ms": 0.306961,
+      "calls_per_iter": 1.0,
+      "share": 0.004668
     },
     {
       "name": "/model/neck/res_blocks.3/res_blocks.3.0/layers/layers.5/Conv + /model/neck/res_blocks.3/res_blocks.3.0/Add + PWN(/model/neck/res_blocks.3/res_blocks.3.1/layers/layers.1/Relu)",
-      "ms": 0.292045,
+      "ms": 0.296721,
       "calls_per_iter": 1.0,
-      "share": 0.00448
+      "share": 0.004512
+    },
+    {
+      "name": "__mye299849+__mye299837+__mye299825_myl9_166",
+      "ms": 0.263851,
+      "calls_per_iter": 1.0,
+      "share": 0.004012
     },
     {
       "name": "__mye299734+__mye299722+__mye299710_myl9_159",
-      "ms": 0.261222,
+      "ms": 0.26368,
       "calls_per_iter": 1.0,
-      "share": 0.004007
+      "share": 0.00401
+    },
+    {
+      "name": "__mye299504+__mye299492+__mye299480_myl9_145",
+      "ms": 0.261495,
+      "calls_per_iter": 1.0,
+      "share": 0.003977
+    },
+    {
+      "name": "__mye297319+__mye297307+__mye297295_myl9_9",
+      "ms": 0.260779,
+      "calls_per_iter": 1.0,
+      "share": 0.003966
+    },
+    {
+      "name": "__mye297664+__mye297652+__mye297640_myl9_30",
+      "ms": 0.260437,
+      "calls_per_iter": 1.0,
+      "share": 0.003961
     },
     {
       "name": "/model/points_head/input_blocks.4/Conv + /model/points_head/Add_3",
-      "ms": 0.259959,
-      "calls_per_iter": 1.0,
-      "share": 0.003987
-    },
-    {
-      "name": "/model/mask_head/input_blocks.4/Conv + /model/mask_head/Add_3",
-      "ms": 0.259618,
-      "calls_per_iter": 1.0,
-      "share": 0.003982
-    },
-    {
-      "name": "__mye297204+__mye297192+__mye297180_myl9_2",
-      "ms": 0.258014,
+      "ms": 0.260301,
       "calls_per_iter": 1.0,
       "share": 0.003958
     },
     {
-      "name": "__mye299619+__mye299607+__mye299595_myl9_152",
-      "ms": 0.257809,
-      "calls_per_iter": 1.0,
-      "share": 0.003954
-    },
-    {
       "name": "__mye299389+__mye299377+__mye299365_myl9_138",
-      "ms": 0.257058,
+      "ms": 0.260164,
       "calls_per_iter": 1.0,
-      "share": 0.003943
+      "share": 0.003956
     },
     {
-      "name": "__mye297434+__mye297422+__mye297410_myl9_16",
-      "ms": 0.256853,
+      "name": "/model/mask_head/input_blocks.4/Conv + /model/mask_head/Add_3",
+      "ms": 0.259584,
       "calls_per_iter": 1.0,
-      "share": 0.00394
-    },
-    {
-      "name": "__mye298124+__mye298112+__mye298100_myl9_59",
-      "ms": 0.256137,
-      "calls_per_iter": 1.0,
-      "share": 0.003929
-    },
-    {
-      "name": "__mye297664+__mye297652+__mye297640_myl9_30",
-      "ms": 0.255932,
-      "calls_per_iter": 1.0,
-      "share": 0.003926
-    },
-    {
-      "name": "__mye298584+__mye298572+__mye298560_myl9_88",
-      "ms": 0.255761,
-      "calls_per_iter": 1.0,
-      "share": 0.003923
-    },
-    {
-      "name": "__mye297894+__mye297882+__mye297870_myl9_45",
-      "ms": 0.25559,
-      "calls_per_iter": 1.0,
-      "share": 0.00392
-    },
-    {
-      "name": "__mye299504+__mye299492+__mye299480_myl9_145",
-      "ms": 0.255215,
-      "calls_per_iter": 1.0,
-      "share": 0.003915
-    },
-    {
-      "name": "__mye299849+__mye299837+__mye299825_myl9_166",
-      "ms": 0.254874,
-      "calls_per_iter": 1.0,
-      "share": 0.003909
-    },
-    {
-      "name": "__mye299159+__mye299147+__mye299135_myl9_123",
-      "ms": 0.254703,
-      "calls_per_iter": 1.0,
-      "share": 0.003907
-    },
-    {
-      "name": "__mye298239+__mye298227+__mye298215_myl9_66",
-      "ms": 0.254362,
-      "calls_per_iter": 1.0,
-      "share": 0.003902
-    },
-    {
-      "name": "__mye298009+__mye297997+__mye297985_myl9_52",
-      "ms": 0.25402,
-      "calls_per_iter": 1.0,
-      "share": 0.003896
-    },
-    {
-      "name": "__mye298929+__mye298917+__mye298905_myl9_109",
-      "ms": 0.253884,
-      "calls_per_iter": 1.0,
-      "share": 0.003894
-    },
-    {
-      "name": "__mye297779+__mye297767+__mye297755_myl9_37",
-      "ms": 0.253611,
-      "calls_per_iter": 1.0,
-      "share": 0.00389
+      "share": 0.003948
     },
     {
       "name": "__mye299044+__mye299032+__mye299020_myl9_116",
-      "ms": 0.253474,
+      "ms": 0.258014,
       "calls_per_iter": 1.0,
-      "share": 0.003888
+      "share": 0.003924
     },
     {
-      "name": "__mye297549+__mye297537+__mye297525_myl9_23",
-      "ms": 0.253065,
+      "name": "__mye298699+__mye298687+__mye298675_myl9_95",
+      "ms": 0.257911,
       "calls_per_iter": 1.0,
-      "share": 0.003882
+      "share": 0.003922
     },
     {
-      "name": "__mye297319+__mye297307+__mye297295_myl9_9",
-      "ms": 0.24873,
+      "name": "__mye297894+__mye297882+__mye297870_myl9_45",
+      "ms": 0.257638,
+      "calls_per_iter": 1.0,
+      "share": 0.003918
+    },
+    {
+      "name": "__mye298354+__mye298342+__mye298330_myl9_73",
+      "ms": 0.257365,
+      "calls_per_iter": 1.0,
+      "share": 0.003914
+    },
+    {
+      "name": "__mye299159+__mye299147+__mye299135_myl9_123",
+      "ms": 0.257263,
+      "calls_per_iter": 1.0,
+      "share": 0.003912
+    },
+    {
+      "name": "__mye298584+__mye298572+__mye298560_myl9_88",
+      "ms": 0.255556,
+      "calls_per_iter": 1.0,
+      "share": 0.003886
+    },
+    {
+      "name": "__mye299274+__mye299262+__mye299250_myl9_131",
+      "ms": 0.253815,
+      "calls_per_iter": 1.0,
+      "share": 0.00386
+    },
+    {
+      "name": "__mye297204+__mye297192+__mye297180_myl9_2",
+      "ms": 0.252621,
+      "calls_per_iter": 1.0,
+      "share": 0.003842
+    },
+    {
+      "name": "__mye299619+__mye299607+__mye299595_myl9_152",
+      "ms": 0.252348,
+      "calls_per_iter": 1.0,
+      "share": 0.003838
+    },
+    {
+      "name": "__mye297434+__mye297422+__mye297410_myl9_16",
+      "ms": 0.252314,
+      "calls_per_iter": 1.0,
+      "share": 0.003837
+    },
+    {
+      "name": "__mye298009+__mye297997+__mye297985_myl9_52",
+      "ms": 0.250846,
       "calls_per_iter": 1.0,
       "share": 0.003815
     },
     {
-      "name": "__mye298699+__mye298687+__mye298675_myl9_95",
-      "ms": 0.248491,
+      "name": "__mye297549+__mye297537+__mye297525_myl9_23",
+      "ms": 0.249685,
       "calls_per_iter": 1.0,
-      "share": 0.003812
+      "share": 0.003797
     },
     {
-      "name": "__mye299274+__mye299262+__mye299250_myl9_131",
-      "ms": 0.246545,
+      "name": "__mye298929+__mye298917+__mye298905_myl9_109",
+      "ms": 0.249412,
       "calls_per_iter": 1.0,
-      "share": 0.003782
+      "share": 0.003793
     },
     {
-      "name": "__mye298814+__mye298802+__mye298790_myl9_102",
-      "ms": 0.246067,
+      "name": "__mye297779+__mye297767+__mye297755_myl9_37",
+      "ms": 0.248115,
       "calls_per_iter": 1.0,
-      "share": 0.003774
+      "share": 0.003773
+    },
+    {
+      "name": "__mye298239+__mye298227+__mye298215_myl9_66",
+      "ms": 0.247774,
+      "calls_per_iter": 1.0,
+      "share": 0.003768
+    },
+    {
+      "name": "__mye298124+__mye298112+__mye298100_myl9_59",
+      "ms": 0.247671,
+      "calls_per_iter": 1.0,
+      "share": 0.003766
     },
     {
       "name": "__mye298469+__mye298457+__mye298445_myl9_80",
-      "ms": 0.24576,
+      "ms": 0.247125,
       "calls_per_iter": 1.0,
-      "share": 0.00377
+      "share": 0.003758
     },
     {
-      "name": "__mye298354+__mye298342+__mye298330_myl9_73",
-      "ms": 0.245146,
+      "name": "__mye298814+__mye298802+__mye298790_myl9_102",
+      "ms": 0.247091,
       "calls_per_iter": 1.0,
-      "share": 0.00376
-    },
-    {
-      "name": "/model/points_head/res_blocks.3/res_blocks.3.0/layers/layers.5/Conv + /model/points_head/res_blocks.3/res_blocks.3.0/Add",
-      "ms": 0.232482,
-      "calls_per_iter": 1.0,
-      "share": 0.003566
+      "share": 0.003758
     },
     {
       "name": "/model/neck/res_blocks.3/res_blocks.3.1/layers/layers.5/Conv + /model/neck/res_blocks.3/res_blocks.3.1/Add",
-      "ms": 0.231253,
+      "ms": 0.235315,
       "calls_per_iter": 1.0,
-      "share": 0.003547
-    },
-    {
-      "name": "/model/mask_head/res_blocks.3/res_blocks.3.0/layers/layers.5/Conv + /model/mask_head/res_blocks.3/res_blocks.3.0/Add",
-      "ms": 0.228557,
-      "calls_per_iter": 1.0,
-      "share": 0.003506
+      "share": 0.003579
     },
     {
       "name": "/model/neck/res_blocks.1/res_blocks.1.0/layers/layers.5/Conv + /model/neck/res_blocks.1/res_blocks.1.0/Add + PWN(/model/neck/res_blocks.1/res_blocks.1.1/layers/layers.1/Relu)",
-      "ms": 0.227806,
+      "ms": 0.232243,
       "calls_per_iter": 1.0,
-      "share": 0.003494
+      "share": 0.003532
+    },
+    {
+      "name": "/model/points_head/res_blocks.3/res_blocks.3.0/layers/layers.5/Conv + /model/points_head/res_blocks.3/res_blocks.3.0/Add",
+      "ms": 0.231595,
+      "calls_per_iter": 1.0,
+      "share": 0.003522
+    },
+    {
+      "name": "/model/mask_head/res_blocks.3/res_blocks.3.0/layers/layers.5/Conv + /model/mask_head/res_blocks.3/res_blocks.3.0/Add",
+      "ms": 0.230434,
+      "calls_per_iter": 1.0,
+      "share": 0.003504
     },
     {
       "name": "/model/neck/res_blocks.2/res_blocks.2.0/layers/layers.5/Conv + /model/neck/res_blocks.2/res_blocks.2.0/Add + PWN(/model/neck/res_blocks.2/res_blocks.2.1/layers/layers.1/Relu)",
-      "ms": 0.221969,
+      "ms": 0.225041,
       "calls_per_iter": 1.0,
-      "share": 0.003405
-    },
-    {
-      "name": "/model/mask_head/res_blocks.3/res_blocks.3.0/layers/layers.2/Conv + /model/mask_head/res_blocks.3/res_blocks.3.0/layers/layers.4/Relu",
-      "ms": 0.220399,
-      "calls_per_iter": 1.0,
-      "share": 0.003381
-    },
-    {
-      "name": "/model/mask_head/resamplers.2/resamplers.2.1/Conv",
-      "ms": 0.216542,
-      "calls_per_iter": 1.0,
-      "share": 0.003322
+      "share": 0.003422
     },
     {
       "name": "/model/neck/res_blocks.3/res_blocks.3.1/layers/layers.2/Conv + /model/neck/res_blocks.3/res_blocks.3.1/layers/layers.4/Relu",
-      "ms": 0.216474,
+      "ms": 0.217634,
       "calls_per_iter": 1.0,
-      "share": 0.00332
+      "share": 0.00331
     },
     {
-      "name": "/model/neck/res_blocks.3/res_blocks.3.0/layers/layers.2/Conv + /model/neck/res_blocks.3/res_blocks.3.0/layers/layers.4/Relu",
-      "ms": 0.215484,
+      "name": "/model/mask_head/resamplers.2/resamplers.2.1/Conv",
+      "ms": 0.217259,
       "calls_per_iter": 1.0,
-      "share": 0.003305
-    },
-    {
-      "name": "/model/points_head/resamplers.2/resamplers.2.1/Conv",
-      "ms": 0.214255,
-      "calls_per_iter": 1.0,
-      "share": 0.003286
-    },
-    {
-      "name": "/model/neck/resamplers.2/resamplers.2.1/Conv",
-      "ms": 0.212855,
-      "calls_per_iter": 1.0,
-      "share": 0.003265
+      "share": 0.003304
     },
     {
       "name": "/model/points_head/res_blocks.3/res_blocks.3.0/layers/layers.2/Conv + /model/points_head/res_blocks.3/res_blocks.3.0/layers/layers.4/Relu",
-      "ms": 0.212309,
+      "ms": 0.216576,
       "calls_per_iter": 1.0,
-      "share": 0.003257
+      "share": 0.003294
     },
     {
-      "name": "/model/neck/input_blocks.4/Conv + /model/neck/Add_3",
-      "ms": 0.197018,
+      "name": "/model/points_head/resamplers.2/resamplers.2.1/Conv",
+      "ms": 0.215927,
       "calls_per_iter": 1.0,
-      "share": 0.003022
+      "share": 0.003284
+    },
+    {
+      "name": "/model/neck/res_blocks.3/res_blocks.3.0/layers/layers.2/Conv + /model/neck/res_blocks.3/res_blocks.3.0/layers/layers.4/Relu",
+      "ms": 0.215757,
+      "calls_per_iter": 1.0,
+      "share": 0.003281
+    },
+    {
+      "name": "/model/neck/resamplers.2/resamplers.2.1/Conv",
+      "ms": 0.214767,
+      "calls_per_iter": 1.0,
+      "share": 0.003266
+    },
+    {
+      "name": "/model/mask_head/res_blocks.3/res_blocks.3.0/layers/layers.2/Conv + /model/mask_head/res_blocks.3/res_blocks.3.0/layers/layers.4/Relu",
+      "ms": 0.214528,
+      "calls_per_iter": 1.0,
+      "share": 0.003262
     },
     {
       "name": "/model/points_head/res_blocks.1/res_blocks.1.0/layers/layers.5/Conv + /model/points_head/res_blocks.1/res_blocks.1.0/Add",
-      "ms": 0.195618,
+      "ms": 0.197837,
       "calls_per_iter": 1.0,
-      "share": 0.003001
+      "share": 0.003009
     },
     {
       "name": "/model/mask_head/res_blocks.1/res_blocks.1.0/layers/layers.5/Conv + /model/mask_head/res_blocks.1/res_blocks.1.0/Add",
-      "ms": 0.195004,
+      "ms": 0.197461,
       "calls_per_iter": 1.0,
-      "share": 0.002991
+      "share": 0.003003
+    },
+    {
+      "name": "/model/neck/input_blocks.4/Conv + /model/neck/Add_3",
+      "ms": 0.196983,
+      "calls_per_iter": 1.0,
+      "share": 0.002996
     },
     {
       "name": "/model/neck/res_blocks.1/res_blocks.1.1/layers/layers.5/Conv + /model/neck/res_blocks.1/res_blocks.1.1/Add",
-      "ms": 0.193877,
+      "ms": 0.195721,
       "calls_per_iter": 1.0,
-      "share": 0.002974
-    },
-    {
-      "name": "/model/mask_head/resamplers.0/resamplers.0.1/Conv",
-      "ms": 0.189338,
-      "calls_per_iter": 1.0,
-      "share": 0.002904
+      "share": 0.002976
     },
     {
       "name": "/model/points_head/res_blocks.1/res_blocks.1.0/layers/layers.2/Conv + /model/points_head/res_blocks.1/res_blocks.1.0/layers/layers.4/Relu",
-      "ms": 0.188996,
+      "ms": 0.193877,
       "calls_per_iter": 1.0,
-      "share": 0.002899
+      "share": 0.002948
     },
     {
       "name": "/model/mask_head/res_blocks.1/res_blocks.1.0/layers/layers.2/Conv + /model/mask_head/res_blocks.1/res_blocks.1.0/layers/layers.4/Relu",
-      "ms": 0.18886,
+      "ms": 0.191863,
       "calls_per_iter": 1.0,
-      "share": 0.002897
+      "share": 0.002918
     },
     {
       "name": "/model/points_head/resamplers.0/resamplers.0.1/Conv",
-      "ms": 0.188143,
+      "ms": 0.191078,
       "calls_per_iter": 1.0,
-      "share": 0.002886
+      "share": 0.002906
+    },
+    {
+      "name": "/model/mask_head/resamplers.0/resamplers.0.1/Conv",
+      "ms": 0.190839,
+      "calls_per_iter": 1.0,
+      "share": 0.002902
     },
     {
       "name": "/model/neck/res_blocks.1/res_blocks.1.1/layers/layers.2/Conv + /model/neck/res_blocks.1/res_blocks.1.1/layers/layers.4/Relu",
-      "ms": 0.186675,
+      "ms": 0.185822,
       "calls_per_iter": 1.0,
-      "share": 0.002863
+      "share": 0.002826
     },
     {
       "name": "/model/neck/resamplers.0/resamplers.0.1/Conv",
-      "ms": 0.184491,
+      "ms": 0.185719,
       "calls_per_iter": 1.0,
-      "share": 0.00283
+      "share": 0.002824
     },
     {
-      "name": "/model/neck/res_blocks.1/res_blocks.1.0/layers/layers.2/Conv + /model/neck/res_blocks.1/res_blocks.1.0/layers/layers.4/Relu",
-      "ms": 0.183945,
+      "name": "/model/points_head/res_blocks.2/res_blocks.2.0/layers/layers.5/Conv + /model/points_head/res_blocks.2/res_blocks.2.0/Add",
+      "ms": 0.185583,
       "calls_per_iter": 1.0,
       "share": 0.002822
     },
     {
-      "name": "/model/points_head/res_blocks.2/res_blocks.2.0/layers/layers.5/Conv + /model/points_head/res_blocks.2/res_blocks.2.0/Add",
-      "ms": 0.183228,
+      "name": "/model/neck/res_blocks.2/res_blocks.2.1/layers/layers.5/Conv + /model/neck/res_blocks.2/res_blocks.2.1/Add",
+      "ms": 0.185242,
       "calls_per_iter": 1.0,
-      "share": 0.002811
+      "share": 0.002817
     },
     {
       "name": "/model/mask_head/res_blocks.2/res_blocks.2.0/layers/layers.5/Conv + /model/mask_head/res_blocks.2/res_blocks.2.0/Add",
-      "ms": 0.181862,
+      "ms": 0.184661,
       "calls_per_iter": 1.0,
-      "share": 0.00279
+      "share": 0.002808
     },
     {
-      "name": "/model/mask_head/input_blocks.3/Conv + /model/mask_head/Add_2 + PWN(/model/mask_head/res_blocks.3/res_blocks.3.0/layers/layers.1/Relu)",
-      "ms": 0.181146,
+      "name": "/model/neck/res_blocks.1/res_blocks.1.0/layers/layers.2/Conv + /model/neck/res_blocks.1/res_blocks.1.0/layers/layers.4/Relu",
+      "ms": 0.183671,
       "calls_per_iter": 1.0,
-      "share": 0.002779
+      "share": 0.002793
     },
     {
-      "name": "/model/points_head/input_blocks.3/Conv + /model/points_head/Add_2 + PWN(/model/points_head/res_blocks.3/res_blocks.3.0/layers/layers.1/Relu)",
-      "ms": 0.180975,
+      "name": "/model/points_head/resamplers.1/resamplers.1.1/Conv",
+      "ms": 0.183159,
       "calls_per_iter": 1.0,
-      "share": 0.002776
-    },
-    {
-      "name": "/model/neck/res_blocks.2/res_blocks.2.1/layers/layers.5/Conv + /model/neck/res_blocks.2/res_blocks.2.1/Add",
-      "ms": 0.180599,
-      "calls_per_iter": 1.0,
-      "share": 0.00277
+      "share": 0.002785
     },
     {
       "name": "/model/mask_head/resamplers.1/resamplers.1.1/Conv",
-      "ms": 0.179985,
+      "ms": 0.18234,
+      "calls_per_iter": 1.0,
+      "share": 0.002773
+    },
+    {
+      "name": "/model/neck/res_blocks.2/res_blocks.2.1/layers/layers.2/Conv + /model/neck/res_blocks.2/res_blocks.2.1/layers/layers.4/Relu",
+      "ms": 0.181897,
+      "calls_per_iter": 1.0,
+      "share": 0.002766
+    },
+    {
+      "name": "/model/points_head/res_blocks.2/res_blocks.2.0/layers/layers.2/Conv + /model/points_head/res_blocks.2/res_blocks.2.0/layers/layers.4/Relu",
+      "ms": 0.181794,
+      "calls_per_iter": 1.0,
+      "share": 0.002765
+    },
+    {
+      "name": "/model/neck/res_blocks.2/res_blocks.2.0/layers/layers.2/Conv + /model/neck/res_blocks.2/res_blocks.2.0/layers/layers.4/Relu",
+      "ms": 0.181589,
       "calls_per_iter": 1.0,
       "share": 0.002761
     },
     {
-      "name": "/model/points_head/res_blocks.2/res_blocks.2.0/layers/layers.2/Conv + /model/points_head/res_blocks.2/res_blocks.2.0/layers/layers.4/Relu",
-      "ms": 0.179405,
-      "calls_per_iter": 1.0,
-      "share": 0.002752
-    },
-    {
-      "name": "/model/points_head/resamplers.1/resamplers.1.1/Conv",
-      "ms": 0.179098,
-      "calls_per_iter": 1.0,
-      "share": 0.002747
-    },
-    {
       "name": "/model/mask_head/res_blocks.2/res_blocks.2.0/layers/layers.2/Conv + /model/mask_head/res_blocks.2/res_blocks.2.0/layers/layers.4/Relu",
-      "ms": 0.178893,
+      "ms": 0.181555,
       "calls_per_iter": 1.0,
-      "share": 0.002744
+      "share": 0.002761
     },
     {
       "name": "/model/neck/resamplers.1/resamplers.1.1/Conv",
-      "ms": 0.178688,
+      "ms": 0.181487,
       "calls_per_iter": 1.0,
-      "share": 0.002741
+      "share": 0.00276
     },
     {
-      "name": "/model/neck/res_blocks.2/res_blocks.2.1/layers/layers.2/Conv + /model/neck/res_blocks.2/res_blocks.2.1/layers/layers.4/Relu",
-      "ms": 0.178688,
+      "name": "/model/points_head/input_blocks.3/Conv + /model/points_head/Add_2 + PWN(/model/points_head/res_blocks.3/res_blocks.3.0/layers/layers.1/Relu)",
+      "ms": 0.18135,
       "calls_per_iter": 1.0,
-      "share": 0.002741
+      "share": 0.002758
     },
     {
-      "name": "/model/neck/res_blocks.2/res_blocks.2.0/layers/layers.2/Conv + /model/neck/res_blocks.2/res_blocks.2.0/layers/layers.4/Relu",
-      "ms": 0.177801,
+      "name": "/model/mask_head/input_blocks.3/Conv + /model/mask_head/Add_2 + PWN(/model/mask_head/res_blocks.3/res_blocks.3.0/layers/layers.1/Relu)",
+      "ms": 0.181111,
       "calls_per_iter": 1.0,
-      "share": 0.002727
+      "share": 0.002754
     },
     {
       "name": "/model/encoder/patch_embed/proj/Conv",
-      "ms": 0.15616,
+      "ms": 0.15831,
       "calls_per_iter": 1.0,
-      "share": 0.002395
+      "share": 0.002407
     },
     {
       "name": "/model/points_head/input_blocks.0/Conv || /model/mask_head/input_blocks.0/Conv",
-      "ms": 0.15558,
+      "ms": 0.157696,
       "calls_per_iter": 1.0,
-      "share": 0.002386
-    },
-    {
-      "name": "/model/neck/resamplers.2/resamplers.2.0/ConvTranspose",
-      "ms": 0.140663,
-      "calls_per_iter": 1.0,
-      "share": 0.002158
+      "share": 0.002398
     },
     {
       "name": "/model/encoder/ReduceSum",
-      "ms": 0.140561,
+      "ms": 0.141483,
       "calls_per_iter": 1.0,
-      "share": 0.002156
+      "share": 0.002152
     },
     {
-      "name": "/model/mask_head/resamplers.2/resamplers.2.0/ConvTranspose",
-      "ms": 0.139708,
+      "name": "/model/neck/resamplers.2/resamplers.2.0/ConvTranspose",
+      "ms": 0.140629,
       "calls_per_iter": 1.0,
-      "share": 0.002143
+      "share": 0.002139
     },
     {
       "name": "/model/points_head/resamplers.2/resamplers.2.0/ConvTranspose",
-      "ms": 0.139332,
+      "ms": 0.140186,
       "calls_per_iter": 1.0,
-      "share": 0.002137
+      "share": 0.002132
+    },
+    {
+      "name": "/model/mask_head/resamplers.2/resamplers.2.0/ConvTranspose",
+      "ms": 0.140151,
+      "calls_per_iter": 1.0,
+      "share": 0.002131
+    },
+    {
+      "name": "/model/encoder/output_projections.0/Conv",
+      "ms": 0.133154,
+      "calls_per_iter": 1.0,
+      "share": 0.002025
     },
     {
       "name": "/model/points_head/resamplers.2/resamplers.2.1/Pad_4095",
-      "ms": 0.12899,
+      "ms": 0.129946,
       "calls_per_iter": 1.0,
-      "share": 0.001979
+      "share": 0.001976
+    },
+    {
+      "name": "/model/neck/res_blocks.3/res_blocks.3.0/layers/layers.2/Pad_3468",
+      "ms": 0.129536,
+      "calls_per_iter": 1.0,
+      "share": 0.00197
     },
     {
       "name": "/model/mask_head/resamplers.2/resamplers.2.1/Pad_4665",
-      "ms": 0.128785,
-      "calls_per_iter": 1.0,
-      "share": 0.001975
-    },
-    {
-      "name": "/model/neck/res_blocks.3/res_blocks.3.1/layers/layers.5/Pad_3639",
-      "ms": 0.128341,
+      "ms": 0.129502,
       "calls_per_iter": 1.0,
       "share": 0.001969
     },
     {
-      "name": "/model/neck/res_blocks.3/res_blocks.3.1/layers/layers.2/Pad_3582",
-      "ms": 0.128307,
+      "name": "/model/neck/res_blocks.3/res_blocks.3.1/layers/layers.5/Pad_3639",
+      "ms": 0.129434,
       "calls_per_iter": 1.0,
       "share": 0.001968
+    },
+    {
+      "name": "/model/neck/resamplers.2/resamplers.2.1/Pad_3411",
+      "ms": 0.129331,
+      "calls_per_iter": 1.0,
+      "share": 0.001967
+    },
+    {
+      "name": "/model/neck/res_blocks.3/res_blocks.3.1/layers/layers.2/Pad_3582",
+      "ms": 0.129331,
+      "calls_per_iter": 1.0,
+      "share": 0.001967
     },
     {
       "name": "/model/neck/res_blocks.3/res_blocks.3.0/layers/layers.5/Pad_3525",
-      "ms": 0.128273,
+      "ms": 0.129297,
       "calls_per_iter": 1.0,
-      "share": 0.001968
+      "share": 0.001966
     },
     {
       "name": "/model/points_head/res_blocks.3/res_blocks.3.0/layers/layers.2/Pad_4152",
-      "ms": 0.128239,
-      "calls_per_iter": 1.0,
-      "share": 0.001967
-    },
-    {
-      "name": "/model/neck/res_blocks.3/res_blocks.3.0/layers/layers.2/Pad_3468",
-      "ms": 0.128205,
-      "calls_per_iter": 1.0,
-      "share": 0.001967
-    },
-    {
-      "name": "/model/mask_head/res_blocks.3/res_blocks.3.0/layers/layers.2/Pad_4722",
-      "ms": 0.128171,
+      "ms": 0.129297,
       "calls_per_iter": 1.0,
       "share": 0.001966
     },
     {
       "name": "/model/points_head/res_blocks.3/res_blocks.3.0/layers/layers.5/Pad_4209",
-      "ms": 0.128137,
+      "ms": 0.129229,
       "calls_per_iter": 1.0,
       "share": 0.001965
     },
     {
+      "name": "/model/mask_head/res_blocks.3/res_blocks.3.0/layers/layers.2/Pad_4722",
+      "ms": 0.128922,
+      "calls_per_iter": 1.0,
+      "share": 0.001961
+    },
+    {
       "name": "/model/mask_head/res_blocks.3/res_blocks.3.0/layers/layers.5/Pad_4779",
-      "ms": 0.127795,
+      "ms": 0.128649,
       "calls_per_iter": 1.0,
-      "share": 0.00196
-    },
-    {
-      "name": "/model/neck/resamplers.2/resamplers.2.1/Pad_3411",
-      "ms": 0.127693,
-      "calls_per_iter": 1.0,
-      "share": 0.001959
-    },
-    {
-      "name": "/model/encoder/output_projections.0/Conv",
-      "ms": 0.123597,
-      "calls_per_iter": 1.0,
-      "share": 0.001896
-    },
-    {
-      "name": "/model/mask_head/resamplers.0/resamplers.0.0/ConvTranspose",
-      "ms": 0.115746,
-      "calls_per_iter": 1.0,
-      "share": 0.001775
+      "share": 0.001956
     },
     {
       "name": "/model/points_head/output_blocks.4/Conv",
-      "ms": 0.115166,
+      "ms": 0.115405,
       "calls_per_iter": 1.0,
-      "share": 0.001767
+      "share": 0.001755
+    },
+    {
+      "name": "/model/mask_head/resamplers.0/resamplers.0.0/ConvTranspose",
+      "ms": 0.108681,
+      "calls_per_iter": 1.0,
+      "share": 0.001653
     },
     {
       "name": "/model/mask_head/output_blocks.4/Conv",
-      "ms": 0.099908,
+      "ms": 0.100045,
       "calls_per_iter": 1.0,
-      "share": 0.001532
+      "share": 0.001521
     },
     {
       "name": "/model/neck/input_blocks.3/Conv + /model/neck/Add_2",
       "ms": 0.099226,
       "calls_per_iter": 1.0,
-      "share": 0.001522
+      "share": 0.001509
     },
     {
       "name": "/model/points_head/resamplers.0/resamplers.0.0/ConvTranspose",
-      "ms": 0.097894,
+      "ms": 0.099157,
       "calls_per_iter": 1.0,
-      "share": 0.001502
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/resamplers.2/resamplers.2.1/Conv",
-      "ms": 0.097553,
-      "calls_per_iter": 1.0,
-      "share": 0.001496
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.3/res_blocks.3.0/layers/layers.2/Conv + /model/neck/res_blocks.3/res_blocks.3.0/layers/layers.4/Relu",
-      "ms": 0.097417,
-      "calls_per_iter": 1.0,
-      "share": 0.001494
+      "share": 0.001508
     },
     {
       "name": "/model/neck/resamplers.0/resamplers.0.0/ConvTranspose",
-      "ms": 0.097382,
+      "ms": 0.098509,
       "calls_per_iter": 1.0,
-      "share": 0.001494
+      "share": 0.001498
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.3/res_blocks.3.1/layers/layers.5/Conv + /model/neck/res_blocks.3/res_blocks.3.1/Add",
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/resamplers.2/resamplers.2.1/Conv",
       "ms": 0.09728,
       "calls_per_iter": 1.0,
-      "share": 0.001492
+      "share": 0.001479
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.3/res_blocks.3.1/layers/layers.2/Conv + /model/neck/res_blocks.3/res_blocks.3.1/layers/layers.4/Relu",
-      "ms": 0.097212,
+      "ms": 0.097246,
       "calls_per_iter": 1.0,
-      "share": 0.001491
+      "share": 0.001479
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/points_head/res_blocks.3/res_blocks.3.0/layers/layers.2/Conv + /model/points_head/res_blocks.3/res_blocks.3.0/layers/layers.4/Relu",
-      "ms": 0.097212,
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.3/res_blocks.3.1/layers/layers.5/Conv + /model/neck/res_blocks.3/res_blocks.3.1/Add",
+      "ms": 0.097143,
       "calls_per_iter": 1.0,
-      "share": 0.001491
+      "share": 0.001477
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.3/res_blocks.3.0/layers/layers.5/Conv + /model/neck/res_blocks.3/res_blocks.3.0/Add + PWN(/model/neck/res_blocks.3/res_blocks.3.1/layers/layers.1/Relu)",
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.3/res_blocks.3.0/layers/layers.2/Conv + /model/neck/res_blocks.3/res_blocks.3.0/layers/layers.4/Relu",
       "ms": 0.097109,
       "calls_per_iter": 1.0,
-      "share": 0.00149
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/res_blocks.3/res_blocks.3.0/layers/layers.5/Conv + /model/mask_head/res_blocks.3/res_blocks.3.0/Add",
-      "ms": 0.097041,
-      "calls_per_iter": 1.0,
-      "share": 0.001488
+      "share": 0.001477
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/res_blocks.3/res_blocks.3.0/layers/layers.2/Conv + /model/mask_head/res_blocks.3/res_blocks.3.0/layers/layers.4/Relu",
+      "ms": 0.097109,
+      "calls_per_iter": 1.0,
+      "share": 0.001477
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/res_blocks.3/res_blocks.3.0/layers/layers.5/Conv + /model/mask_head/res_blocks.3/res_blocks.3.0/Add",
+      "ms": 0.097109,
+      "calls_per_iter": 1.0,
+      "share": 0.001477
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.3/res_blocks.3.0/layers/layers.5/Conv + /model/neck/res_blocks.3/res_blocks.3.0/Add + PWN(/model/neck/res_blocks.3/res_blocks.3.1/layers/layers.1/Relu)",
       "ms": 0.096973,
       "calls_per_iter": 1.0,
-      "share": 0.001487
+      "share": 0.001475
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/points_head/res_blocks.3/res_blocks.3.0/layers/layers.2/Conv + /model/points_head/res_blocks.3/res_blocks.3.0/layers/layers.4/Relu",
+      "ms": 0.096939,
+      "calls_per_iter": 1.0,
+      "share": 0.001474
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to /model/points_head/res_blocks.3/res_blocks.3.0/layers/layers.5/Conv + /model/points_head/res_blocks.3/res_blocks.3.0/Add",
-      "ms": 0.096905,
+      "ms": 0.096939,
       "calls_per_iter": 1.0,
-      "share": 0.001486
+      "share": 0.001474
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to /model/points_head/resamplers.2/resamplers.2.1/Conv",
-      "ms": 0.096666,
+      "ms": 0.096905,
       "calls_per_iter": 1.0,
-      "share": 0.001483
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/resamplers.2/resamplers.2.1/Conv",
-      "ms": 0.096358,
-      "calls_per_iter": 1.0,
-      "share": 0.001478
-    },
-    {
-      "name": "/model/points_head/input_blocks.2/Conv + /model/points_head/Add_1 + PWN(/model/points_head/res_blocks.2/res_blocks.2.0/layers/layers.1/Relu)",
-      "ms": 0.095744,
-      "calls_per_iter": 1.0,
-      "share": 0.001469
-    },
-    {
-      "name": "/model/mask_head/input_blocks.2/Conv + /model/mask_head/Add_1 + PWN(/model/mask_head/res_blocks.2/res_blocks.2.0/layers/layers.1/Relu)",
-      "ms": 0.09571,
-      "calls_per_iter": 1.0,
-      "share": 0.001468
+      "share": 0.001474
     },
     {
       "name": "/model/neck/input_blocks.0/Conv",
-      "ms": 0.095573,
+      "ms": 0.0967,
       "calls_per_iter": 1.0,
-      "share": 0.001466
+      "share": 0.001471
     },
     {
-      "name": "/model/encoder/blocks.23/attn/proj/MatMul_myl9_168",
-      "ms": 0.0953,
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/resamplers.2/resamplers.2.1/Conv",
+      "ms": 0.096256,
+      "calls_per_iter": 1.0,
+      "share": 0.001464
+    },
+    {
+      "name": "/model/mask_head/input_blocks.2/Conv + /model/mask_head/Add_1 + PWN(/model/mask_head/res_blocks.2/res_blocks.2.0/layers/layers.1/Relu)",
+      "ms": 0.096188,
+      "calls_per_iter": 1.0,
+      "share": 0.001463
+    },
+    {
+      "name": "/model/points_head/input_blocks.2/Conv + /model/points_head/Add_1 + PWN(/model/points_head/res_blocks.2/res_blocks.2.0/layers/layers.1/Relu)",
+      "ms": 0.096154,
       "calls_per_iter": 1.0,
       "share": 0.001462
     },
     {
-      "name": "/model/encoder/output_projections.3/Conv",
-      "ms": 0.094652,
+      "name": "/model/encoder/blocks.21/attn/proj/MatMul_myl9_154",
+      "ms": 0.095676,
       "calls_per_iter": 1.0,
-      "share": 0.001452
+      "share": 0.001455
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/resamplers.2/resamplers.2.1/Pad_3411",
-      "ms": 0.094481,
+      "name": "/model/encoder/blocks.23/attn/proj/MatMul_myl9_168",
+      "ms": 0.095607,
       "calls_per_iter": 1.0,
-      "share": 0.001449
+      "share": 0.001454
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/points_head/resamplers.2/resamplers.2.1/Pad_4095",
-      "ms": 0.094481,
+      "name": "/model/encoder/blocks.20/attn/proj/MatMul_myl9_147",
+      "ms": 0.095334,
       "calls_per_iter": 1.0,
-      "share": 0.001449
+      "share": 0.00145
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/points_head/resamplers.3/resamplers.3.0/Resize",
-      "ms": 0.094481,
-      "calls_per_iter": 1.0,
-      "share": 0.001449
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/resamplers.3/resamplers.3.0/Resize",
-      "ms": 0.094379,
+      "name": "/model/encoder/blocks.0/attn/proj/MatMul_myl9_4",
+      "ms": 0.095232,
       "calls_per_iter": 1.0,
       "share": 0.001448
     },
     {
-      "name": "/model/encoder/blocks.0/attn/proj/MatMul_myl9_4",
-      "ms": 0.094345,
+      "name": "/model/encoder/blocks.1/attn/proj/MatMul_myl9_11",
+      "ms": 0.095232,
       "calls_per_iter": 1.0,
-      "share": 0.001447
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.3/res_blocks.3.0/layers/layers.2/Pad_3468",
-      "ms": 0.094345,
-      "calls_per_iter": 1.0,
-      "share": 0.001447
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.3/res_blocks.3.1/layers/layers.5/Pad_3639",
-      "ms": 0.09414,
-      "calls_per_iter": 1.0,
-      "share": 0.001444
-    },
-    {
-      "name": "/model/encoder/blocks.21/attn/proj/MatMul_myl9_154",
-      "ms": 0.094106,
-      "calls_per_iter": 1.0,
-      "share": 0.001443
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.3/res_blocks.3.0/layers/layers.5/Pad_3525",
-      "ms": 0.094071,
-      "calls_per_iter": 1.0,
-      "share": 0.001443
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/points_head/res_blocks.3/res_blocks.3.0/layers/layers.5/Pad_4209",
-      "ms": 0.094071,
-      "calls_per_iter": 1.0,
-      "share": 0.001443
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/resamplers.2/resamplers.2.1/Pad_4665",
-      "ms": 0.094071,
-      "calls_per_iter": 1.0,
-      "share": 0.001443
-    },
-    {
-      "name": "/model/encoder/blocks.19/attn/proj/MatMul_myl9_140",
-      "ms": 0.094003,
-      "calls_per_iter": 1.0,
-      "share": 0.001442
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.3/res_blocks.3.1/layers/layers.2/Pad_3582",
-      "ms": 0.094003,
-      "calls_per_iter": 1.0,
-      "share": 0.001442
+      "share": 0.001448
     },
     {
       "name": "/model/encoder/blocks.22/attn/proj/MatMul_myl9_161",
-      "ms": 0.093969,
+      "ms": 0.095232,
       "calls_per_iter": 1.0,
-      "share": 0.001441
+      "share": 0.001448
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/res_blocks.3/res_blocks.3.0/layers/layers.5/Pad_4779",
-      "ms": 0.093969,
+      "name": "/model/encoder/blocks.19/attn/proj/MatMul_myl9_140",
+      "ms": 0.09513,
       "calls_per_iter": 1.0,
-      "share": 0.001441
+      "share": 0.001447
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/points_head/res_blocks.3/res_blocks.3.0/layers/layers.2/Pad_4152",
-      "ms": 0.093935,
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/resamplers.2/resamplers.2.1/Pad_3411",
+      "ms": 0.094857,
       "calls_per_iter": 1.0,
-      "share": 0.001441
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/resamplers.3/resamplers.3.0/Resize",
-      "ms": 0.093696,
-      "calls_per_iter": 1.0,
-      "share": 0.001437
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/res_blocks.3/res_blocks.3.0/layers/layers.2/Pad_4722",
-      "ms": 0.093696,
-      "calls_per_iter": 1.0,
-      "share": 0.001437
-    },
-    {
-      "name": "/model/encoder/output_projections.1/Conv",
-      "ms": 0.093423,
-      "calls_per_iter": 1.0,
-      "share": 0.001433
-    },
-    {
-      "name": "/model/encoder/output_projections.2/Conv",
-      "ms": 0.093423,
-      "calls_per_iter": 1.0,
-      "share": 0.001433
+      "share": 0.001443
     },
     {
       "name": "/model/encoder/blocks.2/attn/proj/MatMul_myl9_18",
-      "ms": 0.093389,
+      "ms": 0.094822,
       "calls_per_iter": 1.0,
-      "share": 0.001432
+      "share": 0.001442
     },
     {
-      "name": "/model/encoder/blocks.20/attn/proj/MatMul_myl9_147",
-      "ms": 0.093355,
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/points_head/resamplers.2/resamplers.2.1/Pad_4095",
+      "ms": 0.094788,
       "calls_per_iter": 1.0,
-      "share": 0.001432
+      "share": 0.001441
     },
     {
-      "name": "/model/encoder/blocks.7/attn/proj/MatMul_myl9_54",
-      "ms": 0.093252,
+      "name": "/model/encoder/output_projections.3/Conv",
+      "ms": 0.094754,
+      "calls_per_iter": 1.0,
+      "share": 0.001441
+    },
+    {
+      "name": "/model/encoder/output_projections.1/Conv",
+      "ms": 0.094686,
+      "calls_per_iter": 1.0,
+      "share": 0.00144
+    },
+    {
+      "name": "/model/encoder/output_projections.2/Conv",
+      "ms": 0.094686,
+      "calls_per_iter": 1.0,
+      "share": 0.00144
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.3/res_blocks.3.0/layers/layers.2/Pad_3468",
+      "ms": 0.094686,
+      "calls_per_iter": 1.0,
+      "share": 0.00144
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/points_head/res_blocks.3/res_blocks.3.0/layers/layers.2/Pad_4152",
+      "ms": 0.094686,
+      "calls_per_iter": 1.0,
+      "share": 0.00144
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.3/res_blocks.3.1/layers/layers.5/Pad_3639",
+      "ms": 0.094583,
+      "calls_per_iter": 1.0,
+      "share": 0.001438
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/resamplers.2/resamplers.2.1/Pad_4665",
+      "ms": 0.094583,
+      "calls_per_iter": 1.0,
+      "share": 0.001438
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/points_head/res_blocks.3/res_blocks.3.0/layers/layers.5/Pad_4209",
+      "ms": 0.094549,
+      "calls_per_iter": 1.0,
+      "share": 0.001438
+    },
+    {
+      "name": "/model/encoder/blocks.3/attn/proj/MatMul_myl9_25",
+      "ms": 0.094515,
+      "calls_per_iter": 1.0,
+      "share": 0.001437
+    },
+    {
+      "name": "/model/encoder/blocks.4/attn/proj/MatMul_myl9_32",
+      "ms": 0.094515,
+      "calls_per_iter": 1.0,
+      "share": 0.001437
+    },
+    {
+      "name": "/model/encoder/blocks.5/attn/proj/MatMul_myl9_39",
+      "ms": 0.094515,
+      "calls_per_iter": 1.0,
+      "share": 0.001437
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/res_blocks.3/res_blocks.3.0/layers/layers.5/Pad_4779",
+      "ms": 0.094481,
+      "calls_per_iter": 1.0,
+      "share": 0.001437
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/points_head/resamplers.3/resamplers.3.0/Resize",
+      "ms": 0.094447,
+      "calls_per_iter": 1.0,
+      "share": 0.001436
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/res_blocks.3/res_blocks.3.0/layers/layers.2/Pad_4722",
+      "ms": 0.094447,
+      "calls_per_iter": 1.0,
+      "share": 0.001436
+    },
+    {
+      "name": "/model/encoder/blocks.18/attn/proj/MatMul_myl9_133",
+      "ms": 0.094413,
+      "calls_per_iter": 1.0,
+      "share": 0.001436
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.3/res_blocks.3.0/layers/layers.5/Pad_3525",
+      "ms": 0.094413,
+      "calls_per_iter": 1.0,
+      "share": 0.001436
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.3/res_blocks.3.1/layers/layers.2/Pad_3582",
+      "ms": 0.094276,
+      "calls_per_iter": 1.0,
+      "share": 0.001434
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/resamplers.3/resamplers.3.0/Resize",
+      "ms": 0.094276,
+      "calls_per_iter": 1.0,
+      "share": 0.001434
+    },
+    {
+      "name": "/model/encoder/blocks.14/attn/proj/MatMul_myl9_104",
+      "ms": 0.094071,
+      "calls_per_iter": 1.0,
+      "share": 0.001431
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/resamplers.3/resamplers.3.0/Resize",
+      "ms": 0.094037,
       "calls_per_iter": 1.0,
       "share": 0.00143
     },
     {
-      "name": "/model/encoder/blocks.18/attn/proj/MatMul_myl9_133",
-      "ms": 0.093184,
-      "calls_per_iter": 1.0,
-      "share": 0.001429
-    },
-    {
       "name": "/model/encoder/blocks.16/attn/proj/MatMul_myl9_118",
-      "ms": 0.093116,
+      "ms": 0.094003,
+      "calls_per_iter": 1.0,
+      "share": 0.00143
+    },
+    {
+      "name": "/model/encoder/blocks.15/attn/proj/MatMul_myl9_111",
+      "ms": 0.093901,
       "calls_per_iter": 1.0,
       "share": 0.001428
     },
     {
-      "name": "/model/encoder/blocks.1/attn/proj/MatMul_myl9_11",
-      "ms": 0.093082,
-      "calls_per_iter": 1.0,
-      "share": 0.001428
-    },
-    {
-      "name": "/model/encoder/blocks.4/attn/proj/MatMul_myl9_32",
-      "ms": 0.093047,
+      "name": "/model/encoder/blocks.6/attn/proj/MatMul_myl9_47",
+      "ms": 0.093833,
       "calls_per_iter": 1.0,
       "share": 0.001427
     },
     {
-      "name": "/model/encoder/blocks.12/attn/proj/MatMul_myl9_90",
-      "ms": 0.093047,
-      "calls_per_iter": 1.0,
-      "share": 0.001427
-    },
-    {
-      "name": "/model/encoder/blocks.3/attn/proj/MatMul_myl9_25",
-      "ms": 0.092979,
+      "name": "/model/encoder/blocks.7/attn/proj/MatMul_myl9_54",
+      "ms": 0.093798,
       "calls_per_iter": 1.0,
       "share": 0.001426
     },
     {
-      "name": "/model/encoder/blocks.8/attn/proj/MatMul_myl9_61",
-      "ms": 0.092979,
-      "calls_per_iter": 1.0,
-      "share": 0.001426
-    },
-    {
-      "name": "/model/encoder/blocks.9/attn/proj/MatMul_myl9_68",
-      "ms": 0.092911,
-      "calls_per_iter": 1.0,
-      "share": 0.001425
-    },
-    {
-      "name": "/model/encoder/blocks.14/attn/proj/MatMul_myl9_104",
-      "ms": 0.092843,
+      "name": "/model/encoder/blocks.13/attn/proj/MatMul_myl9_97",
+      "ms": 0.093628,
       "calls_per_iter": 1.0,
       "share": 0.001424
     },
     {
       "name": "/model/encoder/blocks.17/attn/proj/MatMul_myl9_125",
-      "ms": 0.09274,
+      "ms": 0.093628,
+      "calls_per_iter": 1.0,
+      "share": 0.001424
+    },
+    {
+      "name": "/model/encoder/blocks.11/attn/proj/MatMul_myl9_82",
+      "ms": 0.093594,
       "calls_per_iter": 1.0,
       "share": 0.001423
     },
     {
-      "name": "/model/encoder/blocks.11/attn/proj/MatMul_myl9_82",
-      "ms": 0.092706,
+      "name": "/model/encoder/blocks.9/attn/proj/MatMul_myl9_68",
+      "ms": 0.093525,
       "calls_per_iter": 1.0,
       "share": 0.001422
     },
     {
-      "name": "/model/encoder/blocks.6/attn/proj/MatMul_myl9_47",
-      "ms": 0.09257,
+      "name": "/model/encoder/blocks.12/attn/proj/MatMul_myl9_90",
+      "ms": 0.093389,
       "calls_per_iter": 1.0,
       "share": 0.00142
     },
     {
-      "name": "/model/encoder/blocks.15/attn/proj/MatMul_myl9_111",
-      "ms": 0.092501,
+      "name": "/model/encoder/blocks.10/attn/proj/MatMul_myl9_75",
+      "ms": 0.093355,
       "calls_per_iter": 1.0,
-      "share": 0.001419
+      "share": 0.00142
     },
     {
-      "name": "/model/encoder/blocks.5/attn/proj/MatMul_myl9_39",
-      "ms": 0.092399,
+      "name": "/model/encoder/blocks.8/attn/proj/MatMul_myl9_61",
+      "ms": 0.093184,
       "calls_per_iter": 1.0,
       "share": 0.001417
     },
     {
-      "name": "/model/encoder/blocks.13/attn/proj/MatMul_myl9_97",
-      "ms": 0.092297,
-      "calls_per_iter": 1.0,
-      "share": 0.001416
-    },
-    {
-      "name": "/model/encoder/blocks.10/attn/proj/MatMul_myl9_75",
-      "ms": 0.092228,
-      "calls_per_iter": 1.0,
-      "share": 0.001415
-    },
-    {
       "name": "PWN(/model/neck/res_blocks.3/res_blocks.3.0/layers/layers.1/Relu)",
-      "ms": 0.091989,
+      "ms": 0.092399,
       "calls_per_iter": 1.0,
-      "share": 0.001411
-    },
-    {
-      "name": "/model/mask_head/input_blocks.1/Conv + /model/mask_head/Add + PWN(/model/mask_head/res_blocks.1/res_blocks.1.0/layers/layers.1/Relu)",
-      "ms": 0.081476,
-      "calls_per_iter": 1.0,
-      "share": 0.00125
+      "share": 0.001405
     },
     {
       "name": "/model/points_head/input_blocks.1/Conv + /model/points_head/Add + PWN(/model/points_head/res_blocks.1/res_blocks.1.0/layers/layers.1/Relu)",
-      "ms": 0.081237,
+      "ms": 0.082295,
       "calls_per_iter": 1.0,
-      "share": 0.001246
+      "share": 0.001251
+    },
+    {
+      "name": "/model/mask_head/input_blocks.1/Conv + /model/mask_head/Add + PWN(/model/mask_head/res_blocks.1/res_blocks.1.0/layers/layers.1/Relu)",
+      "ms": 0.081715,
+      "calls_per_iter": 1.0,
+      "share": 0.001243
     },
     {
       "name": "__myl_IotaCastIotaCastIotaCastIotaCastIotaCastIotaCastIotaCastIotaCastIotaCastIotaCastCastCastPowEtc_myl9_0",
-      "ms": 0.077551,
+      "ms": 0.077653,
       "calls_per_iter": 1.0,
-      "share": 0.00119
+      "share": 0.001181
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMean_myl9_86",
-      "ms": 0.076902,
-      "calls_per_iter": 1.0,
-      "share": 0.00118
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMean_myl9_129",
-      "ms": 0.076015,
-      "calls_per_iter": 1.0,
-      "share": 0.001166
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMean_myl9_43",
-      "ms": 0.075742,
+      "ms": 0.07639,
       "calls_per_iter": 1.0,
       "share": 0.001162
     },
     {
       "name": "/model/encoder/Resize",
-      "ms": 0.075043,
+      "ms": 0.076224,
       "calls_per_iter": 1.0,
-      "share": 0.001151
+      "share": 0.001159
     },
     {
-      "name": "/model/neck/resamplers.1/resamplers.1.0/ConvTranspose",
-      "ms": 0.070724,
+      "name": "__myl_MulAddCastMeanSubMulMean_myl9_43",
+      "ms": 0.075571,
       "calls_per_iter": 1.0,
-      "share": 0.001085
+      "share": 0.001149
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMean_myl9_129",
+      "ms": 0.075537,
+      "calls_per_iter": 1.0,
+      "share": 0.001149
     },
     {
       "name": "/model/encoder/Resize_1",
-      "ms": 0.070554,
+      "ms": 0.071987,
       "calls_per_iter": 1.0,
-      "share": 0.001082
+      "share": 0.001095
     },
     {
       "name": "/model/points_head/resamplers.1/resamplers.1.0/ConvTranspose",
-      "ms": 0.070417,
+      "ms": 0.070622,
       "calls_per_iter": 1.0,
-      "share": 0.00108
+      "share": 0.001074
+    },
+    {
+      "name": "/model/neck/resamplers.1/resamplers.1.0/ConvTranspose",
+      "ms": 0.070554,
+      "calls_per_iter": 1.0,
+      "share": 0.001073
     },
     {
       "name": "/model/mask_head/resamplers.1/resamplers.1.0/ConvTranspose",
-      "ms": 0.070281,
+      "ms": 0.070417,
       "calls_per_iter": 1.0,
-      "share": 0.001078
+      "share": 0.001071
+    },
+    {
+      "name": "/model/points_head/resamplers.1/resamplers.1.1/Pad_3924",
+      "ms": 0.069188,
+      "calls_per_iter": 1.0,
+      "share": 0.001052
+    },
+    {
+      "name": "/model/neck/res_blocks.2/res_blocks.2.1/layers/layers.2/Pad_3297",
+      "ms": 0.069154,
+      "calls_per_iter": 1.0,
+      "share": 0.001052
     },
     {
       "name": "/model/mask_head/resamplers.1/resamplers.1.1/Pad_4494",
-      "ms": 0.068437,
+      "ms": 0.06912,
+      "calls_per_iter": 1.0,
+      "share": 0.001051
+    },
+    {
+      "name": "/model/neck/res_blocks.2/res_blocks.2.1/layers/layers.5/Pad_3354",
+      "ms": 0.069086,
+      "calls_per_iter": 1.0,
+      "share": 0.001051
+    },
+    {
+      "name": "/model/neck/res_blocks.2/res_blocks.2.0/layers/layers.5/Pad_3240",
+      "ms": 0.069018,
       "calls_per_iter": 1.0,
       "share": 0.00105
     },
     {
-      "name": "/model/neck/res_blocks.2/res_blocks.2.1/layers/layers.2/Pad_3297",
-      "ms": 0.068369,
-      "calls_per_iter": 1.0,
-      "share": 0.001049
-    },
-    {
-      "name": "/model/points_head/resamplers.1/resamplers.1.1/Pad_3924",
-      "ms": 0.068369,
+      "name": "/model/neck/res_blocks.2/res_blocks.2.0/layers/layers.2/Pad_3183",
+      "ms": 0.068949,
       "calls_per_iter": 1.0,
       "share": 0.001049
     },
     {
       "name": "/model/neck/resamplers.1/resamplers.1.1/Pad_3126",
-      "ms": 0.068301,
+      "ms": 0.068881,
       "calls_per_iter": 1.0,
-      "share": 0.001048
-    },
-    {
-      "name": "/model/neck/res_blocks.2/res_blocks.2.1/layers/layers.5/Pad_3354",
-      "ms": 0.068198,
-      "calls_per_iter": 1.0,
-      "share": 0.001046
-    },
-    {
-      "name": "/model/neck/res_blocks.2/res_blocks.2.0/layers/layers.5/Pad_3240",
-      "ms": 0.068164,
-      "calls_per_iter": 1.0,
-      "share": 0.001046
-    },
-    {
-      "name": "/model/neck/res_blocks.2/res_blocks.2.0/layers/layers.2/Pad_3183",
-      "ms": 0.06813,
-      "calls_per_iter": 1.0,
-      "share": 0.001045
-    },
-    {
-      "name": "/model/points_head/res_blocks.2/res_blocks.2.0/layers/layers.2/Pad_3981",
-      "ms": 0.067823,
-      "calls_per_iter": 1.0,
-      "share": 0.00104
+      "share": 0.001047
     },
     {
       "name": "/model/mask_head/res_blocks.2/res_blocks.2.0/layers/layers.2/Pad_4551",
-      "ms": 0.067789,
+      "ms": 0.068574,
       "calls_per_iter": 1.0,
-      "share": 0.00104
+      "share": 0.001043
+    },
+    {
+      "name": "/model/points_head/res_blocks.2/res_blocks.2.0/layers/layers.2/Pad_3981",
+      "ms": 0.06854,
+      "calls_per_iter": 1.0,
+      "share": 0.001042
     },
     {
       "name": "/model/points_head/res_blocks.2/res_blocks.2.0/layers/layers.5/Pad_4038",
-      "ms": 0.067686,
+      "ms": 0.068506,
       "calls_per_iter": 1.0,
-      "share": 0.001038
+      "share": 0.001042
     },
     {
       "name": "/model/mask_head/res_blocks.2/res_blocks.2.0/layers/layers.5/Pad_4608",
-      "ms": 0.067516,
+      "ms": 0.068335,
       "calls_per_iter": 1.0,
-      "share": 0.001036
-    },
-    {
-      "name": "__myl_AddSqrtDivMulCastMulAddMulAddMoveSlicTranResh_myl9_130",
-      "ms": 0.057685,
-      "calls_per_iter": 1.0,
-      "share": 0.000885
+      "share": 0.001039
     },
     {
       "name": "__myl_AddSqrtDivMulCastMulAddMoveSlicTranReshMulAdd_myl9_44",
-      "ms": 0.057651,
-      "calls_per_iter": 1.0,
-      "share": 0.000884
-    },
-    {
-      "name": "__myl_AddSqrtDivMulCastMulAddMulAddMoveSlicTranResh_myl9_87",
-      "ms": 0.057412,
+      "ms": 0.057958,
       "calls_per_iter": 1.0,
       "share": 0.000881
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMean_myl9_172",
-      "ms": 0.054545,
+      "name": "__myl_AddSqrtDivMulCastMulAddMulAddMoveSlicTranResh_myl9_87",
+      "ms": 0.057856,
       "calls_per_iter": 1.0,
-      "share": 0.000837
+      "share": 0.00088
+    },
+    {
+      "name": "__myl_AddSqrtDivMulCastMulAddMulAddMoveSlicTranResh_myl9_130",
+      "ms": 0.057856,
+      "calls_per_iter": 1.0,
+      "share": 0.00088
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMean_myl9_172",
+      "ms": 0.054613,
+      "calls_per_iter": 1.0,
+      "share": 0.000831
     },
     {
       "name": "/model/neck/input_blocks.2/Conv + /model/neck/Add_1",
-      "ms": 0.053623,
+      "ms": 0.053965,
       "calls_per_iter": 1.0,
-      "share": 0.000823
+      "share": 0.000821
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/res_blocks.2/res_blocks.2.0/layers/layers.2/Pad_4551",
-      "ms": 0.052429,
+      "ms": 0.052599,
       "calls_per_iter": 1.0,
-      "share": 0.000804
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to PWN(/model/neck/res_blocks.2/res_blocks.2.0/layers/layers.1/Relu)",
-      "ms": 0.052258,
-      "calls_per_iter": 1.0,
-      "share": 0.000802
+      "share": 0.0008
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to /model/points_head/res_blocks.2/res_blocks.2.0/layers/layers.2/Pad_3981",
-      "ms": 0.052224,
+      "ms": 0.052497,
       "calls_per_iter": 1.0,
-      "share": 0.000801
+      "share": 0.000798
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to /model/points_head/res_blocks.2/res_blocks.2.0/layers/layers.5/Pad_4038",
-      "ms": 0.051951,
+      "ms": 0.052087,
       "calls_per_iter": 1.0,
-      "share": 0.000797
+      "share": 0.000792
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/res_blocks.2/res_blocks.2.0/layers/layers.5/Pad_4608",
-      "ms": 0.051883,
+      "ms": 0.052087,
       "calls_per_iter": 1.0,
-      "share": 0.000796
+      "share": 0.000792
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/res_blocks.2/res_blocks.2.0/layers/layers.5/Conv + /model/mask_head/res_blocks.2/res_blocks.2.0/Add",
-      "ms": 0.051575,
+      "name": "Reformatting CopyNode for Input Tensor 0 to PWN(/model/neck/res_blocks.2/res_blocks.2.0/layers/layers.1/Relu)",
+      "ms": 0.051849,
       "calls_per_iter": 1.0,
-      "share": 0.000791
+      "share": 0.000788
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/res_blocks.2/res_blocks.2.0/layers/layers.2/Conv + /model/mask_head/res_blocks.2/res_blocks.2.0/layers/layers.4/Relu",
-      "ms": 0.051337,
-      "calls_per_iter": 1.0,
-      "share": 0.000787
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/points_head/res_blocks.2/res_blocks.2.0/layers/layers.2/Conv + /model/points_head/res_blocks.2/res_blocks.2.0/layers/layers.4/Relu",
-      "ms": 0.051302,
-      "calls_per_iter": 1.0,
-      "share": 0.000787
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/points_head/res_blocks.2/res_blocks.2.0/layers/layers.5/Conv + /model/points_head/res_blocks.2/res_blocks.2.0/Add",
-      "ms": 0.051268,
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/resamplers.1/resamplers.1.1/Pad_4494",
+      "ms": 0.051712,
       "calls_per_iter": 1.0,
       "share": 0.000786
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.2/res_blocks.2.1/layers/layers.5/Pad_3354",
-      "ms": 0.0512,
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/res_blocks.2/res_blocks.2.0/layers/layers.5/Conv + /model/mask_head/res_blocks.2/res_blocks.2.0/Add",
+      "ms": 0.051644,
       "calls_per_iter": 1.0,
       "share": 0.000785
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/resamplers.1/resamplers.1.1/Conv",
-      "ms": 0.051098,
-      "calls_per_iter": 1.0,
-      "share": 0.000784
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.2/res_blocks.2.0/layers/layers.2/Conv + /model/neck/res_blocks.2/res_blocks.2.0/layers/layers.4/Relu",
-      "ms": 0.051063,
-      "calls_per_iter": 1.0,
-      "share": 0.000783
-    },
-    {
       "name": "Reformatting CopyNode for Input Tensor 0 to /model/points_head/resamplers.1/resamplers.1.1/Pad_3924",
-      "ms": 0.051063,
-      "calls_per_iter": 1.0,
-      "share": 0.000783
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/resamplers.1/resamplers.1.1/Pad_4494",
-      "ms": 0.051063,
-      "calls_per_iter": 1.0,
-      "share": 0.000783
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.2/res_blocks.2.0/layers/layers.5/Pad_3240",
-      "ms": 0.051029,
-      "calls_per_iter": 1.0,
-      "share": 0.000783
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/points_head/resamplers.1/resamplers.1.1/Conv",
-      "ms": 0.051029,
-      "calls_per_iter": 1.0,
-      "share": 0.000783
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/resamplers.1/resamplers.1.1/Conv",
-      "ms": 0.050961,
+      "ms": 0.051439,
       "calls_per_iter": 1.0,
       "share": 0.000782
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.2/res_blocks.2.1/layers/layers.2/Pad_3297",
-      "ms": 0.050893,
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/points_head/res_blocks.2/res_blocks.2.0/layers/layers.2/Conv + /model/points_head/res_blocks.2/res_blocks.2.0/layers/layers.4/Relu",
+      "ms": 0.051371,
       "calls_per_iter": 1.0,
       "share": 0.000781
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/points_head/res_blocks.2/res_blocks.2.0/layers/layers.5/Conv + /model/points_head/res_blocks.2/res_blocks.2.0/Add",
+      "ms": 0.051371,
+      "calls_per_iter": 1.0,
+      "share": 0.000781
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/res_blocks.2/res_blocks.2.0/layers/layers.2/Conv + /model/mask_head/res_blocks.2/res_blocks.2.0/layers/layers.4/Relu",
+      "ms": 0.051371,
+      "calls_per_iter": 1.0,
+      "share": 0.000781
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.2/res_blocks.2.1/layers/layers.5/Pad_3354",
+      "ms": 0.051098,
+      "calls_per_iter": 1.0,
+      "share": 0.000777
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.2/res_blocks.2.0/layers/layers.5/Pad_3240",
+      "ms": 0.051063,
+      "calls_per_iter": 1.0,
+      "share": 0.000777
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/resamplers.1/resamplers.1.1/Conv",
+      "ms": 0.050995,
+      "calls_per_iter": 1.0,
+      "share": 0.000775
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.2/res_blocks.2.1/layers/layers.2/Pad_3297",
+      "ms": 0.050995,
+      "calls_per_iter": 1.0,
+      "share": 0.000775
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/resamplers.1/resamplers.1.1/Pad_3126",
+      "ms": 0.050961,
+      "calls_per_iter": 1.0,
+      "share": 0.000775
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.2/res_blocks.2.0/layers/layers.2/Conv + /model/neck/res_blocks.2/res_blocks.2.0/layers/layers.4/Relu",
+      "ms": 0.050961,
+      "calls_per_iter": 1.0,
+      "share": 0.000775
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/points_head/resamplers.1/resamplers.1.1/Conv",
+      "ms": 0.050825,
+      "calls_per_iter": 1.0,
+      "share": 0.000773
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.2/res_blocks.2.0/layers/layers.5/Conv + /model/neck/res_blocks.2/res_blocks.2.0/Add + PWN(/model/neck/res_blocks.2/res_blocks.2.1/layers/layers.1/Relu)",
+      "ms": 0.050756,
+      "calls_per_iter": 1.0,
+      "share": 0.000772
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.2/res_blocks.2.1/layers/layers.5/Conv + /model/neck/res_blocks.2/res_blocks.2.1/Add",
       "ms": 0.050756,
       "calls_per_iter": 1.0,
-      "share": 0.000779
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/resamplers.1/resamplers.1.1/Pad_3126",
-      "ms": 0.050688,
-      "calls_per_iter": 1.0,
-      "share": 0.000777
+      "share": 0.000772
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.2/res_blocks.2.1/layers/layers.2/Conv + /model/neck/res_blocks.2/res_blocks.2.1/layers/layers.4/Relu",
       "ms": 0.050688,
       "calls_per_iter": 1.0,
-      "share": 0.000777
+      "share": 0.000771
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.2/res_blocks.2.0/layers/layers.5/Conv + /model/neck/res_blocks.2/res_blocks.2.0/Add + PWN(/model/neck/res_blocks.2/res_blocks.2.1/layers/layers.1/Relu)",
-      "ms": 0.050654,
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/resamplers.1/resamplers.1.1/Conv",
+      "ms": 0.050688,
       "calls_per_iter": 1.0,
-      "share": 0.000777
+      "share": 0.000771
     },
     {
       "name": "__myl_ReshTranConcTranReshConcAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_1",
-      "ms": 0.049289,
+      "ms": 0.049152,
       "calls_per_iter": 1.0,
-      "share": 0.000756
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_83",
-      "ms": 0.049118,
-      "calls_per_iter": 1.0,
-      "share": 0.000753
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_148",
-      "ms": 0.049015,
-      "calls_per_iter": 1.0,
-      "share": 0.000752
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_5",
-      "ms": 0.048981,
-      "calls_per_iter": 1.0,
-      "share": 0.000751
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_155",
-      "ms": 0.048981,
-      "calls_per_iter": 1.0,
-      "share": 0.000751
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_19",
-      "ms": 0.048913,
-      "calls_per_iter": 1.0,
-      "share": 0.00075
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_62",
-      "ms": 0.048913,
-      "calls_per_iter": 1.0,
-      "share": 0.00075
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_76",
-      "ms": 0.048879,
-      "calls_per_iter": 1.0,
-      "share": 0.00075
+      "share": 0.000747
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_134",
+      "ms": 0.049152,
+      "calls_per_iter": 1.0,
+      "share": 0.000747
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_55",
+      "ms": 0.049118,
+      "calls_per_iter": 1.0,
+      "share": 0.000747
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_91",
+      "ms": 0.04905,
+      "calls_per_iter": 1.0,
+      "share": 0.000746
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_48",
+      "ms": 0.049015,
+      "calls_per_iter": 1.0,
+      "share": 0.000745
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_141",
+      "ms": 0.048913,
+      "calls_per_iter": 1.0,
+      "share": 0.000744
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_148",
+      "ms": 0.048913,
+      "calls_per_iter": 1.0,
+      "share": 0.000744
+    },
+    {
+      "name": "PWN(/model/neck/res_blocks.2/res_blocks.2.0/layers/layers.1/Relu)",
+      "ms": 0.048913,
+      "calls_per_iter": 1.0,
+      "share": 0.000744
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_26",
       "ms": 0.048879,
       "calls_per_iter": 1.0,
-      "share": 0.00075
+      "share": 0.000743
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_105",
+      "ms": 0.048845,
+      "calls_per_iter": 1.0,
+      "share": 0.000743
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_126",
+      "ms": 0.048845,
+      "calls_per_iter": 1.0,
+      "share": 0.000743
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_5",
+      "ms": 0.048811,
+      "calls_per_iter": 1.0,
+      "share": 0.000742
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_12",
+      "ms": 0.048811,
+      "calls_per_iter": 1.0,
+      "share": 0.000742
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_83",
+      "ms": 0.048811,
+      "calls_per_iter": 1.0,
+      "share": 0.000742
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_112",
       "ms": 0.048811,
       "calls_per_iter": 1.0,
-      "share": 0.000749
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_119",
-      "ms": 0.048811,
-      "calls_per_iter": 1.0,
-      "share": 0.000749
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_169",
-      "ms": 0.048811,
-      "calls_per_iter": 1.0,
-      "share": 0.000749
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_91",
-      "ms": 0.048742,
-      "calls_per_iter": 1.0,
-      "share": 0.000748
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_48",
-      "ms": 0.048708,
-      "calls_per_iter": 1.0,
-      "share": 0.000747
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_98",
-      "ms": 0.048708,
-      "calls_per_iter": 1.0,
-      "share": 0.000747
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_26",
-      "ms": 0.048674,
-      "calls_per_iter": 1.0,
-      "share": 0.000747
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_40",
-      "ms": 0.048674,
-      "calls_per_iter": 1.0,
-      "share": 0.000747
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_105",
-      "ms": 0.048674,
-      "calls_per_iter": 1.0,
-      "share": 0.000747
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_126",
-      "ms": 0.048674,
-      "calls_per_iter": 1.0,
-      "share": 0.000747
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_12",
-      "ms": 0.04864,
-      "calls_per_iter": 1.0,
-      "share": 0.000746
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_55",
-      "ms": 0.04864,
-      "calls_per_iter": 1.0,
-      "share": 0.000746
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_69",
-      "ms": 0.04864,
-      "calls_per_iter": 1.0,
-      "share": 0.000746
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_141",
-      "ms": 0.04864,
-      "calls_per_iter": 1.0,
-      "share": 0.000746
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_33",
-      "ms": 0.048606,
-      "calls_per_iter": 1.0,
-      "share": 0.000746
-    },
-    {
-      "name": "PWN(/model/neck/res_blocks.2/res_blocks.2.0/layers/layers.1/Relu)",
-      "ms": 0.048572,
-      "calls_per_iter": 1.0,
-      "share": 0.000745
+      "share": 0.000742
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_162",
-      "ms": 0.048538,
+      "ms": 0.048811,
       "calls_per_iter": 1.0,
-      "share": 0.000745
+      "share": 0.000742
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_19",
+      "ms": 0.048777,
+      "calls_per_iter": 1.0,
+      "share": 0.000742
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_98",
+      "ms": 0.048777,
+      "calls_per_iter": 1.0,
+      "share": 0.000742
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_62",
+      "ms": 0.048742,
+      "calls_per_iter": 1.0,
+      "share": 0.000741
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_76",
+      "ms": 0.048742,
+      "calls_per_iter": 1.0,
+      "share": 0.000741
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_119",
+      "ms": 0.048742,
+      "calls_per_iter": 1.0,
+      "share": 0.000741
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_155",
+      "ms": 0.048742,
+      "calls_per_iter": 1.0,
+      "share": 0.000741
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_40",
+      "ms": 0.048606,
+      "calls_per_iter": 1.0,
+      "share": 0.000739
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_33",
+      "ms": 0.048572,
+      "calls_per_iter": 1.0,
+      "share": 0.000739
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_69",
+      "ms": 0.048572,
+      "calls_per_iter": 1.0,
+      "share": 0.000739
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_169",
+      "ms": 0.048572,
+      "calls_per_iter": 1.0,
+      "share": 0.000739
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_65",
+      "ms": 0.047445,
+      "calls_per_iter": 1.0,
+      "share": 0.000722
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_58",
+      "ms": 0.047411,
+      "calls_per_iter": 1.0,
+      "share": 0.000721
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_122",
       "ms": 0.047411,
       "calls_per_iter": 1.0,
-      "share": 0.000727
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_51",
-      "ms": 0.047343,
-      "calls_per_iter": 1.0,
-      "share": 0.000726
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_79",
-      "ms": 0.047343,
-      "calls_per_iter": 1.0,
-      "share": 0.000726
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_165",
-      "ms": 0.047309,
-      "calls_per_iter": 1.0,
-      "share": 0.000726
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_15",
-      "ms": 0.047275,
-      "calls_per_iter": 1.0,
-      "share": 0.000725
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_36",
-      "ms": 0.047275,
-      "calls_per_iter": 1.0,
-      "share": 0.000725
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_144",
-      "ms": 0.047241,
-      "calls_per_iter": 1.0,
-      "share": 0.000725
+      "share": 0.000721
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_151",
+      "ms": 0.047411,
+      "calls_per_iter": 1.0,
+      "share": 0.000721
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_137",
+      "ms": 0.047377,
+      "calls_per_iter": 1.0,
+      "share": 0.00072
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_144",
+      "ms": 0.047343,
+      "calls_per_iter": 1.0,
+      "share": 0.00072
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_165",
+      "ms": 0.047275,
+      "calls_per_iter": 1.0,
+      "share": 0.000719
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_15",
       "ms": 0.047241,
       "calls_per_iter": 1.0,
-      "share": 0.000725
+      "share": 0.000718
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_79",
+      "ms": 0.047241,
+      "calls_per_iter": 1.0,
+      "share": 0.000718
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_158",
+      "ms": 0.047241,
+      "calls_per_iter": 1.0,
+      "share": 0.000718
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_72",
+      "ms": 0.047206,
+      "calls_per_iter": 1.0,
+      "share": 0.000718
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_108",
       "ms": 0.047206,
       "calls_per_iter": 1.0,
-      "share": 0.000724
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_137",
-      "ms": 0.047206,
-      "calls_per_iter": 1.0,
-      "share": 0.000724
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_29",
-      "ms": 0.047172,
-      "calls_per_iter": 1.0,
-      "share": 0.000724
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_101",
-      "ms": 0.047172,
-      "calls_per_iter": 1.0,
-      "share": 0.000724
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_58",
-      "ms": 0.047138,
-      "calls_per_iter": 1.0,
-      "share": 0.000723
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_158",
-      "ms": 0.047104,
-      "calls_per_iter": 1.0,
-      "share": 0.000723
+      "share": 0.000718
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_22",
-      "ms": 0.047036,
+      "ms": 0.047172,
       "calls_per_iter": 1.0,
-      "share": 0.000721
+      "share": 0.000717
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_94",
-      "ms": 0.047002,
+      "ms": 0.047172,
       "calls_per_iter": 1.0,
-      "share": 0.000721
+      "share": 0.000717
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_115",
-      "ms": 0.046967,
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_51",
+      "ms": 0.047138,
       "calls_per_iter": 1.0,
-      "share": 0.00072
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_65",
-      "ms": 0.046933,
-      "calls_per_iter": 1.0,
-      "share": 0.00072
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_72",
-      "ms": 0.046899,
-      "calls_per_iter": 1.0,
-      "share": 0.000719
+      "share": 0.000717
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_8",
-      "ms": 0.046865,
+      "ms": 0.047104,
       "calls_per_iter": 1.0,
-      "share": 0.000719
+      "share": 0.000716
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_29",
+      "ms": 0.047104,
+      "calls_per_iter": 1.0,
+      "share": 0.000716
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_115",
+      "ms": 0.047036,
+      "calls_per_iter": 1.0,
+      "share": 0.000715
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_36",
+      "ms": 0.047002,
+      "calls_per_iter": 1.0,
+      "share": 0.000715
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl9_101",
+      "ms": 0.047002,
+      "calls_per_iter": 1.0,
+      "share": 0.000715
     },
     {
       "name": "__myl_AddSqrtDivMulCastMulAddTranSlicTranReshSlic_myl9_173",
-      "ms": 0.04055,
+      "ms": 0.040482,
       "calls_per_iter": 1.0,
-      "share": 0.000622
-    },
-    {
-      "name": "/model/encoder/Unsqueeze_15_copy_output",
-      "ms": 0.040311,
-      "calls_per_iter": 1.0,
-      "share": 0.000618
+      "share": 0.000616
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 1 to {ForeignNode[/model/encoder/blocks.23/attn/Slice_output_0[Constant].../model/Exp_1]}",
-      "ms": 0.039765,
+      "ms": 0.039799,
       "calls_per_iter": 1.0,
-      "share": 0.00061
+      "share": 0.000605
+    },
+    {
+      "name": "/model/encoder/Unsqueeze_15_copy_output",
+      "ms": 0.039799,
+      "calls_per_iter": 1.0,
+      "share": 0.000605
     },
     {
       "name": "/model/encoder/Unsqueeze_14_copy_output",
-      "ms": 0.039765,
+      "ms": 0.039663,
       "calls_per_iter": 1.0,
-      "share": 0.00061
-    },
-    {
-      "name": "/model/encoder/Unsqueeze_13_copy_output",
-      "ms": 0.039731,
-      "calls_per_iter": 1.0,
-      "share": 0.000609
+      "share": 0.000603
     },
     {
       "name": "/model/encoder/Unsqueeze_16_copy_output",
-      "ms": 0.039595,
+      "ms": 0.039663,
       "calls_per_iter": 1.0,
-      "share": 0.000607
+      "share": 0.000603
+    },
+    {
+      "name": "/model/encoder/Unsqueeze_13_copy_output",
+      "ms": 0.039629,
+      "calls_per_iter": 1.0,
+      "share": 0.000603
     },
     {
       "name": "/model/neck/res_blocks.1/res_blocks.1.0/layers/layers.2/Pad_2898",
-      "ms": 0.039014,
+      "ms": 0.039151,
       "calls_per_iter": 1.0,
-      "share": 0.000598
+      "share": 0.000595
     },
     {
-      "name": "/model/neck/res_blocks.1/res_blocks.1.0/layers/layers.5/Pad_2955",
-      "ms": 0.038434,
+      "name": "/model/mask_head/resamplers.0/resamplers.0.1/Pad_4323",
+      "ms": 0.03898,
       "calls_per_iter": 1.0,
-      "share": 0.00059
+      "share": 0.000593
     },
     {
       "name": "/model/neck/resamplers.0/resamplers.0.1/Pad_2841",
-      "ms": 0.038366,
+      "ms": 0.038639,
       "calls_per_iter": 1.0,
       "share": 0.000588
     },
     {
-      "name": "/model/neck/res_blocks.1/res_blocks.1.1/layers/layers.2/Pad_3012",
-      "ms": 0.038263,
+      "name": "/model/neck/res_blocks.1/res_blocks.1.0/layers/layers.5/Pad_2955",
+      "ms": 0.038605,
       "calls_per_iter": 1.0,
       "share": 0.000587
     },
     {
-      "name": "/model/points_head/res_blocks.1/res_blocks.1.0/layers/layers.5/Pad_3867",
-      "ms": 0.03799,
-      "calls_per_iter": 1.0,
-      "share": 0.000583
-    },
-    {
-      "name": "/model/points_head/resamplers.0/resamplers.0.1/Pad_3753",
-      "ms": 0.037922,
-      "calls_per_iter": 1.0,
-      "share": 0.000582
-    },
-    {
       "name": "/model/mask_head/res_blocks.1/res_blocks.1.0/layers/layers.5/Pad_4437",
-      "ms": 0.037922,
+      "ms": 0.038502,
+      "calls_per_iter": 1.0,
+      "share": 0.000586
+    },
+    {
+      "name": "/model/points_head/res_blocks.1/res_blocks.1.0/layers/layers.2/Pad_3810",
+      "ms": 0.0384,
+      "calls_per_iter": 1.0,
+      "share": 0.000584
+    },
+    {
+      "name": "/model/neck/res_blocks.1/res_blocks.1.1/layers/layers.2/Pad_3012",
+      "ms": 0.038298,
       "calls_per_iter": 1.0,
       "share": 0.000582
     },
     {
       "name": "/model/neck/res_blocks.1/res_blocks.1.1/layers/layers.5/Pad_3069",
-      "ms": 0.037854,
+      "ms": 0.038298,
       "calls_per_iter": 1.0,
-      "share": 0.000581
+      "share": 0.000582
     },
     {
-      "name": "/model/mask_head/resamplers.0/resamplers.0.1/Pad_4323",
-      "ms": 0.037786,
+      "name": "/model/points_head/resamplers.0/resamplers.0.1/Pad_3753",
+      "ms": 0.038298,
+      "calls_per_iter": 1.0,
+      "share": 0.000582
+    },
+    {
+      "name": "/model/points_head/res_blocks.1/res_blocks.1.0/layers/layers.5/Pad_3867",
+      "ms": 0.038298,
+      "calls_per_iter": 1.0,
+      "share": 0.000582
+    },
+    {
+      "name": "/model/mask_head/res_blocks.1/res_blocks.1.0/layers/layers.2/Pad_4380",
+      "ms": 0.038161,
       "calls_per_iter": 1.0,
       "share": 0.00058
     },
     {
-      "name": "/model/mask_head/res_blocks.1/res_blocks.1.0/layers/layers.2/Pad_4380",
-      "ms": 0.037717,
-      "calls_per_iter": 1.0,
-      "share": 0.000579
-    },
-    {
-      "name": "/model/points_head/res_blocks.1/res_blocks.1.0/layers/layers.2/Pad_3810",
-      "ms": 0.037649,
-      "calls_per_iter": 1.0,
-      "share": 0.000577
-    },
-    {
       "name": "/model/encoder/ReduceSum_output_0 copy",
-      "ms": 0.037444,
+      "ms": 0.037513,
       "calls_per_iter": 1.0,
-      "share": 0.000574
-    },
-    {
-      "name": "/model/scale_head/scale_head.2/Gemm_myl9_175",
-      "ms": 0.033929,
-      "calls_per_iter": 1.0,
-      "share": 0.00052
+      "share": 0.00057
     },
     {
       "name": "PWN(PWN(/model/encoder/Sub), PWN(/model/encoder/Div))",
-      "ms": 0.033109,
+      "ms": 0.032836,
       "calls_per_iter": 1.0,
-      "share": 0.000508
+      "share": 0.000499
     },
     {
       "name": "/model/neck/input_blocks.1/Conv + /model/neck/Add",
-      "ms": 0.03113,
+      "ms": 0.031164,
       "calls_per_iter": 1.0,
-      "share": 0.000477
+      "share": 0.000474
     },
     {
       "name": "/model/Resize",
-      "ms": 0.030447,
+      "ms": 0.030345,
       "calls_per_iter": 1.0,
-      "share": 0.000467
+      "share": 0.000461
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/resamplers.0/resamplers.0.1/Conv",
-      "ms": 0.029798,
+      "name": "/model/scale_head/scale_head.2/Gemm_myl9_175",
+      "ms": 0.030242,
       "calls_per_iter": 1.0,
-      "share": 0.000457
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/points_head/res_blocks.1/res_blocks.1.0/layers/layers.2/Conv + /model/points_head/res_blocks.1/res_blocks.1.0/layers/layers.4/Relu",
-      "ms": 0.029696,
-      "calls_per_iter": 1.0,
-      "share": 0.000456
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/points_head/resamplers.0/resamplers.0.1/Conv",
-      "ms": 0.029389,
-      "calls_per_iter": 1.0,
-      "share": 0.000451
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.1/res_blocks.1.1/layers/layers.2/Conv + /model/neck/res_blocks.1/res_blocks.1.1/layers/layers.4/Relu",
-      "ms": 0.029355,
-      "calls_per_iter": 1.0,
-      "share": 0.00045
+      "share": 0.00046
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to /model/points_head/res_blocks.1/res_blocks.1.0/layers/layers.5/Conv + /model/points_head/res_blocks.1/res_blocks.1.0/Add",
-      "ms": 0.029355,
+      "ms": 0.029389,
       "calls_per_iter": 1.0,
-      "share": 0.00045
+      "share": 0.000447
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/res_blocks.1/res_blocks.1.0/layers/layers.2/Conv + /model/mask_head/res_blocks.1/res_blocks.1.0/layers/layers.4/Relu",
       "ms": 0.029355,
       "calls_per_iter": 1.0,
-      "share": 0.00045
+      "share": 0.000446
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.1/res_blocks.1.0/layers/layers.2/Conv + /model/neck/res_blocks.1/res_blocks.1.0/layers/layers.4/Relu",
       "ms": 0.029252,
       "calls_per_iter": 1.0,
-      "share": 0.000449
+      "share": 0.000445
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/res_blocks.1/res_blocks.1.0/layers/layers.5/Conv + /model/mask_head/res_blocks.1/res_blocks.1.0/Add",
-      "ms": 0.02915,
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/points_head/resamplers.0/resamplers.0.1/Conv",
+      "ms": 0.029252,
       "calls_per_iter": 1.0,
-      "share": 0.000447
+      "share": 0.000445
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/resamplers.0/resamplers.0.1/Conv",
+      "ms": 0.029252,
+      "calls_per_iter": 1.0,
+      "share": 0.000445
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.1/res_blocks.1.1/layers/layers.5/Conv + /model/neck/res_blocks.1/res_blocks.1.1/Add",
-      "ms": 0.029082,
+      "ms": 0.029218,
       "calls_per_iter": 1.0,
-      "share": 0.000446
+      "share": 0.000444
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.1/res_blocks.1.0/layers/layers.5/Conv + /model/neck/res_blocks.1/res_blocks.1.0/Add + PWN(/model/neck/res_blocks.1/res_blocks.1.1/layers/layers.1/Relu)",
-      "ms": 0.029047,
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.1/res_blocks.1.1/layers/layers.2/Conv + /model/neck/res_blocks.1/res_blocks.1.1/layers/layers.4/Relu",
+      "ms": 0.029184,
       "calls_per_iter": 1.0,
-      "share": 0.000446
+      "share": 0.000444
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to /model/points_head/res_blocks.1/res_blocks.1.0/layers/layers.2/Pad_3810",
-      "ms": 0.028809,
+      "ms": 0.029116,
       "calls_per_iter": 1.0,
-      "share": 0.000442
+      "share": 0.000443
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.1/res_blocks.1.1/layers/layers.2/Pad_3012",
-      "ms": 0.02874,
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.1/res_blocks.1.0/layers/layers.5/Conv + /model/neck/res_blocks.1/res_blocks.1.0/Add + PWN(/model/neck/res_blocks.1/res_blocks.1.1/layers/layers.1/Relu)",
+      "ms": 0.029013,
       "calls_per_iter": 1.0,
       "share": 0.000441
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/res_blocks.1/res_blocks.1.0/layers/layers.2/Pad_4380",
-      "ms": 0.028672,
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.1/res_blocks.1.1/layers/layers.2/Pad_3012",
+      "ms": 0.029013,
       "calls_per_iter": 1.0,
-      "share": 0.00044
+      "share": 0.000441
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/resamplers.0/resamplers.0.1/Conv",
-      "ms": 0.028638,
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/res_blocks.1/res_blocks.1.0/layers/layers.5/Conv + /model/mask_head/res_blocks.1/res_blocks.1.0/Add",
+      "ms": 0.029013,
+      "calls_per_iter": 1.0,
+      "share": 0.000441
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/points_head/res_blocks.1/res_blocks.1.0/layers/layers.2/Conv + /model/points_head/res_blocks.1/res_blocks.1.0/layers/layers.4/Relu",
+      "ms": 0.028877,
       "calls_per_iter": 1.0,
       "share": 0.000439
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/resamplers.0/resamplers.0.1/Pad_4323",
-      "ms": 0.02857,
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/resamplers.0/resamplers.0.1/Conv",
+      "ms": 0.028809,
       "calls_per_iter": 1.0,
       "share": 0.000438
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/res_blocks.1/res_blocks.1.0/layers/layers.5/Pad_4437",
-      "ms": 0.028365,
-      "calls_per_iter": 1.0,
-      "share": 0.000435
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/points_head/res_blocks.1/res_blocks.1.0/layers/layers.5/Pad_3867",
-      "ms": 0.028331,
-      "calls_per_iter": 1.0,
-      "share": 0.000435
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/points_head/resamplers.0/resamplers.0.1/Pad_3753",
-      "ms": 0.028194,
-      "calls_per_iter": 1.0,
-      "share": 0.000432
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.1/res_blocks.1.0/layers/layers.5/Pad_2955",
-      "ms": 0.02816,
-      "calls_per_iter": 1.0,
-      "share": 0.000432
-    },
-    {
       "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/resamplers.0/resamplers.0.1/Pad_2841",
-      "ms": 0.028058,
+      "ms": 0.028774,
       "calls_per_iter": 1.0,
-      "share": 0.00043
+      "share": 0.000438
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/res_blocks.1/res_blocks.1.0/layers/layers.2/Pad_4380",
+      "ms": 0.02874,
+      "calls_per_iter": 1.0,
+      "share": 0.000437
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to PWN(/model/neck/res_blocks.1/res_blocks.1.0/layers/layers.1/Relu)",
-      "ms": 0.028023,
+      "ms": 0.028706,
+      "calls_per_iter": 1.0,
+      "share": 0.000437
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.1/res_blocks.1.0/layers/layers.5/Pad_2955",
+      "ms": 0.028706,
+      "calls_per_iter": 1.0,
+      "share": 0.000437
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/points_head/res_blocks.1/res_blocks.1.0/layers/layers.5/Pad_3867",
+      "ms": 0.028604,
+      "calls_per_iter": 1.0,
+      "share": 0.000435
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/resamplers.0/resamplers.0.1/Pad_4323",
+      "ms": 0.028604,
+      "calls_per_iter": 1.0,
+      "share": 0.000435
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.1/res_blocks.1.1/layers/layers.5/Pad_3069",
+      "ms": 0.02857,
+      "calls_per_iter": 1.0,
+      "share": 0.000434
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/points_head/resamplers.0/resamplers.0.1/Pad_3753",
+      "ms": 0.028535,
+      "calls_per_iter": 1.0,
+      "share": 0.000434
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to /model/mask_head/res_blocks.1/res_blocks.1.0/layers/layers.5/Pad_4437",
+      "ms": 0.028501,
+      "calls_per_iter": 1.0,
+      "share": 0.000433
+    },
+    {
+      "name": "PWN(/model/neck/res_blocks.1/res_blocks.1.0/layers/layers.1/Relu)",
+      "ms": 0.028297,
       "calls_per_iter": 1.0,
       "share": 0.00043
     },
     {
-      "name": "PWN(/model/neck/res_blocks.1/res_blocks.1.0/layers/layers.1/Relu)",
-      "ms": 0.027989,
-      "calls_per_iter": 1.0,
-      "share": 0.000429
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to /model/neck/res_blocks.1/res_blocks.1.1/layers/layers.5/Pad_3069",
-      "ms": 0.027955,
-      "calls_per_iter": 1.0,
-      "share": 0.000429
-    },
-    {
       "name": "Reformatting CopyNode for Input Tensor 0 to /model/encoder/patch_embed/proj/Conv",
-      "ms": 0.027785,
+      "ms": 0.028126,
       "calls_per_iter": 1.0,
-      "share": 0.000426
+      "share": 0.000428
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to /model/Resize_1",
-      "ms": 0.017647,
+      "ms": 0.017545,
       "calls_per_iter": 1.0,
-      "share": 0.000271
+      "share": 0.000267
     },
     {
       "name": "/model/Transpose_5",
-      "ms": 0.013073,
+      "ms": 0.013312,
       "calls_per_iter": 1.0,
-      "share": 0.000201
-    },
-    {
-      "name": "/model/Exp_output_0 copy",
-      "ms": 0.011332,
-      "calls_per_iter": 1.0,
-      "share": 0.000174
+      "share": 0.000202
     },
     {
       "name": "/model/scale_head/scale_head.0/Gemm_myl9_174",
-      "ms": 0.011196,
+      "ms": 0.011059,
       "calls_per_iter": 1.0,
-      "share": 0.000172
+      "share": 0.000168
+    },
+    {
+      "name": "/model/Exp_output_0 copy",
+      "ms": 0.01082,
+      "calls_per_iter": 1.0,
+      "share": 0.000165
+    },
+    {
+      "name": "PWN(/model/Mul_43)",
+      "ms": 0.01024,
+      "calls_per_iter": 1.0,
+      "share": 0.000156
     },
     {
       "name": "/model/Mul_43_output_0 copy",
       "ms": 0.010103,
       "calls_per_iter": 1.0,
-      "share": 0.000155
-    },
-    {
-      "name": "PWN(/model/Mul_43)",
-      "ms": 0.010069,
-      "calls_per_iter": 1.0,
       "share": 0.000154
     },
     {
-      "name": "__myl_MulSumAddReshExpCast_myl9_176",
-      "ms": 0.009455,
+      "name": "PWN(/model/Exp)",
+      "ms": 0.009489,
       "calls_per_iter": 1.0,
-      "share": 0.000145
+      "share": 0.000144
     },
     {
       "name": "/model/Resize_1",
-      "ms": 0.009421,
+      "ms": 0.009387,
       "calls_per_iter": 1.0,
-      "share": 0.000145
-    },
-    {
-      "name": "PWN(/model/Exp)",
-      "ms": 0.009045,
-      "calls_per_iter": 1.0,
-      "share": 0.000139
+      "share": 0.000143
     },
     {
       "name": "/model/Expand_2_output_0 copy",
-      "ms": 0.007987,
+      "ms": 0.008158,
       "calls_per_iter": 1.0,
-      "share": 0.000123
+      "share": 0.000124
     },
     {
       "name": "PWN(/model/Sigmoid)",
-      "ms": 0.00727,
+      "ms": 0.007339,
       "calls_per_iter": 1.0,
       "share": 0.000112
+    },
+    {
+      "name": "__myl_MulSumAddReshExpCast_myl9_176",
+      "ms": 0.006861,
+      "calls_per_iter": 1.0,
+      "share": 0.000104
     },
     {
       "name": "model.encoder.image_mean",
