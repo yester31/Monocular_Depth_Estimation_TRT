@@ -123,7 +123,10 @@ def main():
         # character raises inside print and buries the real output.
         print(f"\n=== {model} | {args.stage} | env {env}"
               f"{'' if prefix else '  (not on this machine)'}")
-        print("    " + " ".join(cmd) + f"   (in models/{model})")
+        # flush: the child writes to the same stream unbuffered, so without
+        # this the header for each model arrives after that model's output --
+        # which in a twelve-model sweep means every heading is off by one.
+        print("    " + " ".join(cmd) + f"   (in models/{model})", flush=True)
         if args.dry_run:
             continue
         # PYTHONUTF8: several scripts print characters cp949 cannot encode, and
