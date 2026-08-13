@@ -1,0 +1,77 @@
+[
+  {
+    "model": "metric_anything",
+    "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\metric_anything\\onnx\\metric_anything_388x518.onnx",
+    "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\metric_anything\\engine\\tune\\metric_anything_388x518_fp16_as_fp32_optd_wsd.engine",
+    "precision": "fp32",
+    "opt_level": null,
+    "workspace_gib": null,
+    "repeat": 1,
+    "stats": {
+      "iterations": 100,
+      "warmup": 0,
+      "mean_ms": 304.053,
+      "min_ms": 301.4551,
+      "p50_ms": 304.0665,
+      "p90_ms": 305.8147,
+      "p99_ms": 306.54,
+      "max_ms": 306.5921,
+      "stdev_ms": 1.3745,
+      "fps": 3.29
+    },
+    "environment": {
+      "versions": {
+        "torch": "2.11.0+cu128",
+        "cuda": "12.8",
+        "tensorrt": "10.16.1.11",
+        "python": "3.11.15"
+      },
+      "device": "NVIDIA GeForce RTX 3080",
+      "driver": "591.86",
+      "clock_mhz": 1800,
+      "clock_max_mhz": 2130
+    },
+    "profile_summary": {
+      "layers_profiled": 422,
+      "layers_in_engine": 422,
+      "profile_total_ms": 305.2186,
+      "benchmark_mean_ms": null,
+      "top10_share": 0.1086,
+      "fp32_output_share": 1.0,
+      "movement_share": 0.0205,
+      "layer_types": {
+        "gemm": 146,
+        "kgen": 109,
+        "CaskConvolution": 51,
+        "Slice": 36,
+        "NoOp": 22,
+        "PointWiseV2": 16,
+        "Reformat": 15,
+        "CaskDeconvolutionV2": 9,
+        "Resize": 7,
+        "CaskGemmConvolution": 6,
+        "Constant": 3,
+        "Reduce": 1,
+        "Shuffle": 1
+      },
+      "layer_precisions": {
+        "Float": 422
+      }
+    },
+    "layer_type_time_shares": {
+      "kgen": 0.2917670000000008,
+      "gemm": 0.5621009999999996,
+      "CaskConvolution": 0.09602300000000001,
+      "Slice": 0.018208999999999993,
+      "CaskGemmConvolution": 0.006775000000000001,
+      "Resize": 0.005925,
+      "CaskDeconvolutionV2": 0.01201,
+      "PointWiseV2": 0.004427999999999999,
+      "Reduce": 0.000469,
+      "Reformat": 0.0022449999999999996,
+      "Shuffle": 4.6e-05,
+      "Constant": 0.0,
+      "NoOp": 0.0
+    }
+  }
+]

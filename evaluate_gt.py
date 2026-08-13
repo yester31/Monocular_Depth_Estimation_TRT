@@ -291,11 +291,35 @@ def load_engine(path):
     return engine
 
 
-def score_model(model, manifest, root, runs, limit=None, diagnose=False):
+def tune_engine(run, precision):
+    """The engine tune_build wrote for this model at another precision.
+
+    P4 needs the same model scored twice, and the second engine deliberately
+    does not live where the first one does -- tune_build renames it so nothing
+    resolving the published engine by filename can pick it up. That renaming is
+    reproduced here rather than searched for, so a missing engine is a missing
+    engine and not a silently different one.
+    """
+    path = run.get("engine_path") or ""
+    stem, ext = os.path.splitext(os.path.basename(path))
+    candidate = os.path.join(os.path.dirname(path), "tune",
+                             f"{stem}_as_{precision}_optd_wsd{ext}")
+    return candidate if os.path.exists(candidate) else None
+
+
+def score_model(model, manifest, root, runs, limit=None, diagnose=False,
+                precision=None):
     import common
 
     run = runs[model]
-    engine = load_engine(run["engine_path"])
+    engine_path = run["engine_path"]
+    if precision and precision != run.get("precision"):
+        engine_path = tune_engine(run, precision)
+        if not engine_path:
+            return {"model": model,
+                    "skip": f"no {precision} engine built; run "
+                            f"tune_build.py {model} --precision {precision}"}
+    engine = load_engine(engine_path)
     sp = spec_mod.load_all()[model]
     policy = gt.policy_for(sp.get("depth_scale"))
     if policy is None:
@@ -410,8 +434,8 @@ def score_model(model, manifest, root, runs, limit=None, diagnose=False):
                 f"{agg['orientation_median']:+.3f} with true depth")
     agg.update(model=model, images=len(scored),
                pixels=int(sum(r["n"] for r in scored)),
-               alignment=policy, engine_path=run["engine_path"],
-               precision=run.get("precision"), samples=per_sample)
+               alignment=policy, engine_path=engine_path,
+               precision=precision or run.get("precision"), samples=per_sample)
     if fits:
         agg["fit_median"] = {k: float(np.median([f[k] for f in fits]))
                              for k in fits[0]}
@@ -466,6 +490,9 @@ def main():
     ap.add_argument("--root", default=None,
                     help="dataset root; default: the manifest's own directory tree")
     ap.add_argument("--limit", type=int, default=None, help="first N images only")
+    ap.add_argument("--precision", default=None,
+                    help="score the engine tune_build produced at this "
+                         "precision instead of the published one")
     ap.add_argument("--diagnose", action="store_true",
                     help="also report what the score would be under an alignment "
                          "the model does not claim, to tell a wrong scale from "
@@ -514,7 +541,8 @@ def main():
             results.append({"model": m, "skip": "engine not on this machine"})
             continue
         print(f"\n[{m}] scoring")
-        r = score_model(m, manifest, root, runs, args.limit, args.diagnose)
+        r = score_model(m, manifest, root, runs, args.limit, args.diagnose,
+                        args.precision)
         results.append(r)
         if r.get("skip"):
             print(f"  skipped: {r['skip']}")
@@ -534,10 +562,11 @@ def main():
 
     os.makedirs(OUT_DIR, exist_ok=True)
     for r in results:
-        with open(os.path.join(OUT_DIR, f"{r['model']}.json"), "w",
+        with open(os.path.join(OUT_DIR, f"{r['model']}{suffix}.json"), "w",
                   encoding="utf-8") as f:
             json.dump(r, f, indent=2)
-    out = os.path.join(ROOT, "reports", "gt.md")
+    suffix = f"_{args.precision}" if args.precision else ""
+    out = os.path.join(ROOT, "reports", f"gt{suffix}.md")
     with open(out, "w", encoding="utf-8") as f:
         f.write(render(results, manifest))
     print(f"\nwrote {os.path.relpath(out, ROOT)}")
