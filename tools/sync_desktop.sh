@@ -43,18 +43,23 @@ push_code() {
     git -C "$ROOT" status --short >&2
     exit 1
   fi
+  # Always collect first, even for a bare push. The one rule this script exists
+  # to enforce is that nothing touches the desktop's tree until its results are
+  # here, and a `push` that skipped it was a way to break that rule by hand.
+  pull_results
   echo "== sending $BRANCH to the desktop"
   git -C "$ROOT" bundle create "$BUNDLE" "$BRANCH" >/dev/null
   scp -i "$KEY" "$BUNDLE" "$HOST:$REMOTE/mde.bundle"
-  # Safe now: results were collected above, and anything the desktop changed
-  # in tracked files is either already here or was never wanted.
-  ssh_ "cd /d ${WORK//\//\\} && git checkout -- . & git pull ${REMOTE//\//\\}\\mde.bundle $BRANCH" \
+  # git clean under reports/: a result file the desktop wrote is untracked
+  # there and tracked in the incoming commit, and git refuses to overwrite it.
+  # Removing it is safe only because pull_results just copied it here -- which
+  # is why that call is above and not optional.
+  ssh_ "cd /d ${WORK//\//\\} && git checkout -- . & git clean -fdq reports & git pull ${REMOTE//\//\\}\\mde.bundle $BRANCH" \
     | tail -3
 }
 
 case "${1:-both}" in
   pull) pull_results ;;
-  push) push_code ;;
-  both) pull_results; push_code ;;
+  push|both) push_code ;;
   *) echo "usage: $0 [pull|push|both]" >&2; exit 2 ;;
 esac
