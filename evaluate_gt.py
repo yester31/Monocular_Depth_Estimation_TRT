@@ -175,10 +175,12 @@ def score_model(model, manifest, root, runs, limit=None, diagnose=False):
     # is affine in the space the model was trained in. There is no safe default,
     # so it is required rather than guessed, and checked against the data below.
     form = sp.get("output_form")
-    if policy == "scale_shift" and form not in ("depth", "inverse_depth"):
-        return {"model": model,
-                "skip": "spec.json must declare output_form as 'depth' or "
-                        "'inverse_depth' before a scale+shift fit means anything"}
+    # Undeclared is not scored -- but it is measured, so the run tells you what
+    # to declare instead of leaving you to guess the thing it just refused to
+    # guess for you. A few images settle a sign.
+    orientation_only = policy == "scale_shift" and form not in ("depth", "inverse_depth")
+    if orientation_only:
+        limit = min(limit or 5, 5)
     pred_is_inverse = form == "inverse_depth"
 
     per_sample, fits = [], []
@@ -200,6 +202,10 @@ def score_model(model, manifest, root, runs, limit=None, diagnose=False):
             g = g[..., 0] if g.ndim == 3 else g
             m = m[..., 0] if m.ndim == 3 else m
             m = m & (g > 0)
+            if orientation_only:
+                per_sample.append({"id": s["id"], "n": 0,
+                                   "orientation": gt.orientation(pred, g, m)})
+                continue
             try:
                 aligned, fit = gt.align(pred, g, m, policy, pred_is_inverse)
             except ValueError as e:
@@ -228,6 +234,19 @@ def score_model(model, manifest, root, runs, limit=None, diagnose=False):
             if fit:
                 fits.append(fit)
         common.free_buffers(inputs, outputs, stream)
+
+    if orientation_only:
+        seen = [r["orientation"] for r in per_sample
+                if r.get("orientation") == r.get("orientation")]
+        if not seen:
+            return {"model": model, "skip": "output_form undeclared and unmeasurable"}
+        med = float(np.median(seen))
+        measured = "depth" if med > 0 else "inverse_depth"
+        return {"model": model, "orientation_median": med,
+                "output_form_measured": measured,
+                "skip": f"output_form undeclared. Measured over {len(seen)} images: "
+                        f"correlation {med:+.3f} with true depth, so it is "
+                        f"'{measured}'. Put that in models/{model}/spec.json."}
 
     scored = [r for r in per_sample if r.get("n")]
     if not scored:
