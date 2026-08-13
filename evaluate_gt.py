@@ -36,7 +36,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import cv2  # noqa: E402
 import numpy as np  # noqa: E402
 
-from core import bench, gt, spec as spec_mod  # noqa: E402
+from core import bench, gt, pointmap, spec as spec_mod  # noqa: E402
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 INPUTS = os.path.join(ROOT, "reports", "inputs")
@@ -116,60 +116,27 @@ def _zipdepth_pre(bgr, h=384, w=512):
     return np.ascontiguousarray(img.transpose(2, 0, 1)[None])
 
 
-_RECOVER = None
-
-
-def _recover_focal_shift():
-    """MoGe's solver, from whichever clone is on this machine.
-
-    moge_2 and metric_anything both end in the same place: the network returns
-    a point map whose Z is only depth once a shift has been solved for, and
-    that solver lives upstream. Reimplementing it here would be a second
-    version of the thing being measured.
-    """
-    global _RECOVER
-    if _RECOVER is not None:
-        return _RECOVER
-    candidates = [
-        (os.path.join(ROOT, "models", "moge_2"), "MoGe.moge.utils.geometry_torch"),
-        (os.path.join(ROOT, "models", "metric_anything", "metric_anything",
-                      "models", "student_pointmap"), "moge.utils.geometry_torch"),
-    ]
-    errors = []
-    for path, module in candidates:
-        if not os.path.isdir(path):
-            continue
-        if path not in sys.path:
-            sys.path.insert(0, path)
-        try:
-            mod = __import__(module, fromlist=["recover_focal_shift"])
-            _RECOVER = mod.recover_focal_shift
-            return _RECOVER
-        except Exception as e:                                # noqa: BLE001
-            errors.append(f"{module}: {type(e).__name__}: {e}")
-    raise ImportError("recover_focal_shift not importable; tried " + "; ".join(errors))
-
-
 def _point_map_depth(outs, shape, orig_h, orig_w, mask_idx, scale_idx):
     """Point-map Z, shifted and scaled into metres, on the original grid.
 
-    Transcribed from the two models' own post-processing, which is identical:
-    solve for the shift, add it to Z, multiply by the predicted metric scale.
-    The mask the model returns is deliberately *not* applied -- the evaluation
+    The shift comes from core/pointmap.py rather than from the model's clone,
+    so this runs on a machine that has only engines. The two agree to 1e-7 on
+    real point maps -- see tools/check_pointmap.py, which is what earns the
+    right to say "rather than".
+
+    The mask the model returns is used for the solve, because the shift is
+    fitted to the geometry and a pixel the model calls invalid has no geometry.
+    It is deliberately *not* used to drop pixels from the score: the evaluation
     has its own mask from the scanner, and letting a model mark its own pixels
-    invalid would let it drop the ones it finds hard.
+    invalid would let it discard the ones it finds hard.
     """
-    import torch
-
     h, w = shape
-    points = torch.from_numpy(np.asarray(outs[0]).reshape(1, h, w, 3).copy())
-    mask = torch.from_numpy(np.asarray(outs[mask_idx]).reshape(1, h, w).copy()) > 0.5
-    metric_scale = torch.from_numpy(np.asarray(outs[scale_idx]).reshape(1).copy())
-
-    _, shift = _recover_focal_shift()(points, mask)
-    depth = (points[..., 2] + shift[..., None, None]) * metric_scale[:, None, None]
-    d = depth[0].double().numpy()
-    d = cv2.resize(d, (orig_w, orig_h), interpolation=cv2.INTER_LINEAR)
+    points = np.asarray(outs[0]).reshape(h, w, 3)
+    mask = np.asarray(outs[mask_idx]).reshape(h, w) > 0.5
+    scale = np.asarray(outs[scale_idx]).reshape(-1)[0]
+    depth = pointmap.depth_from_point_map(points, mask, scale)
+    d = cv2.resize(depth.astype(np.float64), (orig_w, orig_h),
+                   interpolation=cv2.INTER_LINEAR)
     return np.where(d > 0, d, np.nan)
 
 
