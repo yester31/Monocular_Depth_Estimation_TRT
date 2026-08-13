@@ -7,7 +7,7 @@
 
 <!-- BENCH:BEGIN -->
 - Input **616x1064**, precision **fp32**, 100 iterations after 20 warmup
-- **349.21 ms** mean, p50 349.21 / p90 351.67 / p99 352.07, min 345.97
+- **349.81 ms** mean, p50 350.05 / p90 351.34 / p99 351.91, min 347.08
 - **2.86 fps**
 - NVIDIA GeForce RTX 3080, TensorRT 10.16.1.11, torch 2.11.0+cu128, driver 591.86
 
