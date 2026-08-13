@@ -54,9 +54,9 @@ IMAGENET_STD = [0.229, 0.224, 0.225]
 # returns depth in metres on the original pixel grid.
 # --------------------------------------------------------------------------
 
-def _imagenet_square(bgr, size):
-    """depth_anything_v2 and _v3: stretch to a square, then ImageNet."""
-    img = cv2.resize(bgr, (size, size))
+def _imagenet_stretch(bgr, h, w):
+    """Stretch to the engine's size, then ImageNet mean and standard deviation."""
+    img = cv2.resize(bgr, (w, h))
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) / 255.0
     img = (img - IMAGENET_MEAN) / IMAGENET_STD
     return np.ascontiguousarray(img.transpose(2, 0, 1)[None]).astype(np.float32)
@@ -102,18 +102,6 @@ def _depth_pro_depth(outs, shape, orig_h, orig_w):
     return 1.0 / np.clip(inv, 1e-4, 1e4)
 
 
-def _unidepth_pre(bgr, h=672, w=896):
-    """Stretch to the size the model picks for itself, then ImageNet.
-
-    672x896 is not a repository convention: it is what these two models'
-    internal rule returns for any 4:3 source, and feeding them anything else
-    makes them infer a different focal length and report different metres.
-    """
-    img = cv2.resize(bgr, (w, h))
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB).astype(np.float32) / 255.0
-    img = (img - IMAGENET_MEAN) / IMAGENET_STD
-    return np.ascontiguousarray(img.transpose(2, 0, 1)[None]).astype(np.float32)
-
 
 def _point_channel_depth(outs, shape, orig_h, orig_w):
     """Z of a (1, 3, H, W) point map, already in metres. No shift to solve.
@@ -140,7 +128,7 @@ def _metric3d_geometry(oh, ow, size=METRIC3D_SIZE):
                              pad_w // 2, pad_w - pad_w // 2)
 
 
-def _metric3d_pre(bgr):
+def _metric3d_pre(bgr, size=METRIC3D_SIZE):
     """Keep-ratio resize, then pad, and no normalisation at all.
 
     The mean and standard deviation are baked into the ONNX graph -- upstream's
@@ -149,7 +137,7 @@ def _metric3d_pre(bgr):
     """
     rgb = cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB)
     oh, ow = rgb.shape[:2]
-    _, (rh, rw), pad = _metric3d_geometry(oh, ow)
+    _, (rh, rw), pad = _metric3d_geometry(oh, ow, size)
     img = cv2.resize(rgb, (rw, rh), interpolation=cv2.INTER_LINEAR)
     img = cv2.copyMakeBorder(img, pad[0], pad[1], pad[2], pad[3],
                              cv2.BORDER_CONSTANT, value=PAD_VALUE)
@@ -157,7 +145,7 @@ def _metric3d_pre(bgr):
         img.transpose(2, 0, 1)[None]).astype(np.float32)
 
 
-def _metric3d_depth(outs, oh, ow, ctx):
+def _metric3d_depth(outs, oh, ow, ctx, size=METRIC3D_SIZE):
     """Canonical depth -> metres, which needs the camera that took the picture.
 
     The network predicts as if through a canonical camera of focal length
@@ -171,8 +159,8 @@ def _metric3d_depth(outs, oh, ow, ctx):
         raise ValueError(
             "metric3d_v2 needs the real focal length in pixels to produce "
             "metres; the manifest carries no source.intrinsics.fx")
-    d = np.asarray(outs[0]).reshape(METRIC3D_SIZE).astype(np.float64)
-    scale, _, pad = _metric3d_geometry(oh, ow)
+    d = np.asarray(outs[0]).reshape(size).astype(np.float64)
+    scale, _, pad = _metric3d_geometry(oh, ow, size)
     d = d[pad[0]:d.shape[0] - pad[1], pad[2]:d.shape[1] - pad[3]]
     d = cv2.resize(d, (ow, oh), interpolation=cv2.INTER_LINEAR)
     return np.clip(d, 0, 300) * (fx * scale / 1000.0)
@@ -184,12 +172,6 @@ def _rgb_over_255(bgr, h, w, interp=cv2.INTER_LINEAR):
     img = cv2.resize(rgb, (w, h), interpolation=interp).astype(np.float64) / 255.0
     return np.ascontiguousarray(img.transpose(2, 0, 1)[None]).astype(np.float32)
 
-
-def _zipdepth_pre(bgr, h=384, w=512):
-    """/255 and nothing else. No ImageNet statistics -- see its spec.json."""
-    img = cv2.resize(bgr, (w, h), interpolation=cv2.INTER_AREA)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB).astype(np.float32) / 255.0
-    return np.ascontiguousarray(img.transpose(2, 0, 1)[None])
 
 
 def _point_map_depth(outs, shape, orig_h, orig_w, mask_idx, scale_idx):
@@ -216,63 +198,67 @@ def _point_map_depth(outs, shape, orig_h, orig_w, mask_idx, scale_idx):
     return np.where(d > 0, d, np.nan)
 
 
+# Every adapter is called with the size the benchmark record says the engine was
+# built for, never a constant. A hardcoded 518 kept working after
+# depth_anything_v2 moved to 672x896: it would have reshaped the output onto the
+# wrong grid and scored the model on a scrambled depth map.
 ADAPTERS = {
     "depth_anything_v2": {
-        "pre": lambda bgr: _imagenet_square(bgr, 518),
-        "depth": lambda outs, oh, ow, ctx: _direct_depth(outs, (518, 518), oh, ow),
+        "pre": lambda bgr, h, w: _imagenet_stretch(bgr, h, w),
+        "depth": lambda outs, h, w, oh, ow, ctx: _direct_depth(outs, (h, w), oh, ow),
     },
     "depth_anything_v3": {
-        "pre": lambda bgr: _imagenet_square(bgr, 518),
-        "depth": lambda outs, oh, ow, ctx: _direct_depth(outs, (518, 518), oh, ow),
-    },
-    "depth_pro": {
-        "pre": _depth_pro_pre,
-        "depth": lambda outs, oh, ow, ctx: _depth_pro_depth(outs, (1536, 1536), oh, ow),
+        "pre": lambda bgr, h, w: _imagenet_stretch(bgr, h, w),
+        "depth": lambda outs, h, w, oh, ow, ctx: _direct_depth(outs, (h, w), oh, ow),
     },
     "depth_anything_ac": {
-        "pre": lambda bgr: _imagenet_square(bgr, 518),
-        "depth": lambda outs, oh, ow, ctx: _direct_depth(outs, (518, 518), oh, ow),
+        "pre": lambda bgr, h, w: _imagenet_stretch(bgr, h, w),
+        "depth": lambda outs, h, w, oh, ow, ctx: _direct_depth(outs, (h, w), oh, ow),
     },
     "distill_any_depth": {
-        "pre": lambda bgr: _imagenet_square(bgr, 518),
-        "depth": lambda outs, oh, ow, ctx: _direct_depth(outs, (518, 518), oh, ow),
+        "pre": lambda bgr, h, w: _imagenet_stretch(bgr, h, w),
+        "depth": lambda outs, h, w, oh, ow, ctx: _direct_depth(outs, (h, w), oh, ow),
+    },
+    "depth_pro": {
+        "pre": lambda bgr, h, w: _depth_pro_pre(bgr, h),
+        "depth": lambda outs, h, w, oh, ow, ctx: _depth_pro_depth(outs, (h, w), oh, ow),
     },
     "zipdepth": {
-        "pre": _zipdepth_pre,
-        "depth": lambda outs, oh, ow, ctx: _direct_depth(outs, (384, 512), oh, ow),
-    },
-    # points, normal, mask, metric_scale
-    "moge_2": {
-        "pre": lambda bgr: _rgb_over_255(bgr, 388, 518),
-        "depth": lambda outs, oh, ow, ctx: _point_map_depth(outs, (388, 518), oh, ow, 2, 3),
+        "pre": lambda bgr, h, w: _rgb_over_255(bgr, h, w, cv2.INTER_AREA),
+        "depth": lambda outs, h, w, oh, ow, ctx: _direct_depth(outs, (h, w), oh, ow),
     },
     "unidepth_v2": {
-        "pre": _unidepth_pre,
-        "depth": lambda outs, oh, ow, ctx: _point_channel_depth(outs, (672, 896), oh, ow),
+        "pre": lambda bgr, h, w: _imagenet_stretch(bgr, h, w),
+        "depth": lambda outs, h, w, oh, ow, ctx: _point_channel_depth(outs, (h, w), oh, ow),
     },
     "unik3d": {
-        "pre": _unidepth_pre,
-        "depth": lambda outs, oh, ow, ctx: _point_channel_depth(outs, (672, 896), oh, ow),
+        "pre": lambda bgr, h, w: _imagenet_stretch(bgr, h, w),
+        "depth": lambda outs, h, w, oh, ow, ctx: _point_channel_depth(outs, (h, w), oh, ow),
     },
     "metric3d_v2": {
-        "pre": _metric3d_pre,
-        "depth": _metric3d_depth,
+        "pre": lambda bgr, h, w: _metric3d_pre(bgr, (h, w)),
+        "depth": lambda outs, h, w, oh, ow, ctx: _metric3d_depth(outs, oh, ow, ctx, (h, w)),
     },
     # points, mask, metric_scale -- no normal branch
     "metric_anything": {
-        "pre": lambda bgr: _rgb_over_255(bgr, 388, 518, cv2.INTER_AREA),
-        "depth": lambda outs, oh, ow, ctx: _point_map_depth(outs, (388, 518), oh, ow, 1, 2),
+        "pre": lambda bgr, h, w: _rgb_over_255(bgr, h, w, cv2.INTER_AREA),
+        "depth": lambda outs, h, w, oh, ow, ctx: _point_map_depth(outs, (h, w), oh, ow, 1, 2),
+    },
+    # points, normal, mask, metric_scale
+    "moge_2": {
+        "pre": lambda bgr, h, w: _rgb_over_255(bgr, h, w),
+        "depth": lambda outs, h, w, oh, ow, ctx: _point_map_depth(outs, (h, w), oh, ow, 2, 3),
     },
 }
 
 
-def check_adapter(model, example_bgr):
+def check_adapter(model, example_bgr, size):
     """Does this adapter reproduce the tensor the benchmark actually fed?"""
     oracle_path = os.path.join(INPUTS, f"{model}.npy")
     if not os.path.exists(oracle_path):
         return False, f"no {os.path.relpath(oracle_path, ROOT)} to check against"
     oracle = np.load(oracle_path)
-    got = ADAPTERS[model]["pre"](example_bgr)
+    got = ADAPTERS[model]["pre"](example_bgr, *size)
     if got.shape != oracle.shape:
         return False, f"shape {got.shape} against the recorded {oracle.shape}"
     diff = float(np.abs(got.astype(np.float64) - oracle.astype(np.float64)).max())
@@ -341,14 +327,16 @@ def score_model(model, manifest, root, runs, limit=None, diagnose=False,
 
     run = runs[model]
     engine_path = run["engine_path"]
-    pre = ADAPTERS[model]["pre"]
+    eh, ew = run.get("input_h"), run.get("input_w")
+    if not eh or not ew:
+        return {"model": model, "skip": "benchmark record has no input size"}
+    pre = lambda bgr, h=eh, w=ew: ADAPTERS[model]["pre"](bgr, h, w)   # noqa: E731
     if variant == "uint8":
         engine_path = uint8_engine(run)
         if not engine_path:
             return {"model": model,
                     "skip": "no uint8 engine built; run ab_input_dtype.py " + model}
-        vh, vw = run.get("input_h"), run.get("input_w")
-        pre = lambda bgr, h=vh, w=vw: _uint8_pre(bgr, h, w)   # noqa: E731
+        pre = lambda bgr, h=eh, w=ew: _uint8_pre(bgr, h, w)   # noqa: E731
     elif precision and precision != run.get("precision"):
         engine_path = tune_engine(run, precision)
         if not engine_path:
@@ -384,7 +372,7 @@ def score_model(model, manifest, root, runs, limit=None, diagnose=False,
             inputs[0].host = pre(bgr)
             raw = common.do_inference(context, engine=engine, bindings=bindings,
                                       inputs=inputs, outputs=outputs, stream=stream)
-            pred = ADAPTERS[model]["depth"](raw, oh, ow, manifest)
+            pred = ADAPTERS[model]["depth"](raw, eh, ew, oh, ow, manifest)
 
             g = np.load(os.path.join(root, s["depth"]))
             m = np.load(os.path.join(root, s["mask"])).astype(bool)
@@ -547,6 +535,10 @@ def main():
               f"have {', '.join(sorted(ADAPTERS))}")
         return 2
 
+    sizes = {}
+    for r in bench.load_all(os.path.join(ROOT, "reports", "bench")):
+        if r.get("variant", "single") == "single":
+            sizes[r["model"]] = (r.get("input_h"), r.get("input_w"))
     example = cv2.imread(os.path.join(ROOT, "data", "example.jpg"))
     if example is None:
         print("data/example.jpg is missing; the adapters cannot be checked")
@@ -563,7 +555,11 @@ def main():
     else:
         print("adapter check (against the tensor each benchmark actually fed):")
         for m in wanted:
-            passed, detail = check_adapter(m, example)
+            sz = sizes.get(m) or (None, None)
+            if not all(sz):
+                print("  FAIL %-20s no benchmark record with an input size" % m)
+                continue
+            passed, detail = check_adapter(m, example, sz)
             print(f"  {'ok  ' if passed else 'FAIL'} {m:20} {detail}")
             if passed:
                 good.append(m)
