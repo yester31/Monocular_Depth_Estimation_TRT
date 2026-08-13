@@ -103,6 +103,33 @@ def test_the_graph_body_is_untouched():
         check("preamble is five nodes", len(after) - len(before) == 5, str(after))
 
 
+def test_identity_steps_are_left_out():
+    """VGGT divides by 255 and nothing else. A mean of zeros and a std of ones
+    would add two operators computing the identity -- TensorRT would probably
+    fold them, but 'probably' is what the A/B is measuring."""
+    import tempfile
+    with tempfile.TemporaryDirectory() as td:
+        base = _tiny_model(os.path.join(td, "tiny.onnx"))
+        out = os.path.join(td, "tiny_u8.onnx")
+        add_uint8_input(base, out, [0.0, 0.0, 0.0], [1.0, 1.0, 1.0], verbose=False)
+
+        added = [n.op_type for n in onnx.load(out).graph.node][:-1]
+        added = [op for op in added if op in ("Cast", "Div", "Sub", "Transpose")]
+        check("cast, divide by 255, transpose only",
+              added[:2] == ["Cast", "Div"], str(added))
+        ops = [n.op_type for n in onnx.load(out).graph.node]
+        check("no Sub", "Sub" not in ops, str(ops))
+        check("exactly three added", len(ops) - 1 == 3, str(ops))
+
+        rng = np.random.default_rng(2)
+        img = rng.integers(0, 256, size=(1, H, W, 3), dtype=np.uint8)
+        nchw = np.ascontiguousarray(
+            (img.astype(np.float32) / 255.0).transpose(0, 3, 1, 2))
+        ref, got = _run(base, "input", nchw), _run(out, "image_u8", img)
+        check("still the same values",
+              float(np.abs(ref - got).max()) / (float(np.abs(ref).max()) or 1) < 1e-6)
+
+
 def test_input_is_uint8_nhwc():
     import tempfile
     with tempfile.TemporaryDirectory() as td:

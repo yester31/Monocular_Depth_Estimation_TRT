@@ -154,27 +154,44 @@ def add_uint8_input(path, out_path, mean, std, *, scale=255.0, input_name=None,
         return numpy_helper.from_array(
             np.array(values, dtype="float32").reshape([1] * (rank - 1) + [3]), name)
 
-    g.initializer.extend([
-        numpy_helper.from_array(np.array(scale, dtype="float32"), "u8_scale"),
-        const("u8_mean", mean),
-        const("u8_std", std),
-    ])
+    # Only the steps that do something. VGGT divides by 255 and nothing else,
+    # so a mean of zeros and a std of ones would add two operators that compute
+    # the identity -- TensorRT would probably fold them, but "probably" is the
+    # thing being measured here, and an A/B should not be asking two questions.
+    do_scale = float(scale) != 1.0
+    do_mean = any(m != 0.0 for m in mean)
+    do_std = any(s != 1.0 for s in std)
+
+    inits = []
+    if do_scale:
+        inits.append(numpy_helper.from_array(np.array(scale, dtype="float32"),
+                                             "u8_scale"))
+    if do_mean:
+        inits.append(const("u8_mean", mean))
+    if do_std:
+        inits.append(const("u8_std", std))
+    g.initializer.extend(inits)
 
     u8 = onnx.helper.make_tensor_value_info(
         new_name, TensorProto.UINT8, nhwc_shape)
 
-    pre = [
-        onnx.helper.make_node("Cast", [new_name], ["u8_f32"], to=FLOAT,
-                              name="u8_cast"),
-        onnx.helper.make_node("Div", ["u8_f32", "u8_scale"], ["u8_scaled"],
-                              name="u8_div"),
-        onnx.helper.make_node("Sub", ["u8_scaled", "u8_mean"], ["u8_centred"],
-                              name="u8_sub"),
-        onnx.helper.make_node("Div", ["u8_centred", "u8_std"], ["u8_norm"],
-                              name="u8_norm"),
-        onnx.helper.make_node("Transpose", ["u8_norm"], [src.name],
-                              perm=perm, name="u8_channels_last_to_first"),
-    ]
+    pre, cur = [], "u8_f32"
+    pre.append(onnx.helper.make_node("Cast", [new_name], [cur], to=FLOAT,
+                                     name="u8_cast"))
+    if do_scale:
+        pre.append(onnx.helper.make_node("Div", [cur, "u8_scale"], ["u8_scaled"],
+                                         name="u8_div"))
+        cur = "u8_scaled"
+    if do_mean:
+        pre.append(onnx.helper.make_node("Sub", [cur, "u8_mean"], ["u8_centred"],
+                                         name="u8_sub"))
+        cur = "u8_centred"
+    if do_std:
+        pre.append(onnx.helper.make_node("Div", [cur, "u8_std"], ["u8_norm"],
+                                         name="u8_norm"))
+        cur = "u8_norm"
+    pre.append(onnx.helper.make_node("Transpose", [cur], [src.name], perm=perm,
+                                     name="u8_channels_last_to_first"))
 
     # The old input becomes an ordinary intermediate value: same name, so
     # nothing downstream changes, but no longer declared as a graph input.
