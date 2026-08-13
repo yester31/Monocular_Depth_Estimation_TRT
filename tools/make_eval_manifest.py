@@ -118,6 +118,15 @@ def main():
                       f"{len(all_items)} sorted samples"),
         "count": len(samples),
         "depth_units": "metres",
+        "depth_convention": "z-depth",
+        "depth_convention_evidence": (
+            "measured, not documented: no DIODE source states whether the "
+            "stored scalar is z-depth or range along the ray, and the two "
+            "differ by up to 22.7% at a corner. Back-projecting both ways and "
+            "fitting planes to flat surfaces gives a flatness residual that "
+            "stays put under the z reading and grows with patch area under the "
+            "range reading -- 10.3x apart at 160px. See "
+            "tools/check_diode_convention.py"),
         "depth_units_evidence": (
             f"median of per-sample medians {np.nanmedian(medians):.2f}, "
             f"largest valid depth {np.nanmax(maxima):.2f}, over the selected "
