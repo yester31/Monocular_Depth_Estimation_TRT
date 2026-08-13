@@ -171,7 +171,11 @@ def add_uint8_input(path, out_path, mean, std, *, scale=255.0, input_name=None,
     # nothing downstream changes, but no longer declared as a graph input.
     g.input.remove(src)
     g.input.insert(0, u8)
-    g.node[:] = list(pre) + list(g.node)
+    # protobuf repeated fields have no slice assignment, so the body is copied
+    # out, the field cleared, and everything put back in order.
+    body = list(g.node)
+    del g.node[:]
+    g.node.extend(pre + body)
 
     onnx.checker.check_model(model)
     onnx.save(model, out_path)
