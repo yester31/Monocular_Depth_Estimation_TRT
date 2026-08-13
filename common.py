@@ -16,11 +16,16 @@
 #
 
 import hashlib
+import json
 import os
 import time
 
 import tensorrt as trt
 from common_runtime import *
+
+import sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from core import build_conditions
 
 try:
     # Sometimes python does not understand FileNotFoundError
@@ -220,7 +225,9 @@ def get_engine(
                 t = network.get_output(o_idx)
                 print(f"[MDET] output({o_idx}) name: {t.name}, shape= {t.shape}")
 
+            clock_before, clock_max = build_conditions.gpu_clock()
             plan = builder.build_serialized_network(network, config)
+            clock_after, _ = build_conditions.gpu_clock()
             if plan is None:
                 raise RuntimeError(
                     "[MDET] build_serialized_network returned None — see the TensorRT log "
@@ -234,6 +241,20 @@ def get_engine(
             if fingerprint is not None:
                 with open(fingerprint_path, "w", encoding="utf-8") as f:
                     f.write(fingerprint)
+            info = {
+                "clock_before_mhz": clock_before,
+                "clock_after_mhz": clock_after,
+                "clock_max_mhz": clock_max,
+                "tensorrt": trt.__version__,
+            }
+            with open(build_conditions.path_for(engine_file_path), "w",
+                      encoding="utf-8") as f:
+                json.dump(info, f, indent=2)
+            complaint = build_conditions.complaint(info)
+            if complaint:
+                print(f"[MDET] WARNING: this engine was {complaint}. "
+                      f"Pin the clock (nvidia-smi -lgc 1800,1800) and rebuild "
+                      f"before treating its speed as this model's speed.")
             return engine
 
     stale = engine_staleness(
@@ -242,6 +263,22 @@ def get_engine(
     if os.path.exists(engine_file_path):
         if stale is None:
             print(f"[MDET] Load engine from file ({engine_file_path})")
+            info = None
+            info_path = build_conditions.path_for(engine_file_path)
+            if os.path.exists(info_path):
+                try:
+                    with open(info_path, encoding="utf-8") as f:
+                        info = json.load(f)
+                except (OSError, ValueError):
+                    info = None
+            complaint = build_conditions.complaint(
+                info, now_mhz=build_conditions.gpu_clock()[0])
+            if complaint:
+                # Reused rather than rebuilt: an engine built under a loose
+                # clock still computes the right answer, and forcing a
+                # multi-minute rebuild on every run of every script would get
+                # this check switched off. Saying so is the job here.
+                print(f"[MDET] WARNING: engine {complaint}.")
             with open(engine_file_path, "rb") as f, trt.Runtime(TRT_LOGGER) as runtime:
                 return runtime.deserialize_cuda_engine(f.read())
         # The old code loaded any engine that merely existed, so edits to the
