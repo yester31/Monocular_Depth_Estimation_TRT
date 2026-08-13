@@ -35,6 +35,37 @@ def path_for(engine_file_path):
     return os.path.splitext(engine_file_path)[0] + ".buildinfo.json"
 
 
+def stamp(engine_file_path):
+    """Identify the exact engine file, so two records can be shown to describe it.
+
+    A benchmark and a layer profile are taken by separate runs of separate
+    scripts, and the profile is what says whether an engine is running most of
+    its time in fp32 -- the symptom that gave distill_any_depth away. Joining
+    them on the model name alone would let a profile of a replaced engine sit
+    beside a fresh measurement and look like evidence about it. Size and
+    mtime both change on a rebuild, and neither costs anything to read.
+    """
+    try:
+        st = os.stat(engine_file_path)
+    except OSError:
+        return {}
+    return {"engine_bytes": st.st_size, "engine_mtime": int(st.st_mtime)}
+
+
+def same_engine(a, b):
+    """True, False, or None when either record predates the stamp.
+
+    None rather than False on purpose. A record written before stamping is not
+    evidence that the engine changed, and reporting it as a mismatch would put
+    "stale" beside twelve rows that are current -- which teaches the reader to
+    ignore the word in the one case it matters.
+    """
+    keys = ("engine_bytes", "engine_mtime")
+    if not all((a or {}).get(k) and (b or {}).get(k) for k in keys):
+        return None
+    return all(a[k] == b[k] for k in keys)
+
+
 def complaint(info, now_mhz=0):
     """What is wrong with the conditions an engine was built under, or None.
 

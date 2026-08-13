@@ -14,7 +14,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from core.build_conditions import complaint, path_for  # noqa: E402
+from core.build_conditions import complaint, path_for, same_engine  # noqa: E402
 
 
 def _info(before, after, top=2130):
@@ -60,3 +60,23 @@ def test_missing_readings_are_not_turned_into_a_complaint():
 
 def test_the_record_sits_beside_its_engine():
     assert path_for("engine/model_fp16.engine") == "engine/model_fp16.buildinfo.json"
+
+
+def test_two_records_of_one_engine_match():
+    a = {"engine_bytes": 123, "engine_mtime": 456}
+    assert same_engine(a, dict(a)) is True
+
+
+def test_a_rebuilt_engine_does_not_match():
+    a = {"engine_bytes": 123, "engine_mtime": 456}
+    assert same_engine(a, {"engine_bytes": 123, "engine_mtime": 999}) is False
+    assert same_engine(a, {"engine_bytes": 900, "engine_mtime": 456}) is False
+
+
+def test_an_unstamped_record_is_unknown_not_a_mismatch():
+    # Reporting "stale" for every record written before stamping would teach
+    # the reader to ignore the word in the one case it means something.
+    a = {"engine_bytes": 123, "engine_mtime": 456}
+    assert same_engine(a, {}) is None
+    assert same_engine({}, a) is None
+    assert same_engine(a, {"engine_bytes": 123}) is None

@@ -28,7 +28,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import numpy as np  # noqa: E402
 
-from core import bench, profile as prof, spec as spec_mod  # noqa: E402
+from core import bench, build_conditions, profile as prof, spec as spec_mod  # noqa: E402
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 
@@ -114,6 +114,9 @@ def run(model, args):
         "clock_mhz": env.get("clock_mhz"),
         "clock_max_mhz": env.get("clock_max_mhz"),
         "engine_path": engine_path,
+        # So compare.py can prove this profile describes the engine the
+        # benchmark measured, rather than assuming it from the model name.
+        **build_conditions.stamp(engine_path),
         "input_shape": list(feed.shape),
         "iterations": args.iterations,
         "summary": summary,

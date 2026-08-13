@@ -90,6 +90,15 @@ def _precision_of(layer):
     return (outs[0].get("Format/Datatype") or "?").split()[0]
 
 
+# Layer types that rearrange bytes rather than compute with them. Resize is
+# left out on purpose: an interpolation is real work the model asked for,
+# unlike a Reformat, which exists only because two neighbours disagree about
+# layout. Concat/Constant/NoOp are usually free but are counted when they are
+# not, since a Concat that costs time is a copy.
+MOVEMENT_TYPES = {"Reformat", "Shuffle", "Cast", "Copy", "Slice",
+                  "Concatenation", "Concat", "NoOp", "Constant", "Transpose"}
+
+
 def summarize(rows, layers, mean_ms=None):
     """The few numbers worth reading before the full table.
 
@@ -112,6 +121,14 @@ def summarize(rows, layers, mean_ms=None):
     kind = {l.get("Name"): _precision_of(l) for l in layers if l.get("Name")}
     float_share = sum(r["share"] for r in rows if kind.get(r["name"]) == "Float")
 
+    # Time in layers that move or reshape data without computing anything.
+    # Reported as one number because the individual layers are usually small
+    # and each one alone looks like nothing: moge_2 has 89 Reformats, none
+    # above 1.1%, together with its Slices they are 32% of its runtime.
+    type_of = {l.get("Name"): l.get("LayerType", "?") for l in layers if l.get("Name")}
+    move_share = sum(r["share"] for r in rows
+                     if type_of.get(r["name"]) in MOVEMENT_TYPES)
+
     return {
         "layers_profiled": len(rows),
         "layers_in_engine": len(layers),
@@ -119,6 +136,7 @@ def summarize(rows, layers, mean_ms=None):
         "benchmark_mean_ms": mean_ms,
         "top10_share": round(sum(r["share"] for r in rows[:10]), 4),
         "fp32_output_share": round(float_share, 4),
+        "movement_share": round(move_share, 4),
         "layer_types": dict(sorted(by_type.items(), key=lambda kv: -kv[1])),
         "layer_precisions": dict(sorted(prec.items(), key=lambda kv: -kv[1])),
     }
@@ -194,3 +212,28 @@ def save(model, payload, out_dir=None):
     with open(path, "w", encoding="utf-8") as f:
         json.dump(payload, f, indent=2, ensure_ascii=False)
     return path
+
+
+def load_saved(out_dir=None):
+    """model -> the saved profile, for reports that want to sit beside a speed.
+
+    Only the plain per-model files. An experiment writes <model>_<tag>.json and
+    those describe engines that were never published, so joining them to a
+    benchmark row would attach a number to the wrong thing.
+    """
+    out_dir = out_dir or REPORTS
+    found = {}
+    if not os.path.isdir(out_dir):
+        return found
+    for name in sorted(os.listdir(out_dir)):
+        if not name.endswith(".json"):
+            continue
+        try:
+            with open(os.path.join(out_dir, name), encoding="utf-8") as f:
+                payload = json.load(f)
+        except (OSError, ValueError):
+            continue
+        model = payload.get("model")
+        if model and name == f"{model}.json":
+            found[model] = payload
+    return found

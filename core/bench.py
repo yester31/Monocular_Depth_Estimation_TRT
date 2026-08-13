@@ -84,6 +84,12 @@ class Bench:
     # what it produced, so a speed change with an output change is visible
     outputs: Dict[str, dict] = field(default_factory=dict)
     engine_path: str = ""
+    # Size and mtime of the engine this number came from. A layer profile is
+    # taken by a separate run of a separate script, and joining the two on the
+    # model name alone would let a profile of a replaced engine sit beside a
+    # fresh measurement looking like evidence about it.
+    engine_bytes: int = 0
+    engine_mtime: int = 0
     onnx_sha256: str = ""
     timestamp: str = ""
     notes: str = ""
@@ -357,6 +363,9 @@ def record(model: str, samples_ms, *, outputs: Optional[Dict[str, np.ndarray]] =
     what TensorRT did.
     """
     b = Bench(model=model, samples_ms=list(samples_ms), **kw)
+    if b.engine_path:
+        from core import build_conditions
+        b.__dict__.update(build_conditions.stamp(b.engine_path))
     if outputs:
         b.outputs = summarize_outputs(outputs)
     if model_input is not None:

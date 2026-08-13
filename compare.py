@@ -91,9 +91,54 @@ def _size(r):
     return f"{h}x{w}" if h and w else "?"
 
 
+def _load_profiles():
+    try:
+        from core.profile import load_saved
+        return load_saved()
+    except Exception:                                         # noqa: BLE001
+        return {}
+
+
+PROFILES = _load_profiles()
+
+
+def _health(run):
+    """(fp32 share, data-movement share) for the engine this row measured.
+
+    Both come from reports/profile/, written by a separate run of
+    profile_model.py, so the first thing to establish is that the profile is
+    about this engine. distill_any_depth sat in this table at 10.02 ms with
+    86.6% of its time in fp32 layers, and nothing in the table said so; the
+    point of these two columns is that the next one is visible without anyone
+    thinking to go and look.
+
+    `stale` rather than a number when the engine was rebuilt after the profile
+    was taken -- a plausible-looking figure from the previous engine is worse
+    than a blank.
+    """
+    p = PROFILES.get(run["model"])
+    if not p or p.get("variant", "single") != run.get("variant", "single"):
+        return "-", "-"
+    try:
+        from core.build_conditions import same_engine
+    except Exception:                                         # noqa: BLE001
+        return "-", "-"
+    match = same_engine(run, p)
+    if match is None:
+        return "-", "-"
+    if not match:
+        return "stale", "stale"
+    s = p.get("summary") or {}
+    def pct(key):
+        v = s.get(key)
+        return "-" if v is None else f"{v * 100:.1f}%"
+    return pct("fp32_output_share"), pct("movement_share")
+
+
 def _rows(runs):
     for r in sorted(runs, key=lambda r: (r["model"], r.get("precision", ""))):
         s = r.get("stats") or {}
+        fp32, movement = _health(r)
         yield [
             f"`{r['model']}`",
             r.get("variant", "single"),
@@ -106,17 +151,20 @@ def _rows(runs):
             _fmt(s.get("p50_ms")),
             _fmt(s.get("p90_ms")),
             _fmt(s.get("fps")),
+            fp32,
+            movement,
             KIND.get(r["model"], "?"),
         ]
 
 
-HEAD = ["model", "variant", "encoder", "precision", "mean ms", "p50", "p90", "fps", "output"]
+HEAD = ["model", "variant", "encoder", "precision", "mean ms", "p50", "p90", "fps",
+        "fp32", "moved", "output"]
 
 
 # Columns whose values are numbers and should sit right-aligned. Decided by
 # name rather than position, so a table with a different column set still lines
 # up -- the root README summary drops two of them.
-NUMERIC = {"mean ms", "p50", "p90", "p99", "fps", "min"}
+NUMERIC = {"mean ms", "p50", "p90", "p99", "fps", "min", "fp32", "moved"}
 
 
 def _table(rows, head=HEAD):
