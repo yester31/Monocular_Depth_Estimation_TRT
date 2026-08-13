@@ -76,10 +76,18 @@ def inspect(engine):
 
 
 def _precision_of(layer):
-    for key in ("LayerType", "Precision", "OutputDataType", "TacticValue"):
-        if key in layer and key == "Precision":
-            return layer[key]
-    return layer.get("Precision") or "?"
+    """What this layer actually produced.
+
+    The inspector does not report a "Precision" field; the datatype is on each
+    tensor, as `Format/Datatype` ("Float", "Half", "Int8", ...). Reading the
+    first output is what tells you a layer stayed fp32 inside an fp16 engine --
+    which TensorRT does silently when a layer has no fp16 kernel or when
+    keeping it would lose too much range.
+    """
+    outs = layer.get("Outputs") or []
+    if not outs:
+        return "?"
+    return (outs[0].get("Format/Datatype") or "?").split()[0]
 
 
 def summarize(rows, layers, mean_ms=None):
@@ -98,12 +106,19 @@ def summarize(rows, layers, mean_ms=None):
         p = _precision_of(layer)
         prec[p] = prec.get(p, 0) + 1
 
+    # Time spent in layers that produced fp32 output. In an fp16 engine that is
+    # either a deliberate fallback or a missed opportunity, and either way it
+    # is worth knowing how much it costs before arguing about it.
+    kind = {l.get("Name"): _precision_of(l) for l in layers if l.get("Name")}
+    float_share = sum(r["share"] for r in rows if kind.get(r["name"]) == "Float")
+
     return {
         "layers_profiled": len(rows),
         "layers_in_engine": len(layers),
         "profile_total_ms": round(prof_total, 4),
         "benchmark_mean_ms": mean_ms,
         "top10_share": round(sum(r["share"] for r in rows[:10]), 4),
+        "fp32_output_share": round(float_share, 4),
         "layer_types": dict(sorted(by_type.items(), key=lambda kv: -kv[1])),
         "layer_precisions": dict(sorted(prec.items(), key=lambda kv: -kv[1])),
     }
@@ -148,6 +163,9 @@ def render(model, rows, summary, susp, top=15):
     L.append("")
     L.append("precision mix   " + ", ".join(f"{k}:{v}" for k, v in
                                             summary["layer_precisions"].items()))
+    if summary.get("fp32_output_share"):
+        L.append(f"fp32 output     {summary['fp32_output_share'] * 100:.1f}% "
+                 f"of the time is in layers producing Float")
     L.append("layer types     " + ", ".join(f"{k}:{v}" for k, v in
                                             list(summary["layer_types"].items())[:8]))
     L.append("")

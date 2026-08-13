@@ -85,7 +85,9 @@ def run(model, args):
         for _ in range(args.iterations):
             common_runtime.do_inference(context, engine, bindings, inputs,
                                         outputs, stream)
-        context.profiler = None
+        # Not `context.profiler = None`: TensorRT rejects a null profiler with
+        # an API error on stderr, which reads like a failure in the middle of a
+        # successful run. The context is discarded below anyway.
 
         rows = timer.rows(args.iterations)
         layers = prof.inspect(engine)
