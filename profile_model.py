@@ -54,7 +54,10 @@ def run(model, args):
               f"build it first")
         return 1
 
-    engine_path = run_rec.get("engine_path") or ""
+    # --engine points at an engine the reports do not know about. That is how
+    # two builds of one model get compared -- an older encoder, a different
+    # simplification setting -- without a run overwriting the recorded one.
+    engine_path = args.engine or run_rec.get("engine_path") or ""
     if not os.path.isfile(engine_path):
         print(f"{model}: engine not on this machine ({engine_path})")
         return 1
@@ -112,7 +115,7 @@ def run(model, args):
         "layers": rows,
         "engine_layers": layers,
     }
-    path = prof.save(model, payload)
+    path = prof.save(model + (f"_{args.tag}" if args.tag else ""), payload)
     print(f"\n-> {os.path.relpath(path, ROOT)}")
     return 0
 
@@ -125,6 +128,10 @@ def main():
     ap.add_argument("--warmup", type=int, default=10)
     ap.add_argument("--top", type=int, default=15)
     ap.add_argument("--variant", default="single")
+    ap.add_argument("--engine", default=None,
+                    help="profile this engine instead of the recorded one")
+    ap.add_argument("--tag", default="",
+                    help="suffix for the output file, to keep two profiles apart")
     args = ap.parse_args()
 
     specs = spec_mod.load_all()
