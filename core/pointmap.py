@@ -68,7 +68,7 @@ _GOLDEN = 0.5 * (3.0 - 5.0 ** 0.5)
 
 
 def _local_minimum(f, x0=0.0, step=0.1, lo=-np.inf, hi=np.inf, tol=1e-7,
-                   max_iter=200):
+                   max_iter=400, growth=1.3):
     """The minimum of a smooth scalar f nearest x0, without a solver library.
 
     Upstream runs Levenberg-Marquardt from x0=0, which finds the local minimum
@@ -95,14 +95,14 @@ def _local_minimum(f, x0=0.0, step=0.1, lo=-np.inf, hi=np.inf, tol=1e-7,
     a, b = x0, min(max(x0 + direction * step, lo), hi)
     fb = f(b)
     for _ in range(max_iter):                       # expand until it turns up
-        c = min(max(b + direction * step * 2.0, lo), hi)
+        c = min(max(b + direction * step * growth, lo), hi)
         if c == b:
             break
         fc = f(c)
         if fc >= fb:
             break
         a, b, fb = b, c, fc
-        step *= 2.0
+        step *= growth
     left, right = (min(a, c), max(a, c))
     for _ in range(max_iter):                       # golden section
         if right - left < tol:
@@ -139,9 +139,15 @@ def solve_optimal_focal_shift(uv, xyz):
         f = (xy_proj * uv).sum() / ss
         return float(np.square(f * xy_proj - uv).sum())
 
-    # z + shift must stay away from zero, or the projection blows up. Upstream
-    # relies on the optimiser not walking there; the bound makes it explicit.
-    shift = _local_minimum(cost, x0=0.0, lo=-float(z.min()) + 1e-6,
+    # The first step is scaled to the depth spread rather than fixed. A fixed
+    # 0.1 with geometric growth can stride over the basin Levenberg-Marquardt
+    # settles in and land in the next one -- which it did, on one moge_2 frame
+    # in twenty, moving the shift by 0.045 while the other nineteen agreed to
+    # 1e-6. z + shift must also stay away from zero, or the projection blows
+    # up; upstream relies on the optimiser not walking there and this says so.
+    spread = float(np.percentile(z, 95) - np.percentile(z, 5))
+    step = max(1e-4, 0.02 * spread)
+    shift = _local_minimum(cost, x0=0.0, step=step, lo=-float(z.min()) + 1e-6,
                            hi=float(np.abs(z).max()) + 1.0)
     shift = np.float32(shift)
     xy_proj = xy / (z + shift)[:, None]
