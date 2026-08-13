@@ -108,7 +108,16 @@ def add_uint8_input(path, out_path, mean, std, *, scale=255.0, input_name=None,
     numbers the preprocessing code uses. Pass scale=1.0 for a model that does
     not divide.
     """
-    model = onnx.load(path)
+    # Without load_external_data the initializers keep their references to the
+    # sibling .data file instead of being read into memory. depth_pro's weights
+    # are 3.8 GB, and a loaded model that large cannot be serialized at all --
+    # protobuf's limit is 2 GB, and the failure is a bare EncodeError with
+    # nothing to say which model or why. Since the rewrite only prepends five
+    # nodes and three small initializers, and the copy is written beside the
+    # original, the external references still resolve.
+    model = onnx.load(path, load_external_data=False)
+    external = any(i.data_location == onnx.TensorProto.EXTERNAL
+                   for i in model.graph.initializer)
     g = model.graph
 
     src = None
@@ -177,8 +186,16 @@ def add_uint8_input(path, out_path, mean, std, *, scale=255.0, input_name=None,
     del g.node[:]
     g.node.extend(pre + body)
 
-    onnx.checker.check_model(model)
+    if os.path.dirname(os.path.abspath(out_path)) != os.path.dirname(os.path.abspath(path)):
+        raise ValueError("write the variant beside the original: initializers "
+                         "may reference a sibling .data file by relative path")
+    if not external:
+        onnx.checker.check_model(model)
     onnx.save(model, out_path)
+    if external and verbose:
+        # Checking it would mean reading the 3.8 GB of weights back. TensorRT's
+        # parser reports a malformed graph anyway, and get_engine raises on it.
+        print("[MDET] weights are external; skipped the ONNX checker")
     if verbose:
         print(f"[MDET] uint8 input {new_name} {nhwc_shape} -> {src.name} "
               f"{shape}  ({os.path.basename(out_path)})")
