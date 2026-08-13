@@ -17,26 +17,34 @@ import sys
 # (`from vggt.models.aggregator import Aggregator`), so without this the
 # import below fails with "No module named 'vggt.models'".
 sys.path.insert(1, os.path.join(sys.path[0], "vggt"))
+# Repo root, for core.export_compat. Found by walking up to the directory
+# holding core/ rather than counting "..".
+_R = os.path.dirname(os.path.abspath(__file__))
+while not os.path.isdir(os.path.join(_R, "core")) and os.path.dirname(_R) != _R:
+    _R = os.path.dirname(_R)
+sys.path.insert(1, _R)
 import torch
 import onnx
 from onnxsim import simplify
 
 from vggt.vggt.models.vggt import VGGT
+from core.export_compat import (no_cartesian_prod,
+                                float32_sincos_pos_embed)
 
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-print(f"[MDET] using device: {DEVICE}")   
+print(f"[MDET] using device: {DEVICE}")
 
-### NOTICE ###
-# Before exporting to onnx, edit line 55 in vggt/vggt/layers/rope.py.
-'''
-    # Comment out line 55
-    # positions = torch.cartesian_prod(y_coords, x_coords) # <- original 55 line
-    # Add the three lines below
-    yy = y_coords.unsqueeze(1).expand(-1, x_coords.size(0))  # [H, W]
-    xx = x_coords.unsqueeze(0).expand(y_coords.size(0), -1)  # [H, W]
-    positions = torch.stack([yy.reshape(-1), xx.reshape(-1)], dim=1)  # [H*W, 2] 
-'''
+# The `### NOTICE ###` that stood here told the reader to edit
+# vggt/vggt/layers/rope.py by hand before exporting, replacing
+# torch.cartesian_prod with an expand-and-stack, because the TorchScript
+# exporter has no symbolic for aten::cartesian_prod.
+#
+# onnx_export.py had the same notice and it was replaced by
+# core.export_compat.no_cartesian_prod under D17 -- but only there, so this
+# path still asked for a hand-edit that nothing checks, that a git pull in the
+# clone undoes, and whose absence fails partway through the export with
+# UnsupportedOperatorError. Both exports use the same patch now.
 
 # [1,1,3,518,518] -> Aggregator -> [24, 1, 1, 1374, 2048]
 #                                                         -> depth_head -> [1,1,518,518], [1,1,518,518]
@@ -77,6 +85,25 @@ class VGGT_camera_head_Wrapper(VGGT):
 
         return pose_enc
 
+
+def load_vggt_weights():
+    """Prefer vggt/checkpoints/model.pt, fall back to the HuggingFace URL.
+
+    from_pretrained("facebook/VGGT-1B") stood here, which is a 4.7 GB download
+    each time the cache is cold -- and the cache is cold on this machine, while
+    the checkpoint has been sitting in vggt/checkpoints all along, because
+    infer.py and onnx_export.py read it from there. Same reason as the notice
+    above: the single-engine path was fixed and this one was not.
+    """
+    local = os.path.join(CUR_DIR, "vggt", "checkpoints", "model.pt")
+    if os.path.isfile(local):
+        print(f"[MDET] weights: {local}")
+        return torch.load(local, map_location="cpu", weights_only=True)
+    url = "https://huggingface.co/facebook/VGGT-1B/resolve/main/model.pt"
+    print(f"[MDET] weights: {url} (no local copy; ~4.7 GB)")
+    return torch.hub.load_state_dict_from_url(url, weights_only=True)
+
+
 def export_aggregator():
     print('[MDET] Load model')
     save_path = os.path.join(CUR_DIR, 'onnx')
@@ -85,7 +112,9 @@ def export_aggregator():
 
     # Model preparation
     input_h, input_w = 518, 518
-    model = VGGT_Aggregator_Wrapper().from_pretrained("facebook/VGGT-1B").to(DEVICE).eval()
+    model = VGGT_Aggregator_Wrapper()
+    model.load_state_dict(load_vggt_weights())
+    model.to(DEVICE).eval()
 
     dynamic = False    # False
     onnx_sim = False    # False
@@ -102,7 +131,9 @@ def export_aggregator():
     if dynamic:
         dynamic_axes = {"images": {0: "batch"},}
     # Export the model to ONNX format
-    with torch.amp.autocast(device_type=DEVICE.type, dtype=dtype):
+    with (torch.amp.autocast(device_type=DEVICE.type, dtype=dtype),
+          no_cartesian_prod(),
+          float32_sincos_pos_embed()):
         with torch.no_grad():  # Disable gradients for efficiency
             torch.onnx.export(
                 model, 
@@ -158,7 +189,9 @@ def export_depth_head():
 
     # Model preparation
     input_h, input_w = 518, 518
-    model = VGGT_depth_head_Wrapper().from_pretrained("facebook/VGGT-1B").to(DEVICE).eval()
+    model = VGGT_depth_head_Wrapper()
+    model.load_state_dict(load_vggt_weights())
+    model.to(DEVICE).eval()
 
     dynamic = False    # False
     onnx_sim = False    # False
@@ -176,7 +209,9 @@ def export_depth_head():
     if dynamic:
         dynamic_axes = {"images": {0: "batch"},}
     # Export the model to ONNX format
-    with torch.amp.autocast(device_type=DEVICE.type, dtype=dtype):
+    with (torch.amp.autocast(device_type=DEVICE.type, dtype=dtype),
+          no_cartesian_prod(),
+          float32_sincos_pos_embed()):
         with torch.no_grad():  # Disable gradients for efficiency
             torch.onnx.export(
                 model, 
@@ -233,7 +268,9 @@ def export_camera_head():
 
     # Model preparation
     input_h, input_w = 518, 518
-    model = VGGT_camera_head_Wrapper().from_pretrained("facebook/VGGT-1B").to(DEVICE).eval()
+    model = VGGT_camera_head_Wrapper()
+    model.load_state_dict(load_vggt_weights())
+    model.to(DEVICE).eval()
 
     dynamic = False    # False
     onnx_sim = False    # False
@@ -250,7 +287,9 @@ def export_camera_head():
     if dynamic:
         dynamic_axes = {"images": {0: "batch"},}
     # Export the model to ONNX format
-    with torch.amp.autocast(device_type=DEVICE.type, dtype=dtype):
+    with (torch.amp.autocast(device_type=DEVICE.type, dtype=dtype),
+          no_cartesian_prod(),
+          float32_sincos_pos_embed()):
         with torch.no_grad():  # Disable gradients for efficiency
             torch.onnx.export(
                 model, 
