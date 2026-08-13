@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "name": "tr2m",
+  "env": "tr2m",
+  "input": {
+    "name": "image",
+    "rank": 4,
+    "dtype": "float32",
+    "layout": "NCHW"
+  },
+  "extra_inputs": [
+    {
+      "name": "text_features",
+      "rank": 3,
+      "dtype": "float32",
+      "shape": [1, 1, 768],
+      "meaning": "CLIP embedding of the prompt, computed outside the engine"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "metric_depth",
+      "meaning": "metric depth in metres"
+    },
+    {
+      "name": "relative_depth",
+      "meaning": "the Depth Anything prediction the scale map is applied to"
+    },
+    {
+      "name": "scale_map",
+      "meaning": "per-pixel scale A"
+    },
+    {
+      "name": "shift_map",
+      "meaning": "per-pixel shift B"
+    }
+  ],
+  "profiles": {
+    "bench": {
+      "size": [
+        434,
+        560
+      ]
+    }
+  },
+  "build_targets": [
+    {
+      "profile": "bench",
+      "precision": "fp16"
+    }
+  ],
+  "caveats": [
+    "the only two-input model here: image plus a [1,1,768] CLIP text embedding. CLIP is not in the engine, so the prompt is fixed at export time and its embedding is committed as text_features.npy",
+    "434x560, not the 518x518 the rest use, so a frames-per-second comparison is between different amounts of work",
+    "upstream's pos_embed.py is CC BY-NC-SA 4.0. The clone stays out of this repository and nothing from it is vendored",
+    "metric depth is produced from a relative model by predicting a per-pixel scale and shift, so its errors are those of Depth Anything plus those of the rescaling"
+  ],
+  "encoder": {
+    "used": "vits",
+    "available": [
+      "vits"
+    ],
+    "smallest": "vits",
+    "source": "upstream README: the released checkpoint is built on Depth Anything ViT-S; no other size is published"
+  },
+  "depth_scale": "metric"
+}
