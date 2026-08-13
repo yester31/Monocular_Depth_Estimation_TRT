@@ -15,11 +15,17 @@ DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print(f"[MDET] using device: {DEVICE}")
 
 class MoGeModelWrapper(torch.nn.Module):
-    def __init__(self, model: torch.nn.Module):
+    def __init__(self, model: torch.nn.Module, num_tokens: int = 1800):
         super().__init__()
         self.model = model  # 내부에 모델 보관
+        # This must be wrapper state, not a non-tensor export argument.
+        # Dynamo specializes a Python int passed to torch.onnx.export, while
+        # the TorchScript exporter exposes it as a second graph input. The
+        # TensorRT runner intentionally supplies only the image, and the engine
+        # is fixed-size, so both exporters need to see the same constant here.
+        self.num_tokens = int(num_tokens)
 
-    def forward(self, image: torch.Tensor, num_tokens: int) -> Dict[str, torch.Tensor]:
+    def forward(self, image: torch.Tensor) -> Dict[str, torch.Tensor]:
         original_interpolate = F.interpolate
 
         def safe_interpolate(*args, **kwargs):
@@ -28,7 +34,7 @@ class MoGeModelWrapper(torch.nn.Module):
 
         F.interpolate = safe_interpolate
         try:
-            out = self.model(image, num_tokens)
+            out = self.model(image, self.num_tokens)
         finally:
             F.interpolate = original_interpolate
 
@@ -43,17 +49,16 @@ def export_variant(*, input_h, input_w, encoder, normal, dynamo, onnx_sim,
 
     num_tokens = 1800 # [1200, 3600]
     model = load_model(encoder, normal)
-    wrapped_model = MoGeModelWrapper(model)
+    wrapped_model = MoGeModelWrapper(model, num_tokens=num_tokens)
     export_model_path = os.path.join(save_path, f'{model_name}.onnx')
     dummy_input = torch.randn((1, 3, input_h, input_w), requires_grad=False).to(DEVICE)
 
-    # num_tokens goes in as a plain Python int, not a tensor, so it is folded
-    # into the graph as a constant. Two reasons:
+    # num_tokens lives on the wrapper as a plain Python int, so both exporters
+    # fold it into the graph as a constant. Two reasons:
     #
-    # 1. As a tensor it became a second graph input, and onnx2trt.py only ever
-    #    fills inputs[0]. allocate_buffers() allocates a buffer per input and
-    #    do_inference copies all of them, so the model was being handed
-    #    whatever happened to be in that memory.
+    # 1. As an export argument it becomes a second input under the TorchScript
+    #    exporter (Dynamo specializes it). onnx2trt.py only ever supplies the
+    #    image, so exporter choice would otherwise change the input contract.
     # 2. MoGe derives its internal resize resolution from num_tokens. With a
     #    runtime value that resolution is an unbacked symbol, and the dynamo
     #    export dies inside DINOv2's patch embedding:
@@ -65,7 +70,7 @@ def export_variant(*, input_h, input_w, encoder, normal, dynamo, onnx_sim,
     with torch.no_grad():  # Disable gradients for efficiency
         torch.onnx.export(
             wrapped_model,
-            (dummy_input, num_tokens),
+            dummy_input,
             export_model_path,
             input_names=['image'],
             output_names=['points', 'normal', 'mask', 'metric_scale'],
