@@ -291,6 +291,34 @@ def load_engine(path):
     return engine
 
 
+def uint8_engine(run):
+    """The uint8-NHWC engine ab_input_dtype.py built beside the float32 one.
+
+    Its filename convention is that tool's, not tune_build's: `_u8` goes in
+    before the precision. Reproduced rather than searched for, so a missing
+    engine is missing and not silently a different one.
+    """
+    path = run.get("engine_path") or ""
+    stem, ext = os.path.splitext(os.path.basename(path))
+    prec = run.get("precision", "fp16")
+    if not stem.endswith("_" + prec):
+        return None
+    candidate = os.path.join(os.path.dirname(path),
+                             stem[:-len(prec)] + "u8_" + prec + ext)
+    return candidate if os.path.exists(candidate) else None
+
+
+def _uint8_pre(bgr, h, w):
+    """What the graph's own preamble expects: uint8 NHWC, RGB, unnormalised.
+
+    The cast, the divide by 255, the mean and standard deviation and the
+    transpose are all inside the engine now. Doing any of them here would do
+    them twice.
+    """
+    img = cv2.resize(bgr, (w, h))
+    return np.ascontiguousarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))[None]
+
+
 def tune_engine(run, precision):
     """The engine tune_build wrote for this model at another precision.
 
@@ -308,12 +336,20 @@ def tune_engine(run, precision):
 
 
 def score_model(model, manifest, root, runs, limit=None, diagnose=False,
-                precision=None):
+                precision=None, variant=None):
     import common
 
     run = runs[model]
     engine_path = run["engine_path"]
-    if precision and precision != run.get("precision"):
+    pre = ADAPTERS[model]["pre"]
+    if variant == "uint8":
+        engine_path = uint8_engine(run)
+        if not engine_path:
+            return {"model": model,
+                    "skip": "no uint8 engine built; run ab_input_dtype.py " + model}
+        vh, vw = run.get("input_h"), run.get("input_w")
+        pre = lambda bgr, h=vh, w=vw: _uint8_pre(bgr, h, w)   # noqa: E731
+    elif precision and precision != run.get("precision"):
         engine_path = tune_engine(run, precision)
         if not engine_path:
             return {"model": model,
@@ -345,7 +381,7 @@ def score_model(model, manifest, root, runs, limit=None, diagnose=False,
             if bgr is None:
                 continue
             oh, ow = bgr.shape[:2]
-            inputs[0].host = ADAPTERS[model]["pre"](bgr)
+            inputs[0].host = pre(bgr)
             raw = common.do_inference(context, engine=engine, bindings=bindings,
                                       inputs=inputs, outputs=outputs, stream=stream)
             pred = ADAPTERS[model]["depth"](raw, oh, ow, manifest)
@@ -490,6 +526,8 @@ def main():
     ap.add_argument("--root", default=None,
                     help="dataset root; default: the manifest's own directory tree")
     ap.add_argument("--limit", type=int, default=None, help="first N images only")
+    ap.add_argument("--variant", default=None, choices=("uint8",),
+                    help="score the uint8-NHWC engine instead of the float32 one")
     ap.add_argument("--precision", default=None,
                     help="score the engine tune_build produced at this "
                          "precision instead of the published one")
@@ -514,13 +552,21 @@ def main():
         print("data/example.jpg is missing; the adapters cannot be checked")
         return 1
 
-    print("adapter check (against the tensor each benchmark actually fed):")
     good = []
-    for m in wanted:
-        passed, detail = check_adapter(m, example)
-        print(f"  {'ok  ' if passed else 'FAIL'} {m:20} {detail}")
-        if passed:
-            good.append(m)
+    if args.variant == "uint8":
+        # The oracle is the float32 tensor, so it cannot check a uint8 adapter.
+        # Saying so beats printing a check that did not happen.
+        print("uint8 variant: reports/inputs holds the float32 tensor, so the "
+              "adapter cannot be checked against it. The graph preamble does "
+              "the normalisation; this feeds raw uint8 RGB.")
+        good = list(wanted)
+    else:
+        print("adapter check (against the tensor each benchmark actually fed):")
+        for m in wanted:
+            passed, detail = check_adapter(m, example)
+            print(f"  {'ok  ' if passed else 'FAIL'} {m:20} {detail}")
+            if passed:
+                good.append(m)
     if args.check:
         return 0 if len(good) == len(wanted) else 1
     if not good:
@@ -542,7 +588,7 @@ def main():
             continue
         print(f"\n[{m}] scoring")
         r = score_model(m, manifest, root, runs, args.limit, args.diagnose,
-                        args.precision)
+                        args.precision, args.variant)
         results.append(r)
         if r.get("skip"):
             print(f"  skipped: {r['skip']}")
@@ -563,6 +609,8 @@ def main():
     # Defined before it is used. It was not, and the run scored five models,
     # printed every number, and died on a NameError before writing any of them.
     suffix = f"_{args.precision}" if args.precision else ""
+    if args.variant:
+        suffix += "_" + args.variant
     os.makedirs(OUT_DIR, exist_ok=True)
     for r in results:
         with open(os.path.join(OUT_DIR, f"{r['model']}{suffix}.json"), "w",
