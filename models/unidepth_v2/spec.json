@@ -25,8 +25,8 @@
   "profiles": {
     "bench": {
       "size": [
-        518,
-        518
+        672,
+        896
       ]
     }
   },
@@ -37,7 +37,7 @@
     }
   ],
   "caveats": [
-    "metric scale is roughly 3.1x upstream at 518x518 (D11)",
+    "672x896 because that is what the model's own resize rule returns for a 4:3 source -- aspect preserved, pixel count into [200000, 600000], multiple of 14. Running it at 518x518 told it that was the native resolution, it inferred the focal length from that, and the metric depth came out 3.1x upstream (D11). That was the cost of the override, not a conversion defect. One engine covers a fixed-resolution dataset; a different source aspect ratio needs a different build",
     "float64 in the exported graph is rewritten to float32 after export (core/onnx_tools.demote_float64)"
   ],
   "encoder": {

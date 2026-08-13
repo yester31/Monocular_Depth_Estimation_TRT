@@ -102,6 +102,31 @@ def _depth_pro_depth(outs, shape, orig_h, orig_w):
     return 1.0 / np.clip(inv, 1e-4, 1e4)
 
 
+def _unidepth_pre(bgr, h=672, w=896):
+    """Stretch to the size the model picks for itself, then ImageNet.
+
+    672x896 is not a repository convention: it is what these two models'
+    internal rule returns for any 4:3 source, and feeding them anything else
+    makes them infer a different focal length and report different metres.
+    """
+    img = cv2.resize(bgr, (w, h))
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB).astype(np.float32) / 255.0
+    img = (img - IMAGENET_MEAN) / IMAGENET_STD
+    return np.ascontiguousarray(img.transpose(2, 0, 1)[None]).astype(np.float32)
+
+
+def _point_channel_depth(outs, shape, orig_h, orig_w):
+    """Z of a (1, 3, H, W) point map, already in metres. No shift to solve.
+
+    Unlike moge_2 these place the scene themselves -- the point map is in
+    camera space -- so the last channel is depth as it stands.
+    """
+    h, w = shape
+    pts = np.asarray(outs[0]).reshape(3, h, w).astype(np.float64)
+    d = cv2.resize(pts[2], (orig_w, orig_h), interpolation=cv2.INTER_LINEAR)
+    return np.clip(d, 1e-3, 1e3)
+
+
 PAD_VALUE = [123.675, 116.28, 103.53]
 METRIC3D_SIZE = (616, 1064)
 
@@ -220,6 +245,14 @@ ADAPTERS = {
     "moge_2": {
         "pre": lambda bgr: _rgb_over_255(bgr, 388, 518),
         "depth": lambda outs, oh, ow, ctx: _point_map_depth(outs, (388, 518), oh, ow, 2, 3),
+    },
+    "unidepth_v2": {
+        "pre": _unidepth_pre,
+        "depth": lambda outs, oh, ow, ctx: _point_channel_depth(outs, (672, 896), oh, ow),
+    },
+    "unik3d": {
+        "pre": _unidepth_pre,
+        "depth": lambda outs, oh, ow, ctx: _point_channel_depth(outs, (672, 896), oh, ow),
     },
     "metric3d_v2": {
         "pre": _metric3d_pre,
