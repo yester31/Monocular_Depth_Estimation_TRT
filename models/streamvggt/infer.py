@@ -76,7 +76,7 @@ def main():
 
     model = StreamVGGT()
     weights = f"{CUR_DIR}/StreamVGGT/ckpt/checkpoints.pth"
-    ckpt = torch.load(weights, map_location="cuda")
+    ckpt = torch.load(weights, map_location="cuda", weights_only=True)
     model.load_state_dict(ckpt, strict=True)
     model.eval()
     model = model.to(DEVICE)

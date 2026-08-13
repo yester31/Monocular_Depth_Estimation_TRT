@@ -144,6 +144,11 @@ few need a caveat that travels with the number:
 The D-numbers refer to [docs/model_contracts.md](docs/model_contracts.md),
 which records what was measured and how.
 
+**Not converted yet.** `later/` holds 16 upstream clones that were attempted
+and set aside — none of them has an engine, a benchmark or a `spec.json`, and
+nothing in this repository reads from that directory. They are kept because
+the clone and its notes are the expensive part, not the conversion.
+
 ## 4. Performance
 
 <!-- BENCH:BEGIN -->

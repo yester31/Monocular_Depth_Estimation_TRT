@@ -60,7 +60,7 @@ def set_model(encoder='vits', input_size=518, dtype: torch.dtype = torch.float32
     }
      
     model = DepthAnythingV2(**model_configs[encoder])
-    model.load_state_dict(torch.load(f'{CUR_DIR}/Depth-Anything-V2/checkpoints/depth_anything_v2_{encoder}.pth', map_location='cpu'))
+    model.load_state_dict(torch.load(f'{CUR_DIR}/Depth-Anything-V2/checkpoints/depth_anything_v2_{encoder}.pth', map_location='cpu', weights_only=True))
     model = model.to(DEVICE).eval()
 
     if dtype == torch.half:

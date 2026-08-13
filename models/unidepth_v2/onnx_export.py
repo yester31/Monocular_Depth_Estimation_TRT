@@ -41,7 +41,8 @@ def main ():
         filename=f"pytorch_model.bin",
         repo_type="model",
     )
-    info = model.load_state_dict(torch.load(path), strict=False)
+    info = model.load_state_dict(
+        torch.load(path, map_location="cpu", weights_only=True), strict=False)
     model = model.eval().to(DEVICE) 
 
     dynamo = False      # False

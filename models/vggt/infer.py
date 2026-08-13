@@ -88,10 +88,10 @@ def load_vggt_weights():
     local = os.path.join(CUR_DIR, "vggt", "checkpoints", "model.pt")
     if os.path.isfile(local):
         print(f"[MDET] weights: {local}")
-        return torch.load(local, map_location="cpu")
+        return torch.load(local, map_location="cpu", weights_only=True)
     url = "https://huggingface.co/facebook/VGGT-1B/resolve/main/model.pt"
     print(f"[MDET] weights: {url} (no local copy; ~4.7 GB)")
-    return torch.hub.load_state_dict_from_url(url)
+    return torch.hub.load_state_dict_from_url(url, weights_only=True)
 
 
 def main():

@@ -218,7 +218,7 @@ Phase 1의 B5·B6·B8이 여기에 자연히 흡수된다.
 
 ### Phase 6 — 이후
 
-- `later/` 17개 재시도 검토
+- `later/` 16개 재시도 검토 (§7 — WAFT 삭제 후 16개)
 - CPU 백엔드(ONNX Runtime / OpenVINO)
 - BF16 / INT8 / CUDA Graph — Phase 3의 정확도 기준선 확보 후에만
 

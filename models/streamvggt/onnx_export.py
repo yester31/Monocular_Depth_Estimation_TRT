@@ -73,7 +73,7 @@ def main ():
     input_h, input_w = 518, 518
     model = SVGGTDepthOnlyWrapper()
     weights = f"{CUR_DIR}/StreamVGGT/ckpt/checkpoints.pth"
-    ckpt = torch.load(weights, map_location="cuda")
+    ckpt = torch.load(weights, map_location="cuda", weights_only=True)
     model.load_state_dict(ckpt, strict=True)
     model.eval().to(DEVICE)
 

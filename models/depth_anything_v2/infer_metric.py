@@ -63,7 +63,7 @@ def set_model(encoder='vits', dataset = 'hypersim', input_size=518, dtype: torch
         max_depth = 80 #  80 for outdoor model
 
     model = DepthAnythingV2(**{**model_configs[encoder], 'max_depth': max_depth})
-    model.load_state_dict(torch.load(f'{CUR_DIR}/Depth-Anything-V2/checkpoints/depth_anything_v2_metric_{dataset}_{encoder}.pth', map_location='cpu'))
+    model.load_state_dict(torch.load(f'{CUR_DIR}/Depth-Anything-V2/checkpoints/depth_anything_v2_metric_{dataset}_{encoder}.pth', map_location='cpu', weights_only=True))
     model = model.to(DEVICE).eval()
     if dtype == torch.half:
         model = model.half()
