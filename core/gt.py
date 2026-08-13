@@ -55,10 +55,22 @@ def align(pred, gt, mask, policy):
     valid = m & (g > 0) & np.isfinite(p)
     if valid.sum() < 2:
         raise ValueError("scale_shift needs at least two positive-depth pixels")
-    d_gt = 1.0 / g[valid]
-    d_pred = p[valid]
-    A = np.stack([d_pred, np.ones_like(d_pred)], axis=1)
-    (s, t), *_ = np.linalg.lstsq(A, d_gt, rcond=None)
+    y = 1.0 / g[valid]
+    x = p[valid]
+    # Solved in closed form rather than with np.linalg.lstsq. Two parameters
+    # have an exact solution in four sums, and calling LAPACK for it aborts the
+    # process on this machine when torch has already been imported -- a
+    # Fatal Python error, no traceback, the whole test run gone. A dependency
+    # on a linear algebra backend buys nothing here.
+    n = x.size
+    sx, sy = x.sum(), y.sum()
+    sxx, sxy = float(np.dot(x, x)), float(np.dot(x, y))
+    denom = n * sxx - sx * sx
+    if abs(denom) < 1e-12:
+        # Every prediction the same value: no slope is determined by the data.
+        raise ValueError("scale_shift is underdetermined; the prediction is constant")
+    s = (n * sxy - sx * sy) / denom
+    t = (sy - s * sx) / n
     disp = p * s + t
     # Below this the fitted disparity has crossed zero or gone negative, which
     # is not a depth. Left as inf rather than clipped to a plausible number, so

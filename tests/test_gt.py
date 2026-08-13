@@ -108,6 +108,14 @@ def test_no_alignment_leaves_the_prediction_alone():
     assert fit == {}
 
 
+def test_a_constant_prediction_cannot_be_scale_shifted():
+    # No slope is determined by the data. Refused rather than fitted to
+    # whatever the numerics happen to produce.
+    with pytest.raises(ValueError):
+        align(np.full(4, 0.5), np.array([1.0, 2.0, 3.0, 4.0]),
+              np.ones(4, dtype=bool), "scale_shift")
+
+
 def test_an_unknown_policy_is_refused():
     with pytest.raises(ValueError):
         align(np.ones(2), np.ones(2), np.ones(2, dtype=bool), "whatever")
