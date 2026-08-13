@@ -21,8 +21,8 @@ def main ():
     save_path = os.path.join(CUR_DIR, 'onnx')
     os.makedirs(save_path, exist_ok=True)
 
-    input_h = 672
-    input_w = 896
+    input_h = 518 # 1036
+    input_w = 518 # 1386
     encoder = 'vits'    # 'vits', 'vitb', 'vitg' 
     metric_model = True # True or False
     dataset = 'hypersim'# 'hypersim' for indoor model, 'vkitti' for outdoor model
