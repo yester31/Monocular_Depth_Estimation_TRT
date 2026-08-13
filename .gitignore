@@ -222,3 +222,6 @@ artifacts/
 
 # TR2M upstream clone: cloned, never vendored (its pos_embed.py is CC BY-NC-SA 4.0)
 models/tr2m/TR2M/
+
+# ZipDepth upstream clone (MIT, but 27 MB of checkpoints live in it)
+models/zipdepth/ZipDepth/

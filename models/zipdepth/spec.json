@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "name": "zipdepth",
+  "env": "zipdepth",
+  "input": {
+    "name": "image",
+    "rank": 4,
+    "dtype": "float32",
+    "layout": "NCHW"
+  },
+  "outputs": [
+    {
+      "name": "depth",
+      "meaning": "affine-invariant inverse depth"
+    }
+  ],
+  "profiles": {
+    "bench": {
+      "size": [
+        384,
+        512
+      ]
+    }
+  },
+  "build_targets": [
+    {
+      "profile": "bench",
+      "precision": "fp16"
+    }
+  ],
+  "caveats": [
+    "the only convolutional model here at 6.1M parameters; every other row is a ViT or a transformer geometry network, so it exercises TensorRT's convolution path rather than its attention path",
+    "384x512 fixes upstream's rule (short side 384, both sides a multiple of 32) at the 4:3 of data/example.jpg. A different aspect ratio needs a different engine",
+    "preprocessing is /255 only. There is no ImageNet mean/std here, unlike every other model in this repository",
+    "output is inverse depth, so larger means nearer. Scored with a scale-and-shift fit on disparity, which is the form it is already in",
+    "trained on pseudo-labels from Depth Anything V2 Large, whose weights are CC BY-NC 4.0. Whether that reaches a distilled student is unsettled; the code and checkpoints here are MIT"
+  ],
+  "encoder": {
+    "used": "base",
+    "available": [
+      "base"
+    ],
+    "smallest": "base",
+    "source": "upstream repository: checkpoints/zipdepth_base.pth and zipdepth_base_npu.pth are the only two released, and both are the same 6.1M-parameter base variant. Checked 2026-08-14"
+  },
+  "depth_scale": "relative"
+}
