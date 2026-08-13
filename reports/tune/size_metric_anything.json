@@ -1,0 +1,51 @@
+{
+  "model": "metric_anything",
+  "manifest": "data/eval/diode_indoors.json",
+  "results": [
+    {
+      "abs_rel": 0.1575941772837635,
+      "rmse": 0.8731131800939358,
+      "delta1": 0.7606868153557662,
+      "scaled_abs_rel": 0.060958285710292465,
+      "scaled_delta1": 0.9459620757364133,
+      "fitted_scale_median": 1.1246193928646129,
+      "size": "336x448",
+      "images": 50,
+      "alignment": "none",
+      "mean_ms": 66.7806,
+      "p50_ms": 66.7878,
+      "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\metric_anything\\engine\\size\\metric_anything_336x448_fp16.engine",
+      "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\metric_anything\\onnx\\metric_anything_336x448.onnx"
+    },
+    {
+      "abs_rel": 0.15650489876019763,
+      "rmse": 0.8645584131414489,
+      "delta1": 0.7532020023633145,
+      "scaled_abs_rel": 0.059753392656891224,
+      "scaled_delta1": 0.9463087250774875,
+      "fitted_scale_median": 1.1246578788623067,
+      "size": "388x518",
+      "images": 50,
+      "alignment": "none",
+      "mean_ms": 67.196,
+      "p50_ms": 67.1879,
+      "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\metric_anything\\engine\\size\\metric_anything_388x518_fp16.engine",
+      "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\metric_anything\\onnx\\metric_anything_388x518.onnx"
+    },
+    {
+      "abs_rel": 0.1642076739457803,
+      "rmse": 0.8848617632088712,
+      "delta1": 0.7229377384313463,
+      "scaled_abs_rel": 0.06116917197427828,
+      "scaled_delta1": 0.9461577634922278,
+      "fitted_scale_median": 1.123392091680622,
+      "size": "476x630",
+      "images": 50,
+      "alignment": "none",
+      "mean_ms": 68.1895,
+      "p50_ms": 68.1825,
+      "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\metric_anything\\engine\\size\\metric_anything_476x630_fp16.engine",
+      "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\metric_anything\\onnx\\metric_anything_476x630.onnx"
+    }
+  ]
+}
