@@ -1,0 +1,54 @@
+{
+  "model": "vggt",
+  "precision": "fp16",
+  "input_bytes": {
+    "float32_nchw": 3219888,
+    "uint8_nhwc": 804972
+  },
+  "float32_nchw": {
+    "iterations": 100,
+    "warmup": 0,
+    "mean_ms": 51.9728,
+    "min_ms": 51.668,
+    "p50_ms": 51.9809,
+    "p90_ms": 52.1181,
+    "p99_ms": 52.3387,
+    "max_ms": 52.358,
+    "stdev_ms": 0.1402,
+    "fps": 19.24,
+    "h2d_ms": 1.0483,
+    "compute_ms": 50.4689,
+    "d2h_ms": 0.3724,
+    "host_overhead_ms": 0.0832
+  },
+  "uint8_nhwc": {
+    "iterations": 100,
+    "warmup": 0,
+    "mean_ms": 50.9618,
+    "min_ms": 50.458,
+    "p50_ms": 51.0114,
+    "p90_ms": 51.1837,
+    "p99_ms": 51.3443,
+    "max_ms": 51.5109,
+    "stdev_ms": 0.2013,
+    "fps": 19.62,
+    "h2d_ms": 0.2756,
+    "compute_ms": 50.2501,
+    "d2h_ms": 0.3826,
+    "host_overhead_ms": 0.0535
+  },
+  "delta_ms": -1.011,
+  "delta_pct": -1.95,
+  "outputs": [
+    {
+      "output": 0,
+      "rel": 0.0002726784986072381,
+      "corr": 0.9999992648176977,
+      "ref_abs_mean": 0.6813580138346054
+    }
+  ],
+  "engines": {
+    "float32_nchw": "C:\\Users\\soy\\mde_trt\\work\\models\\vggt\\engine\\vggt_only_depth_518x518_fp16_fp16.engine",
+    "uint8_nhwc": "C:\\Users\\soy\\mde_trt\\work\\models\\vggt\\engine\\vggt_only_depth_518x518_fp16_u8_fp16.engine"
+  }
+}
