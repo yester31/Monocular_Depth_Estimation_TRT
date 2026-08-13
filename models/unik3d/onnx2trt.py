@@ -122,7 +122,7 @@ def main():
     precision = "fp16"  # 'fp32' or 'fp16'
     encoder = 'vits'    # 'vits' or 'vitb'  or 'vitl' 
     dynamic = False      # False
-    onnx_sim = False     # True or False
+    onnx_sim = True     # True or False
     # The dynamo exporter is what produces a working graph for this
     # model, so it is named. It used to be left to torch's default,
     # which meant the filename recorded nothing about how the ONNX was

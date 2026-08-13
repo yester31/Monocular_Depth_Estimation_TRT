@@ -96,7 +96,7 @@ def main():
     precision = "fp16"  # 'fp32' or 'fp16'
     encoder = 'vits'    # 'vits'
     dynamo = True       # True or False
-    onnx_sim = False     # True or False
+    onnx_sim = True     # True or False
     # The resolution in the name already distinguishes the two profiles, so
     # bench and native engines coexist without overwriting each other.
     model_name = f"depth_anything_AC_{encoder}_{input_h}x{input_w}"

@@ -117,7 +117,7 @@ def main():
     precision = "fp16"  # 'fp32' or 'fp16'
     encoder = 'vits'    # 'vits' or 'vitb'  or 'vitl' 
     dynamo = False      # False
-    onnx_sim = False     # True or False
+    onnx_sim = True     # True or False
     model_name = f"uni_depth_v2_{encoder}_{input_h}x{input_w}"
     model_name = f"{model_name}_dynamo" if dynamo else model_name
     model_name = f"{model_name}_sim" if onnx_sim else model_name
