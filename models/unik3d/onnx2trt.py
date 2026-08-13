@@ -59,33 +59,38 @@ def main():
     save_dir_path = os.path.join(CUR_DIR, 'results')
     os.makedirs(save_dir_path, exist_ok=True)
 
-    # 518x518, the size every model in this repo uses so their speeds compare.
+    # 672x896, which is the size this model chooses for itself.
     #
-    # WARNING: the metric depth from this engine is NOT comparable to upstream.
+    # unik3d resizes internally by its own rule: pad the aspect ratio into
+    # [0.5, 2.5], then scale the pixel count into [200000, 600000], snapped to a
+    # multiple of 14. For any 4:3 source -- data/example.jpg at 3024x2268, and
+    # every DIODE frame at 1024x768 -- that rule lands on exactly 672x896.
     #
-    # unik3d picks its own input size from the image (see the commented block
-    # below): aspect preserved, pixel count clamped to 200k-600k, multiple of
-    # 14. Given the original 3024x2268 it chooses 896x672. Pre-resizing to
-    # 518x518 does not hand it a smaller image — it tells the model "518x518 is
-    # the native resolution", and the model infers focal length from that.
-    # Since it feeds that estimate straight into depth, the metric values move:
+    # This used to be 518x518, to match the other models so the speeds would
+    # compare, and that was the wrong trade. Pre-resizing does not hand the
+    # model a smaller image; it tells the model "this is the native resolution",
+    # and the model infers focal length from it and feeds that straight into
+    # depth. Measured on RTX 3080 with data/example.jpg:
     #
     #   fed to model    metric scale vs upstream   AbsRel   structure corr
     #   896x672                          1.18x      17.9%          0.9961
     #   518x700                          1.75x      75.6%          0.8968
-    #   518x518 (here)                   3.15x     217.5%          0.7210
+    #   518x518 (was)                    3.15x     217.5%          0.7210
     #
-    # Measured on RTX 3080 with data/example.jpg. Note the structure survives —
-    # after dividing out the scale the error is 5.6% — so relative depth is
-    # usable; only the absolute metres are wrong.
+    # So D11's "metric scale is 3.15x upstream" was never a conversion defect.
+    # It was the cost of overriding the model's own choice, and it made the
+    # metric output unusable while leaving the structure intact.
     #
-    # Not corrected here, because there is no fixed size that would fix it: the
-    # model's choice depends on the source aspect ratio, so a static engine
-    # would need one build per aspect. Use PyTorch when the metric values
-    # matter. depth_anything_v2, depth_pro and moge_2 were checked and do not
-    # behave this way (scale stays within 1.05x).
-    input_h = 518 # 1036
-    input_w = 518 # 1386
+    # The objection that killed this before was that 896x672 is specific to one
+    # sample image, so a static engine would need one build per aspect ratio.
+    # True in general. Not true of a fixed evaluation set: DIODE indoors is
+    # 1024x768 throughout, so one engine covers it, and that engine's size is
+    # the model's own answer for every frame in it.
+    #
+    # It costs speed: 602112 pixels against 268324 is 2.24x the work. The
+    # comparison table records the input size beside every number.
+    input_h = 672
+    input_w = 896
 
     # Input
     image_file_name = 'example.jpg'

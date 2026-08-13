@@ -88,7 +88,18 @@ def main ():
     # Model preparation
     # 518x518 — the repo-wide comparison size. Must match onnx2trt.py,
     # which documents why no aspect-preserving variant is offered.
-    input_h, input_w = 518, 518
+    # 672x896, not 518x518. These models resize internally by their own rule --
+    # pad the aspect ratio into [0.5, 2.5], then scale the pixel count into
+    # [200000, 600000], snapped to a multiple of 14 -- and for any 4:3 source
+    # that rule lands on exactly 672x896. Feeding them a 518 square meant the
+    # engine ran at a size the model would never have chosen, which is what
+    # D11's 3.1x metric scale error was: not a defect in the conversion, a
+    # consequence of overriding the model's own choice.
+    #
+    # It costs speed. 602112 pixels against 268324 is 2.24x the work, and the
+    # comparison table records the input size beside every number for exactly
+    # this reason.
+    input_h, input_w = 672, 896
     encoder = 'vits' # 'vits' or 'vitb' or 'vitl'
     with open(f"{CUR_DIR}/UniK3D/configs/eval/{encoder}.json") as f:
         config = json.load(f)

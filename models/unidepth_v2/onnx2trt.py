@@ -59,31 +59,37 @@ def main():
     save_dir_path = os.path.join(CUR_DIR, 'results')
     os.makedirs(save_dir_path, exist_ok=True)
 
-    # 518x518, the size every model in this repo uses so their speeds compare.
+    # 672x896, which is the size this model chooses for itself.
     #
-    # WARNING: the metric depth from this engine is NOT comparable to upstream.
+    # UniDepthV2 carries the same shape_constraints as unik3d -- aspect
+    # preserved, pixel count clamped to 200k-600k, multiple of 14 -- and
+    # resizes internally. For any 4:3 source, including every DIODE frame at
+    # 1024x768, that rule lands on exactly 672x896.
     #
-    # UniDepthV2 carries the same shape_constraints as unik3d — aspect
-    # preserved, pixels clamped to 200k-600k, multiple of 14 — and resizes
-    # internally. Given the original 3024x2268 it chooses 896x672. Pre-resizing
-    # to 518x518 tells the model that 518x518 IS the native resolution, and it
-    # infers focal length accordingly:
+    # This used to be 518x518, to match the other models so the speeds would
+    # compare, and that was the wrong trade. Pre-resizing tells the model that
+    # 518x518 IS the native resolution, and it infers focal length accordingly:
     #
     #   fed to model      inferred fx
     #   original                2859.4
     #   518x700                  627.6
-    #   518x518 (here)           551.1
+    #   518x518 (was)            551.1
     #
-    # Metric depth is tied to focal length, so the depth values move with it.
-    # unik3d, which shares this design, measures 3.15x upstream at 518x518.
+    # Metric depth is tied to focal length, so the depth moved with it: unik3d,
+    # which shares this design, measured 3.15x upstream at 518x518. D11 was
+    # never a conversion defect, it was the cost of overriding the model's own
+    # choice.
     #
-    # Not corrected here: the model's choice depends on the source aspect
-    # ratio, so a static engine would need one build per aspect. Use PyTorch
-    # when the metric values matter. See docs/model_contracts.md 5.7 —
-    # depth_anything_v2, depth_pro and moge_2 were checked and stay within
-    # 1.05x, so this is specific to these two models.
-    input_h = 518 # 1036
-    input_w = 518 # 1386
+    # The objection that killed this before was that 896x672 is specific to one
+    # sample image and a static engine would need one build per aspect ratio.
+    # True in general, and not true of a fixed evaluation set: DIODE indoors is
+    # 1024x768 throughout. See docs/model_contracts.md 5.7 -- depth_anything_v2,
+    # depth_pro and moge_2 were checked and stay within 1.05x, so this is
+    # specific to these two models.
+    #
+    # It costs speed: 602112 pixels against 268324 is 2.24x the work.
+    input_h = 672
+    input_w = 896
 
     # Input
     image_file_name = 'example.jpg'
