@@ -63,7 +63,7 @@ def main():
 
     # Input
     image_file_name = "example.jpg"
-    image_path = os.path.join(CUR_DIR, "..", "data", image_file_name)
+    image_path = os.path.join(_R, "data", image_file_name)
 
     raw_image = cv2.imread(image_path)
     ori_shape = raw_image.shape[:2]

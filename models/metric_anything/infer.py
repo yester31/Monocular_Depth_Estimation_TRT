@@ -116,7 +116,7 @@ def main():
 
     # input
     image_file_name = "example.jpg"
-    image_path = os.path.join(CUR_DIR, "..", "data", image_file_name)
+    image_path = os.path.join(_R, "data", image_file_name)
     raw_image = cv2.imread(image_path)
     height, width = raw_image.shape[:2]
     print(f"[MDET] original image size : {height}, {width}")

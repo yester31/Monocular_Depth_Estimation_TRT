@@ -16,6 +16,7 @@ miss, since it would train the reader to ignore it.
 """
 
 import ast
+import re
 import builtins
 import os
 import sys
@@ -173,6 +174,40 @@ def test_no_undefined_names():
     check("found the model scripts", seen >= 40, f"only {seen} files scanned")
     if skipped:
         print(f"  ..    {len(skipped)} skipped (star import hides the namespace)")
+
+
+def test_no_script_counts_dots_to_the_repo_root():
+    """Shared assets must be reached through _R, not through CUR_DIR/"..".
+
+    `data/`, `video/` and the rest live at the repository root. A model script
+    that reaches them by counting `..` is correct only at one nesting depth,
+    and Phase 4 changed that depth.
+
+    Nothing static caught this when it broke: the path stayed a valid string,
+    cv2.imread simply returned None and the next line failed on
+    `'NoneType' object has no attribute 'shape'`. It surfaced only because all
+    twelve models were re-run after the move -- and only in metric_anything,
+    which spells the join with double quotes and so slipped past a rewrite that
+    matched single ones.
+    """
+    ROOT_ASSETS = ("data", "video", "video_frames")
+    models = os.path.join(ROOT, "models")
+    if not os.path.isdir(models):
+        return
+    for dirpath, dirnames, filenames in os.walk(models):
+        dirnames[:] = [d for d in dirnames if d != "__pycache__"]
+        for f in sorted(filenames):
+            if not f.endswith(".py"):
+                continue
+            p = os.path.join(dirpath, f)
+            rel = os.path.relpath(p, ROOT).replace(os.sep, "/")
+            src = open(p, encoding="utf-8").read()
+            # ignore commented-out lines; they are not executed
+            code = "\n".join(l for l in src.splitlines()
+                             if not l.strip().startswith("#"))
+            hits = [a for a in ROOT_ASSETS
+                    if re.search(r"CUR_DIR,\s*['\"]\.\.['\"],\s*['\"]" + a, code)]
+            check(f"{rel} reaches shared assets via _R", not hits, str(hits))
 
 
 def test_the_case_that_motivated_this():

@@ -55,7 +55,7 @@ def main():
     image_file_name = 'example.jpg'
     image_path = os.path.join(_R, 'data', image_file_name)
     # image_file_name = '7.jpg'
-    # image_path = os.path.join(CUR_DIR, '..', 'StreamVGGT','StreamVGGT','examples','example_building', image_file_name)
+    # image_path = os.path.join(_R, 'StreamVGGT','StreamVGGT','examples','example_building', image_file_name)
     # image_file_name = 'frame_00000.png'
     # image_path = os.path.join(_R, 'video_frames_50', image_file_name)
     raw_image = cv2.imread(image_path)

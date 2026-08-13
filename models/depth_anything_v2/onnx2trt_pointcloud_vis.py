@@ -25,7 +25,7 @@ def main():
 
     # Input
     image_dir_name = 'video_frames'
-    image_dir = os.path.join(CUR_DIR, '..',image_dir_name)
+    image_dir = os.path.join(_R, image_dir_name)
     valid_exts = [".png", ".jpg", ".jpeg", ".bmp"]
 
     # List all files in the directory and filter only image files
