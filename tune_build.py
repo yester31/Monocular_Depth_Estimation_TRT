@@ -96,6 +96,11 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("model")
+    ap.add_argument("--precision", default=None,
+                    help="build at this precision instead of the recorded one. "
+                         "The point of P4: an fp32 engine from the same ONNX "
+                         "with the same options, so the only difference is the "
+                         "precision")
     ap.add_argument("--opt-level", type=int, nargs="*", default=[None])
     ap.add_argument("--workspace", type=int, nargs="*", default=[None])
     ap.add_argument("--iterations", type=int, default=100)
@@ -137,7 +142,7 @@ def main():
         return 1
 
     feed = np.load(os.path.join(ROOT, "reports", "inputs", f"{args.model}.npy"))
-    precision = run_rec.get("precision", "fp16")
+    precision = args.precision or run_rec.get("precision", "fp16")
     baseline = (run_rec.get("stats") or {}).get("mean_ms")
 
     out_dir = os.path.join(os.path.dirname(run_rec["engine_path"]), "tune")
@@ -147,6 +152,12 @@ def main():
         stem = f"{label}_{precision}"
     else:
         stem = os.path.splitext(os.path.basename(run_rec["engine_path"]))[0]
+        if args.precision and args.precision != run_rec.get("precision"):
+            # Keep the built engine away from the published one's name. An fp32
+            # build landing on the fp16 filename would be found by every tool
+            # that resolves an engine by name, and the speed table would quietly
+            # describe a different engine.
+            stem = f"{stem}_as_{args.precision}"
 
     import common
     print(f"\n{args.model}  ({precision}, recorded build {baseline} ms)")
