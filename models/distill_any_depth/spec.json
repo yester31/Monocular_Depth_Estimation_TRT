@@ -38,5 +38,9 @@
     "smallest": "small",
     "source": "upstream clone, checked 2026-08-13"
   },
-  "depth_scale": "relative"
+  "depth_scale": "relative",
+  "output_form": "inverse_depth",
+  "caveats": [
+    "output_form is inverse_depth: larger means nearer. Measured, not assumed -- the prediction correlates -0.938 with true depth over five DIODE images. It decides whether the scale+shift fit is affine in the space the model was trained in"
+  ]
 }

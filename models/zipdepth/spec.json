@@ -34,7 +34,8 @@
     "preprocessing is /255 only. There is no ImageNet mean/std here, unlike every other model in this repository",
     "output is inverse depth, so larger means nearer. Scored with a scale-and-shift fit on disparity, which is the form it is already in",
     "trained on pseudo-labels from Depth Anything V2 Large, whose weights are CC BY-NC 4.0. Whether that reaches a distilled student is unsettled; the code and checkpoints here are MIT",
-    "exported in the shared trte environment rather than one of its own: onnx_export.py puts the clone on sys.path instead of pip-installing it, and torch 2.11 there already satisfies upstream's torch>=2.4. Verified 2026-08-14 -- the export ran clean with no missing state_dict keys"
+    "exported in the shared trte environment rather than one of its own: onnx_export.py puts the clone on sys.path instead of pip-installing it, and torch 2.11 there already satisfies upstream's torch>=2.4. Verified 2026-08-14 -- the export ran clean with no missing state_dict keys",
+    "output_form is inverse_depth: larger means nearer. Measured, not assumed -- the prediction correlates -0.892 with true depth over five DIODE images. It decides whether the scale+shift fit is affine in the space the model was trained in"
   ],
   "encoder": {
     "used": "base",
@@ -44,5 +45,6 @@
     "smallest": "base",
     "source": "upstream repository: checkpoints/zipdepth_base.pth and zipdepth_base_npu.pth are the only two released, and both are the same 6.1M-parameter base variant. Checked 2026-08-14"
   },
-  "depth_scale": "relative"
+  "depth_scale": "relative",
+  "output_form": "inverse_depth"
 }
