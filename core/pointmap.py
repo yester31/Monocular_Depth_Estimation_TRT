@@ -67,22 +67,26 @@ def _downsample_nearest(a, size=DOWNSAMPLE):
 _GOLDEN = 0.5 * (3.0 - 5.0 ** 0.5)
 
 
-def _local_minimum(f, x0=0.0, step=0.1, lo=-np.inf, hi=np.inf, tol=1e-7,
-                   max_iter=400, growth=1.3):
-    """The minimum of a smooth scalar f nearest x0, without a solver library.
+def _local_minimum(f, x0, step, lo, hi, tol=1e-7, max_steps=4000):
+    """The FIRST minimum of a smooth scalar f met walking away from x0.
 
-    Upstream runs Levenberg-Marquardt from x0=0, which finds the local minimum
-    on whichever side of 0 the function first descends. That is reproduced
-    here rather than a global search: a global one could return a *better*
-    minimum and therefore a different answer, and the point is to agree.
+    Not the best one. Upstream runs Levenberg-Marquardt from x0=0, which
+    settles in the basin it first descends into, and the requirement here is to
+    agree with that rather than to improve on it.
 
-    Written out because scipy.optimize.least_squares reaches MINPACK through
-    the BLAS, and on this machine that aborts the process once torch has been
-    imported -- the same failure np.linalg.lstsq and np.corrcoef produced. Two
-    bracketing loops and a golden section need no backend.
+    The walk is by a constant small step, deliberately. A geometric expansion
+    is faster and strides over narrow basins: on one moge_2 frame in fifty it
+    skipped the minimum Levenberg-Marquardt finds and converged on a worse one
+    -- residual 1.1e-01 against upstream's 7.0e-02, which moved that model's
+    published delta1 by more than a point. Cheap to get wrong, cheap to check,
+    and the check is what found it.
+
+    Written out rather than called from scipy because
+    scipy.optimize.least_squares reaches MINPACK through the BLAS, and on this
+    machine that aborts the process once torch has been imported.
     """
+    x0 = min(max(x0, lo), hi)
     f0 = f(x0)
-    # Which way is downhill.
     direction = 0.0
     for d in (1.0, -1.0):
         x = min(max(x0 + d * step, lo), hi)
@@ -92,19 +96,20 @@ def _local_minimum(f, x0=0.0, step=0.1, lo=-np.inf, hi=np.inf, tol=1e-7,
     if direction == 0.0:
         return x0                                   # already at the bottom
 
-    a, b = x0, min(max(x0 + direction * step, lo), hi)
-    fb = f(b)
-    for _ in range(max_iter):                       # expand until it turns up
-        c = min(max(b + direction * step * growth, lo), hi)
-        if c == b:
-            break
-        fc = f(c)
-        if fc >= fb:
-            break
-        a, b, fb = b, c, fc
-        step *= growth
-    left, right = (min(a, c), max(a, c))
-    for _ in range(max_iter):                       # golden section
+    prev, cur = x0, min(max(x0 + direction * step, lo), hi)
+    f_prev, f_cur = f0, f(cur)
+    nxt = cur
+    for _ in range(max_steps):
+        nxt = min(max(cur + direction * step, lo), hi)
+        if nxt == cur:
+            break                                   # ran into the bound
+        f_nxt = f(nxt)
+        if f_nxt >= f_cur:
+            break                                   # bracketed: prev, cur, nxt
+        prev, cur, f_prev, f_cur = cur, nxt, f_cur, f_nxt
+
+    left, right = (min(prev, nxt), max(prev, nxt))
+    for _ in range(400):                            # golden section
         if right - left < tol:
             break
         m1 = left + _GOLDEN * (right - left)
@@ -145,8 +150,10 @@ def solve_optimal_focal_shift(uv, xyz):
     # in twenty, moving the shift by 0.045 while the other nineteen agreed to
     # 1e-6. z + shift must also stay away from zero, or the projection blows
     # up; upstream relies on the optimiser not walking there and this says so.
+    # Fine enough not to step over a narrow basin, and 4000 of them still
+    # reach far past any plausible shift for a scene this size.
     spread = float(np.percentile(z, 95) - np.percentile(z, 5))
-    step = max(1e-4, 0.02 * spread)
+    step = max(1e-5, 0.002 * spread)
     shift = _local_minimum(cost, x0=0.0, step=step, lo=-float(z.min()) + 1e-6,
                            hi=float(np.abs(z).max()) + 1.0)
     shift = np.float32(shift)
