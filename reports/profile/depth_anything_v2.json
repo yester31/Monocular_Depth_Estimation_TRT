@@ -1,8 +1,8 @@
 {
-  "model": "distill_any_depth",
+  "model": "depth_anything_v2",
   "variant": "single",
   "precision": "fp16",
-  "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\distill_any_depth\\engine\\distill_any_depth_small_518x518_dynamo_sim_fp16.engine",
+  "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\depth_anything_v2\\engine\\depth_anything_v2_vits_518x518_metric_hypersim_dynamo_sim_fp16.engine",
   "input_shape": [
     1,
     3,
@@ -11,844 +11,844 @@
   ],
   "iterations": 30,
   "summary": {
-    "layers_profiled": 142,
-    "layers_in_engine": 142,
-    "profile_total_ms": 3.663,
-    "benchmark_mean_ms": 4.3155,
-    "top10_share": 0.1764,
-    "fp32_output_share": 0.0175,
+    "layers_profiled": 140,
+    "layers_in_engine": 140,
+    "profile_total_ms": 3.6109,
+    "benchmark_mean_ms": 4.2653,
+    "top10_share": 0.174,
+    "fp32_output_share": 0.017,
     "layer_types": {
       "kgen": 41,
       "gemm": 36,
-      "CaskConvolution": 25,
+      "CaskConvolution": 26,
       "fusion": 12,
-      "NoOp": 9,
-      "CaskGemmConvolution": 5,
+      "NoOp": 7,
       "Resize": 5,
+      "CaskGemmConvolution": 4,
       "PointWiseV2": 4,
       "Reformat": 2,
       "CaskDeconvolutionV2": 2,
       "CaskJitConv": 1
     },
     "layer_precisions": {
-      "Half": 137,
-      "Float": 5
+      "Half": 134,
+      "Float": 6
     }
   },
   "suspects": [
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d",
-      "ms": 0.064211,
+      "ms": 0.047489,
       "calls_per_iter": 1.0,
-      "share": 0.01753,
+      "share": 0.013152,
       "layer_type": "Reformat"
     },
     {
       "name": "node_upsample_bilinear2d_4",
-      "ms": 0.0384,
+      "ms": 0.038605,
       "calls_per_iter": 1.0,
-      "share": 0.010483,
+      "share": 0.010691,
       "layer_type": "Resize"
     }
   ],
   "layers": [
     {
       "name": "node_conv2d_29 + node_relu_14",
-      "ms": 0.097826,
+      "ms": 0.096017,
       "calls_per_iter": 1.0,
-      "share": 0.026707
+      "share": 0.026591
     },
     {
       "name": "node_conv2d_28",
-      "ms": 0.074615,
+      "ms": 0.073899,
       "calls_per_iter": 1.0,
-      "share": 0.02037
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d",
-      "ms": 0.064211,
-      "calls_per_iter": 1.0,
-      "share": 0.01753
-    },
-    {
-      "name": "Gemm_106_myl2_86",
-      "ms": 0.063522,
-      "calls_per_iter": 1.0,
-      "share": 0.017342
-    },
-    {
-      "name": "Gemm_97_myl2_79",
-      "ms": 0.061611,
-      "calls_per_iter": 1.0,
-      "share": 0.01682
+      "share": 0.020465
     },
     {
       "name": "Gemm_25_myl2_20",
-      "ms": 0.060996,
+      "ms": 0.062293,
       "calls_per_iter": 1.0,
-      "share": 0.016652
-    },
-    {
-      "name": "Gemm_79_myl2_64",
-      "ms": 0.059119,
-      "calls_per_iter": 1.0,
-      "share": 0.01614
-    },
-    {
-      "name": "Gemm_88_myl2_72",
-      "ms": 0.055637,
-      "calls_per_iter": 1.0,
-      "share": 0.015189
-    },
-    {
-      "name": "Gemm_61_myl2_50",
-      "ms": 0.054511,
-      "calls_per_iter": 1.0,
-      "share": 0.014882
-    },
-    {
-      "name": "Gemm_43_myl2_35",
-      "ms": 0.054033,
-      "calls_per_iter": 1.0,
-      "share": 0.014751
-    },
-    {
-      "name": "Gemm_70_myl2_57",
-      "ms": 0.053862,
-      "calls_per_iter": 1.0,
-      "share": 0.014705
+      "share": 0.017251
     },
     {
       "name": "Gemm_52_myl2_42",
-      "ms": 0.052087,
+      "ms": 0.05946,
       "calls_per_iter": 1.0,
-      "share": 0.01422
+      "share": 0.016467
     },
     {
-      "name": "_gemm_mha_v2_myl2_68",
-      "ms": 0.051473,
+      "name": "Gemm_79_myl2_64",
+      "ms": 0.058743,
       "calls_per_iter": 1.0,
-      "share": 0.014052
+      "share": 0.016268
+    },
+    {
+      "name": "Gemm_61_myl2_50",
+      "ms": 0.056252,
+      "calls_per_iter": 1.0,
+      "share": 0.015578
+    },
+    {
+      "name": "Gemm_106_myl2_86",
+      "ms": 0.055774,
+      "calls_per_iter": 1.0,
+      "share": 0.015446
     },
     {
       "name": "Gemm_16_myl2_13",
-      "ms": 0.050927,
+      "ms": 0.055398,
       "calls_per_iter": 1.0,
-      "share": 0.013903
-    },
-    {
-      "name": "node_convolution",
-      "ms": 0.049801,
-      "calls_per_iter": 1.0,
-      "share": 0.013596
-    },
-    {
-      "name": "_gemm_mha_v2_myl2_24",
-      "ms": 0.049732,
-      "calls_per_iter": 1.0,
-      "share": 0.013577
-    },
-    {
-      "name": "_gemm_mha_v2_myl2_9",
-      "ms": 0.049357,
-      "calls_per_iter": 1.0,
-      "share": 0.013475
-    },
-    {
-      "name": "_gemm_mha_v2_myl2_60",
-      "ms": 0.048913,
-      "calls_per_iter": 1.0,
-      "share": 0.013353
-    },
-    {
-      "name": "_gemm_mha_v2_myl2_31",
-      "ms": 0.048879,
-      "calls_per_iter": 1.0,
-      "share": 0.013344
-    },
-    {
-      "name": "_gemm_mha_v2_myl2_16",
-      "ms": 0.048777,
-      "calls_per_iter": 1.0,
-      "share": 0.013316
-    },
-    {
-      "name": "_gemm_mha_v2_myl2_46",
-      "ms": 0.048708,
-      "calls_per_iter": 1.0,
-      "share": 0.013298
-    },
-    {
-      "name": "_gemm_mha_v2_myl2_38",
-      "ms": 0.048367,
-      "calls_per_iter": 1.0,
-      "share": 0.013204
-    },
-    {
-      "name": "_gemm_mha_v2_myl2_82",
-      "ms": 0.047821,
-      "calls_per_iter": 1.0,
-      "share": 0.013055
-    },
-    {
-      "name": "_gemm_mha_v2_myl2_75",
-      "ms": 0.047514,
-      "calls_per_iter": 1.0,
-      "share": 0.012971
-    },
-    {
-      "name": "_gemm_mha_v2_myl2_53",
-      "ms": 0.047275,
-      "calls_per_iter": 1.0,
-      "share": 0.012906
+      "share": 0.015342
     },
     {
       "name": "Gemm_34_myl2_28",
-      "ms": 0.046251,
+      "ms": 0.055398,
       "calls_per_iter": 1.0,
-      "share": 0.012627
+      "share": 0.015342
     },
     {
-      "name": "_gemm_mha_v2_myl2_2",
-      "ms": 0.045227,
+      "name": "Gemm_43_myl2_35",
+      "ms": 0.054989,
       "calls_per_iter": 1.0,
-      "share": 0.012347
+      "share": 0.015229
     },
     {
-      "name": "node_Conv_389 + PWN(node_relu_10)",
-      "ms": 0.044339,
+      "name": "Gemm_97_myl2_79",
+      "ms": 0.054306,
       "calls_per_iter": 1.0,
-      "share": 0.012105
+      "share": 0.015039
     },
     {
-      "name": "node_conv2d_20 + node_relu_9",
-      "ms": 0.043691,
+      "name": "Gemm_88_myl2_72",
+      "ms": 0.054204,
       "calls_per_iter": 1.0,
-      "share": 0.011928
+      "share": 0.015011
     },
     {
-      "name": "Gemm_7_myl2_6",
-      "ms": 0.042018,
+      "name": "_gemm_mha_v2_myl2_46",
+      "ms": 0.051712,
       "calls_per_iter": 1.0,
-      "share": 0.011471
+      "share": 0.014321
+    },
+    {
+      "name": "node_convolution",
+      "ms": 0.050722,
+      "calls_per_iter": 1.0,
+      "share": 0.014047
+    },
+    {
+      "name": "_gemm_mha_v2_myl2_24",
+      "ms": 0.050449,
+      "calls_per_iter": 1.0,
+      "share": 0.013971
+    },
+    {
+      "name": "_gemm_mha_v2_myl2_60",
+      "ms": 0.049596,
+      "calls_per_iter": 1.0,
+      "share": 0.013735
+    },
+    {
+      "name": "Gemm_70_myl2_57",
+      "ms": 0.049323,
+      "calls_per_iter": 1.0,
+      "share": 0.013659
     },
     {
       "name": "node_conv2d_22 + node_add_33 + PWN(node_relu_12)",
-      "ms": 0.041779,
+      "ms": 0.048674,
       "calls_per_iter": 1.0,
-      "share": 0.011406
+      "share": 0.01348
+    },
+    {
+      "name": "_gemm_mha_v2_myl2_9",
+      "ms": 0.048503,
+      "calls_per_iter": 1.0,
+      "share": 0.013432
+    },
+    {
+      "name": "_gemm_mha_v2_myl2_53",
+      "ms": 0.04823,
+      "calls_per_iter": 1.0,
+      "share": 0.013357
+    },
+    {
+      "name": "_gemm_mha_v2_myl2_75",
+      "ms": 0.048162,
+      "calls_per_iter": 1.0,
+      "share": 0.013338
+    },
+    {
+      "name": "_gemm_mha_v2_myl2_38",
+      "ms": 0.047991,
+      "calls_per_iter": 1.0,
+      "share": 0.013291
+    },
+    {
+      "name": "_gemm_mha_v2_myl2_68",
+      "ms": 0.047855,
+      "calls_per_iter": 1.0,
+      "share": 0.013253
+    },
+    {
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d",
+      "ms": 0.047489,
+      "calls_per_iter": 1.0,
+      "share": 0.013152
+    },
+    {
+      "name": "_gemm_mha_v2_myl2_82",
+      "ms": 0.047445,
+      "calls_per_iter": 1.0,
+      "share": 0.013139
+    },
+    {
+      "name": "_gemm_mha_v2_myl2_16",
+      "ms": 0.047411,
+      "calls_per_iter": 1.0,
+      "share": 0.01313
+    },
+    {
+      "name": "node_conv2d_30 + PWN(PWN(node_sigmoid), scalar_tensor_default + ONNXTRT_Broadcast_579 + node_mul_36)",
+      "ms": 0.047343,
+      "calls_per_iter": 1.0,
+      "share": 0.013111
+    },
+    {
+      "name": "_gemm_mha_v2_myl2_31",
+      "ms": 0.04707,
+      "calls_per_iter": 1.0,
+      "share": 0.013035
+    },
+    {
+      "name": "_gemm_mha_v2_myl2_2",
+      "ms": 0.044544,
+      "calls_per_iter": 1.0,
+      "share": 0.012336
+    },
+    {
+      "name": "node_Conv_391 + PWN(node_relu_10)",
+      "ms": 0.042735,
+      "calls_per_iter": 1.0,
+      "share": 0.011835
     },
     {
       "name": "node_conv2d_27",
-      "ms": 0.041472,
+      "ms": 0.041711,
       "calls_per_iter": 1.0,
-      "share": 0.011322
+      "share": 0.011551
     },
     {
-      "name": "node_upsample_bilinear2d_4",
-      "ms": 0.0384,
+      "name": "Gemm_7_myl2_6",
+      "ms": 0.041301,
       "calls_per_iter": 1.0,
-      "share": 0.010483
-    },
-    {
-      "name": "node_Conv_392",
-      "ms": 0.038298,
-      "calls_per_iter": 1.0,
-      "share": 0.010455
-    },
-    {
-      "name": "node_conv2d_30 + node_Relu_393",
-      "ms": 0.036659,
-      "calls_per_iter": 1.0,
-      "share": 0.010008
-    },
-    {
-      "name": "node_conv2d",
-      "ms": 0.036386,
-      "calls_per_iter": 1.0,
-      "share": 0.009934
-    },
-    {
-      "name": "node_conv2d_26 + node_add_34",
-      "ms": 0.03584,
-      "calls_per_iter": 1.0,
-      "share": 0.009784
-    },
-    {
-      "name": "node_conv2d_12 + node_add_27",
-      "ms": 0.032154,
-      "calls_per_iter": 1.0,
-      "share": 0.008778
-    },
-    {
-      "name": "node_conv2d_23 + node_relu_11",
-      "ms": 0.031573,
-      "calls_per_iter": 1.0,
-      "share": 0.00862
-    },
-    {
-      "name": "__myl_Fc_myl2_49",
-      "ms": 0.0313,
-      "calls_per_iter": 1.0,
-      "share": 0.008545
-    },
-    {
-      "name": "__myl_Fc_myl2_63",
-      "ms": 0.031232,
-      "calls_per_iter": 1.0,
-      "share": 0.008526
-    },
-    {
-      "name": "node_conv2d_24 + node_add_32",
-      "ms": 0.03113,
-      "calls_per_iter": 1.0,
-      "share": 0.008498
-    },
-    {
-      "name": "__myl_Fc_myl2_12",
-      "ms": 0.030959,
-      "calls_per_iter": 1.0,
-      "share": 0.008452
-    },
-    {
-      "name": "__myl_Fc_myl2_5",
-      "ms": 0.030686,
-      "calls_per_iter": 1.0,
-      "share": 0.008377
-    },
-    {
-      "name": "__myl_Fc_myl2_41",
-      "ms": 0.030583,
-      "calls_per_iter": 1.0,
-      "share": 0.008349
-    },
-    {
-      "name": "__myl_Fc_myl2_78",
-      "ms": 0.030515,
-      "calls_per_iter": 1.0,
-      "share": 0.008331
-    },
-    {
-      "name": "__myl_Fc_myl2_34",
-      "ms": 0.030447,
-      "calls_per_iter": 1.0,
-      "share": 0.008312
-    },
-    {
-      "name": "__myl_Fc_myl2_27",
-      "ms": 0.030345,
-      "calls_per_iter": 1.0,
-      "share": 0.008284
-    },
-    {
-      "name": "__myl_Fc_myl2_56",
-      "ms": 0.030276,
-      "calls_per_iter": 1.0,
-      "share": 0.008266
-    },
-    {
-      "name": "__myl_Fc_myl2_19",
-      "ms": 0.030174,
-      "calls_per_iter": 1.0,
-      "share": 0.008238
+      "share": 0.011438
     },
     {
       "name": "node_conv2d_25 + node_relu_13",
-      "ms": 0.030106,
+      "ms": 0.040619,
       "calls_per_iter": 1.0,
-      "share": 0.008219
+      "share": 0.011249
     },
     {
-      "name": "__myl_Fc_myl2_71",
-      "ms": 0.029935,
+      "name": "node_upsample_bilinear2d_4",
+      "ms": 0.038605,
       "calls_per_iter": 1.0,
-      "share": 0.008172
+      "share": 0.010691
     },
     {
-      "name": "__myl_Fc_myl2_85",
-      "ms": 0.029867,
+      "name": "node_conv2d",
+      "ms": 0.036284,
       "calls_per_iter": 1.0,
-      "share": 0.008154
+      "share": 0.010048
     },
     {
       "name": "node_conv2d_5",
-      "ms": 0.02915,
+      "ms": 0.033075,
       "calls_per_iter": 1.0,
-      "share": 0.007958
+      "share": 0.00916
     },
     {
-      "name": "node_conv2d_15 + node_relu_5",
-      "ms": 0.02857,
+      "name": "node_conv2d_26 + node_add_34",
+      "ms": 0.032666,
       "calls_per_iter": 1.0,
-      "share": 0.0078
+      "share": 0.009046
+    },
+    {
+      "name": "__myl_Fc_myl2_41",
+      "ms": 0.03229,
+      "calls_per_iter": 1.0,
+      "share": 0.008942
+    },
+    {
+      "name": "__myl_Fc_myl2_34",
+      "ms": 0.031915,
+      "calls_per_iter": 1.0,
+      "share": 0.008838
+    },
+    {
+      "name": "node_conv2d_24 + node_add_32",
+      "ms": 0.031369,
+      "calls_per_iter": 1.0,
+      "share": 0.008687
+    },
+    {
+      "name": "__myl_Fc_myl2_5",
+      "ms": 0.031198,
+      "calls_per_iter": 1.0,
+      "share": 0.00864
+    },
+    {
+      "name": "node_conv2d_23 + node_relu_11",
+      "ms": 0.031095,
+      "calls_per_iter": 1.0,
+      "share": 0.008612
+    },
+    {
+      "name": "__myl_Fc_myl2_27",
+      "ms": 0.03072,
+      "calls_per_iter": 1.0,
+      "share": 0.008508
+    },
+    {
+      "name": "__myl_Fc_myl2_12",
+      "ms": 0.030652,
+      "calls_per_iter": 1.0,
+      "share": 0.008489
+    },
+    {
+      "name": "__myl_Fc_myl2_71",
+      "ms": 0.030652,
+      "calls_per_iter": 1.0,
+      "share": 0.008489
+    },
+    {
+      "name": "__myl_Fc_myl2_63",
+      "ms": 0.030618,
+      "calls_per_iter": 1.0,
+      "share": 0.008479
+    },
+    {
+      "name": "__myl_Fc_myl2_78",
+      "ms": 0.030549,
+      "calls_per_iter": 1.0,
+      "share": 0.00846
+    },
+    {
+      "name": "__myl_Fc_myl2_56",
+      "ms": 0.030515,
+      "calls_per_iter": 1.0,
+      "share": 0.008451
+    },
+    {
+      "name": "__myl_Fc_myl2_49",
+      "ms": 0.030242,
+      "calls_per_iter": 1.0,
+      "share": 0.008375
+    },
+    {
+      "name": "__myl_Fc_myl2_85",
+      "ms": 0.030174,
+      "calls_per_iter": 1.0,
+      "share": 0.008356
+    },
+    {
+      "name": "__myl_Fc_myl2_19",
+      "ms": 0.030071,
+      "calls_per_iter": 1.0,
+      "share": 0.008328
     },
     {
       "name": "node_conv2d_4",
-      "ms": 0.028433,
+      "ms": 0.029901,
       "calls_per_iter": 1.0,
-      "share": 0.007762
-    },
-    {
-      "name": "__mye66678+__mye66666+__mye66654_myl2_8",
-      "ms": 0.028297,
-      "calls_per_iter": 1.0,
-      "share": 0.007725
-    },
-    {
-      "name": "__mye67138+__mye67126+__mye67114_myl2_37",
-      "ms": 0.028058,
-      "calls_per_iter": 1.0,
-      "share": 0.00766
-    },
-    {
-      "name": "__mye66793+__mye66781+__mye66769_myl2_15",
-      "ms": 0.027887,
-      "calls_per_iter": 1.0,
-      "share": 0.007613
-    },
-    {
-      "name": "__mye67023+__mye67011+__mye66999_myl2_30",
-      "ms": 0.027819,
-      "calls_per_iter": 1.0,
-      "share": 0.007595
-    },
-    {
-      "name": "__mye67828+__mye67816+__mye67804_myl2_81",
-      "ms": 0.027716,
-      "calls_per_iter": 1.0,
-      "share": 0.007567
-    },
-    {
-      "name": "__mye67483+__mye67471+__mye67459_myl2_59",
-      "ms": 0.027614,
-      "calls_per_iter": 1.0,
-      "share": 0.007539
-    },
-    {
-      "name": "__mye67368+__mye67356+__mye67344_myl2_52",
-      "ms": 0.02758,
-      "calls_per_iter": 1.0,
-      "share": 0.007529
-    },
-    {
-      "name": "__mye67713+__mye67701+__mye67689_myl2_74",
-      "ms": 0.027443,
-      "calls_per_iter": 1.0,
-      "share": 0.007492
-    },
-    {
-      "name": "__mye67598+__mye67586+__mye67574_myl2_67",
-      "ms": 0.027068,
-      "calls_per_iter": 1.0,
-      "share": 0.00739
-    },
-    {
-      "name": "__mye66563+__mye66551+__mye66539_myl2_1",
-      "ms": 0.026999,
-      "calls_per_iter": 1.0,
-      "share": 0.007371
-    },
-    {
-      "name": "__mye67253+__mye67241+__mye67229_myl2_45",
-      "ms": 0.026795,
-      "calls_per_iter": 1.0,
-      "share": 0.007315
-    },
-    {
-      "name": "__mye66908+__mye66896+__mye66884_myl2_23",
-      "ms": 0.02618,
-      "calls_per_iter": 1.0,
-      "share": 0.007147
-    },
-    {
-      "name": "node_upsample_bilinear2d_3",
-      "ms": 0.02618,
-      "calls_per_iter": 1.0,
-      "share": 0.007147
-    },
-    {
-      "name": "node_conv2d_17 + node_add_30",
-      "ms": 0.025975,
-      "calls_per_iter": 1.0,
-      "share": 0.007091
-    },
-    {
-      "name": "node_Conv_391",
-      "ms": 0.024235,
-      "calls_per_iter": 1.0,
-      "share": 0.006616
+      "share": 0.008281
     },
     {
       "name": "node_conv2d_3",
-      "ms": 0.024201,
+      "ms": 0.028843,
       "calls_per_iter": 1.0,
-      "share": 0.006607
+      "share": 0.007988
     },
     {
-      "name": "node_conv2d_21 + node_add_31",
-      "ms": 0.020105,
+      "name": "__mye66678+__mye66666+__mye66654_myl2_8",
+      "ms": 0.028092,
       "calls_per_iter": 1.0,
-      "share": 0.005489
+      "share": 0.00778
     },
     {
-      "name": "node_Conv_390 + PWN(node_relu_6)",
-      "ms": 0.019934,
+      "name": "node_Conv_394",
+      "ms": 0.027921,
       "calls_per_iter": 1.0,
-      "share": 0.005442
+      "share": 0.007732
     },
     {
-      "name": "node_conv2d_19 + node_add_29",
-      "ms": 0.018057,
+      "name": "__mye67253+__mye67241+__mye67229_myl2_45",
+      "ms": 0.027853,
       "calls_per_iter": 1.0,
-      "share": 0.004929
+      "share": 0.007714
     },
     {
-      "name": "Gemm_66_myl2_54",
-      "ms": 0.017954,
+      "name": "node_Conv_393",
+      "ms": 0.027785,
       "calls_per_iter": 1.0,
-      "share": 0.004902
+      "share": 0.007695
     },
     {
-      "name": "Gemm_102_myl2_83",
-      "ms": 0.017271,
+      "name": "__mye67483+__mye67471+__mye67459_myl2_59",
+      "ms": 0.027716,
       "calls_per_iter": 1.0,
-      "share": 0.004715
+      "share": 0.007676
+    },
+    {
+      "name": "__mye67713+__mye67701+__mye67689_myl2_74",
+      "ms": 0.02758,
+      "calls_per_iter": 1.0,
+      "share": 0.007638
+    },
+    {
+      "name": "__mye67828+__mye67816+__mye67804_myl2_81",
+      "ms": 0.02758,
+      "calls_per_iter": 1.0,
+      "share": 0.007638
+    },
+    {
+      "name": "__mye67138+__mye67126+__mye67114_myl2_37",
+      "ms": 0.027546,
+      "calls_per_iter": 1.0,
+      "share": 0.007628
+    },
+    {
+      "name": "__mye67368+__mye67356+__mye67344_myl2_52",
+      "ms": 0.027546,
+      "calls_per_iter": 1.0,
+      "share": 0.007628
+    },
+    {
+      "name": "__mye66793+__mye66781+__mye66769_myl2_15",
+      "ms": 0.027511,
+      "calls_per_iter": 1.0,
+      "share": 0.007619
+    },
+    {
+      "name": "__mye67023+__mye67011+__mye66999_myl2_30",
+      "ms": 0.027409,
+      "calls_per_iter": 1.0,
+      "share": 0.007591
+    },
+    {
+      "name": "__mye67598+__mye67586+__mye67574_myl2_67",
+      "ms": 0.027204,
+      "calls_per_iter": 1.0,
+      "share": 0.007534
+    },
+    {
+      "name": "node_upsample_bilinear2d_3",
+      "ms": 0.027068,
+      "calls_per_iter": 1.0,
+      "share": 0.007496
+    },
+    {
+      "name": "__mye66563+__mye66551+__mye66539_myl2_1",
+      "ms": 0.026829,
+      "calls_per_iter": 1.0,
+      "share": 0.00743
+    },
+    {
+      "name": "__mye66908+__mye66896+__mye66884_myl2_23",
+      "ms": 0.026112,
+      "calls_per_iter": 1.0,
+      "share": 0.007231
+    },
+    {
+      "name": "node_conv2d_17 + node_add_30",
+      "ms": 0.021197,
+      "calls_per_iter": 1.0,
+      "share": 0.00587
+    },
+    {
+      "name": "node_conv2d_20 + node_relu_9",
+      "ms": 0.020753,
+      "calls_per_iter": 1.0,
+      "share": 0.005747
+    },
+    {
+      "name": "node_Conv_392 + PWN(node_relu_6)",
+      "ms": 0.019046,
+      "calls_per_iter": 1.0,
+      "share": 0.005275
     },
     {
       "name": "Gemm_93_myl2_76",
-      "ms": 0.01594,
+      "ms": 0.018876,
       "calls_per_iter": 1.0,
-      "share": 0.004352
+      "share": 0.005227
     },
     {
-      "name": "node_conv2d_16 + node_add_28",
-      "ms": 0.015906,
+      "name": "Gemm_66_myl2_54",
+      "ms": 0.0185,
       "calls_per_iter": 1.0,
-      "share": 0.004342
+      "share": 0.005123
     },
     {
-      "name": "node_conv2d_18 + node_relu_7",
-      "ms": 0.015872,
+      "name": "node_conv2d_15 + node_relu_5",
+      "ms": 0.018295,
       "calls_per_iter": 1.0,
-      "share": 0.004333
+      "share": 0.005067
     },
     {
-      "name": "node_conv2d_10 + node_relu_1",
-      "ms": 0.015735,
+      "name": "node_conv2d_21 + node_add_31",
+      "ms": 0.017852,
       "calls_per_iter": 1.0,
-      "share": 0.004296
+      "share": 0.004944
     },
     {
-      "name": "node_conv2d_11 + node_add_25",
-      "ms": 0.015633,
+      "name": "Gemm_102_myl2_83",
+      "ms": 0.017783,
       "calls_per_iter": 1.0,
-      "share": 0.004268
+      "share": 0.004925
     },
     {
       "name": "Gemm_39_myl2_32",
-      "ms": 0.015531,
+      "ms": 0.017613,
       "calls_per_iter": 1.0,
-      "share": 0.00424
+      "share": 0.004878
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMean_myl2_87",
-      "ms": 0.015497,
+      "name": "node_conv2d_19 + node_add_29",
+      "ms": 0.016384,
       "calls_per_iter": 1.0,
-      "share": 0.004231
+      "share": 0.004537
+    },
+    {
+      "name": "node_conv2d_11 + node_add_25",
+      "ms": 0.016077,
+      "calls_per_iter": 1.0,
+      "share": 0.004452
+    },
+    {
+      "name": "node_conv2d_12 + node_add_27",
+      "ms": 0.016077,
+      "calls_per_iter": 1.0,
+      "share": 0.004452
+    },
+    {
+      "name": "node_conv2d_10 + node_relu_1",
+      "ms": 0.015667,
+      "calls_per_iter": 1.0,
+      "share": 0.004339
+    },
+    {
+      "name": "node_conv2d_18 + node_relu_7",
+      "ms": 0.015531,
+      "calls_per_iter": 1.0,
+      "share": 0.004301
+    },
+    {
+      "name": "node_conv2d_16 + node_add_28",
+      "ms": 0.015223,
+      "calls_per_iter": 1.0,
+      "share": 0.004216
+    },
+    {
+      "name": "PWN(node_relu_8)",
+      "ms": 0.015087,
+      "calls_per_iter": 1.0,
+      "share": 0.004178
     },
     {
       "name": "Gemm_48_myl2_39",
-      "ms": 0.015462,
+      "ms": 0.014677,
       "calls_per_iter": 1.0,
-      "share": 0.004221
+      "share": 0.004065
+    },
+    {
+      "name": "Gemm_84_myl2_69",
+      "ms": 0.014643,
+      "calls_per_iter": 1.0,
+      "share": 0.004055
+    },
+    {
+      "name": "Gemm_57_myl2_47",
+      "ms": 0.014507,
+      "calls_per_iter": 1.0,
+      "share": 0.004017
+    },
+    {
+      "name": "Gemm_30_myl2_25",
+      "ms": 0.014438,
+      "calls_per_iter": 1.0,
+      "share": 0.003999
+    },
+    {
+      "name": "Gemm_12_myl2_10",
+      "ms": 0.01437,
+      "calls_per_iter": 1.0,
+      "share": 0.00398
     },
     {
       "name": "Gemm_21_myl2_17",
-      "ms": 0.015292,
+      "ms": 0.01437,
       "calls_per_iter": 1.0,
-      "share": 0.004175
+      "share": 0.00398
     },
     {
-      "name": "node_upsample_bilinear2d",
-      "ms": 0.015292,
+      "name": "node_conv2d_14 + node_add_26",
+      "ms": 0.014336,
       "calls_per_iter": 1.0,
-      "share": 0.004175
+      "share": 0.00397
     },
     {
-      "name": "node_upsample_bilinear2d_2",
-      "ms": 0.01478,
+      "name": "Gemm_3_myl2_3",
+      "ms": 0.014302,
       "calls_per_iter": 1.0,
-      "share": 0.004035
+      "share": 0.003961
     },
     {
-      "name": "node_conv2d_13 + node_relu_3",
-      "ms": 0.014473,
+      "name": "Gemm_75_myl2_61",
+      "ms": 0.014268,
       "calls_per_iter": 1.0,
       "share": 0.003951
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMean_myl2_43",
-      "ms": 0.014438,
+      "name": "Reformatting CopyNode for Input Tensor 0 to node_squeeze",
+      "ms": 0.013858,
       "calls_per_iter": 1.0,
-      "share": 0.003942
-    },
-    {
-      "name": "Gemm_75_myl2_61",
-      "ms": 0.014438,
-      "calls_per_iter": 1.0,
-      "share": 0.003942
-    },
-    {
-      "name": "Gemm_30_myl2_25",
-      "ms": 0.014404,
-      "calls_per_iter": 1.0,
-      "share": 0.003932
-    },
-    {
-      "name": "Gemm_57_myl2_47",
-      "ms": 0.014404,
-      "calls_per_iter": 1.0,
-      "share": 0.003932
-    },
-    {
-      "name": "Gemm_3_myl2_3",
-      "ms": 0.01437,
-      "calls_per_iter": 1.0,
-      "share": 0.003923
-    },
-    {
-      "name": "Gemm_84_myl2_69",
-      "ms": 0.01437,
-      "calls_per_iter": 1.0,
-      "share": 0.003923
-    },
-    {
-      "name": "Gemm_12_myl2_10",
-      "ms": 0.014302,
-      "calls_per_iter": 1.0,
-      "share": 0.003904
+      "share": 0.003838
     },
     {
       "name": "__myl_AddSqrtDivMulCastMulAddMulAddMoveReshReshMoveReshSlicTranResh_myl2_44",
-      "ms": 0.013449,
+      "ms": 0.01338,
       "calls_per_iter": 1.0,
-      "share": 0.003671
+      "share": 0.003706
     },
     {
       "name": "__myl_AddSqrtDivMulCastMulAddMulAddMoveReshReshMoveReshSlicTranResh_myl2_66",
-      "ms": 0.013449,
+      "ms": 0.013346,
       "calls_per_iter": 1.0,
-      "share": 0.003671
-    },
-    {
-      "name": "__myl_AddSqrtDivMulCastMulAddMoveReshReshMoveReshSlicTranReshMulAdd_myl2_22",
-      "ms": 0.013312,
-      "calls_per_iter": 1.0,
-      "share": 0.003634
+      "share": 0.003696
     },
     {
       "name": "node_conv2d_2",
+      "ms": 0.013346,
+      "calls_per_iter": 1.0,
+      "share": 0.003696
+    },
+    {
+      "name": "__myl_AddSqrtDivMulCastMulAddMoveReshReshMoveReshSlicTranReshMulAdd_myl2_22",
       "ms": 0.013175,
       "calls_per_iter": 1.0,
-      "share": 0.003597
-    },
-    {
-      "name": "node_convolution_1",
-      "ms": 0.0128,
-      "calls_per_iter": 1.0,
-      "share": 0.003494
-    },
-    {
-      "name": "node_upsample_bilinear2d_1",
-      "ms": 0.012663,
-      "calls_per_iter": 1.0,
-      "share": 0.003457
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_58",
-      "ms": 0.012561,
-      "calls_per_iter": 1.0,
-      "share": 0.003429
-    },
-    {
-      "name": "node_conv2d_14 + node_add_26",
-      "ms": 0.012561,
-      "calls_per_iter": 1.0,
-      "share": 0.003429
+      "share": 0.003649
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_36",
-      "ms": 0.012493,
+      "ms": 0.012902,
       "calls_per_iter": 1.0,
-      "share": 0.003411
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMean_myl2_65",
-      "ms": 0.012459,
-      "calls_per_iter": 1.0,
-      "share": 0.003401
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMean_myl2_21",
-      "ms": 0.012254,
-      "calls_per_iter": 1.0,
-      "share": 0.003345
-    },
-    {
-      "name": "PWN(node_relu_8)",
-      "ms": 0.011639,
-      "calls_per_iter": 1.0,
-      "share": 0.003178
+      "share": 0.003573
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_18",
-      "ms": 0.011366,
+      "ms": 0.012527,
       "calls_per_iter": 1.0,
-      "share": 0.003103
+      "share": 0.003469
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMean_myl2_21",
+      "ms": 0.012493,
+      "calls_per_iter": 1.0,
+      "share": 0.00346
+    },
+    {
+      "name": "node_conv2d_13 + node_relu_3",
+      "ms": 0.012459,
+      "calls_per_iter": 1.0,
+      "share": 0.00345
+    },
+    {
+      "name": "node_convolution_1",
+      "ms": 0.012356,
+      "calls_per_iter": 1.0,
+      "share": 0.003422
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMean_myl2_65",
+      "ms": 0.012322,
+      "calls_per_iter": 1.0,
+      "share": 0.003412
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMean_myl2_43",
+      "ms": 0.012254,
+      "calls_per_iter": 1.0,
+      "share": 0.003394
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_73",
+      "ms": 0.011469,
+      "calls_per_iter": 1.0,
+      "share": 0.003176
+    },
+    {
+      "name": "node_upsample_bilinear2d_2",
+      "ms": 0.011162,
+      "calls_per_iter": 1.0,
+      "share": 0.003091
     },
     {
       "name": "node_conv2d_1",
-      "ms": 0.011264,
+      "ms": 0.010991,
       "calls_per_iter": 1.0,
-      "share": 0.003075
+      "share": 0.003044
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_11",
+      "ms": 0.01065,
+      "calls_per_iter": 1.0,
+      "share": 0.002949
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_7",
-      "ms": 0.01123,
+      "ms": 0.010615,
       "calls_per_iter": 1.0,
-      "share": 0.003066
+      "share": 0.00294
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_29",
-      "ms": 0.010889,
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_58",
+      "ms": 0.010615,
       "calls_per_iter": 1.0,
-      "share": 0.002973
-    },
-    {
-      "name": "__myl_AddSqrtDivMulCastMulAddMoveReshReshMoveReshSlicTranResh_myl2_88",
-      "ms": 0.010684,
-      "calls_per_iter": 1.0,
-      "share": 0.002917
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_33",
-      "ms": 0.010547,
-      "calls_per_iter": 1.0,
-      "share": 0.002879
+      "share": 0.00294
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_80",
-      "ms": 0.010445,
+      "ms": 0.010615,
       "calls_per_iter": 1.0,
-      "share": 0.002851
+      "share": 0.00294
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_84",
-      "ms": 0.010445,
+      "name": "__myl_MulAddCastMeanSubMulMean_myl2_87",
+      "ms": 0.010479,
       "calls_per_iter": 1.0,
-      "share": 0.002851
+      "share": 0.002902
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_62",
       "ms": 0.010411,
       "calls_per_iter": 1.0,
-      "share": 0.002842
+      "share": 0.002883
     },
     {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_51",
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_29",
       "ms": 0.010377,
       "calls_per_iter": 1.0,
-      "share": 0.002833
+      "share": 0.002874
+    },
+    {
+      "name": "__myl_AddSqrtDivMulCastMulAddMoveReshReshMoveReshSlicTranResh_myl2_88",
+      "ms": 0.010377,
+      "calls_per_iter": 1.0,
+      "share": 0.002874
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_14",
       "ms": 0.010342,
       "calls_per_iter": 1.0,
-      "share": 0.002824
+      "share": 0.002864
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_84",
+      "ms": 0.010342,
+      "calls_per_iter": 1.0,
+      "share": 0.002864
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_51",
+      "ms": 0.01024,
+      "calls_per_iter": 1.0,
+      "share": 0.002836
     },
     {
       "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_40",
-      "ms": 0.010206,
+      "ms": 0.010069,
       "calls_per_iter": 1.0,
-      "share": 0.002786
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_73",
-      "ms": 0.010206,
-      "calls_per_iter": 1.0,
-      "share": 0.002786
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_11",
-      "ms": 0.010138,
-      "calls_per_iter": 1.0,
-      "share": 0.002768
-    },
-    {
-      "name": "__myl_ReshTranConcAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_0",
-      "ms": 0.009762,
-      "calls_per_iter": 1.0,
-      "share": 0.002665
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_48",
-      "ms": 0.009523,
-      "calls_per_iter": 1.0,
-      "share": 0.0026
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_77",
-      "ms": 0.009523,
-      "calls_per_iter": 1.0,
-      "share": 0.0026
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_55",
-      "ms": 0.009489,
-      "calls_per_iter": 1.0,
-      "share": 0.002591
-    },
-    {
-      "name": "Reformatting CopyNode for Output Tensor 0 to node_conv2d_30 + node_Relu_393",
-      "ms": 0.009353,
-      "calls_per_iter": 1.0,
-      "share": 0.002553
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_70",
-      "ms": 0.009284,
-      "calls_per_iter": 1.0,
-      "share": 0.002535
-    },
-    {
-      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_26",
-      "ms": 0.00925,
-      "calls_per_iter": 1.0,
-      "share": 0.002525
-    },
-    {
-      "name": "__myl_MulReshReshReshAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_4",
-      "ms": 0.008943,
-      "calls_per_iter": 1.0,
-      "share": 0.002441
+      "share": 0.002789
     },
     {
       "name": "PWN(node_relu_4)",
-      "ms": 0.006963,
+      "ms": 0.010001,
       "calls_per_iter": 1.0,
-      "share": 0.001901
+      "share": 0.00277
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_77",
+      "ms": 0.00983,
+      "calls_per_iter": 1.0,
+      "share": 0.002722
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_48",
+      "ms": 0.009796,
+      "calls_per_iter": 1.0,
+      "share": 0.002713
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_70",
+      "ms": 0.009796,
+      "calls_per_iter": 1.0,
+      "share": 0.002713
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_26",
+      "ms": 0.009762,
+      "calls_per_iter": 1.0,
+      "share": 0.002704
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_33",
+      "ms": 0.009694,
+      "calls_per_iter": 1.0,
+      "share": 0.002685
     },
     {
       "name": "PWN(node_relu_2)",
-      "ms": 0.006588,
+      "ms": 0.009694,
       "calls_per_iter": 1.0,
-      "share": 0.001798
+      "share": 0.002685
+    },
+    {
+      "name": "__myl_ReshTranConcAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_0",
+      "ms": 0.009421,
+      "calls_per_iter": 1.0,
+      "share": 0.002609
+    },
+    {
+      "name": "__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_55",
+      "ms": 0.009284,
+      "calls_per_iter": 1.0,
+      "share": 0.002571
+    },
+    {
+      "name": "__myl_MulReshReshReshAddCastMeanSubMulMeanAddSqrtDivMulCastMulAdd_myl2_4",
+      "ms": 0.008977,
+      "calls_per_iter": 1.0,
+      "share": 0.002486
+    },
+    {
+      "name": "node_upsample_bilinear2d_1",
+      "ms": 0.008329,
+      "calls_per_iter": 1.0,
+      "share": 0.002306
     },
     {
       "name": "PWN(node_relu)",
-      "ms": 0.006042,
+      "ms": 0.00768,
       "calls_per_iter": 1.0,
-      "share": 0.001649
+      "share": 0.002127
+    },
+    {
+      "name": "node_upsample_bilinear2d",
+      "ms": 0.006793,
+      "calls_per_iter": 1.0,
+      "share": 0.001881
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to PWN(node_relu_2)",
@@ -858,18 +858,6 @@
     },
     {
       "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_13 + node_relu_3",
-      "ms": 0.0,
-      "calls_per_iter": 1.0,
-      "share": 0.0
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to PWN(node_relu)",
-      "ms": 0.0,
-      "calls_per_iter": 1.0,
-      "share": 0.0
-    },
-    {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_10 + node_relu_1",
       "ms": 0.0,
       "calls_per_iter": 1.0,
       "share": 0.0
@@ -899,7 +887,7 @@
       "share": 0.0
     },
     {
-      "name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_30 + node_Relu_393",
+      "name": "node_squeeze",
       "ms": 0.0,
       "calls_per_iter": 1.0,
       "share": 0.0
@@ -1154,7 +1142,7 @@
           "Format/Datatype": "Half"
         }
       ],
-      "TacticName": "sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize128x64x32_stage5_warpsize2x2x1_tensor16x8x16",
+      "TacticName": "sm80_xmma_gemm_f16f16_f16f16_f16_nn_n_tilesize64x128x32_stage5_warpsize2x2x1_tensor16x8x16",
       "StreamId": 0,
       "Metadata": "[ONNX Layer: Gemm_3]"
     },
@@ -1217,7 +1205,7 @@
       ],
       "Outputs": [
         {
-          "Name": "_v_684.1_9_myl2",
+          "Name": "_v_687.1_9_myl2",
           "Dimensions": [
             1370,
             1536
@@ -1234,7 +1222,7 @@
       "LayerType": "gemm",
       "Inputs": [
         {
-          "Name": "_v_684.1_9_myl2",
+          "Name": "_v_687.1_9_myl2",
           "Dimensions": [
             1370,
             1536
@@ -1397,7 +1385,7 @@
           "Format/Datatype": "Half"
         }
       ],
-      "TacticName": "sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize128x64x32_stage5_warpsize2x2x1_tensor16x8x16",
+      "TacticName": "sm80_xmma_gemm_f16f16_f16f16_f16_nn_n_tilesize64x128x32_stage5_warpsize2x2x1_tensor16x8x16",
       "StreamId": 0,
       "Metadata": "[ONNX Layer: Gemm_12]"
     },
@@ -1459,7 +1447,7 @@
       ],
       "Outputs": [
         {
-          "Name": "_v_712.1_18_myl2",
+          "Name": "_v_715.1_18_myl2",
           "Dimensions": [
             1370,
             1536
@@ -1476,7 +1464,7 @@
       "LayerType": "gemm",
       "Inputs": [
         {
-          "Name": "_v_712.1_18_myl2",
+          "Name": "_v_715.1_18_myl2",
           "Dimensions": [
             1370,
             1536
@@ -1639,7 +1627,7 @@
           "Format/Datatype": "Half"
         }
       ],
-      "TacticName": "sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize128x64x32_stage5_warpsize2x2x1_tensor16x8x16",
+      "TacticName": "sm80_xmma_gemm_f16f16_f16f16_f16_nn_n_tilesize64x128x32_stage5_warpsize2x2x1_tensor16x8x16",
       "StreamId": 0,
       "Metadata": "[ONNX Layer: Gemm_21]"
     },
@@ -1701,7 +1689,7 @@
       ],
       "Outputs": [
         {
-          "Name": "_v_740.1_27_myl2",
+          "Name": "_v_743.1_27_myl2",
           "Dimensions": [
             1370,
             1536
@@ -1718,7 +1706,7 @@
       "LayerType": "gemm",
       "Inputs": [
         {
-          "Name": "_v_740.1_27_myl2",
+          "Name": "_v_743.1_27_myl2",
           "Dimensions": [
             1370,
             1536
@@ -1934,7 +1922,7 @@
           "Format/Datatype": "Half"
         }
       ],
-      "TacticName": "sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize128x64x32_stage5_warpsize2x2x1_tensor16x8x16",
+      "TacticName": "sm80_xmma_gemm_f16f16_f16f16_f16_nn_n_tilesize64x128x32_stage5_warpsize2x2x1_tensor16x8x16",
       "StreamId": 0,
       "Metadata": "[ONNX Layer: Gemm_30]"
     },
@@ -1996,7 +1984,7 @@
       ],
       "Outputs": [
         {
-          "Name": "_v_768.1_39_myl2",
+          "Name": "_v_771.1_39_myl2",
           "Dimensions": [
             1370,
             1536
@@ -2013,7 +2001,7 @@
       "LayerType": "gemm",
       "Inputs": [
         {
-          "Name": "_v_768.1_39_myl2",
+          "Name": "_v_771.1_39_myl2",
           "Dimensions": [
             1370,
             1536
@@ -2176,7 +2164,7 @@
           "Format/Datatype": "Half"
         }
       ],
-      "TacticName": "sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize128x64x32_stage5_warpsize2x2x1_tensor16x8x16",
+      "TacticName": "sm80_xmma_gemm_f16f16_f16f16_f16_nn_n_tilesize64x128x32_stage5_warpsize2x2x1_tensor16x8x16",
       "StreamId": 0,
       "Metadata": "[ONNX Layer: Gemm_39]"
     },
@@ -2238,7 +2226,7 @@
       ],
       "Outputs": [
         {
-          "Name": "_v_796.1_48_myl2",
+          "Name": "_v_799.1_48_myl2",
           "Dimensions": [
             1370,
             1536
@@ -2255,7 +2243,7 @@
       "LayerType": "gemm",
       "Inputs": [
         {
-          "Name": "_v_796.1_48_myl2",
+          "Name": "_v_799.1_48_myl2",
           "Dimensions": [
             1370,
             1536
@@ -2418,7 +2406,7 @@
           "Format/Datatype": "Half"
         }
       ],
-      "TacticName": "sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize128x64x32_stage5_warpsize2x2x1_tensor16x8x16",
+      "TacticName": "sm80_xmma_gemm_f16f16_f16f16_f16_nn_n_tilesize64x128x32_stage5_warpsize2x2x1_tensor16x8x16",
       "StreamId": 0,
       "Metadata": "[ONNX Layer: Gemm_48]"
     },
@@ -2480,7 +2468,7 @@
       ],
       "Outputs": [
         {
-          "Name": "_v_824.1_57_myl2",
+          "Name": "_v_827.1_57_myl2",
           "Dimensions": [
             1370,
             1536
@@ -2497,7 +2485,7 @@
       "LayerType": "gemm",
       "Inputs": [
         {
-          "Name": "_v_824.1_57_myl2",
+          "Name": "_v_827.1_57_myl2",
           "Dimensions": [
             1370,
             1536
@@ -2713,7 +2701,7 @@
           "Format/Datatype": "Half"
         }
       ],
-      "TacticName": "sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize128x64x32_stage5_warpsize2x2x1_tensor16x8x16",
+      "TacticName": "sm80_xmma_gemm_f16f16_f16f16_f16_nn_n_tilesize64x128x32_stage5_warpsize2x2x1_tensor16x8x16",
       "StreamId": 0,
       "Metadata": "[ONNX Layer: Gemm_57]"
     },
@@ -2775,7 +2763,7 @@
       ],
       "Outputs": [
         {
-          "Name": "_v_852.1_69_myl2",
+          "Name": "_v_855.1_69_myl2",
           "Dimensions": [
             1370,
             1536
@@ -2792,7 +2780,7 @@
       "LayerType": "gemm",
       "Inputs": [
         {
-          "Name": "_v_852.1_69_myl2",
+          "Name": "_v_855.1_69_myl2",
           "Dimensions": [
             1370,
             1536
@@ -2955,7 +2943,7 @@
           "Format/Datatype": "Half"
         }
       ],
-      "TacticName": "sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize128x64x32_stage5_warpsize2x2x1_tensor16x8x16",
+      "TacticName": "sm80_xmma_gemm_f16f16_f16f16_f16_nn_n_tilesize64x128x32_stage5_warpsize2x2x1_tensor16x8x16",
       "StreamId": 0,
       "Metadata": "[ONNX Layer: Gemm_66]"
     },
@@ -3017,7 +3005,7 @@
       ],
       "Outputs": [
         {
-          "Name": "_v_880.1_78_myl2",
+          "Name": "_v_883.1_78_myl2",
           "Dimensions": [
             1370,
             1536
@@ -3034,7 +3022,7 @@
       "LayerType": "gemm",
       "Inputs": [
         {
-          "Name": "_v_880.1_78_myl2",
+          "Name": "_v_883.1_78_myl2",
           "Dimensions": [
             1370,
             1536
@@ -3197,7 +3185,7 @@
           "Format/Datatype": "Half"
         }
       ],
-      "TacticName": "sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize128x64x32_stage5_warpsize2x2x1_tensor16x8x16",
+      "TacticName": "sm80_xmma_gemm_f16f16_f16f16_f16_nn_n_tilesize64x128x32_stage5_warpsize2x2x1_tensor16x8x16",
       "StreamId": 0,
       "Metadata": "[ONNX Layer: Gemm_75]"
     },
@@ -3259,7 +3247,7 @@
       ],
       "Outputs": [
         {
-          "Name": "_v_908.1_87_myl2",
+          "Name": "_v_911.1_87_myl2",
           "Dimensions": [
             1370,
             1536
@@ -3276,7 +3264,7 @@
       "LayerType": "gemm",
       "Inputs": [
         {
-          "Name": "_v_908.1_87_myl2",
+          "Name": "_v_911.1_87_myl2",
           "Dimensions": [
             1370,
             1536
@@ -3492,7 +3480,7 @@
           "Format/Datatype": "Half"
         }
       ],
-      "TacticName": "sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize128x64x32_stage5_warpsize2x2x1_tensor16x8x16",
+      "TacticName": "sm80_xmma_gemm_f16f16_f16f16_f16_nn_n_tilesize64x128x32_stage5_warpsize2x2x1_tensor16x8x16",
       "StreamId": 0,
       "Metadata": "[ONNX Layer: Gemm_84]"
     },
@@ -3554,7 +3542,7 @@
       ],
       "Outputs": [
         {
-          "Name": "_v_936.1_99_myl2",
+          "Name": "_v_939.1_99_myl2",
           "Dimensions": [
             1370,
             1536
@@ -3571,7 +3559,7 @@
       "LayerType": "gemm",
       "Inputs": [
         {
-          "Name": "_v_936.1_99_myl2",
+          "Name": "_v_939.1_99_myl2",
           "Dimensions": [
             1370,
             1536
@@ -3734,7 +3722,7 @@
           "Format/Datatype": "Half"
         }
       ],
-      "TacticName": "sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize128x64x32_stage5_warpsize2x2x1_tensor16x8x16",
+      "TacticName": "sm80_xmma_gemm_f16f16_f16f16_f16_nn_n_tilesize64x128x32_stage5_warpsize2x2x1_tensor16x8x16",
       "StreamId": 0,
       "Metadata": "[ONNX Layer: Gemm_93]"
     },
@@ -3796,7 +3784,7 @@
       ],
       "Outputs": [
         {
-          "Name": "_v_964.1_108_myl2",
+          "Name": "_v_967.1_108_myl2",
           "Dimensions": [
             1370,
             1536
@@ -3813,7 +3801,7 @@
       "LayerType": "gemm",
       "Inputs": [
         {
-          "Name": "_v_964.1_108_myl2",
+          "Name": "_v_967.1_108_myl2",
           "Dimensions": [
             1370,
             1536
@@ -3976,7 +3964,7 @@
           "Format/Datatype": "Half"
         }
       ],
-      "TacticName": "sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize128x64x32_stage5_warpsize2x2x1_tensor16x8x16",
+      "TacticName": "sm80_xmma_gemm_f16f16_f16f16_f16_nn_n_tilesize64x128x32_stage5_warpsize2x2x1_tensor16x8x16",
       "StreamId": 0,
       "Metadata": "[ONNX Layer: Gemm_102]"
     },
@@ -4038,7 +4026,7 @@
       ],
       "Outputs": [
         {
-          "Name": "_v_992.1_117_myl2",
+          "Name": "_v_995.1_117_myl2",
           "Dimensions": [
             1370,
             1536
@@ -4055,7 +4043,7 @@
       "LayerType": "gemm",
       "Inputs": [
         {
-          "Name": "_v_992.1_117_myl2",
+          "Name": "_v_995.1_117_myl2",
           "Dimensions": [
             1370,
             1536
@@ -4228,8 +4216,8 @@
       "BiasAsActInputIdx": -1,
       "ResAsActInputIdx": -1,
       "Activation": "NONE",
-      "TacticName": "sm80_xmma_gemm_f16f16_f16f16_f16_nn_n_tilesize64x32x64_stage5_warpsize2x2x1_tensor16x8x16",
-      "TacticValue": "0x000000000002017b",
+      "TacticName": "sm80_xmma_gemm_f16f16_f16f16_f16_nn_n_tilesize64x64x64_stage4_warpsize2x2x1_tensor16x8x16",
+      "TacticValue": "0x00000000000201a0",
       "StreamId": 0,
       "Metadata": "[ONNX Layer: node_conv2d_1]"
     },
@@ -4310,7 +4298,7 @@
       "Metadata": "[ONNX Layer: node_convolution]"
     },
     {
-      "Name": "node_Conv_389 + PWN(node_relu_10)",
+      "Name": "node_Conv_391 + PWN(node_relu_10)",
       "LayerType": "CaskConvolution",
       "Inputs": [
         {
@@ -4417,7 +4405,7 @@
       "TacticName": "sm75_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x64x64_stage1_warpsize2x2x1_g1_tensor16x8x8",
       "TacticValue": "0x58eea09dffe038fd",
       "StreamId": 0,
-      "Metadata": "[ONNX Layer: node_Conv_389]\u001e[ONNX Layer: node_relu_10]"
+      "Metadata": "[ONNX Layer: node_Conv_391]\u001e[ONNX Layer: node_relu_10]"
     },
     {
       "Name": "node_conv2d_23 + node_relu_11",
@@ -4653,8 +4641,8 @@
       "BiasAsActInputIdx": -1,
       "ResAsActInputIdx": -1,
       "Activation": "NONE",
-      "TacticName": "sm75_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x64x64_stage1_warpsize2x2x1_g1_tensor16x8x8_simple_t1r1s1",
-      "TacticValue": "0x62a22cfa1199e58e",
+      "TacticName": "sm75_xmma_fprop_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x32x64_stage1_warpsize2x1x2_g1_tensor16x8x8",
+      "TacticValue": "0x75585ae3e9dedb93",
       "StreamId": 0,
       "Metadata": "[ONNX Layer: node_conv2d_2]"
     },
@@ -4729,13 +4717,13 @@
       "BiasAsActInputIdx": -1,
       "ResAsActInputIdx": -1,
       "Activation": "NONE",
-      "TacticName": "sm75_xmma_deconv_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x32_stage1_warpsize2x2x1_g1_tensor16x8x8_strided",
-      "TacticValue": "0x9eb643fc0e46c12b",
+      "TacticName": "sm80_xmma_deconv_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x32x32_stage4_warpsize4x1x1_g1_tensor16x8x16_strided",
+      "TacticValue": "0xa7e51cc94b1422a2",
       "StreamId": 0,
       "Metadata": "[ONNX Layer: node_convolution_1]"
     },
     {
-      "Name": "node_Conv_390 + PWN(node_relu_6)",
+      "Name": "node_Conv_392 + PWN(node_relu_6)",
       "LayerType": "CaskJitConv",
       "Inputs": [
         {
@@ -4839,10 +4827,10 @@
       "PointWiseExpressionOperations": [
         "auto const var0 = pwgen::iMax(arg0, literal0);"
       ],
-      "TacticName": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x32_stage5_warpsize2x2x1_g1_tensor16x8x16",
-      "TacticValue": "0xbd08239a9317f2fd",
+      "TacticName": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x32_stage5_warpsize2x2x1_g1_tensor16x8x16_t1r3s3",
+      "TacticValue": "0xb4bec086187edcfc",
       "StreamId": 0,
-      "Metadata": "[ONNX Layer: node_Conv_390]\u001e[ONNX Layer: node_relu_6]"
+      "Metadata": "[ONNX Layer: node_Conv_392]\u001e[ONNX Layer: node_relu_6]"
     },
     {
       "Name": "node_conv2d_18 + node_relu_7",
@@ -4915,8 +4903,8 @@
       "BiasAsActInputIdx": -1,
       "ResAsActInputIdx": -1,
       "Activation": "RELU",
-      "TacticName": "sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x64_stage3_warpsize2x2x1_g1_tensor16x8x16",
-      "TacticValue": "0x21b295c0c8f6c95a",
+      "TacticName": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x32_stage5_warpsize2x2x1_g1_tensor16x8x16_t1r3s3",
+      "TacticValue": "0xb4bec086187edcfc",
       "StreamId": 0,
       "Metadata": "[ONNX Layer: node_conv2d_18]\u001e[ONNX Layer: node_relu_7]"
     },
@@ -5002,8 +4990,8 @@
       "BiasAsActInputIdx": -1,
       "ResAsActInputIdx": -1,
       "Activation": "NONE",
-      "TacticName": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x32_stage5_warpsize2x2x1_g1_tensor16x8x16_t1r3s3",
-      "TacticValue": "0xb4bec086187edcfc",
+      "TacticName": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x32_stage5_warpsize2x2x1_g1_tensor16x8x16",
+      "TacticValue": "0xbd08239a9317f2fd",
       "StreamId": 0,
       "Metadata": "[ONNX Layer: node_conv2d_19]\u001e[ONNX Layer: node_add_29]"
     },
@@ -5078,13 +5066,13 @@
       "BiasAsActInputIdx": -1,
       "ResAsActInputIdx": -1,
       "Activation": "NONE",
-      "TacticName": "ampere_h16816gemm_64x64_ldg8_relu_stages_64x5_nn_v1",
-      "TacticValue": "0x000000000002071a",
+      "TacticName": "ampere_h16816gemm_64x64_ldg8_relu_stages_64x5_tn_v1",
+      "TacticValue": "0x000000000002092c",
       "StreamId": 0,
       "Metadata": "[ONNX Layer: node_conv2d_3]"
     },
     {
-      "Name": "node_Conv_391",
+      "Name": "node_Conv_393",
       "LayerType": "CaskConvolution",
       "Inputs": [
         {
@@ -5157,7 +5145,7 @@
       "TacticName": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x32x64_stage5_warpsize2x2x1_g1_tensor16x8x16_t1r3s3",
       "TacticValue": "0xa033e20ae9f412b2",
       "StreamId": 0,
-      "Metadata": "[ONNX Layer: node_Conv_391]"
+      "Metadata": "[ONNX Layer: node_Conv_393]"
     },
     {
       "Name": "Reformatting CopyNode for Input Tensor 0 to PWN(node_relu_2)",
@@ -5352,8 +5340,8 @@
       "BiasAsActInputIdx": -1,
       "ResAsActInputIdx": -1,
       "Activation": "RELU",
-      "TacticName": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x64x64_stage4_warpsize2x2x1_g1_tensor16x8x16_t1r3s3_aACCESS",
-      "TacticValue": "0x30e8a8d7a953e5e9",
+      "TacticName": "sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x64x64_stage4_warpsize2x2x1_g1_tensor16x8x16",
+      "TacticValue": "0x4a81ea1e51436a30",
       "StreamId": 0,
       "Metadata": "[ONNX Layer: node_conv2d_13]\u001e[ONNX Layer: node_relu_3]"
     },
@@ -5439,8 +5427,8 @@
       "BiasAsActInputIdx": -1,
       "ResAsActInputIdx": -1,
       "Activation": "NONE",
-      "TacticName": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x32x32_stage4_warpsize4x1x1_g1_tensor16x8x16_t1r3s3",
-      "TacticValue": "0x3e7eb35b91b9fa63",
+      "TacticName": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x64x64_stage4_warpsize2x1x2_g1_tensor16x8x16_aACCESS",
+      "TacticValue": "0x841c601dec2a75bc",
       "StreamId": 0,
       "Metadata": "[ONNX Layer: node_conv2d_14]\u001e[ONNX Layer: node_add_26]"
     },
@@ -5515,8 +5503,8 @@
       "BiasAsActInputIdx": -1,
       "ResAsActInputIdx": -1,
       "Activation": "NONE",
-      "TacticName": "sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize64x128x32_stage5_warpsize2x2x1_tensor16x8x16",
-      "TacticValue": "0x0000000000020502",
+      "TacticName": "sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize128x64x32_stage5_warpsize2x2x1_tensor16x8x16",
+      "TacticValue": "0x000000000002046f",
       "StreamId": 0,
       "Metadata": "[ONNX Layer: node_conv2d_4]"
     },
@@ -5597,7 +5585,7 @@
       "Metadata": "[ONNX Layer: node_conv2d_5]"
     },
     {
-      "Name": "node_Conv_392",
+      "Name": "node_Conv_394",
       "LayerType": "CaskConvolution",
       "Inputs": [
         {
@@ -5667,50 +5655,17 @@
       "BiasAsActInputIdx": -1,
       "ResAsActInputIdx": -1,
       "Activation": "NONE",
-      "TacticName": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x32x64_stage5_warpsize2x2x1_g1_tensor16x8x16_t1r3s3",
-      "TacticValue": "0xa033e20ae9f412b2",
+      "TacticName": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x32x64_stage5_warpsize2x2x1_g1_tensor16x8x16",
+      "TacticValue": "0x5820b3dda403c4d0",
       "StreamId": 0,
-      "Metadata": "[ONNX Layer: node_Conv_392]"
-    },
-    {
-      "Name": "Reformatting CopyNode for Input Tensor 0 to PWN(node_relu)",
-      "LayerType": "NoOp",
-      "Inputs": [
-        {
-          "Name": "conv2d_9",
-          "Location": "Device",
-          "Dimensions": [
-            1,
-            64,
-            19,
-            19
-          ],
-          "Format/Datatype": "Half"
-        }
-      ],
-      "Outputs": [
-        {
-          "Name": "Reformatted Input Tensor 0 to PWN(node_relu)",
-          "Location": "Device",
-          "Dimensions": [
-            1,
-            64,
-            19,
-            19
-          ],
-          "Format/Datatype": "Half"
-        }
-      ],
-      "TacticValue": "0x0000000000000000",
-      "StreamId": 0,
-      "Metadata": ""
+      "Metadata": "[ONNX Layer: node_Conv_394]"
     },
     {
       "Name": "PWN(node_relu)",
       "LayerType": "PointWiseV2",
       "Inputs": [
         {
-          "Name": "Reformatted Input Tensor 0 to PWN(node_relu)",
+          "Name": "conv2d_9",
           "Location": "Device",
           "Dimensions": [
             1,
@@ -5757,49 +5712,16 @@
       "Operations": [
         "auto const var0 = pwgen::iMax(arg0, literal0);"
       ],
-      "TacticValue": "0x0000000000000018",
+      "TacticValue": "0x000000000000000a",
       "StreamId": 0,
       "Metadata": "[ONNX Layer: node_relu]"
-    },
-    {
-      "Name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_10 + node_relu_1",
-      "LayerType": "NoOp",
-      "Inputs": [
-        {
-          "Name": "relu",
-          "Location": "Device",
-          "Dimensions": [
-            1,
-            64,
-            19,
-            19
-          ],
-          "Format/Datatype": "Half"
-        }
-      ],
-      "Outputs": [
-        {
-          "Name": "Reformatted Input Tensor 0 to node_conv2d_10 + node_relu_1",
-          "Location": "Device",
-          "Dimensions": [
-            1,
-            64,
-            19,
-            19
-          ],
-          "Format/Datatype": "Half"
-        }
-      ],
-      "TacticValue": "0x0000000000000000",
-      "StreamId": 0,
-      "Metadata": ""
     },
     {
       "Name": "node_conv2d_10 + node_relu_1",
       "LayerType": "CaskConvolution",
       "Inputs": [
         {
-          "Name": "Reformatted Input Tensor 0 to node_conv2d_10 + node_relu_1",
+          "Name": "relu",
           "Location": "Device",
           "Dimensions": [
             1,
@@ -5865,8 +5787,8 @@
       "BiasAsActInputIdx": -1,
       "ResAsActInputIdx": -1,
       "Activation": "RELU",
-      "TacticName": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x64x64_stage4_warpsize2x2x1_g1_tensor16x8x16_t1r3s3",
-      "TacticValue": "0x31d93dc22d2af081",
+      "TacticName": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x32x32_stage4_warpsize4x1x1_g1_tensor16x8x16_t1r3s3",
+      "TacticValue": "0x3e7eb35b91b9fa63",
       "StreamId": 0,
       "Metadata": "[ONNX Layer: node_conv2d_10]\u001e[ONNX Layer: node_relu_1]"
     },
@@ -5952,8 +5874,8 @@
       "BiasAsActInputIdx": -1,
       "ResAsActInputIdx": -1,
       "Activation": "NONE",
-      "TacticName": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x64x64_stage4_warpsize2x1x2_g1_tensor16x8x16_aACCESS",
-      "TacticValue": "0x841c601dec2a75bc",
+      "TacticName": "sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x64x64_stage4_warpsize2x2x1_g1_tensor16x8x16",
+      "TacticValue": "0x4a81ea1e51436a30",
       "StreamId": 0,
       "Metadata": "[ONNX Layer: node_conv2d_11]\u001e[ONNX Layer: node_add_25]"
     },
@@ -6089,8 +6011,8 @@
       "BiasAsActInputIdx": -1,
       "ResAsActInputIdx": -1,
       "Activation": "NONE",
-      "TacticName": "sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize64x32x64_stage5_warpsize2x2x1_tensor16x8x16",
-      "TacticValue": "0x0000000000020067",
+      "TacticName": "sm80_xmma_gemm_f16f16_f16f16_f16_nn_n_tilesize64x32x64_stage5_warpsize2x2x1_tensor16x8x16",
+      "TacticValue": "0x000000000002017b",
       "StreamId": 0,
       "Metadata": "[ONNX Layer: node_conv2d_12]\u001e[ONNX Layer: node_add_27]"
     },
@@ -6287,8 +6209,8 @@
       "BiasAsActInputIdx": -1,
       "ResAsActInputIdx": -1,
       "Activation": "RELU",
-      "TacticName": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x64x64_stage4_warpsize2x2x1_g1_tensor16x8x16_t1r3s3_aACCESS",
-      "TacticValue": "0x30e8a8d7a953e5e9",
+      "TacticName": "sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x64x64_stage4_warpsize2x2x1_g1_tensor16x8x16",
+      "TacticValue": "0x4a81ea1e51436a30",
       "StreamId": 0,
       "Metadata": "[ONNX Layer: node_conv2d_15]\u001e[ONNX Layer: node_relu_5]"
     },
@@ -6374,8 +6296,8 @@
       "BiasAsActInputIdx": -1,
       "ResAsActInputIdx": -1,
       "Activation": "NONE",
-      "TacticName": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x32x32_stage4_warpsize4x1x1_g1_tensor16x8x16_t1r3s3",
-      "TacticValue": "0x3e7eb35b91b9fa63",
+      "TacticName": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize64x64x64_stage4_warpsize2x1x2_g1_tensor16x8x16_aACCESS",
+      "TacticValue": "0x841c601dec2a75bc",
       "StreamId": 0,
       "Metadata": "[ONNX Layer: node_conv2d_16]\u001e[ONNX Layer: node_add_28]"
     },
@@ -6431,7 +6353,7 @@
     },
     {
       "Name": "node_conv2d_17 + node_add_30",
-      "LayerType": "CaskGemmConvolution",
+      "LayerType": "CaskConvolution",
       "Inputs": [
         {
           "Name": "upsample_bilinear2d_1",
@@ -6511,8 +6433,8 @@
       "BiasAsActInputIdx": -1,
       "ResAsActInputIdx": -1,
       "Activation": "NONE",
-      "TacticName": "sm80_xmma_gemm_f16f16_f16f16_f16_tn_n_tilesize128x64x32_stage5_warpsize2x2x1_tensor16x8x16",
-      "TacticValue": "0x000000000002046f",
+      "TacticName": "sm75_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize256x64x32_stage1_warpsize4x1x1_g1_tensor16x8x8_t1r1s1",
+      "TacticValue": "0xba86f9c788dfb2dc",
       "StreamId": 0,
       "Metadata": "[ONNX Layer: node_conv2d_17]\u001e[ONNX Layer: node_add_30]"
     },
@@ -6601,7 +6523,7 @@
       "Operations": [
         "auto const var0 = pwgen::iMax(arg0, literal0);"
       ],
-      "TacticValue": "0x0000000000000012",
+      "TacticValue": "0x000000000000000a",
       "StreamId": 0,
       "Metadata": "[ONNX Layer: node_relu_8]"
     },
@@ -6709,8 +6631,8 @@
       "BiasAsActInputIdx": -1,
       "ResAsActInputIdx": -1,
       "Activation": "RELU",
-      "TacticName": "sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x64_stage3_warpsize2x2x1_g1_tensor16x8x16",
-      "TacticValue": "0x21b295c0c8f6c95a",
+      "TacticName": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x32_stage5_warpsize2x2x1_g1_tensor16x8x16_t1r3s3",
+      "TacticValue": "0xb4bec086187edcfc",
       "StreamId": 0,
       "Metadata": "[ONNX Layer: node_conv2d_20]\u001e[ONNX Layer: node_relu_9]"
     },
@@ -6796,8 +6718,8 @@
       "BiasAsActInputIdx": -1,
       "ResAsActInputIdx": -1,
       "Activation": "NONE",
-      "TacticName": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x32_stage5_warpsize2x2x1_g1_tensor16x8x16_t1r3s3",
-      "TacticValue": "0xb4bec086187edcfc",
+      "TacticName": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x64x32_stage5_warpsize2x2x1_g1_tensor16x8x16",
+      "TacticValue": "0xbd08239a9317f2fd",
       "StreamId": 0,
       "Metadata": "[ONNX Layer: node_conv2d_21]\u001e[ONNX Layer: node_add_31]"
     },
@@ -6967,8 +6889,8 @@
       "PointWiseExpressionOperations": [
         "auto const var0 = pwgen::iMax(arg0, literal0);"
       ],
-      "TacticName": "sm75_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize256x64x32_stage1_warpsize4x1x1_g1_tensor16x8x8_simple_t1r1s1",
-      "TacticValue": "0xfbff59172cce263c",
+      "TacticName": "sm75_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x128x32_stage1_warpsize2x2x1_g1_tensor16x8x8_simple_t1r1s1",
+      "TacticValue": "0xdbe57b4edf7481d8",
       "StreamId": 0,
       "Metadata": "[ONNX Layer: node_conv2d_22]\u001e[ONNX Layer: node_add_33]\u001e[ONNX Layer: node_relu_12]"
     },
@@ -7458,14 +7380,14 @@
       "BiasAsActInputIdx": -1,
       "ResAsActInputIdx": -1,
       "Activation": "RELU",
-      "TacticName": "sm75_xmma_fprop_implicit_gemm_indexed_wo_smem_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x32x64_stage1_warpsize4x1x1_g1_tensor16x8x8_alignc4",
-      "TacticValue": "0x49e0395ec5fc8474",
+      "TacticName": "sm75_xmma_fprop_implicit_gemm_indexed_wo_smem_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x32x64_stage1_warpsize4x1x1_g1_tensor16x8x8_alignc8",
+      "TacticValue": "0xc5917dd3c56d6621",
       "StreamId": 0,
       "Metadata": "[ONNX Layer: node_conv2d_29]\u001e[ONNX Layer: node_relu_14]"
     },
     {
-      "Name": "Reformatting CopyNode for Input Tensor 0 to node_conv2d_30 + node_Relu_393",
-      "LayerType": "NoOp",
+      "Name": "node_conv2d_30 + PWN(PWN(node_sigmoid), scalar_tensor_default + ONNXTRT_Broadcast_579 + node_mul_36)",
+      "LayerType": "CaskConvolution",
       "Inputs": [
         {
           "Name": "relu_14",
@@ -7481,40 +7403,7 @@
       ],
       "Outputs": [
         {
-          "Name": "Reformatted Input Tensor 0 to node_conv2d_30 + node_Relu_393",
-          "Location": "Device",
-          "Dimensions": [
-            1,
-            32,
-            518,
-            518
-          ],
-          "Format/Datatype": "Half"
-        }
-      ],
-      "TacticValue": "0x0000000000000000",
-      "StreamId": 0,
-      "Metadata": ""
-    },
-    {
-      "Name": "node_conv2d_30 + node_Relu_393",
-      "LayerType": "CaskConvolution",
-      "Inputs": [
-        {
-          "Name": "Reformatted Input Tensor 0 to node_conv2d_30 + node_Relu_393",
-          "Location": "Device",
-          "Dimensions": [
-            1,
-            32,
-            518,
-            518
-          ],
-          "Format/Datatype": "Half"
-        }
-      ],
-      "Outputs": [
-        {
-          "Name": "Reformatted Output Tensor 0 to node_conv2d_30 + node_Relu_393",
+          "Name": "mul_36",
           "Location": "Device",
           "Dimensions": [
             1,
@@ -7558,7 +7447,7 @@
         "Count": 1
       },
       "HasBias": 1,
-      "HasReLU": 1,
+      "HasReLU": 0,
       "HasSparseWeights": 0,
       "HasDynamicFilter": 0,
       "HasDynamicBias": 0,
@@ -7566,18 +7455,47 @@
       "ConvXAsActInputIdx": -1,
       "BiasAsActInputIdx": -1,
       "ResAsActInputIdx": -1,
-      "Activation": "RELU",
-      "TacticName": "sm75_xmma_fprop_implicit_gemm_indexed_wo_smem_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x16x32_stage1_warpsize4x1x1_g1_tensor16x8x8_aligna4_alignc4",
-      "TacticValue": "0x8dd277d8855e5faf",
+      "Activation": "GENERIC",
+      "ParameterSubType": "PointWiseExpression",
+      "NbPointWiseExpressionInputArgs": 1,
+      "PointWiseExpressionInputArgs": [
+        "arg0"
+      ],
+      "NbPointWiseExpressionOutputVars": 1,
+      "PointWiseExpressionOutputVars": [
+        "var4"
+      ],
+      "NbPointWiseExpressionParams": 0,
+      "PointWiseExpressionParams": [],
+      "NbPointWiseExpressionLiterals": 7,
+      "PointWiseExpressionLiterals": [
+        "0.000000e+00f",
+        "1.000000e+00f",
+        "0.000000e+00f",
+        "0.000000e+00f",
+        "5.000000e-01f",
+        "0.000000e+00f",
+        "2.000000e+01f"
+      ],
+      "NbPointWiseExpressionOperations": 5,
+      "PointWiseExpressionOperations": [
+        "auto const var0 = pwgen::iMul(literal4, arg0);",
+        "auto const var1 = pwgen::iTanh(var0);",
+        "auto const var2 = pwgen::iMul(var1, literal4);",
+        "auto const var3 = pwgen::iPlus(var2, literal4);",
+        "auto const var4 = pwgen::iMul(var3, literal6);"
+      ],
+      "TacticName": "sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwckrsc_nhwc_tilesize128x32x32_stage4_warpsize4x1x1_g1_tensor16x8x16_simple_t1r1s1_linkable",
+      "TacticValue": "0x83140fbc4d25e909",
       "StreamId": 0,
-      "Metadata": "[ONNX Layer: node_conv2d_30]\u001e[ONNX Layer: node_Relu_393]"
+      "Metadata": "[ONNX Layer: node_conv2d_30]\u001e[ONNX Layer: node_sigmoid]\u001e[ONNX Layer: node_mul_36]"
     },
     {
-      "Name": "Reformatting CopyNode for Output Tensor 0 to node_conv2d_30 + node_Relu_393",
+      "Name": "Reformatting CopyNode for Input Tensor 0 to node_squeeze",
       "LayerType": "Reformat",
       "Inputs": [
         {
-          "Name": "Reformatted Output Tensor 0 to node_conv2d_30 + node_Relu_393",
+          "Name": "mul_36",
           "Location": "Device",
           "Dimensions": [
             1,
@@ -7590,7 +7508,7 @@
       ],
       "Outputs": [
         {
-          "Name": "output",
+          "Name": "Reformatted Input Tensor 0 to node_squeeze",
           "Location": "Device",
           "Dimensions": [
             1,
@@ -7603,9 +7521,41 @@
       ],
       "ParameterType": "Reformat",
       "Origin": "REFORMAT",
-      "TacticValue": "0x0000000000000000",
+      "TacticValue": "0x00000000000003e8",
       "StreamId": 0,
       "Metadata": ""
+    },
+    {
+      "Name": "node_squeeze",
+      "LayerType": "NoOp",
+      "Inputs": [
+        {
+          "Name": "Reformatted Input Tensor 0 to node_squeeze",
+          "Location": "Device",
+          "Dimensions": [
+            1,
+            1,
+            518,
+            518
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "Outputs": [
+        {
+          "Name": "output",
+          "Location": "Device",
+          "Dimensions": [
+            1,
+            518,
+            518
+          ],
+          "Format/Datatype": "Float"
+        }
+      ],
+      "TacticValue": "0x0000000000000000",
+      "StreamId": 0,
+      "Metadata": "[ONNX Layer: node_squeeze]"
     }
   ]
 }

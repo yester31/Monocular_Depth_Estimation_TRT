@@ -103,10 +103,16 @@ def run(model, args):
 
     print(prof.render(model, rows, summary, susp, top=args.top))
 
+    env = bench.collect_env()
     payload = {
         "model": model,
         "variant": args.variant,
         "precision": run_rec.get("precision"),
+        # Which kernels an engine contains depends on the GPU clock during its
+        # build, so a profile is only readable next to the clock it was taken
+        # under. Nine profiles had to be thrown away for want of this field.
+        "clock_mhz": env.get("clock_mhz"),
+        "clock_max_mhz": env.get("clock_max_mhz"),
         "engine_path": engine_path,
         "input_shape": list(feed.shape),
         "iterations": args.iterations,
