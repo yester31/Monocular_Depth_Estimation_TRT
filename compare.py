@@ -60,15 +60,24 @@ MODELS = os.path.join(ROOT, "models")
 
 # Caveats that must travel with the number, or a reader will draw the wrong
 # conclusion from a table that looks authoritative.
-CAVEAT = {
-    "unidepth_v2": "metric scale ~3.1x upstream at 518x518 (D11)",
-    "unik3d": "metric scale 3.15x upstream at 518x518 (D11)",
-    "metric3d_v2": "output is canonical depth, not metres (D12)",
-    # D13 is fixed -- it now runs at 388x518 like moge_2 -- so what remains is
-    # the assumption that fix carries, not the defect it replaced.
-    "metric_anything": "388x518 assumes a 4:3 source, as moge_2 does (D13)",
-    "moge_2": "388x518 assumes a 4:3 source",
-}
+#
+# Read from each model's spec.json rather than kept here as a second copy.
+# They used to be duplicated, which meant the table and the spec could disagree
+# about the same model and neither would look wrong on its own.
+def _load_caveats():
+    try:
+        from core.spec import caveats, load_all
+    except Exception:
+        return {}
+    out = {}
+    for name, spec in load_all().items():
+        c = caveats(spec)
+        if c:
+            out[name] = "; ".join(c)
+    return out
+
+
+CAVEAT = _load_caveats()
 
 
 def _fmt(x, nd=2):

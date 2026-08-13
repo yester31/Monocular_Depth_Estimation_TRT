@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "name": "distill_any_depth",
+  "env": "distill-any-depth",
+  "input": {
+    "name": "input",
+    "rank": 4,
+    "dtype": "float32",
+    "layout": "NCHW"
+  },
+  "outputs": [
+    {
+      "name": "output",
+      "meaning": "relative depth"
+    }
+  ],
+  "profiles": {
+    "bench": {
+      "size": [
+        518,
+        518
+      ]
+    }
+  },
+  "build_targets": [
+    {
+      "profile": "bench",
+      "precision": "fp16"
+    }
+  ]
+}

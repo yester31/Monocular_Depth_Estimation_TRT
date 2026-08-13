@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "name": "depth_anything_v3",
+  "env": "dav3",
+  "input": {
+    "name": "image",
+    "rank": 4,
+    "dtype": "float32",
+    "layout": "NCHW"
+  },
+  "outputs": [
+    {
+      "name": "depth",
+      "meaning": "relative depth"
+    },
+    {
+      "name": "sky",
+      "meaning": "sky mask; near-zero magnitude"
+    }
+  ],
+  "profiles": {
+    "bench": {
+      "size": [
+        518,
+        518
+      ]
+    }
+  },
+  "build_targets": [
+    {
+      "profile": "bench",
+      "precision": "fp16"
+    }
+  ],
+  "caveats": [
+    "the sky refinement pass is not in the graph: it samples randomly and cannot be traced (core/export_compat.no_mono_sky_postprocess)"
+  ]
+}

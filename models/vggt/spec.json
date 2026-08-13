@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "name": "vggt",
+  "env": "vggt",
+  "input": {
+    "name": "images",
+    "rank": 5,
+    "dtype": "float32",
+    "layout": "NSCHW"
+  },
+  "outputs": [
+    {
+      "name": "depth",
+      "meaning": "depth; global scale unknown"
+    }
+  ],
+  "profiles": {
+    "bench": {
+      "size": [
+        518,
+        518
+      ]
+    }
+  },
+  "build_targets": [
+    {
+      "profile": "bench",
+      "precision": "fp16"
+    }
+  ],
+  "caveats": [
+    "cartesian_prod is replaced at export time; TorchScript has no symbolic for it (core/export_compat.no_cartesian_prod)"
+  ]
+}

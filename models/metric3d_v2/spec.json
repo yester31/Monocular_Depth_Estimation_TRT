@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "name": "metric3d_v2",
+  "env": "metric3d",
+  "input": {
+    "name": "image",
+    "rank": 4,
+    "dtype": "float32",
+    "layout": "NCHW"
+  },
+  "outputs": [
+    {
+      "name": "pred_depth",
+      "meaning": "canonical depth — NOT metres, see D12"
+    }
+  ],
+  "profiles": {
+    "native": {
+      "size": [
+        616,
+        1064
+      ]
+    }
+  },
+  "build_targets": [
+    {
+      "profile": "native",
+      "precision": "fp32"
+    }
+  ],
+  "caveats": [
+    "output is canonical depth; metres need real_focal * scale / 1000 (D12)",
+    "built at fp32 while every other model is fp16"
+  ]
+}

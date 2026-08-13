@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "name": "depth_pro",
+  "env": "depth-pro",
+  "input": {
+    "name": "input",
+    "rank": 4,
+    "dtype": "float32",
+    "layout": "NCHW"
+  },
+  "outputs": [
+    {
+      "name": "canonical_inverse_depth",
+      "meaning": "inverse depth, canonical camera"
+    },
+    {
+      "name": "fov_deg",
+      "meaning": "field of view in degrees"
+    }
+  ],
+  "profiles": {
+    "native": {
+      "size": [
+        1536,
+        1536
+      ]
+    }
+  },
+  "build_targets": [
+    {
+      "profile": "native",
+      "precision": "fp16"
+    }
+  ],
+  "caveats": [
+    "1536x1536 is upstream's fixed size; there is no 518 bench profile"
+  ]
+}

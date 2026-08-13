@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "name": "unik3d",
+  "env": "unik3d",
+  "input": {
+    "name": "rgbs",
+    "rank": 4,
+    "dtype": "float32",
+    "layout": "NCHW"
+  },
+  "outputs": [
+    {
+      "name": "pts_3d",
+      "meaning": "point map"
+    },
+    {
+      "name": "confidence",
+      "meaning": "confidence"
+    }
+  ],
+  "profiles": {
+    "bench": {
+      "size": [
+        518,
+        518
+      ]
+    }
+  },
+  "build_targets": [
+    {
+      "profile": "bench",
+      "precision": "fp16"
+    }
+  ],
+  "caveats": [
+    "metric scale is 3.15x upstream at 518x518 (D11)",
+    "exported with antialias disabled; TensorRT cannot parse antialias=1"
+  ]
+}

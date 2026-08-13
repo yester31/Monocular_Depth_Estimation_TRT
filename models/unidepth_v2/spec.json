@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "name": "unidepth_v2",
+  "env": "unidepthv2",
+  "input": {
+    "name": "rgbs",
+    "rank": 4,
+    "dtype": "float32",
+    "layout": "NCHW"
+  },
+  "outputs": [
+    {
+      "name": "pts_3d",
+      "meaning": "point map"
+    },
+    {
+      "name": "confidence",
+      "meaning": "confidence"
+    },
+    {
+      "name": "intrinsics",
+      "meaning": "3x3 camera intrinsics"
+    }
+  ],
+  "profiles": {
+    "bench": {
+      "size": [
+        518,
+        518
+      ]
+    }
+  },
+  "build_targets": [
+    {
+      "profile": "bench",
+      "precision": "fp16"
+    }
+  ],
+  "caveats": [
+    "metric scale is roughly 3.1x upstream at 518x518 (D11)",
+    "float64 in the exported graph is rewritten to float32 after export (core/onnx_tools.demote_float64)"
+  ]
+}

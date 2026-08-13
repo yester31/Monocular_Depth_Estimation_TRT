@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "name": "depth_anything_v2",
+  "env": "dav2",
+  "input": {
+    "name": "input",
+    "rank": 4,
+    "dtype": "float32",
+    "layout": "NCHW"
+  },
+  "outputs": [
+    {
+      "name": "output",
+      "meaning": "metric depth (hypersim) with the default checkpoint"
+    }
+  ],
+  "profiles": {
+    "bench": {
+      "size": [
+        518,
+        518
+      ]
+    }
+  },
+  "build_targets": [
+    {
+      "profile": "bench",
+      "precision": "fp16"
+    }
+  ]
+}

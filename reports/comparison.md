@@ -55,9 +55,13 @@ Latency is **not** comparable across the sections above. Attention cost grows fa
 
 These numbers are valid as latency. The *output* carries a condition recorded in `docs/model_contracts.md`.
 
-- `metric3d_v2` -- output is canonical depth, not metres (D12)
-- `metric_anything` -- 388x518 assumes a 4:3 source, as moge_2 does (D13)
-- `moge_2` -- 388x518 assumes a 4:3 source
-- `unidepth_v2` -- metric scale ~3.1x upstream at 518x518 (D11)
-- `unik3d` -- metric scale 3.15x upstream at 518x518 (D11)
+- `depth_anything_v3` -- the sky refinement pass is not in the graph: it samples randomly and cannot be traced (core/export_compat.no_mono_sky_postprocess)
+- `depth_pro` -- 1536x1536 is upstream's fixed size; there is no 518 bench profile
+- `metric3d_v2` -- output is canonical depth; metres need real_focal * scale / 1000 (D12); built at fp32 while every other model is fp16
+- `metric_anything` -- 388x518 assumes a 4:3 source, matching moge_2 (D13); post-process calls MoGe's recover_focal_shift, so trte needs the pinned utils3d commit (D15)
+- `moge_2` -- 388x518 assumes a 4:3 source; post-process calls MoGe's recover_focal_shift, so trte needs the pinned utils3d commit (D15)
+- `streamvggt` -- cartesian_prod is replaced at export time; TorchScript has no symbolic for it (core/export_compat.no_cartesian_prod)
+- `unidepth_v2` -- metric scale is roughly 3.1x upstream at 518x518 (D11); float64 in the exported graph is rewritten to float32 after export (core/onnx_tools.demote_float64)
+- `unik3d` -- metric scale is 3.15x upstream at 518x518 (D11); exported with antialias disabled; TensorRT cannot parse antialias=1
+- `vggt` -- cartesian_prod is replaced at export time; TorchScript has no symbolic for it (core/export_compat.no_cartesian_prod)
 
