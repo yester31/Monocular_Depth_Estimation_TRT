@@ -274,18 +274,31 @@ def test_exporter_choice_is_explicit():
     was never handed to the exporter, so the name agreed with reality only
     because torch's default happened to match. The two exporters emit
     different graphs, and the filename is how a stale ONNX gets noticed.
+
+    Two ways this check used to miss. It looked only at onnx_export.py, so
+    vggt/onnx_export_split.py took torch's default and exported through dynamo
+    while the single-engine path used TorchScript -- two different graphs, and
+    the split engines were about to be timed against the single one. And it
+    read only the last torch.onnx.export( in a file, which is fine for the
+    eleven scripts with one call and useless for the one with three.
     """
-    for model in PAIRS + ["depth_pro"]:
-        path = os.path.join(ROOT, "models", model, "onnx_export.py")
-        if not os.path.exists(path):
-            continue
+    import glob
+
+    seen = 0
+    for path in sorted(glob.glob(os.path.join(ROOT, "models", "*",
+                                              "onnx_export*.py"))):
+        rel = os.path.relpath(path, os.path.join(ROOT, "models")).replace("\\", "/")
         # code_of strips comments. Reading the raw source instead let
         # streamvggt pass with `# dynamo=dynamo,` commented out inside the
         # call, which is exactly the bug this is meant to catch.
-        src = code_of(f"{model}/onnx_export.py")
-        call = re.sub(r"\s+", "", src).split("torch.onnx.export(")[-1][:400]
-        check(f"{model} passes dynamo= explicitly", "dynamo=" in call,
-              "torch.onnx.export takes torch's default exporter")
+        packed = re.sub(r"\s+", "", code_of(rel))
+        calls = packed.split("torch.onnx.export(")[1:]
+        check(f"{rel} calls torch.onnx.export", bool(calls))
+        for i, call in enumerate(calls):
+            seen += 1
+            check(f"{rel} call {i + 1} passes dynamo=", "dynamo=" in call[:400],
+                  "torch.onnx.export takes torch's default exporter")
+    check("checked every export call", seen >= 13, f"only {seen}")
 
 
 def test_moge_regression():

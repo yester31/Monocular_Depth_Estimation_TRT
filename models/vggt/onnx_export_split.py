@@ -142,6 +142,7 @@ def export_aggregator():
                 opset_version=21, 
                 input_names=["images"],
                 output_names=["aggregated_tokens_list"],
+                dynamo=False,
                 dynamic_axes=dynamic_axes, 
             )
 
@@ -220,6 +221,7 @@ def export_depth_head():
                 opset_version=21, 
                 input_names=["aggregated_tokens_list", "images"],
                 output_names=["depth", "depth_conf"],
+                dynamo=False,
                 dynamic_axes=dynamic_axes, 
             )
 
@@ -298,6 +300,7 @@ def export_camera_head():
                 opset_version=21, 
                 input_names=["aggregated_tokens_list"],
                 output_names=["pose_enc"],
+                dynamo=False,
                 dynamic_axes=dynamic_axes, 
             )
 
