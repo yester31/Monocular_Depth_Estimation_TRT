@@ -102,6 +102,57 @@ def _depth_pro_depth(outs, shape, orig_h, orig_w):
     return 1.0 / np.clip(inv, 1e-4, 1e4)
 
 
+PAD_VALUE = [123.675, 116.28, 103.53]
+METRIC3D_SIZE = (616, 1064)
+
+
+def _metric3d_geometry(oh, ow, size=METRIC3D_SIZE):
+    """The resize factor and padding metric3d_v2 applies, given a source size."""
+    scale = min(size[0] / oh, size[1] / ow)
+    rh, rw = int(oh * scale), int(ow * scale)
+    pad_h, pad_w = size[0] - rh, size[1] - rw
+    return scale, (rh, rw), (pad_h // 2, pad_h - pad_h // 2,
+                             pad_w // 2, pad_w - pad_w // 2)
+
+
+def _metric3d_pre(bgr):
+    """Keep-ratio resize, then pad, and no normalisation at all.
+
+    The mean and standard deviation are baked into the ONNX graph -- upstream's
+    exported model normalises as its first operation -- so it wants raw 0-255.
+    Applying ImageNet statistics here would apply them twice.
+    """
+    rgb = cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB)
+    oh, ow = rgb.shape[:2]
+    _, (rh, rw), pad = _metric3d_geometry(oh, ow)
+    img = cv2.resize(rgb, (rw, rh), interpolation=cv2.INTER_LINEAR)
+    img = cv2.copyMakeBorder(img, pad[0], pad[1], pad[2], pad[3],
+                             cv2.BORDER_CONSTANT, value=PAD_VALUE)
+    return np.ascontiguousarray(
+        img.transpose(2, 0, 1)[None]).astype(np.float32)
+
+
+def _metric3d_depth(outs, oh, ow, ctx):
+    """Canonical depth -> metres, which needs the camera that took the picture.
+
+    The network predicts as if through a canonical camera of focal length
+    1000 px, so metres are canonical * real_focal * resize_scale / 1000. That
+    focal is a property of the image, not of the model, which is why this model
+    was recorded as unrankable -- correctly, for an arbitrary photo. A dataset
+    that ships one global calibration supplies it, and the manifest carries it.
+    """
+    fx = ((ctx or {}).get("source", {}).get("intrinsics", {}) or {}).get("fx")
+    if not fx:
+        raise ValueError(
+            "metric3d_v2 needs the real focal length in pixels to produce "
+            "metres; the manifest carries no source.intrinsics.fx")
+    d = np.asarray(outs[0]).reshape(METRIC3D_SIZE).astype(np.float64)
+    scale, _, pad = _metric3d_geometry(oh, ow)
+    d = d[pad[0]:d.shape[0] - pad[1], pad[2]:d.shape[1] - pad[3]]
+    d = cv2.resize(d, (ow, oh), interpolation=cv2.INTER_LINEAR)
+    return np.clip(d, 0, 300) * (fx * scale / 1000.0)
+
+
 def _rgb_over_255(bgr, h, w, interp=cv2.INTER_LINEAR):
     """BGR -> RGB, resize, /255. No ImageNet statistics."""
     rgb = cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB)
@@ -143,37 +194,41 @@ def _point_map_depth(outs, shape, orig_h, orig_w, mask_idx, scale_idx):
 ADAPTERS = {
     "depth_anything_v2": {
         "pre": lambda bgr: _imagenet_square(bgr, 518),
-        "depth": lambda outs, oh, ow: _direct_depth(outs, (518, 518), oh, ow),
+        "depth": lambda outs, oh, ow, ctx: _direct_depth(outs, (518, 518), oh, ow),
     },
     "depth_anything_v3": {
         "pre": lambda bgr: _imagenet_square(bgr, 518),
-        "depth": lambda outs, oh, ow: _direct_depth(outs, (518, 518), oh, ow),
+        "depth": lambda outs, oh, ow, ctx: _direct_depth(outs, (518, 518), oh, ow),
     },
     "depth_pro": {
         "pre": _depth_pro_pre,
-        "depth": lambda outs, oh, ow: _depth_pro_depth(outs, (1536, 1536), oh, ow),
+        "depth": lambda outs, oh, ow, ctx: _depth_pro_depth(outs, (1536, 1536), oh, ow),
     },
     "depth_anything_ac": {
         "pre": lambda bgr: _imagenet_square(bgr, 518),
-        "depth": lambda outs, oh, ow: _direct_depth(outs, (518, 518), oh, ow),
+        "depth": lambda outs, oh, ow, ctx: _direct_depth(outs, (518, 518), oh, ow),
     },
     "distill_any_depth": {
         "pre": lambda bgr: _imagenet_square(bgr, 518),
-        "depth": lambda outs, oh, ow: _direct_depth(outs, (518, 518), oh, ow),
+        "depth": lambda outs, oh, ow, ctx: _direct_depth(outs, (518, 518), oh, ow),
     },
     "zipdepth": {
         "pre": _zipdepth_pre,
-        "depth": lambda outs, oh, ow: _direct_depth(outs, (384, 512), oh, ow),
+        "depth": lambda outs, oh, ow, ctx: _direct_depth(outs, (384, 512), oh, ow),
     },
     # points, normal, mask, metric_scale
     "moge_2": {
         "pre": lambda bgr: _rgb_over_255(bgr, 388, 518),
-        "depth": lambda outs, oh, ow: _point_map_depth(outs, (388, 518), oh, ow, 2, 3),
+        "depth": lambda outs, oh, ow, ctx: _point_map_depth(outs, (388, 518), oh, ow, 2, 3),
+    },
+    "metric3d_v2": {
+        "pre": _metric3d_pre,
+        "depth": _metric3d_depth,
     },
     # points, mask, metric_scale -- no normal branch
     "metric_anything": {
         "pre": lambda bgr: _rgb_over_255(bgr, 388, 518, cv2.INTER_AREA),
-        "depth": lambda outs, oh, ow: _point_map_depth(outs, (388, 518), oh, ow, 1, 2),
+        "depth": lambda outs, oh, ow, ctx: _point_map_depth(outs, (388, 518), oh, ow, 1, 2),
     },
 }
 
@@ -236,7 +291,7 @@ def score_model(model, manifest, root, runs, limit=None, diagnose=False):
             inputs[0].host = ADAPTERS[model]["pre"](bgr)
             raw = common.do_inference(context, engine=engine, bindings=bindings,
                                       inputs=inputs, outputs=outputs, stream=stream)
-            pred = ADAPTERS[model]["depth"](raw, oh, ow)
+            pred = ADAPTERS[model]["depth"](raw, oh, ow, manifest)
 
             g = np.load(os.path.join(root, s["depth"]))
             m = np.load(os.path.join(root, s["mask"])).astype(bool)

@@ -41,6 +41,14 @@ SOURCE = {
         "released using the MIT license.' Checked 2026-08-13."
     ),
     "citation": "DIODE: A Dense Indoor and Outdoor DEpth Dataset, arXiv:1908.00463",
+    # One global calibration for the whole dataset, from the devkit's
+    # intrinsics.txt. It is here because a canonical-depth model needs a real
+    # focal length to produce metres at all -- metric3d_v2 was written up as
+    # permanently blocked for want of one, which is true of an arbitrary photo
+    # and false of a dataset that ships its camera.
+    "intrinsics": {"fx": 886.81, "fy": 927.06, "cx": 512.0, "cy": 384.0,
+                   "source": "diode-devkit intrinsics.txt; reproduces the "
+                             "paper's stated 60x45 degree design field of view"},
 }
 
 
