@@ -228,8 +228,13 @@ def main():
     # subtly wrong is worse than one that does not build.
     #
     # None of this affects the benchmark: bench.record() has already written
-    # the result by this point. MoGe_2/onnx2trt_pointcloud.py is the dedicated
-    # geometry script and carries the same calls, so it needs the same port.
+    # the result by this point, and the depth, points, normal and mask arrays
+    # above are all produced whether or not the mesh is written -- what is off
+    # is only the .ply.
+    #
+    # onnx2trt_pointcloud.py is the dedicated geometry script and does not use
+    # any of the renamed calls; it went through utils3d.torch and was fixed
+    # under D18. This gate is the only place still holding the old names.
     export_mesh = False
     if not export_mesh:
         return
