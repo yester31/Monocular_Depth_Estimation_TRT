@@ -25,6 +25,7 @@ import numpy as np
 import time
 import common
 from common import *
+from core import bench
 
 import sys
 sys.path.insert(1, os.path.join(sys.path[0], "vggt"))
@@ -135,21 +136,19 @@ def main():
         kind_d2h = cudart.cudaMemcpyKind.cudaMemcpyDeviceToHost
         kind_d2d = cudart.cudaMemcpyKind.cudaMemcpyDeviceToDevice
 
-        # Warm-up      
-        for _ in range(20):  
-            inputs[0].host = batch_images
-            context.execute_async_v3(stream_handle=stream)
-            context2.execute_async_v3(stream_handle=stream)
-            context3.execute_async_v3(stream_handle=stream)
-            cuda_call(cudart.cudaStreamSynchronize(stream)) # Synchronize the stream
+        # The host->pinned copy is done once, outside the loop, exactly as
+        # onnx2trt.py does it. Leaving it inside charged this path for a copy
+        # the single-engine path is not charged for, which is the one thing
+        # this comparison must not do.
+        inputs[0].host = batch_images
 
-        # Inference loop
-        iteration = 100
-        dur_time = 0
-        for _ in range(iteration):
-            begin = time.time()
+        def once():
+            """One full pass: aggregator, then both heads off its tokens.
 
-            inputs[0].host = batch_images
+            The two heads read the aggregator's output device-to-device -- the
+            tokens are 24x1x1x1374x2048, about 270 MB in fp16, and routing them
+            through the host would measure PCIe rather than the split.
+            """
             cuda_call(cudart.cudaMemcpyAsync(inputs[0].device, inputs[0].host, inputs[0].nbytes, kind_h2d, stream))
             context.execute_async_v3(stream_handle=stream)
 
@@ -160,15 +159,27 @@ def main():
             cuda_call(cudart.cudaMemcpyAsync(inputs3[0].device, outputs[0].device, outputs[0].nbytes, kind_d2d, stream))
             context3.execute_async_v3(stream_handle=stream)
             cuda_call(cudart.cudaMemcpyAsync(outputs3[0].host, outputs3[0].device, outputs3[0].nbytes, kind_d2h, stream))
-            cuda_call(cudart.cudaStreamSynchronize(stream)) # Synchronize the stream
+            cuda_call(cudart.cudaStreamSynchronize(stream))
+            return [outputs2[0].host, outputs3[0].host]
 
-            dur_time += time.time() - begin
-        # ===================================================================
-        # Results
-        print(f'[MDET] {iteration} iterations time: {dur_time:.4f} [sec]')
-        avg_time = dur_time / iteration
-        print(f'[MDET] Average FPS: {1 / avg_time:.2f} [fps]')
-        print(f'[MDET] Average inference time: {avg_time * 1000:.2f} [msec]')
+        # Same loop as every other model. This file kept a hand-rolled one --
+        # time.time() summed and divided, no percentiles, warmup that did not
+        # copy the input -- so its number could not be put beside the
+        # single-engine number, which is the only reason to have both.
+        warmup, iteration = 20, 100
+        trt_outputs, samples = bench.measure(once, warmup=warmup,
+                                             iterations=iteration,
+                                             sync=lambda: None)
+
+        depth_split = np.array(trt_outputs[0]).reshape(depth_shape)
+        pose_enc = np.array(trt_outputs[1]).reshape(pose_enc_shape)
+        bench.record('vggt', samples, warmup=warmup, precision=precision,
+                     profile='bench', variant='split',
+                     input_h=input_h, input_w=input_w,
+                     engine_path=engine_file_path,
+                     outputs={'depth': depth_split, 'pose_enc': pose_enc},
+                     notes='three engines: aggregator -> depth_head + camera_head, '
+                           'tokens passed device-to-device')
 
         if 0 :
             # aggregator

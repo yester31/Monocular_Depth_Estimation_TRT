@@ -342,6 +342,13 @@ def export_camera_head():
             print(f"[MDET] simplification failed: {e}")
 
 if __name__ == "__main__":
-    # export_aggregator()
+    # All three, because the split is only usable as three. Two of these were
+    # commented out, so a plain run produced one of the parts and no error --
+    # which is why the split has never been timed against the single engine
+    # despite both scripts existing since August.
+    #
+    # Each function builds its own VGGT and calls torch.cuda.empty_cache()
+    # before returning, so they run one after another rather than together.
+    export_aggregator()
     export_depth_head()
-    # export_camera_head()
+    export_camera_head()
