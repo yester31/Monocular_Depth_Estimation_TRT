@@ -34,34 +34,17 @@ class MoGeModelWrapper(torch.nn.Module):
 
         return out
 
-def main ():
+def export_variant(*, input_h, input_w, encoder, normal, dynamo, onnx_sim,
+                   model_name):
+    """Export one explicitly named graph without changing the published one."""
     print('[MDET] Load model')
     save_path = os.path.join(CUR_DIR, 'onnx')
     os.makedirs(save_path, exist_ok=True)
 
-    # Load model
     num_tokens = 1800 # [1200, 3600]
-    # Must match onnx2trt.py: the model name embeds the resolution, so a
-    # mismatch means onnx2trt.py looks for an ONNX that was never written.
-    # This said 291x518 (16:9) while onnx2trt.py said 388x518 (4:3).
-    #
-    # MoGe sizes its input from the image aspect ratio, so the fixed size we
-    # export has to be chosen for one: 518 on the long side gives 388 for 4:3
-    # and 291 for 16:9. data/example.jpg is 3024x2268, i.e. 4:3.
-    input_h, input_w = 388, 518 # 4:3; use 291, 518 for 16:9
-    encoder = 'vits' # 'vitl' or 'vitb', 'vits'
-    normal = True # True or False
     model = load_model(encoder, normal)
     wrapped_model = MoGeModelWrapper(model)
-
-    dynamo = True      # True or False
-    onnx_sim = True    # True or False
-    model_name = f"moge-2_{encoder}"
-    model_name = f"{model_name}_normal" if normal else model_name
-    model_name = f"{model_name}_{input_h}x{input_w}" 
-    model_name = f"{model_name}_dynamo" if dynamo else model_name
     export_model_path = os.path.join(save_path, f'{model_name}.onnx')
-
     dummy_input = torch.randn((1, 3, input_h, input_w), requires_grad=False).to(DEVICE)
 
     # num_tokens goes in as a plain Python int, not a tensor, so it is folded
@@ -87,21 +70,13 @@ def main ():
             input_names=['image'],
             output_names=['points', 'normal', 'mask', 'metric_scale'],
             opset_version=20,
-            # Explicit. `dynamo` already decides the filename suffix, but it
-            # was never passed here, so the exporter was whatever torch
-            # defaulted to. The name matched reality only by luck.
             dynamo=dynamo,
         )
     print(f"ONNX model exported to: {export_model_path}")
 
     print("[MDET] Validate exported onnx model")
-    try:
-        onnx_model = onnx.load(export_model_path)
-        onnx.checker.check_model(onnx_model)
-    except Exception as e:
-        print(f"[MDET] failed onnx.checker.check_model() : {e}")
-    finally:
-        onnx.checker.check_model(export_model_path)
+    onnx_model = onnx.load(export_model_path)
+    onnx.checker.check_model(onnx_model)
 
     for input in onnx_model.graph.input:
         print(f"[MDET] Input: {input.name}")
@@ -113,19 +88,40 @@ def main ():
         for d in output.type.tensor_type.shape.dim:
             print("[MDET] dim_value:", d.dim_value, "dim_param:", d.dim_param)
 
-    if onnx_sim :
+    paths = [export_model_path]
+    if onnx_sim:
         print("[MDET] Simplify exported onnx model")
-        onnx_model = onnx.load(export_model_path)
-        try:
-            model_simplified, check = simplify(onnx_model)
-            if not check:
-                raise RuntimeError("[MDET] Simplified model is invalid.")
-            
-            export_model_sim_path = os.path.join(save_path, f'{model_name}_sim.onnx')
-            onnx.save(model_simplified, export_model_sim_path)
-            print(f"[MDET] simplified onnx model saved to: {export_model_sim_path}")
-        except Exception as e:
-            print(f"[MDET] simplification failed: {e}")
+        model_simplified, check = simplify(onnx_model)
+        if not check:
+            raise RuntimeError("[MDET] Simplified model is invalid.")
+        export_model_sim_path = os.path.join(save_path, f'{model_name}_sim.onnx')
+        onnx.save(model_simplified, export_model_sim_path)
+        onnx.checker.check_model(export_model_sim_path)
+        paths.append(export_model_sim_path)
+        print(f"[MDET] simplified onnx model saved to: {export_model_sim_path}")
+    return paths
+
+
+def main ():
+    # Must match onnx2trt.py: the model name embeds the resolution, so a
+    # mismatch means onnx2trt.py looks for an ONNX that was never written.
+    # This said 291x518 (16:9) while onnx2trt.py said 388x518 (4:3).
+    #
+    # MoGe sizes its input from the image aspect ratio, so the fixed size we
+    # export has to be chosen for one: 518 on the long side gives 388 for 4:3
+    # and 291 for 16:9. data/example.jpg is 3024x2268, i.e. 4:3.
+    input_h, input_w = 388, 518 # 4:3; use 291, 518 for 16:9
+    encoder = 'vits' # 'vitl' or 'vitb', 'vits'
+    normal = True # True or False
+    dynamo = True      # True or False
+    onnx_sim = True    # True or False
+    model_name = f"moge-2_{encoder}"
+    model_name = f"{model_name}_normal" if normal else model_name
+    model_name = f"{model_name}_{input_h}x{input_w}"
+    model_name = f"{model_name}_dynamo" if dynamo else model_name
+    export_variant(input_h=input_h, input_w=input_w, encoder=encoder,
+                   normal=normal, dynamo=dynamo, onnx_sim=onnx_sim,
+                   model_name=model_name)
 
 
 if __name__ == "__main__":
