@@ -306,6 +306,11 @@ def test_moge_regression():
     exp, trt = code_of("moge_2/onnx_export.py"), code_of("moge_2/onnx2trt.py")
     check("moge_2 export matches trt", set(sizes_in(exp)) == set(sizes_in(trt)),
           f"export={sorted(set(sizes_in(exp)))} trt={sorted(set(sizes_in(trt)))}")
+    check("moge_2 exports only image",
+          "def forward(self, image: torch.Tensor)" in exp and
+          "self.model(image, self.num_tokens)" in exp and
+          "(dummy_input, num_tokens)" not in exp,
+          "TorchScript exposes a Python export argument as a second ONNX input")
 
 
 if __name__ == "__main__":

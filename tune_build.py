@@ -196,6 +196,7 @@ def main():
                     "workspace_gib": ws,
                     "repeat": repeat,
                     "stats": stats,
+                    "environment": bench.collect_env(),
                     "profile_summary": summary,
                     "layer_type_time_shares": type_shares,
                 })

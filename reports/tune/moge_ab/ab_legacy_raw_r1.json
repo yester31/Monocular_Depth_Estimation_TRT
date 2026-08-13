@@ -1,0 +1,74 @@
+[
+  {
+    "model": "moge_2",
+    "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\moge_2\\onnx\\moge-2_vits_normal_388x518_ab_legacy.onnx",
+    "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\moge_2\\engine\\tune\\ab_legacy_raw_r1_fp16_optd_wsd_r1.engine",
+    "precision": "fp16",
+    "opt_level": null,
+    "workspace_gib": null,
+    "repeat": 1,
+    "stats": {
+      "iterations": 100,
+      "warmup": 0,
+      "mean_ms": 19.8026,
+      "min_ms": 19.6909,
+      "p50_ms": 19.7995,
+      "p90_ms": 19.8553,
+      "p99_ms": 20.0173,
+      "max_ms": 20.0535,
+      "stdev_ms": 0.0539,
+      "fps": 50.5
+    },
+    "profile_summary": {
+      "layers_profiled": 357,
+      "layers_in_engine": 357,
+      "profile_total_ms": 18.2182,
+      "benchmark_mean_ms": null,
+      "top10_share": 0.1453,
+      "fp32_output_share": 0.0128,
+      "layer_types": {
+        "Reformat": 97,
+        "CaskConvolution": 55,
+        "kgen": 46,
+        "Slice": 40,
+        "gemm": 36,
+        "fusion": 12,
+        "CaskDeconvolutionV2": 12,
+        "PointWiseV2": 11,
+        "NoOp": 10,
+        "Resize": 9,
+        "wait": 7,
+        "signal": 6,
+        "CaskJitConv": 6,
+        "Constant": 3,
+        "CaskGemmConvolution": 3,
+        "Reduce": 2,
+        "Shuffle": 2
+      },
+      "layer_precisions": {
+        "Half": 324,
+        "Float": 20,
+        "?": 13
+      }
+    },
+    "layer_type_time_shares": {
+      "CaskConvolution": 0.3418489999999999,
+      "Slice": 0.14137500000000003,
+      "Resize": 0.05935200000000001,
+      "Reformat": 0.203312,
+      "kgen": 0.08705299999999994,
+      "CaskJitConv": 0.024872,
+      "CaskDeconvolutionV2": 0.031837000000000004,
+      "CaskGemmConvolution": 0.005502,
+      "PointWiseV2": 0.010371,
+      "fusion": 0.030958,
+      "gemm": 0.060121,
+      "Reduce": 0.0020239999999999998,
+      "Shuffle": 0.001377,
+      "Constant": 0.0,
+      "signal": 0.0,
+      "wait": 0.0,
+      "NoOp": 0.0
+    }
+  }
+]
