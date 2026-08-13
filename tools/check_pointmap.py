@@ -83,7 +83,7 @@ def main():
             print(f"{model}: no engine here, skipped")
             continue
         engine = ev.load_engine(runs[model]["engine_path"])
-        diffs = []
+        diffs, better = [], []
         with engine, engine.create_execution_context() as context:
             inputs, outputs, bindings, stream = common.allocate_buffers(engine)
             for s in manifest["samples"][:args.limit]:
@@ -98,8 +98,29 @@ def main():
 
                 _, their_shift = theirs(torch.from_numpy(points),
                                         torch.from_numpy(mask))
+                their_shift = float(their_shift.reshape(-1)[0])
                 _, my_shift = pointmap.recover_focal_shift(points[0], mask[0])
-                diffs.append(abs(float(their_shift.reshape(-1)[0]) - my_shift))
+                diffs.append(abs(their_shift - my_shift))
+                # Where they differ, which one is actually at the bottom? A
+                # disagreement is only a defect if the reimplementation is the
+                # worse solution; upstream stops at ftol=1e-3, which is loose
+                # enough to leave a basin early.
+                if diffs[-1] > 1e-4:
+                    uv = pointmap.normalized_view_plane_uv(w, h, np.float32)
+                    pl = pointmap._downsample_nearest(points[0])
+                    ul = pointmap._downsample_nearest(uv)
+                    ml = pointmap._downsample_nearest(mask[0])
+                    pl, ul = pl[ml], ul[ml]
+                    uvf = np.asarray(ul, np.float64).reshape(-1, 2)
+                    xy = np.asarray(pl, np.float64)[..., :2].reshape(-1, 2)
+                    z = np.asarray(pl, np.float64)[..., 2].reshape(-1)
+
+                    def cost(sh):
+                        proj = xy / (z + sh)[:, None]
+                        f = (proj * uvf).sum() / np.square(proj).sum()
+                        return float(np.square(f * proj - uvf).sum())
+
+                    better.append((cost(my_shift), cost(their_shift)))
             common.free_buffers(inputs, outputs, stream)
 
         if not diffs:
@@ -110,6 +131,13 @@ def main():
         print(f"{model:18} {len(diffs)} images   max |shift difference| "
               f"{worst:.3e}   median {np.median(diffs):.3e}   "
               f"{'ok' if worst <= args.tol else 'DISAGREES'}")
+        if better:
+            mine_wins = sum(1 for a, b in better if a < b)
+            print(f"{'':18} of {len(better)} frames past 1e-4: this "
+                  f"implementation has the lower residual on {mine_wins}, "
+                  f"upstream on {len(better) - mine_wins}")
+            for a, b in better:
+                print(f"{'':20} residual  mine {a:.6e}   upstream {b:.6e}")
 
     print(f"\n{'agrees' if worst_overall <= args.tol else 'DISAGREEMENT'} "
           f"within {args.tol:g}")
