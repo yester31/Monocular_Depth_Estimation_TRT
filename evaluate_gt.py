@@ -560,12 +560,14 @@ def main():
                           f"{d['abs_rel'] * 100:.2f}%  d1 {d['delta1'] * 100:.1f}%"
                           f"   median {extra}")
 
+    # Defined before it is used. It was not, and the run scored five models,
+    # printed every number, and died on a NameError before writing any of them.
+    suffix = f"_{args.precision}" if args.precision else ""
     os.makedirs(OUT_DIR, exist_ok=True)
     for r in results:
         with open(os.path.join(OUT_DIR, f"{r['model']}{suffix}.json"), "w",
                   encoding="utf-8") as f:
             json.dump(r, f, indent=2)
-    suffix = f"_{args.precision}" if args.precision else ""
     out = os.path.join(ROOT, "reports", f"gt{suffix}.md")
     with open(out, "w", encoding="utf-8") as f:
         f.write(render(results, manifest))
