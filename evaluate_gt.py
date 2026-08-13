@@ -102,6 +102,13 @@ def _depth_pro_depth(outs, shape, orig_h, orig_w):
     return 1.0 / np.clip(inv, 1e-4, 1e4)
 
 
+def _zipdepth_pre(bgr, h=384, w=512):
+    """/255 and nothing else. No ImageNet statistics -- see its spec.json."""
+    img = cv2.resize(bgr, (w, h), interpolation=cv2.INTER_AREA)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB).astype(np.float32) / 255.0
+    return np.ascontiguousarray(img.transpose(2, 0, 1)[None])
+
+
 ADAPTERS = {
     "depth_anything_v2": {
         "pre": lambda bgr: _imagenet_square(bgr, 518),
@@ -114,6 +121,18 @@ ADAPTERS = {
     "depth_pro": {
         "pre": _depth_pro_pre,
         "depth": lambda outs, oh, ow: _depth_pro_depth(outs, (1536, 1536), oh, ow),
+    },
+    "depth_anything_ac": {
+        "pre": lambda bgr: _imagenet_square(bgr, 518),
+        "depth": lambda outs, oh, ow: _direct_depth(outs, (518, 518), oh, ow),
+    },
+    "distill_any_depth": {
+        "pre": lambda bgr: _imagenet_square(bgr, 518),
+        "depth": lambda outs, oh, ow: _direct_depth(outs, (518, 518), oh, ow),
+    },
+    "zipdepth": {
+        "pre": _zipdepth_pre,
+        "depth": lambda outs, oh, ow: _direct_depth(outs, (384, 512), oh, ow),
     },
 }
 
@@ -148,9 +167,19 @@ def score_model(model, manifest, root, runs, limit=None, diagnose=False):
 
     run = runs[model]
     engine = load_engine(run["engine_path"])
-    policy = gt.policy_for(spec_mod.load_all()[model].get("depth_scale"))
+    sp = spec_mod.load_all()[model]
+    policy = gt.policy_for(sp.get("depth_scale"))
     if policy is None:
         return {"model": model, "skip": "no alignment policy for this output contract"}
+    # Which way round a relative output runs decides whether the scale+shift fit
+    # is affine in the space the model was trained in. There is no safe default,
+    # so it is required rather than guessed, and checked against the data below.
+    form = sp.get("output_form")
+    if policy == "scale_shift" and form not in ("depth", "inverse_depth"):
+        return {"model": model,
+                "skip": "spec.json must declare output_form as 'depth' or "
+                        "'inverse_depth' before a scale+shift fit means anything"}
+    pred_is_inverse = form == "inverse_depth"
 
     per_sample, fits = [], []
     with engine, engine.create_execution_context() as context:
@@ -172,12 +201,13 @@ def score_model(model, manifest, root, runs, limit=None, diagnose=False):
             m = m[..., 0] if m.ndim == 3 else m
             m = m & (g > 0)
             try:
-                aligned, fit = gt.align(pred, g, m, policy)
+                aligned, fit = gt.align(pred, g, m, policy, pred_is_inverse)
             except ValueError as e:
                 per_sample.append({"id": s["id"], "skip": str(e)})
                 continue
             r = gt.metrics(aligned, g, m, max_depth=manifest.get("max_depth"))
             r["id"] = s["id"]
+            r["orientation"] = gt.orientation(pred, g, m)
             if diagnose:
                 # What the score would be if the model were allowed a fit it
                 # does not claim. This is never the published number -- it is
@@ -188,7 +218,7 @@ def score_model(model, manifest, root, runs, limit=None, diagnose=False):
                     if alt == policy:
                         continue
                     try:
-                        a2, f2 = gt.align(pred, g, m, alt)
+                        a2, f2 = gt.align(pred, g, m, alt, pred_is_inverse)
                     except ValueError:
                         continue
                     r[f"diag_{alt}"] = gt.metrics(
@@ -216,6 +246,20 @@ def score_model(model, manifest, root, runs, limit=None, diagnose=False):
             if fitted:
                 agg[f"diag_{alt}"]["fit_median"] = {
                     k: float(np.median([f[k] for f in fitted])) for k in fitted[0]}
+    orients = [r["orientation"] for r in scored
+               if r.get("orientation") == r.get("orientation")]
+    if orients:
+        agg["orientation_median"] = float(np.median(orients))
+        # Positive means the prediction rises with true depth, so it is a depth
+        # map; negative means it falls, so it is a disparity map. A declaration
+        # that disagrees with the data is reported rather than obeyed.
+        measured = "depth" if agg["orientation_median"] > 0 else "inverse_depth"
+        agg["output_form_declared"] = form
+        agg["output_form_measured"] = measured
+        if form and measured != form:
+            agg["output_form_conflict"] = (
+                f"spec.json says {form} but the prediction correlates "
+                f"{agg['orientation_median']:+.3f} with true depth")
     agg.update(model=model, images=len(scored),
                pixels=int(sum(r["n"] for r in scored)),
                alignment=policy, engine_path=run["engine_path"],
@@ -329,6 +373,8 @@ def main():
         else:
             print(f"  AbsRel {r['abs_rel'] * 100:.2f}%  RMSE {r['rmse']:.3f}  "
                   f"d1 {r['delta1'] * 100:.1f}%  over {r['images']} images")
+            if r.get("output_form_conflict"):
+                print(f"  !! {r['output_form_conflict']}")
             for alt in ("scale", "scale_shift"):
                 d = r.get(f"diag_{alt}")
                 if d:

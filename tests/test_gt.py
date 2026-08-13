@@ -82,12 +82,14 @@ def test_scale_alignment_recovers_a_pure_scale():
 
 
 def test_scale_shift_recovers_an_affine_disparity():
-    # A relative model's output is disparity-like up to scale and shift, so
-    # build one that way and check both come back.
+    # This fixture IS a disparity-like model, so it says so. The parameter is
+    # not a convenience: which way round a relative model's output runs decides
+    # whether the fit is affine in the space the model was trained in.
     g = np.array([1.0, 2.0, 4.0, 8.0])
     disparity = 1.0 / g
     p = (disparity - 0.05) / 3.0                 # invert: disp = 3*p + 0.05
-    out, fit = align(p, g, np.ones(4, dtype=bool), "scale_shift")
+    out, fit = align(p, g, np.ones(4, dtype=bool), "scale_shift",
+                     pred_is_inverse=True)
     assert fit["scale"] == pytest.approx(3.0)
     assert fit["shift"] == pytest.approx(0.05)
     assert out == pytest.approx(g)
@@ -128,3 +130,36 @@ def test_the_contract_decides_the_alignment():
     # policy just because scale_shift would produce a number for it.
     assert policy_for("unknown") is None
     assert policy_for("canonical") is None
+
+
+def test_scale_shift_on_a_model_that_returns_depth():
+    # The fit is affine in disparity. A relative model that returns depth has
+    # to be inverted before it, not fitted through it: 1/(s*d + t) is not a
+    # hyperbola in d, and forcing the line onto one lands on a negative slope
+    # that reduces the error slightly and means nothing.
+    g = np.array([1.0, 2.0, 4.0, 8.0])
+    pred_depth = g * 7.0                      # right shape, wrong unit
+    out, fit = align(pred_depth, g, np.ones(4, dtype=bool), "scale_shift",
+                     pred_is_inverse=False)
+    assert fit["scale"] == pytest.approx(7.0)
+    assert fit["shift"] == pytest.approx(0.0, abs=1e-9)
+    assert out == pytest.approx(g)
+
+
+def test_the_two_orientations_disagree_and_the_wrong_one_is_worse():
+    g = np.array([1.0, 2.0, 4.0, 8.0, 16.0])
+    pred_depth = g * 3.0
+    right, _ = align(pred_depth, g, np.ones(5, dtype=bool), "scale_shift",
+                     pred_is_inverse=False)
+    wrong, _ = align(pred_depth, g, np.ones(5, dtype=bool), "scale_shift",
+                     pred_is_inverse=True)
+    assert metrics(right, g, np.ones(5, dtype=bool))["abs_rel"] < 1e-9
+    assert metrics(wrong, g, np.ones(5, dtype=bool))["abs_rel"] > 0.1
+
+
+def test_orientation_reports_which_way_a_prediction_runs():
+    from core.gt import orientation
+    g = np.array([1.0, 2.0, 4.0, 8.0])
+    m = np.ones(4, dtype=bool)
+    assert orientation(g * 2.0, g, m) > 0.99          # returns depth
+    assert orientation(1.0 / g, g, m) < -0.5          # returns disparity

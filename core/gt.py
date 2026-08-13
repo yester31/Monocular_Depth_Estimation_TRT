@@ -28,12 +28,19 @@ import numpy as np
 POLICIES = ("none", "scale", "scale_shift")
 
 
-def align(pred, gt, mask, policy):
+def align(pred, gt, mask, policy, pred_is_inverse=False):
     """Return (aligned prediction, fitted parameters).
 
-    `pred` and `gt` are depth in metres, `mask` marks the pixels with a real
-    measurement behind them. The prediction is never modified outside the mask
-    fit -- the returned array covers the whole frame so it can still be shown.
+    `gt` is depth in metres and `mask` marks the pixels with a real measurement
+    behind them. The prediction is never modified outside the mask fit -- the
+    returned array covers the whole frame so it can still be shown.
+
+    `pred_is_inverse` says which way round the model's relative output runs,
+    and it is not cosmetic. The scale+shift fit is affine **in disparity**,
+    which is the space these models were trained and published in; feeding it a
+    depth map instead fits a straight line to a hyperbola and lands on a
+    negative slope that happens to reduce the error a little. That looks like a
+    working fit. It is not one, and nothing downstream would notice.
     """
     if policy not in POLICIES:
         raise ValueError(f"unknown alignment policy {policy!r}; expected one of {POLICIES}")
@@ -53,10 +60,14 @@ def align(pred, gt, mask, policy):
 
     # scale_shift, fitted on disparity
     valid = m & (g > 0) & np.isfinite(p)
+    if not pred_is_inverse:
+        valid = valid & (p > 0)
     if valid.sum() < 2:
         raise ValueError("scale_shift needs at least two positive-depth pixels")
     y = 1.0 / g[valid]
-    x = p[valid]
+    # Both sides in disparity. A model that returns relative depth is inverted
+    # here rather than having the fit bent around it.
+    x = p[valid] if pred_is_inverse else 1.0 / p[valid]
     # Solved in closed form rather than with np.linalg.lstsq. Two parameters
     # have an exact solution in four sums, and calling LAPACK for it aborts the
     # process on this machine when torch has already been imported -- a
@@ -71,7 +82,7 @@ def align(pred, gt, mask, policy):
         raise ValueError("scale_shift is underdetermined; the prediction is constant")
     s = (n * sxy - sx * sy) / denom
     t = (sy - s * sx) / n
-    disp = p * s + t
+    disp = (p if pred_is_inverse else 1.0 / np.where(p > 0, p, np.nan)) * s + t
     # Below this the fitted disparity has crossed zero or gone negative, which
     # is not a depth. Left as inf rather than clipped to a plausible number, so
     # the metrics see it and the mask decides what to do about it.
@@ -109,6 +120,33 @@ def metrics(pred, gt, mask, max_depth=None):
         "delta2": float(np.mean(ratio < 1.25 ** 2)),
         "delta3": float(np.mean(ratio < 1.25 ** 3)),
     }
+
+
+def orientation(pred, gt, mask):
+    """Correlation between a prediction and true depth, to check a declaration.
+
+    A model that returns depth correlates positively with it; one that returns
+    disparity correlates negatively. Which of the two a relative model produces
+    is a fact about the model, and every source that states it states it in
+    passing -- so it is measured here and the answer is compared against what
+    spec.json claims, rather than either being taken on faith.
+    """
+    m = np.asarray(mask, dtype=bool) & np.isfinite(pred) & (np.asarray(gt) > 0)
+    if m.sum() < 2:
+        return float("nan")
+    a = np.asarray(pred, dtype=np.float64)[m]
+    b = np.asarray(gt, dtype=np.float64)[m]
+    # Pearson by hand, for the same reason the scale+shift fit is: np.corrcoef
+    # goes through np.cov into the BLAS, and on this machine that aborts the
+    # process once torch has been imported. Four sums need no backend.
+    n = a.size
+    sa, sb = a.sum(), b.sum()
+    saa = float(np.dot(a, a)) - sa * sa / n
+    sbb = float(np.dot(b, b)) - sb * sb / n
+    if saa <= 0 or sbb <= 0:
+        return float("nan")
+    sab = float(np.dot(a, b)) - sa * sb / n
+    return float(sab / np.sqrt(saa * sbb))
 
 
 def policy_for(depth_scale):
