@@ -158,14 +158,35 @@ def measure_and_score(model, onnx_path, h, w, manifest, root, limit):
             except ValueError:
                 continue
             r = gt.metrics(aligned, g, m, max_depth=manifest.get("max_depth"))
-            if r.get("n"):
-                per_sample.append(r)
+            if not r.get("n"):
+                continue
+            # A metric model scored without alignment mixes two things: whether
+            # the shape of the depth changed, and whether the scale did. At a
+            # different input size both can move, and AbsRel alone cannot say
+            # which -- so the scale-aligned score comes along, as a diagnostic.
+            if policy == "none":
+                try:
+                    a2, fit = gt.align(pred, g, m, "scale", pred_is_inverse)
+                    d = gt.metrics(a2, g, m, max_depth=manifest.get("max_depth"))
+                    r["scaled_abs_rel"] = d["abs_rel"]
+                    r["scaled_delta1"] = d["delta1"]
+                    r["fitted_scale"] = fit.get("scale")
+                except ValueError:
+                    pass
+            per_sample.append(r)
         common.free_buffers(inputs, outputs, stream)
 
     if not per_sample:
         raise RuntimeError(f"{model} at {h}x{w}: nothing scored")
     agg = {k: float(np.mean([r[k] for r in per_sample]))
            for k in ("abs_rel", "rmse", "delta1")}
+    for k in ("scaled_abs_rel", "scaled_delta1"):
+        vals = [r[k] for r in per_sample if k in r]
+        if vals:
+            agg[k] = float(np.mean(vals))
+    scales = [r["fitted_scale"] for r in per_sample if r.get("fitted_scale")]
+    if scales:
+        agg["fitted_scale_median"] = float(np.median(scales))
     agg.update(size=f"{h}x{w}", images=len(per_sample), alignment=policy,
                mean_ms=stats["mean_ms"], p50_ms=stats["p50_ms"],
                engine_path=engine_path, onnx_path=onnx_path)
@@ -210,8 +231,13 @@ def main():
             print(f"[MDET] {h}x{w} failed: {e}")
             continue
         r = results[-1]
+        extra = ""
+        if "scaled_abs_rel" in r:
+            extra = (f"   scaled {r['scaled_abs_rel'] * 100:5.2f}% / "
+                     f"d1 {r['scaled_delta1'] * 100:5.1f}%   "
+                     f"scale {r.get('fitted_scale_median', float('nan')):.3f}")
         print(f"[MDET] {r['size']:>10}  {r['mean_ms']:7.2f} ms   "
-              f"AbsRel {r['abs_rel'] * 100:6.2f}%   d1 {r['delta1'] * 100:5.1f}%")
+              f"AbsRel {r['abs_rel'] * 100:6.2f}%   d1 {r['delta1'] * 100:5.1f}%{extra}")
 
     if args.dry_run:
         return 0
