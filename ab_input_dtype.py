@@ -102,11 +102,17 @@ def run_engine(engine_path, feed, iterations, warmup):
         out, samples, stages = bench.measure_staged(
             once, lambda: timer.last, warmup=warmup, iterations=iterations,
             sync=lambda: None)   # do_inference already synchronizes the stream
+        # Copy before the finally block frees the buffers. do_inference returns
+        # views into pinned host memory, not copies, so reading them after
+        # free_buffers is a use-after-free -- which on Windows is not an
+        # exception but a silent process death, no traceback, exit code lost in
+        # the pipeline. That is what this cost to find.
+        out = [np.array(o) for o in out]
     finally:
         timer.free()
         common.free_buffers(inputs, outputs, stream)
 
-    return [np.array(o) for o in out], samples, stages
+    return out, samples, stages
 
 
 def compare_outputs(a, b):
@@ -167,8 +173,12 @@ def one(name, spec, args):
             .type.tensor_type.shape.dim]
     img = deterministic_image(dims)
     nchw = host_preprocess(img, norm)
+    print(f"    input {tuple(img.shape)} uint8 -> {tuple(nchw.shape)} float32",
+          flush=True)
 
+    print("    measuring float32 NCHW", flush=True)
     a_out, a_samples, a_stages = run_engine(a_engine, nchw, args.iterations, args.warmup)
+    print("    measuring uint8 NHWC", flush=True)
     b_out, b_samples, b_stages = run_engine(b_engine, img, args.iterations, args.warmup)
 
     a = bench.Bench(model=name, samples_ms=a_samples, stage_samples_ms=a_stages)
