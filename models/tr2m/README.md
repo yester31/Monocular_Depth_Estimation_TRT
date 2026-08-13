@@ -89,7 +89,7 @@ engines and regenerate with `python compare.py`.
 
 | Item | Licence |
 | :--- | :--- |
-| Upstream code ([BeileiCui/TR2M](https://github.com/BeileiCui/TR2M)) | see upstream; **`pos_embed.py` is CC BY-NC-SA 4.0 (non-commercial)** |
+| Upstream code ([BeileiCui/TR2M](https://github.com/BeileiCui/TR2M)) | **no LICENSE file at all**, and `pos_embed.py` carries `Copyright (C) 2022-present Naver Corporation. All rights reserved. Licensed under CC BY-NC-SA 4.0 (non-commercial use only).` |
 | Depth Anything ViT-S checkpoint | Apache-2.0 |
 | DINOv2 | Apache-2.0 |
 | CLIP (OpenAI) | MIT |

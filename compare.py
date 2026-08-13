@@ -50,6 +50,14 @@ KIND = {
     "unik3d": "point map + intrinsics",
     "vggt": "geometry (scale unknown)",
     "streamvggt": "geometry (scale unknown)",
+    # Inverse depth, so a large value is near. Named that way rather than
+    # "relative" because the sign convention is the opposite of the other
+    # relative rows and reading it the wrong way round inverts the picture.
+    "zipdepth": "relative (inverse depth)",
+    # Metric, but produced by rescaling a relative model with a per-pixel
+    # scale and shift predicted from a sentence -- not measured from the image
+    # alone like the other metric rows.
+    "tr2m": "metric (text-conditioned)",
 }
 
 # Every model directory now matches its key exactly, so there is no mapping to

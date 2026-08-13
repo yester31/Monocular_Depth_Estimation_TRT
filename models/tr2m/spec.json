@@ -13,7 +13,11 @@
       "name": "text_features",
       "rank": 3,
       "dtype": "float32",
-      "shape": [1, 1, 768],
+      "shape": [
+        1,
+        1,
+        768
+      ],
       "meaning": "CLIP embedding of the prompt, computed outside the engine"
     }
   ],
@@ -52,7 +56,7 @@
   "caveats": [
     "the only two-input model here: image plus a [1,1,768] CLIP text embedding. CLIP is not in the engine, so the prompt is fixed at export time and its embedding is committed as text_features.npy",
     "434x560, not the 518x518 the rest use, so a frames-per-second comparison is between different amounts of work",
-    "upstream's pos_embed.py is CC BY-NC-SA 4.0. The clone stays out of this repository and nothing from it is vendored",
+    "upstream has NO LICENSE file at all, and its pos_embed.py carries 'Copyright (C) 2022-present Naver Corporation. All rights reserved. Licensed under CC BY-NC-SA 4.0 (non-commercial use only)'. Read from the repository 2026-08-14. The clone stays out of this repository and nothing is vendored, which is what keeps that away from this repository's MIT",
     "metric depth is produced from a relative model by predicting a per-pixel scale and shift, so its errors are those of Depth Anything plus those of the rescaling"
   ],
   "encoder": {
@@ -61,7 +65,7 @@
       "vits"
     ],
     "smallest": "vits",
-    "source": "upstream README: the released checkpoint is built on Depth Anything ViT-S; no other size is published"
+    "source": "upstream repository, read 2026-08-14: one checkpoint is released, weights/da_s_vitl_vitl.pth = Depth Anything ViT-S + DINOv2 ViT-L + CLIP ViT-L/14. No other size is published"
   },
   "depth_scale": "metric"
 }
