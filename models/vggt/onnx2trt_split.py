@@ -146,8 +146,16 @@ def main():
             """One full pass: aggregator, then both heads off its tokens.
 
             The two heads read the aggregator's output device-to-device -- the
-            tokens are 24x1x1x1374x2048, about 270 MB in fp16, and routing them
+            tokens are 24x1x1x1374x2048, about 135 MB in fp16, and routing them
             through the host would measure PCIe rather than the split.
+
+            Untested: the aggregator ONNX cannot be exported against the
+            current upstream clone. See the note at the bottom of
+            onnx_export_split.py -- Aggregator.forward returns None for every
+            layer outside cached_layer_indices, so only 4 of those 24 entries
+            are tensors and this 24-tensor hand-off no longer describes the
+            model. The loop below is correct as a loop; the shapes it moves
+            are not.
             """
             cuda_call(cudart.cudaMemcpyAsync(inputs[0].device, inputs[0].host, inputs[0].nbytes, kind_h2d, stream))
             context.execute_async_v3(stream_handle=stream)

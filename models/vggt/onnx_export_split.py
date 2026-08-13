@@ -349,6 +349,27 @@ if __name__ == "__main__":
     #
     # Each function builds its own VGGT and calls torch.cuda.empty_cache()
     # before returning, so they run one after another rather than together.
+    #
+    # export_aggregator() DOES NOT WORK against the current clone, and the
+    # reason is upstream, not here. Aggregator.forward appends None for every
+    # layer outside cached_layer_indices, which defaults to (4, 11, 17, 23):
+    #
+    #     if layer_idx in self.cached_layer_indices:
+    #         output_list.append(concat_inter)
+    #     else:
+    #         output_list.append(None)
+    #
+    # So aggregated_tokens_list is 24 entries of which 4 are tensors, and
+    # VGGT_Aggregator_Wrapper's torch.stack over it fails with
+    #
+    #     TypeError: expected Tensor as element 0 in argument 0, but got NoneType
+    #
+    # The wrapper, the declared shape [24, 1, 1, 1374, 2048] and the
+    # device-to-device hand-off in onnx2trt_split.py all assume 24 tensors.
+    # Making the split work again means carrying only the cached layers across
+    # the engine boundary and having the heads rebuild the sparse list -- a
+    # change to the interface between the three engines, not a patch. Until
+    # then the single-engine path in onnx_export.py is the one that works.
     export_aggregator()
     export_depth_head()
     export_camera_head()

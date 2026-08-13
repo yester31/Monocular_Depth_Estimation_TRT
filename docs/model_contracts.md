@@ -1350,3 +1350,61 @@ vggt 는 같은 518×518 입력에 같은 0.77 ms 를 아꼈는데, 하나는 20
 
 **자동 채택하지 않는다.** 계획이 "이득이 확인된 프로필에만 적용"이라고 명시했고,
 채택하면 그 모델만 엔진 안에서 전처리를 하게 되어 비교표의 행 의미가 달라진다.
+
+---
+
+## D19 — VGGT split 경로는 현재 업스트림에서 export 불가
+
+`onnx_export_split.py` / `onnx2trt_split.py` 는 VGGT 를 세 엔진
+(aggregator → depth_head + camera_head)으로 나눈다. **단일 엔진과의 속도
+비교는 한 번도 이뤄지지 않았다.** 이유를 찾으려고 실제로 돌려봤다.
+
+### 원인 — 업스트림 aggregator 가 `None` 을 섞어 반환한다
+
+`vggt/models/aggregator.py`:
+
+```python
+cached_layer_indices: Tuple[int, ...] = (4, 11, 17, 23),
+...
+if layer_idx in self.cached_layer_indices:
+    output_list.append(concat_inter)
+else:
+    output_list.append(None)
+```
+
+`aggregated_tokens_list` 는 **24개 중 4개만 텐서**다. 그런데 split 쪽은
+전부 텐서라고 가정한다:
+
+```python
+aggregated_tokens_list = torch.stack(aggregated_tokens_list)
+# TypeError: expected Tensor as element 0 in argument 0, but got NoneType
+```
+
+`[24, 1, 1, 1374, 2048]` 이라는 선언된 shape 도, `onnx2trt_split.py` 의
+device-to-device 전달도 같은 가정 위에 있다. **엔진 세 개의 인터페이스를
+다시 정의해야 하는 문제이지, 한 줄 고칠 문제가 아니다.**
+
+depth_head 는 sparse 리스트를 그대로 소화하므로 단일 엔진 경로는 정상이다.
+
+### 가는 길에 드러난 것 3가지 — 전부 "단일 경로만 고쳐졌다"
+
+| | 단일 (`onnx_export.py`) | split (`onnx_export_split.py`) |
+| --- | --- | --- |
+| cartesian_prod | D17 에서 `core.export_compat` 로 자동화 | **`### NOTICE ###` 손편집 지시가 그대로 남아 있었음** |
+| 가중치 | 로컬 `vggt/checkpoints/model.pt` 우선 | **`from_pretrained` → 캐시가 비면 4.7 GB 다운로드** |
+| exporter | `dynamo=False` 명시 | **인자 없음 → torch 2.11 기본값(dynamo)** |
+
+`__main__` 에서는 셋 중 둘이 주석 처리돼 있어 **그냥 돌리면 depth_head 하나만
+나오고 오류 없이 끝났다.** 그래서 아무도 이게 안 된다는 걸 몰랐다.
+
+`onnx2trt_split.py` 는 Phase 3 의 공용 루프도 못 받았다 — `time.time()` 합산,
+백분위 없음, 워밍업이 호스트 복사를 건너뜀. 이대로 잰 숫자를 단일 엔진 옆에
+놓는 것은 **서로 다른 자를 대는 것**이다. 지금은 `core.bench` 를 쓰고
+`variant='split'` 로 기록한다.
+
+### 판정
+
+**보류 — 포팅 작업이지 측정 작업이 아니다.** 위 3가지와 벤치 배선은 고쳐서
+커밋했고, aggregator wrapper 의 재설계만 남는다. `tests/test_profiles.py` 가
+이제 `onnx_export*.py` 전부와 파일 안의 모든 `torch.onnx.export` 호출을
+검사한다 — 기존 검사는 `onnx_export.py` 만, 그것도 **마지막 호출 하나만** 봤다.
