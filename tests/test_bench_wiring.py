@@ -33,14 +33,45 @@ def scripts():
             yield d, p, open(p, encoding="utf-8").read()
 
 
+def benchmark_scripts():
+    """The scripts whose job is to produce a comparable number.
+
+    onnx2trt.py for every model, plus vggt/onnx2trt_split.py, which times a
+    second way of running the same model and was overlooked: it kept a
+    time.time() loop of its own for months, and the number it printed could not
+    honestly be put beside the single-engine number.
+
+    The onnx2trt_pointcloud.py and onnx2trt_video.py demos are deliberately not
+    here. They print timings too, but at other resolutions and with
+    post-processing inside the loop; wiring them to record() would put rows in
+    reports/bench that mean something different from every other row.
+    """
+    for d, p, src in scripts():
+        yield d, p, src
+    extra = os.path.join(MODELS, "vggt", "onnx2trt_split.py")
+    if os.path.isfile(extra):
+        yield "vggt/split", extra, open(extra, encoding="utf-8").read()
+
+
 def test_every_model_is_wired():
     n = 0
-    for d, _, src in scripts():
+    for d, _, src in benchmark_scripts():
         n += 1
         check(f"{d} imports bench", "from core import bench" in src)
         check(f"{d} times through bench.measure", "bench.measure(" in src)
         check(f"{d} reports through bench.record", "bench.record(" in src)
-    check("found the model scripts", n >= 12, f"only {n}")
+    check("found the model scripts", n >= 13, f"only {n}")
+
+
+def test_a_second_variant_does_not_overwrite_the_first():
+    """Two ways of running one model share a record key, so the file name has
+    to separate them -- bench.save() puts `variant` in it. Without that the
+    split result would land on top of the single-engine one and the comparison
+    would lose the thing it was comparing against."""
+    src = open(os.path.join(MODELS, "vggt", "onnx2trt_split.py"),
+               encoding="utf-8").read()
+    check("split declares a variant", re.search(r"variant\s*=\s*'split'", src)
+          is not None, "bench.record() without variant= overwrites vggt's row")
 
 
 def test_no_hand_rolled_timing_remains():
