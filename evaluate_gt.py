@@ -143,7 +143,7 @@ def load_engine(path):
     return engine
 
 
-def score_model(model, manifest, root, runs, limit=None):
+def score_model(model, manifest, root, runs, limit=None, diagnose=False):
     import common
 
     run = runs[model]
@@ -178,6 +178,22 @@ def score_model(model, manifest, root, runs, limit=None):
                 continue
             r = gt.metrics(aligned, g, m, max_depth=manifest.get("max_depth"))
             r["id"] = s["id"]
+            if diagnose:
+                # What the score would be if the model were allowed a fit it
+                # does not claim. This is never the published number -- it is
+                # the question "is this a wrong scale or a wrong shape?", and
+                # the two look identical in AbsRel alone. A metric model whose
+                # error collapses under a scale fit is mis-scaled, not blind.
+                for alt in ("scale", "scale_shift"):
+                    if alt == policy:
+                        continue
+                    try:
+                        a2, f2 = gt.align(pred, g, m, alt)
+                    except ValueError:
+                        continue
+                    r[f"diag_{alt}"] = gt.metrics(
+                        a2, g, m, max_depth=manifest.get("max_depth"))
+                    r[f"diag_{alt}_fit"] = f2
             per_sample.append(r)
             if fit:
                 fits.append(fit)
@@ -190,6 +206,16 @@ def score_model(model, manifest, root, runs, limit=None):
     # should not count for more than another image.
     agg = {k: float(np.mean([r[k] for r in scored]))
            for k in ("abs_rel", "rmse", "log10", "delta1", "delta2", "delta3")}
+    for alt in ("scale", "scale_shift"):
+        got = [r[f"diag_{alt}"] for r in scored if f"diag_{alt}" in r]
+        if got:
+            agg[f"diag_{alt}"] = {k: float(np.mean([g2[k] for g2 in got]))
+                                  for k in ("abs_rel", "delta1")}
+            fitted = [r[f"diag_{alt}_fit"] for r in scored
+                      if f"diag_{alt}_fit" in r]
+            if fitted:
+                agg[f"diag_{alt}"]["fit_median"] = {
+                    k: float(np.median([f[k] for f in fitted])) for k in fitted[0]}
     agg.update(model=model, images=len(scored),
                pixels=int(sum(r["n"] for r in scored)),
                alignment=policy, engine_path=run["engine_path"],
@@ -248,6 +274,10 @@ def main():
     ap.add_argument("--root", default=None,
                     help="dataset root; default: the manifest's own directory tree")
     ap.add_argument("--limit", type=int, default=None, help="first N images only")
+    ap.add_argument("--diagnose", action="store_true",
+                    help="also report what the score would be under an alignment "
+                         "the model does not claim, to tell a wrong scale from "
+                         "a wrong shape. Never the published number.")
     ap.add_argument("--check", action="store_true",
                     help="verify the adapters against the recorded inputs and stop")
     args = ap.parse_args()
@@ -292,13 +322,21 @@ def main():
             results.append({"model": m, "skip": "engine not on this machine"})
             continue
         print(f"\n[{m}] scoring")
-        r = score_model(m, manifest, root, runs, args.limit)
+        r = score_model(m, manifest, root, runs, args.limit, args.diagnose)
         results.append(r)
         if r.get("skip"):
             print(f"  skipped: {r['skip']}")
         else:
             print(f"  AbsRel {r['abs_rel'] * 100:.2f}%  RMSE {r['rmse']:.3f}  "
                   f"d1 {r['delta1'] * 100:.1f}%  over {r['images']} images")
+            for alt in ("scale", "scale_shift"):
+                d = r.get(f"diag_{alt}")
+                if d:
+                    fit = d.get("fit_median", {})
+                    extra = " ".join(f"{k}={v:.4g}" for k, v in fit.items())
+                    print(f"    if {alt:12} were allowed: AbsRel "
+                          f"{d['abs_rel'] * 100:.2f}%  d1 {d['delta1'] * 100:.1f}%"
+                          f"   median {extra}")
 
     os.makedirs(OUT_DIR, exist_ok=True)
     for r in results:
