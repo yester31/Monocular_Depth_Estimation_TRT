@@ -96,7 +96,13 @@ def main():
     precision = "fp16"  # 'fp32' or 'fp16'
     encoder = 'vits'    # 'vits'
     dynamo = True       # True or False
-    onnx_sim = True     # True or False
+    # Measured 2026-08-13: simplified 4.37 ms against 10.03 unsimplified.
+    # Simplification folds MatMul+Add into Gemm and TensorRT maps Gemm to
+    # its fp16 kernels, so the transformer body stopped running in fp32
+    # (86.4% of the time was in Float layers before). Its two siblings,
+    # depth_anything_v2 and distill_any_depth, were already built this way
+    # and sit at 4.30 and 4.26 ms.
+    onnx_sim = True
     # The resolution in the name already distinguishes the two profiles, so
     # bench and native engines coexist without overwriting each other.
     model_name = f"depth_anything_AC_{encoder}_{input_h}x{input_w}"

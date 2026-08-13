@@ -122,7 +122,11 @@ def main():
     precision = "fp16"  # 'fp32' or 'fp16'
     encoder = 'vits'    # 'vits' or 'vitb'  or 'vitl' 
     dynamic = False      # False
-    onnx_sim = True     # True or False
+    # Measured 2026-08-13: simplified 17.75 ms against 16.08 unsimplified.
+    # Simplification folds MatMul+Add into Gemm, which is what lets TensorRT
+    # use fp16 kernels on the depth_anything family -- but here it loses.
+    # The export still writes the _sim file; this chooses not to build from it.
+    onnx_sim = False
     # The dynamo exporter is what produces a working graph for this
     # model, so it is named. It used to be left to torch's default,
     # which meant the filename recorded nothing about how the ONNX was
