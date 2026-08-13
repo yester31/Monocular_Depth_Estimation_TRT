@@ -47,6 +47,20 @@ push_code() {
   # to enforce is that nothing touches the desktop's tree until its results are
   # here, and a `push` that skipped it was a way to break that rule by hand.
   pull_results
+
+  # ...and then stop if that brought anything new. Collecting is not enough:
+  # the bundle is built from HEAD, so a result that arrived a moment ago is not
+  # in it, and the `git checkout -- .` below erases it on the desktop while the
+  # copy here is still uncommitted and gets overwritten by the next pull. That
+  # is how depth_anything_ac's 4.37 ms measurement was lost -- the same class of
+  # loss this script was written to prevent, through a door it left open.
+  if ! git -C "$ROOT" diff --quiet || ! git -C "$ROOT" diff --cached --quiet; then
+    echo "!! results arrived in the pull above and are not committed." >&2
+    echo "   commit them, then push again -- the bundle is built from HEAD" >&2
+    echo "   and the desktop's copy is about to be reverted." >&2
+    git -C "$ROOT" status --short >&2
+    exit 1
+  fi
   echo "== sending $BRANCH to the desktop"
   git -C "$ROOT" bundle create "$BUNDLE" "$BRANCH" >/dev/null
   scp -i "$KEY" "$BUNDLE" "$HOST:$REMOTE/mde.bundle"
