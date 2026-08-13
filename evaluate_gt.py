@@ -102,11 +102,75 @@ def _depth_pro_depth(outs, shape, orig_h, orig_w):
     return 1.0 / np.clip(inv, 1e-4, 1e4)
 
 
+def _rgb_over_255(bgr, h, w, interp=cv2.INTER_LINEAR):
+    """BGR -> RGB, resize, /255. No ImageNet statistics."""
+    rgb = cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB)
+    img = cv2.resize(rgb, (w, h), interpolation=interp).astype(np.float64) / 255.0
+    return np.ascontiguousarray(img.transpose(2, 0, 1)[None]).astype(np.float32)
+
+
 def _zipdepth_pre(bgr, h=384, w=512):
     """/255 and nothing else. No ImageNet statistics -- see its spec.json."""
     img = cv2.resize(bgr, (w, h), interpolation=cv2.INTER_AREA)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB).astype(np.float32) / 255.0
     return np.ascontiguousarray(img.transpose(2, 0, 1)[None])
+
+
+_RECOVER = None
+
+
+def _recover_focal_shift():
+    """MoGe's solver, from whichever clone is on this machine.
+
+    moge_2 and metric_anything both end in the same place: the network returns
+    a point map whose Z is only depth once a shift has been solved for, and
+    that solver lives upstream. Reimplementing it here would be a second
+    version of the thing being measured.
+    """
+    global _RECOVER
+    if _RECOVER is not None:
+        return _RECOVER
+    candidates = [
+        (os.path.join(ROOT, "models", "moge_2"), "MoGe.moge.utils.geometry_torch"),
+        (os.path.join(ROOT, "models", "metric_anything", "metric_anything",
+                      "models", "student_pointmap"), "moge.utils.geometry_torch"),
+    ]
+    errors = []
+    for path, module in candidates:
+        if not os.path.isdir(path):
+            continue
+        if path not in sys.path:
+            sys.path.insert(0, path)
+        try:
+            mod = __import__(module, fromlist=["recover_focal_shift"])
+            _RECOVER = mod.recover_focal_shift
+            return _RECOVER
+        except Exception as e:                                # noqa: BLE001
+            errors.append(f"{module}: {type(e).__name__}: {e}")
+    raise ImportError("recover_focal_shift not importable; tried " + "; ".join(errors))
+
+
+def _point_map_depth(outs, shape, orig_h, orig_w, mask_idx, scale_idx):
+    """Point-map Z, shifted and scaled into metres, on the original grid.
+
+    Transcribed from the two models' own post-processing, which is identical:
+    solve for the shift, add it to Z, multiply by the predicted metric scale.
+    The mask the model returns is deliberately *not* applied -- the evaluation
+    has its own mask from the scanner, and letting a model mark its own pixels
+    invalid would let it drop the ones it finds hard.
+    """
+    import torch
+
+    h, w = shape
+    points = torch.from_numpy(np.asarray(outs[0]).reshape(1, h, w, 3).copy())
+    mask = torch.from_numpy(np.asarray(outs[mask_idx]).reshape(1, h, w).copy()) > 0.5
+    metric_scale = torch.from_numpy(np.asarray(outs[scale_idx]).reshape(1).copy())
+
+    _, shift = _recover_focal_shift()(points, mask)
+    depth = (points[..., 2] + shift[..., None, None]) * metric_scale[:, None, None]
+    d = depth[0].double().numpy()
+    d = cv2.resize(d, (orig_w, orig_h), interpolation=cv2.INTER_LINEAR)
+    return np.where(d > 0, d, np.nan)
 
 
 ADAPTERS = {
@@ -133,6 +197,16 @@ ADAPTERS = {
     "zipdepth": {
         "pre": _zipdepth_pre,
         "depth": lambda outs, oh, ow: _direct_depth(outs, (384, 512), oh, ow),
+    },
+    # points, normal, mask, metric_scale
+    "moge_2": {
+        "pre": lambda bgr: _rgb_over_255(bgr, 388, 518),
+        "depth": lambda outs, oh, ow: _point_map_depth(outs, (388, 518), oh, ow, 2, 3),
+    },
+    # points, mask, metric_scale -- no normal branch
+    "metric_anything": {
+        "pre": lambda bgr: _rgb_over_255(bgr, 388, 518, cv2.INTER_AREA),
+        "depth": lambda outs, oh, ow: _point_map_depth(outs, (388, 518), oh, ow, 1, 2),
     },
 }
 
