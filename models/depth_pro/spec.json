@@ -57,5 +57,12 @@
     "smallest": "fixed",
     "source": "upstream clone, checked 2026-08-13"
   },
-  "depth_scale": "metric"
+  "depth_scale": "metric",
+  "preprocess": {
+    "type": "stretch",
+    "normalise": "half",
+    "interpolation": "torch_bilinear",
+    "note": "normalised before the resize, and the resize is torch's bilinear with align_corners=False, not cv2's",
+    "verified": "byte-exact against reports/inputs/depth_pro.npy via evaluate_gt's adapter"
+  }
 }

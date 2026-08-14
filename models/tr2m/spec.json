@@ -67,5 +67,11 @@
     "smallest": "vits",
     "source": "upstream repository, read 2026-08-14: one checkpoint is released, weights/da_s_vitl_vitl.pth = Depth Anything ViT-S + DINOv2 ViT-L + CLIP ViT-L/14. No other size is published"
   },
-  "depth_scale": "metric"
+  "depth_scale": "metric",
+  "preprocess": {
+    "type": "stretch",
+    "normalise": "imagenet",
+    "interpolation": "area",
+    "verified": "transcribed from onnx2trt.py; no ground-truth adapter checks it yet"
+  }
 }

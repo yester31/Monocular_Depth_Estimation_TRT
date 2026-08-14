@@ -53,5 +53,12 @@
     "smallest": "fixed",
     "source": "upstream clone, checked 2026-08-13"
   },
-  "depth_scale": "unknown"
+  "depth_scale": "unknown",
+  "preprocess": {
+    "type": "keep_ratio_pad",
+    "normalise": "over_255",
+    "interpolation": "cubic",
+    "note": "square pad first, then resize; scale = size / max_dim",
+    "verified": "transcribed from onnx2trt.py; no ground-truth adapter checks it yet"
+  }
 }

@@ -11,7 +11,7 @@
   "outputs": [
     {
       "name": "pred_depth",
-      "meaning": "canonical depth — NOT metres, see D12"
+      "meaning": "canonical depth \u2014 NOT metres, see D12"
     }
   ],
   "profiles": {
@@ -43,5 +43,12 @@
     "source": "upstream clone Metric3D/hubconf.py MODEL_TYPE, checked 2026-08-13",
     "note": "ConvNeXt-Tiny and ConvNeXt-Large also ship, but they are the v1 line and a different architecture, not a smaller point on this encoder axis. vits also uses a RAFT-4iter head where vitl uses 8iter, so this is not purely an encoder swap."
   },
-  "depth_scale": "metric"
+  "depth_scale": "metric",
+  "preprocess": {
+    "type": "keep_ratio_pad",
+    "normalise": "none",
+    "interpolation": "linear",
+    "note": "pad value is the ImageNet mean colour [123.675, 116.28, 103.53]; the graph normalises internally, so normalising here would do it twice",
+    "verified": "byte-exact against reports/inputs/metric3d_v2.npy via evaluate_gt's adapter"
+  }
 }

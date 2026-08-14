@@ -52,5 +52,11 @@
     "smallest": "vits",
     "source": "upstream clone, checked 2026-08-13"
   },
-  "depth_scale": "metric"
+  "depth_scale": "metric",
+  "preprocess": {
+    "type": "stretch",
+    "normalise": "imagenet",
+    "interpolation": "linear",
+    "verified": "byte-exact against reports/inputs/depth_anything_v2.npy via evaluate_gt's adapter"
+  }
 }

@@ -48,5 +48,11 @@
     "smallest": "fixed",
     "source": "upstream clone, checked 2026-08-13"
   },
-  "depth_scale": "metric"
+  "depth_scale": "metric",
+  "preprocess": {
+    "type": "stretch",
+    "normalise": "over_255",
+    "interpolation": "area",
+    "verified": "byte-exact against reports/inputs/metric_anything.npy via evaluate_gt's adapter"
+  }
 }

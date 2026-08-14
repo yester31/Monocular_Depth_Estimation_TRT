@@ -46,5 +46,11 @@
     "source": "upstream repository: checkpoints/zipdepth_base.pth and zipdepth_base_npu.pth are the only two released, and both are the same 6.1M-parameter base variant. Checked 2026-08-14"
   },
   "depth_scale": "relative",
-  "output_form": "inverse_depth"
+  "output_form": "inverse_depth",
+  "preprocess": {
+    "type": "stretch",
+    "normalise": "over_255",
+    "interpolation": "area",
+    "verified": "byte-exact against reports/inputs/zipdepth.npy via evaluate_gt's adapter"
+  }
 }

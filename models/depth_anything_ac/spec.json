@@ -40,5 +40,11 @@
   "output_form": "inverse_depth",
   "caveats": [
     "output_form is inverse_depth: larger means nearer. Measured, not assumed -- the prediction correlates -0.927 with true depth over five DIODE images. It decides whether the scale+shift fit is affine in the space the model was trained in"
-  ]
+  ],
+  "preprocess": {
+    "type": "stretch",
+    "normalise": "imagenet",
+    "interpolation": "linear",
+    "verified": "byte-exact against reports/inputs/depth_anything_ac.npy via evaluate_gt's adapter"
+  }
 }
