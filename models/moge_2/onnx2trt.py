@@ -23,9 +23,10 @@ import trimesh
 import trimesh.visual
 from PIL import Image
 
-import common
-from common import *
+from core import common
+from core.common import *
 from core import bench
+from core import preprocess as pp
 
 import json
 from MoGe.moge.utils.geometry_torch import recover_focal_shift
@@ -37,13 +38,11 @@ TRT_LOGGER = trt.Logger(trt.Logger.INFO)
 TRT_LOGGER.min_severity = trt.Logger.Severity.INFO
 
 
-def preprocess_image(raw_image):
-    image = raw_image / 255.0
-    image = np.transpose(image, (2, 0, 1))
-    image = np.ascontiguousarray(image).astype(np.float32)
-    # [C, H, W] -> [1, C, H, W]
-    image = np.expand_dims(image, axis=0)
-    return image
+# preprocess_image() is now core/preprocess.py: an INTER_LINEAR stretch, /255 in
+# float64, no mean or standard deviation. Same declared type as metric_anything
+# and a different interpolation, which is why the type alone is not the spec.
+# tests/test_preprocess.py asserts np.array_equal against
+# reports/inputs/moge_2.npy.
 
 def main():
     save_dir_path = os.path.join(CUR_DIR, 'results')
@@ -62,11 +61,9 @@ def main():
     ori_shape = raw_image.shape[:2]
     print(f"[MDET] original image size : {ori_shape}")
     image_rgb = cv2.cvtColor(raw_image, cv2.COLOR_BGR2RGB)
-    image_rgb_resized = cv2.resize(image_rgb, (input_w, input_h))
-
-    input_image = preprocess_image(image_rgb_resized)  # Preprocess image
-    print(f'[MDET] after preprocess shape : {input_image.shape}')
-    batch_images = np.concatenate([input_image], axis=0)
+    batch_images, geom = pp.preprocess_for(raw_image, 'moge_2',
+                                           (input_h, input_w))
+    print(f'[MDET] after preprocess shape : {batch_images.shape}')
 
     # Model and engine paths
     precision = "fp16"  # Choose 'fp32' or 'fp16'
@@ -124,7 +121,7 @@ def main():
             mask_binary = None
 
         focal, shift = recover_focal_shift(points, mask_binary)
-        aspect_ratio = input_image.shape[3] / input_image.shape[2]
+        aspect_ratio = batch_images.shape[3] / batch_images.shape[2]
         fx, fy = focal / 2 * (1 + aspect_ratio ** 2) ** 0.5 / aspect_ratio, focal / 2 * (1 + aspect_ratio ** 2) ** 0.5 
         intrinsics = utils3d.torch.intrinsics_from_focal_center(fx, fy, 0.5, 0.5)
         points[..., 2] += shift[..., None, None]

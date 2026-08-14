@@ -34,28 +34,25 @@ matplotlib.use("Agg")  # non-GUI mode
 import numpy as np  # noqa: E402
 from matplotlib import pyplot as plt  # noqa: E402
 
-import common  # noqa: E402
-from common import *  # noqa: E402,F401,F403
+from core import common  # noqa: E402
+from core.common import *  # noqa: E402,F401,F403
 from core import bench  # noqa: E402
+from core import preprocess as pp  # noqa: E402
 
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))
 
-IMAGENET_MEAN = np.array([0.485, 0.456, 0.406], dtype=np.float32)
-IMAGENET_STD = np.array([0.229, 0.224, 0.225], dtype=np.float32)
 
 
-def preprocess_image(raw_bgr, input_h, input_w):
-    """BGR uint8 -> normalised float32 NCHW, stretched to the network's size.
-
-    A plain resize, matching what upstream does for stills. It distorts a
-    16:9 photo, and the alternative -- centre-cropping to 560/434 -- throws
-    away the sides. Upstream chose the distortion for still images and the
-    benchmark follows it rather than inventing a third answer.
-    """
-    img = cv2.resize(raw_bgr, (input_w, input_h), interpolation=cv2.INTER_AREA)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB).astype(np.float32) / 255.0
-    img = (img - IMAGENET_MEAN) / IMAGENET_STD
-    return np.ascontiguousarray(img.transpose(2, 0, 1)[None])
+# preprocess_image() is now core/preprocess.py. A plain INTER_AREA stretch,
+# matching what upstream does for stills: it distorts a 16:9 photo, and the
+# alternative -- centre-cropping to 560/434 -- throws away the sides. Upstream
+# chose the distortion and the benchmark follows it rather than inventing a
+# third answer.
+#
+# Unlike its Depth-Anything cousins this model does the whole normalisation in
+# float32, so core/preprocess.py is told that rather than left to guess.
+# tests/test_preprocess.py asserts np.array_equal against
+# reports/inputs/tr2m.npy.
 
 
 def main():
@@ -85,7 +82,8 @@ def main():
         raise FileNotFoundError(f"[MDET] could not read {image_path}")
     ori_shape = raw_image.shape[:2]
     print(f"[MDET] original image size : {ori_shape}")
-    batch_images = preprocess_image(raw_image, input_h, input_w)
+    batch_images, geom = pp.preprocess_for(raw_image, 'tr2m',
+                                           (input_h, input_w))
     print(f"[MDET] after preprocess shape : {batch_images.shape}")
 
     if not os.path.exists(text_path):

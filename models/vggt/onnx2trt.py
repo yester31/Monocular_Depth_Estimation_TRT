@@ -18,9 +18,10 @@ from matplotlib import pyplot as plt
 import cv2
 import numpy as np
 import time
-import common
-from common import *
+from core import common
+from core.common import *
 from core import bench
+from core import preprocess as pp
 
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -31,42 +32,25 @@ TRT_LOGGER = trt.Logger(trt.Logger.INFO)
 def pre_process(raw_image, input_h, input_w):
     """Pad to a square, then resize once to the network size.
 
+    The maths is now core/preprocess.py's `square_pad` type, shared with
+    streamvggt. It is not resize-then-pad on a square target: padding first
+    means the cubic interpolation sees the white border, so the two orders
+    produce different pixels along the seam.
+
     This used to pad, resize to target_size=1024, and only then downscale to
     518, following upstream's load_and_preprocess_images_square(1024). But that
     helper exists to feed a 1024 network; here the engine is 518, so the extra
     hop only costs a full 1024x1024 cubic resize per frame and loses detail
     through a non-antialiased bilinear downscale. Removing it also puts the
     coordinates on the same grid as the output, so the crop needs no rescaling.
+
+    The four returned floats are the contract the postprocess slices with, and
+    they come out of Geometry.box unchanged. tests/test_preprocess.py asserts
+    np.array_equal against reports/inputs/vggt.npy.
     """
-    original_coords = []  # Renamed from position_info to be more descriptive
-    height, width = raw_image.shape[:2]
-    img = cv2.cvtColor(raw_image, cv2.COLOR_BGR2RGB)
-    # Make the image square by padding the shorter dimension
-    max_dim = max(width, height)
-    # Calculate padding
-    left = (max_dim - width) // 2
-    top = (max_dim - height) // 2
-    # Scale from the padded square to the network input
-    scale = input_w / max_dim
-    # Final coordinates of the original image inside the network input
-    x1 = left * scale
-    y1 = top * scale
-    x2 = (left + width) * scale
-    y2 = (top + height) * scale
-    # Store original image coordinates and scale
-    original_coords.append(np.array([x1, y1, x2, y2, width, height]))
-    # Pad to a square. Upstream load_fn.py pads WHITE (value=1.0 on a 0-1
-    # tensor); black changes what the network sees wherever the source is not
-    # already square.
-    padding = [255, 255, 255]
-    img = cv2.copyMakeBorder(img, top, top, left, left, cv2.BORDER_CONSTANT, value=padding)
-
-    img = cv2.resize(img, (input_w, input_h), interpolation=cv2.INTER_CUBIC)
-
-    # Convert to tensor
-    img = torch.from_numpy(img.transpose((2, 0, 1))).float() / 255.0
-    batch_images = img.unsqueeze(0).unsqueeze(0)
-    return batch_images.cpu().numpy(), x1, y1, x2, y2
+    batch_images, geom = pp.preprocess_for(raw_image, 'vggt', (input_h, input_w))
+    x1, y1, x2, y2 = geom.box
+    return batch_images, x1, y1, x2, y2
 
 
 def main():

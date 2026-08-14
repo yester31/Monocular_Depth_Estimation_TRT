@@ -1,185 +1,121 @@
-# Monocular Depth Estimation Model to TensorRT
+# Monocular Depth Estimation → TensorRT
 
-## Project Overview
+단안 깊이 추정 모델 14개를 TensorRT 엔진으로 변환하고, **같은 조건에서 속도와
+정확도를 비교한다.**
 
-This project aims to optimize the inference performance of various monocular depth estimation models using NVIDIA's TensorRT. It provides a pipeline to convert pre-trained PyTorch models into ONNX format and then into TensorRT engines, allowing for a comparative analysis of inference speeds.
-
-- **Key Features:**
-    - Introduction to various monocular depth estimation models and a TensorRT conversion pipeline.
-    - Performance comparison (FPS, inference time) between the original PyTorch models and the TensorRT-optimized models.
-    - Generation of 3D depth information and point clouds from 2D images.
-
-## 1. Development Environment
-
-- **Hardware:** NVIDIA RTX3060 (notebook)
-- **OS:** Windows Subsystem for Linux (WSL)
-- **Linux Distribution:** Ubuntu 22.04.5 LTS
-- **CUDA Version:** 12.8
-
-```bash
-# Create and activate a Conda virtual environment
-conda create -n trte python=3.11 --yes
-conda activate trte
-
-# Install the required libraries
-pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
-pip install "tensorrt-cu12<11"
-pip install "cuda-python<13"
-pip install onnx
-pip install opencv-python
-pip install matplotlib
-```
-
-> **`tensorrt-cu12` must be pinned below 11.** TensorRT 11 is strongly typed:
-> it removed `BuilderFlag.FP16`, `INT8`, `BF16` and `OBEY_PRECISION_CONSTRAINTS`,
-> along with `builder.platform_has_fast_fp16`. Precision now comes from the
-> types in the ONNX graph rather than from a builder flag. Every script here
-> selects precision with `precision = "fp16"`, so on TensorRT 11 the build
-> fails with:
->
-> ```
-> AttributeError: type object 'BuilderFlag' has no attribute 'FP16'
-> ```
->
-> Verified on 11.2.1.2; 10.16.1.11 works. Porting to the strongly-typed API
-> means baking the precision into the ONNX at export time and re-establishing
-> every accuracy baseline, so it is tracked as its own task rather than done
-> in passing.
->
-> **`cuda-python` must be pinned below 13.** `common_runtime.py` needs the CUDA
-> driver/runtime bindings. Version 13 removed the top-level
-> `from cuda import cuda, cudart`, and its `cuda-bindings` wheel does not always
-> ship `cuda.bindings.driver` / `.runtime` either, so a plain
-> `pip install cuda-python` leaves the runtime unusable.
->
-> Install **`tensorrt-cu12`**, not the `tensorrt` metapackage — that one
-> currently pulls a CUDA 13 build which fails on drivers below 580 with
-> `createInferBuilder: Error Code 6: CUDA initialization failure with error: 35`.
-> Check your driver with `nvidia-smi`.
->
-> **On a Korean or other non-UTF-8 Windows console**, set `PYTHONUTF8=1` before
-> running `onnx_export.py`. `torch.onnx` prints a ✅ that cp949 cannot encode,
-> and the export dies with `UnicodeEncodeError` after doing all the work.
-
-`moge_2` and `metric_anything` need two more packages here, because their
-post-process calls MoGe's `recover_focal_shift` rather than reading it off the
-engine (see `docs/model_contracts.md` D15):
-
-```bash
-pip install trimesh
-pip install "utils3d @ git+https://github.com/EasternJournalist/utils3d.git@3fab839f0be9931dac7c8488eb0e1600c236e183"
-```
-
-> **`utils3d` must be that commit, not the PyPI release.** Both upstreams pin
-> it exactly. The PyPI package of the same name has a different API and fails
-> only in post-process, after the engine has been built and benchmarked:
->
-> ```
-> AttributeError: module 'utils3d' has no attribute 'torch'
-> ```
-
-## 2. Layout — moved 2026-08-13
-
-Every model now lives under `models/` with a lowercase directory name matching
-the key used in reports and result files. Before this, the same model went by
-three spellings — the directory `Uni_Depth_V2`, the key `unidepth_v2`, and
-upstream's `UniDepthV2` — and code had to carry a mapping between them.
-
-| was | now |
-| :--- | :--- |
-| `Depth_Anything_V2/` | `models/depth_anything_v2/` |
-| `Depth_Anything_AC/` | `models/depth_anything_ac/` |
-| `Depth_Anything_V3/` | `models/depth_anything_v3/` |
-| `Distill_Any_Depth/` | `models/distill_any_depth/` |
-| `Depth_Pro/` | `models/depth_pro/` |
-| `Metric3D_V2/` | `models/metric3d_v2/` |
-| `Metric_Anything/` | `models/metric_anything/` |
-| `MoGe_2/` | `models/moge_2/` |
-| `StreamVGGT/` | `models/streamvggt/` |
-| `UniK3D/` | `models/unik3d/` |
-| **`Uni_Depth_V2/`** | **`models/unidepth_v2/`** — note the name change |
-| `VGGT/` | `models/vggt/` |
-
-Commands gain one path component:
-
-```bash
-cd models/depth_anything_v2 && python onnx_export.py    # was: cd Depth_Anything_V2
-```
-
-Scripts no longer count `..` to find the repository root; they walk up to the
-directory containing `core/`. That is why the move did not require touching
-every path by hand, and why the next move will not either.
-
-If you have upstream clones inside the old directories, move them with the
-rest — the model scripts still expect them alongside, e.g.
-`models/vggt/vggt/`.
-
-## 3. Commands
-
-Five scripts at the root. The first three read `spec.json` and `reports/` and
-import nothing from a model directory, so they run on a laptop with no CUDA —
-answering "what is in here" should not need twelve conda environments.
+비교가 성립하려면 조건이 같아야 하는데 이 모델들은 조건이 같지 않다 — 입력
+크기가 다르고(388×518부터 1536×1536까지), 출력의 의미가 다르고(미터 · 상대
+깊이 · 정규화 좌표), 같은 "metric" 이라도 보정 방식이 다르다. 그래서 이
+저장소는 **숫자보다 그 숫자가 무엇인지를 먼저 기록한다.**
 
 | | |
-| :--- | :--- |
-| `python models.py` | what exists, what is built, what is measured (`--stale` for the gaps) |
-| `python compare.py` | regenerate `reports/comparison.md` and the tables in this file (`--check` to fail if stale) |
-| `python package_artifacts.py` | assemble `artifacts/<model>/<profile>-<precision>/` with a manifest (`--verify`) |
-| `python verify_accuracy.py` | each engine against its own ONNX at fp32 → `reports/accuracy.md` |
-| `python run.py <stage> <model>` | run a model's script in the environment `spec.json` says it needs |
+| --- | --- |
+| 측정 환경 | RTX 3080, TensorRT 10.16.1.11, GPU 클럭 1800 MHz 고정 |
+| 속도 | [`reports/comparison.md`](reports/comparison.md) — `compare.py` 가 JSON 에서 생성 |
+| 정답 데이터 정확도 | [`reports/gt.md`](reports/gt.md) — DIODE 실내 50장 |
+| 엔진 대 ONNX | [`reports/accuracy.md`](reports/accuracy.md) |
 
-`run.py` exists because the environment depends on the stage, not the model:
-exporting ONNX needs the upstream package, building an engine needs TensorRT,
-and those two deliberately do not live in one environment.
+---
+
+## 무엇이 어디에 있나
+
+| 경로 | 내용 |
+| --- | --- |
+| `models/<name>/` | 모델마다 `spec.json` · `onnx_export.py` · `onnx2trt.py` · `README.md` |
+| `core/` | 공유 구현 — 전처리, 벤치마크, 정답 데이터 지표, 빌드 조건, 시각화 |
+| `tools/` | **루트에 없는 실행 가능한 것 전부.** 무엇이 무엇이고 어떻게 쓰는지는 [`tools/README.md`](tools/README.md) |
+| `tools/retired/` | 답이 나와서 다시 돌릴 일이 없는 실험 드라이버. 지우지 않고 보관 |
+| `reports/` | **측정 결과의 단일 출처.** `.md` 는 전부 `.json` 에서 생성된다 |
+| `tests/` | 회귀 테스트 |
+| `docs/` | 아래 "문서" 절 |
+| `later/` | 변환을 시도했다 미뤄 둔 업스트림 클론 16개. 저장소의 어떤 코드도 여기를 읽지 않는다 |
+
+---
+
+## 시작하기
 
 ```bash
-python run.py export unidepth_v2     # ONNX, in the model's own env
-python run.py build  unidepth_v2     # engine + measurement, in trte
-python run.py build  --all           # all twelve, each in its own env
-python run.py build  --all --dry-run # print the commands, run nothing
+conda create -n trte python=3.11 --yes && conda activate trte
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
+pip install "tensorrt-cu12<11" "cuda-python<13" onnx opencv-python matplotlib
 ```
 
-The model scripts take no arguments — encoder, resolution and precision are
-constants edited in the source — so `run.py` has nothing to pass through and
-does not pretend otherwise. `--dry-run` works anywhere, including where none of
-the environments exist.
+> **`tensorrt-cu12` 는 11 미만으로 고정해야 한다.** TensorRT 11 은 strongly
+> typed 로 바뀌면서 `BuilderFlag.FP16` · `INT8` · `BF16` 을 없앴다. 이
+> 저장소의 스크립트는 전부 `precision = "fp16"` 으로 정밀도를 고르므로 11 에서는
+> 빌드가 실패한다. 자세한 실패 메시지와 배경은
+> [`docs/setup.md`](docs/setup.md).
 
-## 4. Supported Models
+모델마다 필요한 환경이 다르다. ONNX 를 내보내려면 업스트림 패키지가, 엔진을
+빌드하려면 TensorRT 가 필요하고 **둘은 의도적으로 한 환경에 두지 않는다.**
+`run.py` 가 `spec.json` 을 읽어 알맞은 환경에서 실행한다.
 
-Each model directory contains a `README.md` file with detailed instructions.
+---
 
-Speeds are in [reports/comparison.md](reports/comparison.md), generated from
-measurements rather than typed in. Input size is part of each row, because
-three of these models do not run at 518 and attention cost grows faster than
-pixel count — see that file before ranking anything.
+## 명령
 
-**"Depth" is not one thing.** These models return different quantities, and a
-few need a caveat that travels with the number:
+루트에 있는 것은 둘이다 — **모델을 돌린다**와 **결과를 본다**.
 
-| Model Name | Link to TensorRT Conversion | Input | Output | Upstream License |
+```bash
+python run.py export unidepth_v2      # ONNX, 모델 자기 환경에서
+python run.py build  unidepth_v2      # 엔진 + 측정, trte 에서
+python run.py build  --all            # 14개 전부, 각자의 환경에서
+python run.py build  --all --dry-run  # 명령만 출력
+
+python demo.py                        # 같은 입력, 모든 모델 출력을 같은 축에
+python demo.py --synthetic            # GPU 없이 레이아웃만 확인
+```
+
+모델 스크립트는 인자를 받지 않는다. 인코더·해상도·정밀도는 소스에 상수로 있다.
+`run.py` 가 있는 이유는 **환경이 모델이 아니라 단계에 달려 있기** 때문이다 —
+ONNX 내보내기는 업스트림 패키지가, 엔진 빌드는 TensorRT 가 필요하고 둘은
+의도적으로 한 환경에 없다.
+
+그 밖의 모든 실행 가능한 것은 `tools/` 에 있고, 무엇이 무엇인지는
+[`tools/README.md`](tools/README.md) 가 답한다. 자주 쓰는 것만 옮겨 적으면:
+
+| | |
+| --- | --- |
+| `python tools/models.py` | 무엇이 있고 · 빌드됐고 · 측정됐나 (`--stale` 로 빈칸만) |
+| `python tools/compare.py --check` | 발표 표가 JSON 과 어긋났는지. **커밋 전에 돌린다** |
+| `python tools/evaluate_gt.py` | 정답 깊이 데이터로 채점 |
+| `python tools/verify_accuracy.py` | 엔진을 자기 ONNX 와 fp32 에서 대조 |
+
+앞의 둘은 `spec.json` 과 `reports/` 만 읽으므로 **CUDA 없는 노트북에서도 돈다** —
+"여기 뭐가 있나" 에 답하는 데 conda 환경 14개가 필요해서는 안 되기 때문이다.
+
+---
+
+## 모델 14개
+
+**"깊이" 는 한 가지가 아니다.** 아래 표의 `출력` 열을 보지 않고 속도만 비교하면
+안 된다. D 번호는 [`docs/model_contracts.md`](docs/model_contracts.md) 의 기록을
+가리킨다.
+
+| 모델 | 변환 문서 | 입력 | 출력 | 업스트림 라이선스 |
 | :--- | :--- | :--- | :--- | :--- |
-| **Depth Anything V2** | [TensorRT Conversion](models/depth_anything_v2/README.md) | 518×518 | Metric (hypersim) by default; relative checkpoint also ships | Apache-2.0 (code) / **CC BY-NC 4.0** (Base, Large weights) |
-| **Distill Any Depth** | [TensorRT Conversion](models/distill_any_depth/README.md) | 518×518 | Relative | MIT |
-| **Depth Anything AC** | [TensorRT Conversion](models/depth_anything_ac/README.md) | 518×518 | Relative | **No license file** |
-| **Depth Pro** | [TensorRT Conversion](models/depth_pro/README.md) | **1536×1536** | Metric + focal length | Apple Sample Code License |
-| **Uni Depth V2** | [TensorRT Conversion](models/unidepth_v2/README.md) | 518×518 | Point map + intrinsics — **metric scale off ~3.1×, see D11** | **CC BY-NC 4.0** |
-| **Metric3D V2** | [TensorRT Conversion](models/metric3d_v2/README.md) | **616×1064** | **Canonical depth, not metres — see D12** | BSD-2-Clause |
-| **UniK3D** | [TensorRT Conversion](models/unik3d/README.md) | 518×518 | Point map + intrinsics — **metric scale 3.15× off, see D11** | **CC BY-NC-SA 4.0** |
-| **MoGe-2** | [TensorRT Conversion](models/moge_2/README.md) | **388×518** | Point map + metric scale | MIT |
-| **VGGT** | [TensorRT Conversion](models/vggt/README.md) | 518×518 | Geometry; scale unknown | VGGT License (Meta custom) |
-| **StreamVGGT** | [TensorRT Conversion](models/streamvggt/README.md) | 518×518 | Geometry; scale unknown | **CC BY-NC-SA 4.0** |
-| **Depth Anything V3** | [TensorRT Conversion](models/depth_anything_v3/README.md) | 518×518 | Relative + sky mask | Apache-2.0 |
-| **Metric Anything** | [TensorRT Conversion](models/metric_anything/README.md) | **388×518** | Point map + metric scale | Apache-2.0 |
+| **Depth Anything V2** | [→](models/depth_anything_v2/README.md) | 518×518 | 기본 metric(hypersim), relative 체크포인트도 있음 | Apache-2.0 (코드) / **CC BY-NC 4.0** (Base·Large 가중치) |
+| **Depth Anything V3** | [→](models/depth_anything_v3/README.md) | 518×518 | relative + 하늘 마스크 | Apache-2.0 |
+| **Depth Anything AC** | [→](models/depth_anything_ac/README.md) | 518×518 | relative | **라이선스 파일 없음** |
+| **Distill Any Depth** | [→](models/distill_any_depth/README.md) | 518×518 | relative | MIT |
+| **ZipDepth** | [→](models/zipdepth/README.md) | **384×512** | affine-invariant 역깊이. **여기서 유일한 합성곱 모델**(6.1M) | 모델 README 참조 |
+| **Depth Pro** | [→](models/depth_pro/README.md) | **1536×1536** | metric + 초점거리 | Apple Sample Code License |
+| **Metric3D V2** | [→](models/metric3d_v2/README.md) | **616×1064** | **canonical depth, 미터 아님 — D12** | BSD-2-Clause |
+| **Metric Anything** | [→](models/metric_anything/README.md) | **388×518** | point map + metric scale | Apache-2.0 |
+| **MoGe-2** | [→](models/moge_2/README.md) | **388×518** | point map + metric scale | MIT |
+| **Uni Depth V2** | [→](models/unidepth_v2/README.md) | **672×896** | point map + intrinsics | **CC BY-NC 4.0** |
+| **UniK3D** | [→](models/unik3d/README.md) | **672×896** | point map + intrinsics | **CC BY-NC-SA 4.0** |
+| **TR2M** | [→](models/tr2m/README.md) | **434×560** | metric. **입력이 둘 — 이미지 + 텍스트 프롬프트** | 업스트림 LICENSE 없음 / pos_embed.py 는 CC BY-NC-SA |
+| **VGGT** | [→](models/vggt/README.md) | 518×518 | geometry, **전역 배율 없음**(정규화 좌표) | VGGT License (Meta 자체) |
+| **StreamVGGT** | [→](models/streamvggt/README.md) | 518×518 | geometry, **전역 배율 없음** | **CC BY-NC-SA 4.0** |
 
-The D-numbers refer to [docs/model_contracts.md](docs/model_contracts.md),
-which records what was measured and how.
+`unidepth_v2` · `unik3d` 의 672×896 은 원래 518 이었다. 518 을 강제했을 때
+metric 배율이 3.1배 어긋났는데, 모델 성질이 아니라 크기를 강제한 대가였다
+([`docs/findings.md`](docs/findings.md) P3).
 
-**Not converted yet.** `later/` holds 16 upstream clones that were attempted
-and set aside — none of them has an engine, a benchmark or a `spec.json`, and
-nothing in this repository reads from that directory. They are kept because
-the clone and its notes are the expensive part, not the conversion.
+---
 
-## 5. Performance
+## 성능
 
 <!-- BENCH:BEGIN -->
 Measured on NVIDIA GeForce RTX 3080, TensorRT 10.16.1.11, on `data/example.jpg`.
@@ -189,7 +125,7 @@ Generated by `compare.py` — do not edit between the markers.
 
 | model               | precision | mean ms | p50   | fps    | output                       |
 | --- | --- | ---: | ---: | ---: | --- |
-| `depth_anything_v2` | fp16      | 4.30    | 4.30  | 232.53 | metric (hypersim) by default |
+| `depth_anything_v2` | fp16      | 4.31    | 4.31  | 232.11 | metric (hypersim) by default |
 | `distill_any_depth` | fp16      | 4.32    | 4.32  | 231.47 | relative                     |
 | `depth_anything_ac` | fp16      | 4.38    | 4.37  | 228.47 | relative                     |
 | `depth_anything_v3` | fp16      | 19.90   | 19.89 | 50.26  | metric + sky mask            |
@@ -237,22 +173,33 @@ Generated by `compare.py` — do not edit between the markers.
 Speeds do **not** compare across those groups: attention cost grows faster than pixel count, so a model at a smaller input is not therefore faster. Full table with p90/p99 and the per-model caveats: [reports/comparison.md](reports/comparison.md).
 <!-- BENCH:END -->
 
-## 6. Licensing
+---
 
-The conversion scripts in this repository are MIT (see [LICENSE](LICENSE)). **The upstream models
-are not.** Each model's `README.md` carries a `## License` table covering both the upstream code and
-its checkpoints, which do not always match — Depth Anything V2 is Apache-2.0 but its Base and Large
-weights are CC BY-NC 4.0.
+## 라이선스
 
-Before using any model commercially, check that model's table. In particular:
+변환 스크립트는 MIT([LICENSE](LICENSE)). **업스트림 모델은 아니다.** 모델마다
+`README.md` 에 코드와 가중치 각각의 라이선스 표가 있고, 둘이 다른 경우가 있다 —
+Depth Anything V2 는 코드가 Apache-2.0 이지만 Base·Large 가중치는 CC BY-NC 4.0 이다.
 
-- **Non-commercial:** Uni Depth V2, UniK3D, StreamVGGT, and the Depth Anything V2 Base/Large weights.
-- **No license file at all:** Depth Anything AC — no usage rights are granted by default.
-- **Custom licenses:** Depth Pro (Apple Sample Code License), VGGT (Meta's own license with an
-  Acceptable Use Policy).
+상업적으로 쓰기 전에 그 표를 확인해라. 특히:
 
-Upstream licences verified 2026-07-31 against the GitHub and HuggingFace APIs. The upstream LICENSE
-file is always authoritative.
+- **비상업용:** Uni Depth V2, UniK3D, StreamVGGT, Depth Anything V2 Base/Large 가중치
+- **라이선스 파일 자체가 없음:** Depth Anything AC, TR2M — 기본적으로 어떤 사용권도 주어지지 않는다
+- **자체 라이선스:** Depth Pro (Apple Sample Code), VGGT (Meta, Acceptable Use Policy 포함)
+
+2026-07-31 에 GitHub·HuggingFace API 로 확인했다. **업스트림 LICENSE 파일이 항상
+우선한다.**
 
 ---
 
+## 문서
+
+| | |
+| --- | --- |
+| [`PLAN.md`](PLAN.md) | **지금 상태와 다음 작업.** 여기부터 읽으면 된다 |
+| [`docs/findings.md`](docs/findings.md) | 무엇을 재서 무엇을 알았나 — 단계별 결과와 근거 |
+| [`docs/model_contracts.md`](docs/model_contracts.md) | 모델 14종의 입출력·전처리·가중치 계약, 결함 D1~D12 |
+| [`docs/history.md`](docs/history.md) | 완료된 리팩토링 계획, 디렉터리 이름 변경, 재현 불가능한 역사 측정 |
+| [`docs/setup.md`](docs/setup.md) | 환경 구성 상세와 알려진 함정 |
+| [`tools/README.md`](tools/README.md) | 각 도구가 무엇이고 어떻게 쓰나. 끝난 질문에 답한 도구는 답까지 |
+| [`docs/demo.md`](docs/demo.md) | `demo.py` 사용법 |

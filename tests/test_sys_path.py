@@ -1,4 +1,4 @@
-"""common.py must not move sys.path[0].
+"""core/common.py must not move sys.path[0].
 
 Every model script puts the repo root at index 1 so that sys.path[0] stays its
 own directory, and metric_anything reads sys.path[0] back to reach a vendored
@@ -6,12 +6,12 @@ copy of `moge`:
 
     sys.path.insert(1, os.path.join(sys.path[0], "metric_anything/models/..."))
 
-common.py is imported before that line runs. When it inserted the repo root at
+core/common.py is imported before that line runs. When it inserted the repo root at
 index 0, the join resolved against the root instead, and the script died on
 ModuleNotFoundError several imports later -- pointing at a file that had
 nothing to do with the change. It cost a twelve-model measurement pass.
 
-Checked by reading the source because importing common.py needs TensorRT.
+Checked by reading the source because importing core/common.py needs TensorRT.
 """
 
 import ast
@@ -39,10 +39,10 @@ def _path_inserts(source):
 
 
 def test_common_does_not_take_over_sys_path_zero():
-    with open(os.path.join(ROOT, "common.py"), encoding="utf-8") as f:
+    with open(os.path.join(ROOT, "core", "common.py"), encoding="utf-8") as f:
         inserts = _path_inserts(f.read())
     assert not [i for i, _ in inserts if i == 0], (
-        f"common.py inserts into sys.path at index 0 (lines "
+        f"core/common.py inserts into sys.path at index 0 (lines "
         f"{[ln for i, ln in inserts if i == 0]}); model scripts rely on "
         f"sys.path[0] still being their own directory")
 

@@ -161,3 +161,58 @@ def policy_for(depth_scale):
                 become `scale_shift` because that produces a number.
     """
     return {"metric": "none", "relative": "scale_shift"}.get(depth_scale)
+
+
+# --------------------------------------------------------------------------
+# Normalised coordinate frames
+#
+# VGGT normalises its *training* data: "we compute the average Euclidean
+# distance of all 3D points in the point map P to the origin and use this scale
+# to normalize the camera translations t, the point map P, and the depth map D",
+# and then -- "unlike DUSt3R, we do not apply such normalization to the
+# predictions output by the transformer; instead, we force it to learn the
+# normalization we choose from the training data" (arXiv:2503.11651, read
+# 2026-08-14). So the prediction arrives in that frame: a depth map whose unit
+# is one average scene distance, not one metre.
+#
+# That is a different defect from a relative model's. A relative model has lost
+# two degrees of freedom -- an unknown scale and an unknown offset in disparity,
+# which is why its fit is affine. This has lost exactly one, because the
+# normalisation is a single division applied to the whole point map. One lost
+# degree of freedom, one fitted parameter. Allowing it a shift as well would
+# hand it a correction for an error it does not have, and the number would stop
+# meaning "how far off is the unit".
+# --------------------------------------------------------------------------
+
+def scale_only(pred, gt_depth, mask):
+    """Fit the one number a normalised-coordinate output is missing.
+
+    `pred` is depth in some unknown but *globally constant* unit; the fit is
+    the least-squares s in min_s ||s*pred - gt||^2 over the masked pixels,
+    which is <pred,gt>/<pred,pred> -- one dot product over another, no offset,
+    no linear algebra backend. Returns (aligned, {"scale": s}) like align().
+
+    This is align(..., "scale") under a name that says what it is for, so that
+    a normalised-coordinate model is scored through a path that had to be
+    asked for by name. The eleven rows already published never reach it: their
+    policies come from policy_for(), which does not return "scale" for
+    anything.
+    """
+    return align(pred, gt_depth, mask, "scale")
+
+
+def policy_for_normalised(depth_scale):
+    """The alignment a *declared* normalised-coordinate contract earns.
+
+    Deliberately not reachable from policy_for(), and deliberately not
+    triggered by `unknown`. `unknown` is what VGGT's and StreamVGGT's
+    spec.json say today, and it means "nobody has worked out what these
+    numbers are" -- turning that into "scale" here would be exactly the quiet
+    promotion policy_for() refuses to make for scale_shift. A caller that
+    believes an undeclared model is normalised has to say so itself, by name,
+    so the decision appears in the command that produced the report.
+
+    When a spec.json is edited to declare `normalised`, this returns "scale"
+    and the naming stops being necessary.
+    """
+    return "scale" if depth_scale == "normalised" else None

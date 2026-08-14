@@ -23,8 +23,8 @@ from matplotlib import pyplot as plt
 import cv2
 import numpy as np
 import time
-import common
-from common import *
+from core import common
+from core.common import *
 from core import bench
 
 import sys

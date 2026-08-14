@@ -1,0 +1,1728 @@
+{
+  "inputs_from": "3 aspect ratios from data\\eval\\aspects.json",
+  "source": "synthetic",
+  "models_not_drawn": {
+    "tr2m": "no adapter in evaluate_gt.py; its output contract is unverified"
+  },
+  "images": {
+    "aspect_4x3": {
+      "path": "data\\eval\\aspects\\aspect_4x3.png",
+      "aspect": "4:3",
+      "figures": {
+        "depth": "reports\\demo\\aspect_4x3_depth.png",
+        "inputs": "reports\\demo\\aspect_4x3_inputs.png",
+        "outputs": "reports\\demo\\aspect_4x3_outputs.png",
+        "cloud": "reports\\demo\\aspect_4x3_cloud.png"
+      },
+      "depth": {
+        "shared_metric_range": [
+          0.3929999992724358,
+          9.174505519995922
+        ],
+        "shared_range_note": "shared metric range 0.39-9.17 m (2-98 pct pooled over 7 metric models)",
+        "per_model": {
+          "depth_anything_ac": {
+            "vmin": 0.5113849130319023,
+            "vmax": 5.325482368469238,
+            "cmap": "magma",
+            "how": "own range 0.511-5.33, not metres",
+            "band": "relative",
+            "stats": {
+              "p02": 0.5113848037265779,
+              "median": 1.392514726126592,
+              "p98": 5.325482368469238,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "35207ed2a6d7",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              518,
+              518
+            ],
+            "precision": "fp16",
+            "unit": "-",
+            "outputs": [
+              [
+                "output",
+                "relative depth"
+              ]
+            ],
+            "fit": null
+          },
+          "depth_anything_v2": {
+            "vmin": 0.3929999992724358,
+            "vmax": 9.174505519995922,
+            "cmap": "turbo",
+            "how": "shared metric axis 0.39-9.17 m (see the bar)",
+            "band": "metric",
+            "stats": {
+              "p02": 0.6945000290870667,
+              "median": 2.885696872720625,
+              "p98": 9.573151333668138,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "410769c9b033",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              518,
+              518
+            ],
+            "precision": "fp16",
+            "unit": "m",
+            "outputs": [
+              [
+                "output",
+                "metric depth (hypersim) with the default checkpoint"
+              ]
+            ],
+            "fit": null
+          },
+          "depth_anything_v3": {
+            "vmin": 0.3929999992724358,
+            "vmax": 9.174505519995922,
+            "cmap": "turbo",
+            "how": "shared metric axis 0.39-9.17 m (see the bar)",
+            "band": "metric",
+            "stats": {
+              "p02": 0.515500009059906,
+              "median": 2.670478701302576,
+              "p98": 9.247396897168098,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "153b2167b70b",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              518,
+              518
+            ],
+            "precision": "fp16",
+            "unit": "m",
+            "outputs": [
+              [
+                "depth",
+                "metric depth (DA3Metric-Large is the metric series)"
+              ],
+              [
+                "sky",
+                "sky mask; near-zero magnitude"
+              ]
+            ],
+            "fit": null
+          },
+          "depth_pro": {
+            "vmin": 0.3929999992724358,
+            "vmax": 9.174505519995922,
+            "cmap": "turbo",
+            "how": "shared metric axis 0.39-9.17 m (see the bar)",
+            "band": "metric",
+            "stats": {
+              "p02": 0.3929999992724358,
+              "median": 2.0952542510420757,
+              "p98": 7.290470422133308,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "6a43fd079395",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              1536,
+              1536
+            ],
+            "precision": "fp16",
+            "unit": "m",
+            "outputs": [
+              [
+                "canonical_inverse_depth",
+                "inverse depth, canonical camera"
+              ],
+              [
+                "fov_deg",
+                "field of view in degrees"
+              ]
+            ],
+            "fit": null
+          },
+          "distill_any_depth": {
+            "vmin": 0.2757170411043262,
+            "vmax": 7.564321041107178,
+            "cmap": "magma",
+            "how": "own range 0.276-7.56, not metres",
+            "band": "relative",
+            "stats": {
+              "p02": 0.27571693361870453,
+              "median": 1.203289884407771,
+              "p98": 7.564321041107178,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "80ca617e2afd",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              518,
+              518
+            ],
+            "precision": "fp16",
+            "unit": "-",
+            "outputs": [
+              [
+                "output",
+                "relative depth"
+              ]
+            ],
+            "fit": null
+          },
+          "metric3d_v2": {
+            "error": "postprocess: ValueError: metric3d_v2 needs the real focal length in pixels to produce metres; the manifest carries no source.intrinsics.fx"
+          },
+          "metric_anything": {
+            "vmin": 0.3929999992724358,
+            "vmax": 9.174505519995922,
+            "cmap": "turbo",
+            "how": "shared metric axis 0.39-9.17 m (see the bar)",
+            "band": "metric",
+            "stats": {
+              "p02": 0.28299999237060547,
+              "median": 1.985255534706539,
+              "p98": 7.180461014682853,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "1af058e0e3fb",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              388,
+              518
+            ],
+            "precision": "fp16",
+            "unit": "m",
+            "outputs": [
+              [
+                "points",
+                "point map"
+              ],
+              [
+                "mask",
+                "valid mask"
+              ],
+              [
+                "metric_scale",
+                "scalar metric scale"
+              ]
+            ],
+            "fit": null
+          },
+          "moge_2": {
+            "vmin": 0.3929999992724358,
+            "vmax": 9.174505519995922,
+            "cmap": "turbo",
+            "how": "shared metric axis 0.39-9.17 m (see the bar)",
+            "band": "metric",
+            "stats": {
+              "p02": 0.3269999921321869,
+              "median": 1.8843827393899724,
+              "p98": 6.637442979549281,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "5827a89b9d7c",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              388,
+              518
+            ],
+            "precision": "fp16",
+            "unit": "m",
+            "outputs": [
+              [
+                "points",
+                "point map"
+              ],
+              [
+                "normal",
+                "surface normal"
+              ],
+              [
+                "mask",
+                "valid mask"
+              ],
+              [
+                "metric_scale",
+                "scalar metric scale"
+              ]
+            ],
+            "fit": null
+          },
+          "streamvggt": {
+            "vmin": 0.6495000123977661,
+            "vmax": 8.658214932731838,
+            "cmap": "bone",
+            "how": "own range 0.65-8.66, not metres",
+            "band": "unknown",
+            "stats": {
+              "p02": 0.6495000123977661,
+              "median": 2.659570627734259,
+              "p98": 8.658236612385371,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "188944e62bf1",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              518,
+              518
+            ],
+            "precision": "fp16",
+            "unit": "-",
+            "outputs": [
+              [
+                "depth",
+                "depth; global scale unknown"
+              ]
+            ],
+            "fit": null
+          },
+          "unidepth_v2": {
+            "vmin": 0.3929999992724358,
+            "vmax": 9.174505519995922,
+            "cmap": "turbo",
+            "how": "shared metric axis 0.39-9.17 m (see the bar)",
+            "band": "metric",
+            "stats": {
+              "p02": 0.5404999852180481,
+              "median": 2.5143913934007287,
+              "p98": 8.538627509325742,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "a0228c3d524e",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              672,
+              896
+            ],
+            "precision": "fp16",
+            "unit": "m",
+            "outputs": [
+              [
+                "pts_3d",
+                "point map"
+              ],
+              [
+                "confidence",
+                "confidence"
+              ],
+              [
+                "intrinsics",
+                "3x3 camera intrinsics"
+              ]
+            ],
+            "fit": null
+          },
+          "unik3d": {
+            "vmin": 0.3929999992724358,
+            "vmax": 9.174505519995922,
+            "cmap": "turbo",
+            "how": "shared metric axis 0.39-9.17 m (see the bar)",
+            "band": "metric",
+            "stats": {
+              "p02": 0.4325000047683716,
+              "median": 1.9717731401324272,
+              "p98": 6.6695719935745,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "448d524a7b09",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              672,
+              896
+            ],
+            "precision": "fp16",
+            "unit": "m",
+            "outputs": [
+              [
+                "pts_3d",
+                "point map"
+              ],
+              [
+                "confidence",
+                "confidence"
+              ]
+            ],
+            "fit": null
+          },
+          "vggt": {
+            "vmin": 0.42800000309944153,
+            "vmax": 7.931660700607924,
+            "cmap": "bone",
+            "how": "own range 0.428-7.93, not metres",
+            "band": "unknown",
+            "stats": {
+              "p02": 0.42800000309944153,
+              "median": 2.3113093429895644,
+              "p98": 7.931681272239075,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "f42e7f2d242d",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              518,
+              518
+            ],
+            "precision": "fp16",
+            "unit": "-",
+            "outputs": [
+              [
+                "depth",
+                "depth; global scale unknown"
+              ]
+            ],
+            "fit": null
+          },
+          "zipdepth": {
+            "vmin": 0.5340778109431267,
+            "vmax": 5.362024784088135,
+            "cmap": "magma",
+            "how": "own range 0.534-5.36, not metres",
+            "band": "relative",
+            "stats": {
+              "p02": 0.5340775933861732,
+              "median": 1.4378827288746834,
+              "p98": 5.362024784088135,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "5d7e0b4c988d",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              384,
+              512
+            ],
+            "precision": "fp16",
+            "unit": "-",
+            "outputs": [
+              [
+                "depth",
+                "affine-invariant inverse depth"
+              ]
+            ],
+            "fit": null
+          }
+        },
+        "not_drawn": {
+          "tr2m": "no adapter in evaluate_gt.py; its output contract is unverified"
+        }
+      },
+      "preprocess": {
+        "depth_anything_ac": {
+          "engine_size": [
+            518,
+            518
+          ],
+          "geometry": "hxw: src 768x1024 -> 518x518 stretched, no pad"
+        },
+        "depth_anything_v2": {
+          "engine_size": [
+            518,
+            518
+          ],
+          "geometry": "hxw: src 768x1024 -> 518x518 stretched, no pad"
+        },
+        "depth_anything_v3": {
+          "engine_size": [
+            518,
+            518
+          ],
+          "geometry": "hxw: src 768x1024 -> 518x518 stretched, no pad"
+        },
+        "depth_pro": {
+          "engine_size": [
+            1536,
+            1536
+          ],
+          "geometry": "hxw: src 768x1024 -> 1536x1536 stretched, no pad"
+        },
+        "distill_any_depth": {
+          "engine_size": [
+            518,
+            518
+          ],
+          "geometry": "hxw: src 768x1024 -> 518x518 stretched, no pad"
+        },
+        "metric3d_v2": {
+          "engine_size": [
+            616,
+            1064
+          ],
+          "geometry": "hxw: src 768x1024 -> inner 616x821 + pad t0 b0 l121 r122"
+        },
+        "metric_anything": {
+          "engine_size": [
+            388,
+            518
+          ],
+          "geometry": "hxw: src 768x1024 -> 388x518 stretched, no pad"
+        },
+        "moge_2": {
+          "engine_size": [
+            388,
+            518
+          ],
+          "geometry": "hxw: src 768x1024 -> 388x518 stretched, no pad"
+        },
+        "streamvggt": {
+          "engine_size": [
+            518,
+            518
+          ],
+          "geometry": "hxw: src 768x1024 -> inner 388x518 + pad t65 b65 l0 r0"
+        },
+        "unidepth_v2": {
+          "engine_size": [
+            672,
+            896
+          ],
+          "geometry": "hxw: src 768x1024 -> 672x896 stretched, no pad"
+        },
+        "unik3d": {
+          "engine_size": [
+            672,
+            896
+          ],
+          "geometry": "hxw: src 768x1024 -> 672x896 stretched, no pad"
+        },
+        "vggt": {
+          "engine_size": [
+            518,
+            518
+          ],
+          "geometry": "hxw: src 768x1024 -> inner 388x518 + pad t65 b65 l0 r0"
+        },
+        "zipdepth": {
+          "engine_size": [
+            384,
+            512
+          ],
+          "geometry": "hxw: src 768x1024 -> 384x512 stretched, no pad"
+        }
+      },
+      "auxiliary_outputs": {
+        "depth_anything_v3": {
+          "sky": "sky mask; near-zero magnitude: 0.0% valid"
+        },
+        "depth_pro": {
+          "fov_deg": "field of view in degrees: 55"
+        },
+        "metric_anything": {
+          "mask": "valid mask: 98.2% valid",
+          "metric_scale": "scalar metric scale: 1"
+        },
+        "moge_2": {
+          "normal": "surface normal: 0..1",
+          "mask": "valid mask: 98.2% valid",
+          "metric_scale": "scalar metric scale: 1"
+        },
+        "unidepth_v2": {
+          "confidence": "confidence: 0.0628..0.992",
+          "intrinsics": "3x3 camera intrinsics: 860.6, 0, 448, 0, 860.6, 336, 0, 0, 1"
+        },
+        "unik3d": {
+          "confidence": "confidence: 0.0643..0.992"
+        }
+      },
+      "point_clouds": {
+        "depth_anything_ac": {
+          "cloud": null,
+          "why": "no camera in this model's outputs; nothing to unproject"
+        },
+        "depth_anything_v2": {
+          "cloud": null,
+          "why": "no camera in this model's outputs; nothing to unproject"
+        },
+        "depth_anything_v3": {
+          "cloud": null,
+          "why": "no camera in this model's outputs; nothing to unproject"
+        },
+        "depth_pro": {
+          "cloud": "reports\\demo\\aspect_4x3_depth_pro.ply",
+          "points": 786432,
+          "how": "depth unprojected with the predicted 55.0 deg fov"
+        },
+        "distill_any_depth": {
+          "cloud": null,
+          "why": "no camera in this model's outputs; nothing to unproject"
+        },
+        "metric_anything": {
+          "cloud": "reports\\demo\\aspect_4x3_metric_anything.ply",
+          "points": 200984,
+          "how": "point map, shift +0.0000, metric_scale 1"
+        },
+        "moge_2": {
+          "cloud": "reports\\demo\\aspect_4x3_moge_2.ply",
+          "points": 200984,
+          "how": "point map, shift +0.0000, metric_scale 1"
+        },
+        "streamvggt": {
+          "cloud": null,
+          "why": "no camera in this model's outputs; nothing to unproject"
+        },
+        "unidepth_v2": {
+          "cloud": "reports\\demo\\aspect_4x3_unidepth_v2.ply",
+          "points": 602112,
+          "how": "point map, camera frame, as returned"
+        },
+        "unik3d": {
+          "cloud": "reports\\demo\\aspect_4x3_unik3d.ply",
+          "points": 602112,
+          "how": "point map, camera frame, as returned"
+        },
+        "vggt": {
+          "cloud": null,
+          "why": "no camera in this model's outputs; nothing to unproject"
+        },
+        "zipdepth": {
+          "cloud": null,
+          "why": "no camera in this model's outputs; nothing to unproject"
+        }
+      }
+    },
+    "aspect_16x9": {
+      "path": "data\\eval\\aspects\\aspect_16x9.png",
+      "aspect": "16:9",
+      "figures": {
+        "depth": "reports\\demo\\aspect_16x9_depth.png",
+        "inputs": "reports\\demo\\aspect_16x9_inputs.png",
+        "outputs": "reports\\demo\\aspect_16x9_outputs.png",
+        "cloud": "reports\\demo\\aspect_16x9_cloud.png"
+      },
+      "depth": {
+        "shared_metric_range": [
+          0.3929999992724358,
+          9.174772794459422
+        ],
+        "shared_range_note": "shared metric range 0.39-9.17 m (2-98 pct pooled over 7 metric models)",
+        "per_model": {
+          "depth_anything_ac": {
+            "vmin": 0.511379792868156,
+            "vmax": 5.325482368469238,
+            "cmap": "magma",
+            "how": "own range 0.511-5.33, not metres",
+            "band": "relative",
+            "stats": {
+              "p02": 0.5113807454284203,
+              "median": 1.3925615193568066,
+              "p98": 5.325482368469238,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "35207ed2a6d7",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              518,
+              518
+            ],
+            "precision": "fp16",
+            "unit": "-",
+            "outputs": [
+              [
+                "output",
+                "relative depth"
+              ]
+            ],
+            "fit": null
+          },
+          "depth_anything_v2": {
+            "vmin": 0.3929999992724358,
+            "vmax": 9.174772794459422,
+            "cmap": "turbo",
+            "how": "shared metric axis 0.39-9.17 m (see the bar)",
+            "band": "metric",
+            "stats": {
+              "p02": 0.6945000290870667,
+              "median": 2.8855945999580905,
+              "p98": 9.573252702567455,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "410769c9b033",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              518,
+              518
+            ],
+            "precision": "fp16",
+            "unit": "m",
+            "outputs": [
+              [
+                "output",
+                "metric depth (hypersim) with the default checkpoint"
+              ]
+            ],
+            "fit": null
+          },
+          "depth_anything_v3": {
+            "vmin": 0.3929999992724358,
+            "vmax": 9.174772794459422,
+            "cmap": "turbo",
+            "how": "shared metric axis 0.39-9.17 m (see the bar)",
+            "band": "metric",
+            "stats": {
+              "p02": 0.515500009059906,
+              "median": 2.6703781895713394,
+              "p98": 9.247496597513868,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "153b2167b70b",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              518,
+              518
+            ],
+            "precision": "fp16",
+            "unit": "m",
+            "outputs": [
+              [
+                "depth",
+                "metric depth (DA3Metric-Large is the metric series)"
+              ],
+              [
+                "sky",
+                "sky mask; near-zero magnitude"
+              ]
+            ],
+            "fit": null
+          },
+          "depth_pro": {
+            "vmin": 0.3929999992724358,
+            "vmax": 9.174772794459422,
+            "cmap": "turbo",
+            "how": "shared metric axis 0.39-9.17 m (see the bar)",
+            "band": "metric",
+            "stats": {
+              "p02": 0.3929999992724358,
+              "median": 2.0951785201600144,
+              "p98": 7.290549150682587,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "6a43fd079395",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              1536,
+              1536
+            ],
+            "precision": "fp16",
+            "unit": "m",
+            "outputs": [
+              [
+                "canonical_inverse_depth",
+                "inverse depth, canonical camera"
+              ],
+              [
+                "fov_deg",
+                "field of view in degrees"
+              ]
+            ],
+            "fit": null
+          },
+          "distill_any_depth": {
+            "vmin": 0.2757119819631043,
+            "vmax": 7.564321041107178,
+            "cmap": "magma",
+            "how": "own range 0.276-7.56, not metres",
+            "band": "relative",
+            "stats": {
+              "p02": 0.2757129518786678,
+              "median": 1.203342662856509,
+              "p98": 7.564321041107178,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "80ca617e2afd",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              518,
+              518
+            ],
+            "precision": "fp16",
+            "unit": "-",
+            "outputs": [
+              [
+                "output",
+                "relative depth"
+              ]
+            ],
+            "fit": null
+          },
+          "metric3d_v2": {
+            "error": "postprocess: ValueError: metric3d_v2 needs the real focal length in pixels to produce metres; the manifest carries no source.intrinsics.fx"
+          },
+          "metric_anything": {
+            "vmin": 0.3929999992724358,
+            "vmax": 9.174772794459422,
+            "cmap": "turbo",
+            "how": "shared metric axis 0.39-9.17 m (see the bar)",
+            "band": "metric",
+            "stats": {
+              "p02": 0.28299999237060547,
+              "median": 1.985181572021449,
+              "p98": 7.180545345073139,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "1af058e0e3fb",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              388,
+              518
+            ],
+            "precision": "fp16",
+            "unit": "m",
+            "outputs": [
+              [
+                "points",
+                "point map"
+              ],
+              [
+                "mask",
+                "valid mask"
+              ],
+              [
+                "metric_scale",
+                "scalar metric scale"
+              ]
+            ],
+            "fit": null
+          },
+          "moge_2": {
+            "vmin": 0.3929999992724358,
+            "vmax": 9.174772794459422,
+            "cmap": "turbo",
+            "how": "shared metric axis 0.39-9.17 m (see the bar)",
+            "band": "metric",
+            "stats": {
+              "p02": 0.3269999921321869,
+              "median": 1.8843150342824324,
+              "p98": 6.637520192201288,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "5827a89b9d7c",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              388,
+              518
+            ],
+            "precision": "fp16",
+            "unit": "m",
+            "outputs": [
+              [
+                "points",
+                "point map"
+              ],
+              [
+                "normal",
+                "surface normal"
+              ],
+              [
+                "mask",
+                "valid mask"
+              ],
+              [
+                "metric_scale",
+                "scalar metric scale"
+              ]
+            ],
+            "fit": null
+          },
+          "streamvggt": {
+            "vmin": 0.6495000123977661,
+            "vmax": 6.461476540999137,
+            "cmap": "bone",
+            "how": "own range 0.65-6.46, not metres",
+            "band": "unknown",
+            "stats": {
+              "p02": 0.6495000123977661,
+              "median": 2.6595460306881353,
+              "p98": 6.461310862945103,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "188944e62bf1",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              518,
+              518
+            ],
+            "precision": "fp16",
+            "unit": "-",
+            "outputs": [
+              [
+                "depth",
+                "depth; global scale unknown"
+              ]
+            ],
+            "fit": null
+          },
+          "unidepth_v2": {
+            "vmin": 0.3929999992724358,
+            "vmax": 9.174772794459422,
+            "cmap": "turbo",
+            "how": "shared metric axis 0.39-9.17 m (see the bar)",
+            "band": "metric",
+            "stats": {
+              "p02": 0.5404999852180481,
+              "median": 2.514305109158158,
+              "p98": 8.538719404935836,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "a0228c3d524e",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              672,
+              896
+            ],
+            "precision": "fp16",
+            "unit": "m",
+            "outputs": [
+              [
+                "pts_3d",
+                "point map"
+              ],
+              [
+                "confidence",
+                "confidence"
+              ],
+              [
+                "intrinsics",
+                "3x3 camera intrinsics"
+              ]
+            ],
+            "fit": null
+          },
+          "unik3d": {
+            "vmin": 0.3929999992724358,
+            "vmax": 9.174772794459422,
+            "cmap": "turbo",
+            "how": "shared metric axis 0.39-9.17 m (see the bar)",
+            "band": "metric",
+            "stats": {
+              "p02": 0.4325000047683716,
+              "median": 1.9717058086146908,
+              "p98": 6.669643519073725,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "448d524a7b09",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              672,
+              896
+            ],
+            "precision": "fp16",
+            "unit": "m",
+            "outputs": [
+              [
+                "pts_3d",
+                "point map"
+              ],
+              [
+                "confidence",
+                "confidence"
+              ]
+            ],
+            "fit": null
+          },
+          "vggt": {
+            "vmin": 0.42800000309944153,
+            "vmax": 5.873455499819538,
+            "cmap": "bone",
+            "how": "own range 0.428-5.87, not metres",
+            "band": "unknown",
+            "stats": {
+              "p02": 0.42800000309944153,
+              "median": 2.311286427428665,
+              "p98": 5.873300167233684,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "f42e7f2d242d",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              518,
+              518
+            ],
+            "precision": "fp16",
+            "unit": "-",
+            "outputs": [
+              [
+                "depth",
+                "depth; global scale unknown"
+              ]
+            ],
+            "fit": null
+          },
+          "zipdepth": {
+            "vmin": 0.5340726254880428,
+            "vmax": 5.362024784088135,
+            "cmap": "magma",
+            "how": "own range 0.534-5.36, not metres",
+            "band": "relative",
+            "stats": {
+              "p02": 0.5340733645359675,
+              "median": 1.437925192217032,
+              "p98": 5.362024784088135,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "5d7e0b4c988d",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              384,
+              512
+            ],
+            "precision": "fp16",
+            "unit": "-",
+            "outputs": [
+              [
+                "depth",
+                "affine-invariant inverse depth"
+              ]
+            ],
+            "fit": null
+          }
+        },
+        "not_drawn": {
+          "tr2m": "no adapter in evaluate_gt.py; its output contract is unverified"
+        }
+      },
+      "preprocess": {
+        "depth_anything_ac": {
+          "engine_size": [
+            518,
+            518
+          ],
+          "geometry": "hxw: src 576x1024 -> 518x518 stretched, no pad"
+        },
+        "depth_anything_v2": {
+          "engine_size": [
+            518,
+            518
+          ],
+          "geometry": "hxw: src 576x1024 -> 518x518 stretched, no pad"
+        },
+        "depth_anything_v3": {
+          "engine_size": [
+            518,
+            518
+          ],
+          "geometry": "hxw: src 576x1024 -> 518x518 stretched, no pad"
+        },
+        "depth_pro": {
+          "engine_size": [
+            1536,
+            1536
+          ],
+          "geometry": "hxw: src 576x1024 -> 1536x1536 stretched, no pad"
+        },
+        "distill_any_depth": {
+          "engine_size": [
+            518,
+            518
+          ],
+          "geometry": "hxw: src 576x1024 -> 518x518 stretched, no pad"
+        },
+        "metric3d_v2": {
+          "engine_size": [
+            616,
+            1064
+          ],
+          "geometry": "hxw: src 576x1024 -> inner 598x1064 + pad t9 b9 l0 r0"
+        },
+        "metric_anything": {
+          "engine_size": [
+            388,
+            518
+          ],
+          "geometry": "hxw: src 576x1024 -> 388x518 stretched, no pad"
+        },
+        "moge_2": {
+          "engine_size": [
+            388,
+            518
+          ],
+          "geometry": "hxw: src 576x1024 -> 388x518 stretched, no pad"
+        },
+        "streamvggt": {
+          "engine_size": [
+            518,
+            518
+          ],
+          "geometry": "hxw: src 576x1024 -> inner 291x518 + pad t113 b114 l0 r0"
+        },
+        "unidepth_v2": {
+          "engine_size": [
+            672,
+            896
+          ],
+          "geometry": "hxw: src 576x1024 -> 672x896 stretched, no pad"
+        },
+        "unik3d": {
+          "engine_size": [
+            672,
+            896
+          ],
+          "geometry": "hxw: src 576x1024 -> 672x896 stretched, no pad"
+        },
+        "vggt": {
+          "engine_size": [
+            518,
+            518
+          ],
+          "geometry": "hxw: src 576x1024 -> inner 291x518 + pad t113 b114 l0 r0"
+        },
+        "zipdepth": {
+          "engine_size": [
+            384,
+            512
+          ],
+          "geometry": "hxw: src 576x1024 -> 384x512 stretched, no pad"
+        }
+      },
+      "auxiliary_outputs": {
+        "depth_anything_v3": {
+          "sky": "sky mask; near-zero magnitude: 0.0% valid"
+        },
+        "depth_pro": {
+          "fov_deg": "field of view in degrees: 55"
+        },
+        "metric_anything": {
+          "mask": "valid mask: 98.2% valid",
+          "metric_scale": "scalar metric scale: 1"
+        },
+        "moge_2": {
+          "normal": "surface normal: 0..1",
+          "mask": "valid mask: 98.2% valid",
+          "metric_scale": "scalar metric scale: 1"
+        },
+        "unidepth_v2": {
+          "confidence": "confidence: 0.0628..0.992",
+          "intrinsics": "3x3 camera intrinsics: 860.6, 0, 448, 0, 860.6, 336, 0, 0, 1"
+        },
+        "unik3d": {
+          "confidence": "confidence: 0.0643..0.992"
+        }
+      },
+      "point_clouds": {
+        "depth_anything_ac": {
+          "cloud": null,
+          "why": "no camera in this model's outputs; nothing to unproject"
+        },
+        "depth_anything_v2": {
+          "cloud": null,
+          "why": "no camera in this model's outputs; nothing to unproject"
+        },
+        "depth_anything_v3": {
+          "cloud": null,
+          "why": "no camera in this model's outputs; nothing to unproject"
+        },
+        "depth_pro": {
+          "cloud": "reports\\demo\\aspect_16x9_depth_pro.ply",
+          "points": 589824,
+          "how": "depth unprojected with the predicted 55.0 deg fov"
+        },
+        "distill_any_depth": {
+          "cloud": null,
+          "why": "no camera in this model's outputs; nothing to unproject"
+        },
+        "metric_anything": {
+          "cloud": "reports\\demo\\aspect_16x9_metric_anything.ply",
+          "points": 200984,
+          "how": "point map, shift +0.0000, metric_scale 1"
+        },
+        "moge_2": {
+          "cloud": "reports\\demo\\aspect_16x9_moge_2.ply",
+          "points": 200984,
+          "how": "point map, shift +0.0000, metric_scale 1"
+        },
+        "streamvggt": {
+          "cloud": null,
+          "why": "no camera in this model's outputs; nothing to unproject"
+        },
+        "unidepth_v2": {
+          "cloud": "reports\\demo\\aspect_16x9_unidepth_v2.ply",
+          "points": 602112,
+          "how": "point map, camera frame, as returned"
+        },
+        "unik3d": {
+          "cloud": "reports\\demo\\aspect_16x9_unik3d.ply",
+          "points": 602112,
+          "how": "point map, camera frame, as returned"
+        },
+        "vggt": {
+          "cloud": null,
+          "why": "no camera in this model's outputs; nothing to unproject"
+        },
+        "zipdepth": {
+          "cloud": null,
+          "why": "no camera in this model's outputs; nothing to unproject"
+        }
+      }
+    },
+    "aspect_portrait": {
+      "path": "data\\eval\\aspects\\aspect_portrait.png",
+      "aspect": "portrait",
+      "figures": {
+        "depth": "reports\\demo\\aspect_portrait_depth.png",
+        "inputs": "reports\\demo\\aspect_portrait_inputs.png",
+        "outputs": "reports\\demo\\aspect_portrait_outputs.png",
+        "cloud": "reports\\demo\\aspect_portrait_cloud.png"
+      },
+      "depth": {
+        "shared_metric_range": [
+          0.3929999992724358,
+          9.175292668418347
+        ],
+        "shared_range_note": "shared metric range 0.39-9.18 m (2-98 pct pooled over 7 metric models)",
+        "per_model": {
+          "depth_anything_ac": {
+            "vmin": 0.5113908075567694,
+            "vmax": 5.325482368469238,
+            "cmap": "magma",
+            "how": "own range 0.511-5.33, not metres",
+            "band": "relative",
+            "stats": {
+              "p02": 0.511388402153367,
+              "median": 1.3924332348216448,
+              "p98": 5.325482368469238,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "35207ed2a6d7",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              518,
+              518
+            ],
+            "precision": "fp16",
+            "unit": "-",
+            "outputs": [
+              [
+                "output",
+                "relative depth"
+              ]
+            ],
+            "fit": null
+          },
+          "depth_anything_v2": {
+            "vmin": 0.3929999992724358,
+            "vmax": 9.175292668418347,
+            "cmap": "turbo",
+            "how": "shared metric axis 0.39-9.18 m (see the bar)",
+            "band": "metric",
+            "stats": {
+              "p02": 0.6945000290870667,
+              "median": 2.885893306201507,
+              "p98": 9.573060540958625,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "410769c9b033",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              518,
+              518
+            ],
+            "precision": "fp16",
+            "unit": "m",
+            "outputs": [
+              [
+                "output",
+                "metric depth (hypersim) with the default checkpoint"
+              ]
+            ],
+            "fit": null
+          },
+          "depth_anything_v3": {
+            "vmin": 0.3929999992724358,
+            "vmax": 9.175292668418347,
+            "cmap": "turbo",
+            "how": "shared metric axis 0.39-9.18 m (see the bar)",
+            "band": "metric",
+            "stats": {
+              "p02": 0.515500009059906,
+              "median": 2.6706719197213213,
+              "p98": 9.247307315326976,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "153b2167b70b",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              518,
+              518
+            ],
+            "precision": "fp16",
+            "unit": "m",
+            "outputs": [
+              [
+                "depth",
+                "metric depth (DA3Metric-Large is the metric series)"
+              ],
+              [
+                "sky",
+                "sky mask; near-zero magnitude"
+              ]
+            ],
+            "fit": null
+          },
+          "depth_pro": {
+            "vmin": 0.3929999992724358,
+            "vmax": 9.175292668418347,
+            "cmap": "turbo",
+            "how": "shared metric axis 0.39-9.18 m (see the bar)",
+            "band": "metric",
+            "stats": {
+              "p02": 0.3929999992724358,
+              "median": 2.095402641226577,
+              "p98": 7.29039902161485,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "6a43fd079395",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              1536,
+              1536
+            ],
+            "precision": "fp16",
+            "unit": "m",
+            "outputs": [
+              [
+                "canonical_inverse_depth",
+                "inverse depth, canonical camera"
+              ],
+              [
+                "fov_deg",
+                "field of view in degrees"
+              ]
+            ],
+            "fit": null
+          },
+          "distill_any_depth": {
+            "vmin": 0.2757228578226689,
+            "vmax": 7.564321041107178,
+            "cmap": "magma",
+            "how": "own range 0.276-7.56, not metres",
+            "band": "relative",
+            "stats": {
+              "p02": 0.275720489086106,
+              "median": 1.203198510957278,
+              "p98": 7.564321041107178,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "80ca617e2afd",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              518,
+              518
+            ],
+            "precision": "fp16",
+            "unit": "-",
+            "outputs": [
+              [
+                "output",
+                "relative depth"
+              ]
+            ],
+            "fit": null
+          },
+          "metric3d_v2": {
+            "error": "postprocess: ValueError: metric3d_v2 needs the real focal length in pixels to produce metres; the manifest carries no source.intrinsics.fx"
+          },
+          "metric_anything": {
+            "vmin": 0.3929999992724358,
+            "vmax": 9.175292668418347,
+            "cmap": "turbo",
+            "how": "shared metric axis 0.39-9.18 m (see the bar)",
+            "band": "metric",
+            "stats": {
+              "p02": 0.28299999237060547,
+              "median": 1.9854092319860852,
+              "p98": 7.180388964114461,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "1af058e0e3fb",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              388,
+              518
+            ],
+            "precision": "fp16",
+            "unit": "m",
+            "outputs": [
+              [
+                "points",
+                "point map"
+              ],
+              [
+                "mask",
+                "valid mask"
+              ],
+              [
+                "metric_scale",
+                "scalar metric scale"
+              ]
+            ],
+            "fit": null
+          },
+          "moge_2": {
+            "vmin": 0.3929999992724358,
+            "vmax": 9.175292668418347,
+            "cmap": "turbo",
+            "how": "shared metric axis 0.39-9.18 m (see the bar)",
+            "band": "metric",
+            "stats": {
+              "p02": 0.3269999921321869,
+              "median": 1.884523327287752,
+              "p98": 6.6373772248222185,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "5827a89b9d7c",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              388,
+              518
+            ],
+            "precision": "fp16",
+            "unit": "m",
+            "outputs": [
+              [
+                "points",
+                "point map"
+              ],
+              [
+                "normal",
+                "surface normal"
+              ],
+              [
+                "mask",
+                "valid mask"
+              ],
+              [
+                "metric_scale",
+                "scalar metric scale"
+              ]
+            ],
+            "fit": null
+          },
+          "streamvggt": {
+            "vmin": 0.6495000123977661,
+            "vmax": 8.811303327623754,
+            "cmap": "bone",
+            "how": "own range 0.65-8.81, not metres",
+            "band": "unknown",
+            "stats": {
+              "p02": 0.6495000123977661,
+              "median": 2.566454982528403,
+              "p98": 8.811305924589849,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "188944e62bf1",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              518,
+              518
+            ],
+            "precision": "fp16",
+            "unit": "-",
+            "outputs": [
+              [
+                "depth",
+                "depth; global scale unknown"
+              ]
+            ],
+            "fit": null
+          },
+          "unidepth_v2": {
+            "vmin": 0.3929999992724358,
+            "vmax": 9.175292668418347,
+            "cmap": "turbo",
+            "how": "shared metric axis 0.39-9.18 m (see the bar)",
+            "band": "metric",
+            "stats": {
+              "p02": 0.5404999852180481,
+              "median": 2.514571574413114,
+              "p98": 8.538543287184503,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "a0228c3d524e",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              672,
+              896
+            ],
+            "precision": "fp16",
+            "unit": "m",
+            "outputs": [
+              [
+                "pts_3d",
+                "point map"
+              ],
+              [
+                "confidence",
+                "confidence"
+              ],
+              [
+                "intrinsics",
+                "3x3 camera intrinsics"
+              ]
+            ],
+            "fit": null
+          },
+          "unik3d": {
+            "vmin": 0.3929999992724358,
+            "vmax": 9.175292668418347,
+            "cmap": "turbo",
+            "how": "shared metric axis 0.39-9.18 m (see the bar)",
+            "band": "metric",
+            "stats": {
+              "p02": 0.4325000047683716,
+              "median": 1.9719136386281915,
+              "p98": 6.6695062661170965,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "448d524a7b09",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              672,
+              896
+            ],
+            "precision": "fp16",
+            "unit": "m",
+            "outputs": [
+              [
+                "pts_3d",
+                "point map"
+              ],
+              [
+                "confidence",
+                "confidence"
+              ]
+            ],
+            "fit": null
+          },
+          "vggt": {
+            "vmin": 0.42800000309944153,
+            "vmax": 8.075095000542545,
+            "cmap": "bone",
+            "how": "own range 0.428-8.08, not metres",
+            "band": "unknown",
+            "stats": {
+              "p02": 0.42800000309944153,
+              "median": 2.2240658842961745,
+              "p98": 8.075097463137418,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "f42e7f2d242d",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              518,
+              518
+            ],
+            "precision": "fp16",
+            "unit": "-",
+            "outputs": [
+              [
+                "depth",
+                "depth; global scale unknown"
+              ]
+            ],
+            "fit": null
+          },
+          "zipdepth": {
+            "vmin": 0.5340838177336587,
+            "vmax": 5.362024784088135,
+            "cmap": "magma",
+            "how": "own range 0.534-5.36, not metres",
+            "band": "relative",
+            "stats": {
+              "p02": 0.5340813762611814,
+              "median": 1.4377888300352626,
+              "p98": 5.362024784088135,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "5d7e0b4c988d",
+            "engine_fingerprint_source": "record",
+            "input_size": [
+              384,
+              512
+            ],
+            "precision": "fp16",
+            "unit": "-",
+            "outputs": [
+              [
+                "depth",
+                "affine-invariant inverse depth"
+              ]
+            ],
+            "fit": null
+          }
+        },
+        "not_drawn": {
+          "tr2m": "no adapter in evaluate_gt.py; its output contract is unverified"
+        }
+      },
+      "preprocess": {
+        "depth_anything_ac": {
+          "engine_size": [
+            518,
+            518
+          ],
+          "geometry": "hxw: src 768x576 -> 518x518 stretched, no pad"
+        },
+        "depth_anything_v2": {
+          "engine_size": [
+            518,
+            518
+          ],
+          "geometry": "hxw: src 768x576 -> 518x518 stretched, no pad"
+        },
+        "depth_anything_v3": {
+          "engine_size": [
+            518,
+            518
+          ],
+          "geometry": "hxw: src 768x576 -> 518x518 stretched, no pad"
+        },
+        "depth_pro": {
+          "engine_size": [
+            1536,
+            1536
+          ],
+          "geometry": "hxw: src 768x576 -> 1536x1536 stretched, no pad"
+        },
+        "distill_any_depth": {
+          "engine_size": [
+            518,
+            518
+          ],
+          "geometry": "hxw: src 768x576 -> 518x518 stretched, no pad"
+        },
+        "metric3d_v2": {
+          "engine_size": [
+            616,
+            1064
+          ],
+          "geometry": "hxw: src 768x576 -> inner 616x462 + pad t0 b0 l301 r301"
+        },
+        "metric_anything": {
+          "engine_size": [
+            388,
+            518
+          ],
+          "geometry": "hxw: src 768x576 -> 388x518 stretched, no pad"
+        },
+        "moge_2": {
+          "engine_size": [
+            388,
+            518
+          ],
+          "geometry": "hxw: src 768x576 -> 388x518 stretched, no pad"
+        },
+        "streamvggt": {
+          "engine_size": [
+            518,
+            518
+          ],
+          "geometry": "hxw: src 768x576 -> inner 518x388 + pad t0 b0 l65 r65"
+        },
+        "unidepth_v2": {
+          "engine_size": [
+            672,
+            896
+          ],
+          "geometry": "hxw: src 768x576 -> 672x896 stretched, no pad"
+        },
+        "unik3d": {
+          "engine_size": [
+            672,
+            896
+          ],
+          "geometry": "hxw: src 768x576 -> 672x896 stretched, no pad"
+        },
+        "vggt": {
+          "engine_size": [
+            518,
+            518
+          ],
+          "geometry": "hxw: src 768x576 -> inner 518x388 + pad t0 b0 l65 r65"
+        },
+        "zipdepth": {
+          "engine_size": [
+            384,
+            512
+          ],
+          "geometry": "hxw: src 768x576 -> 384x512 stretched, no pad"
+        }
+      },
+      "auxiliary_outputs": {
+        "depth_anything_v3": {
+          "sky": "sky mask; near-zero magnitude: 0.0% valid"
+        },
+        "depth_pro": {
+          "fov_deg": "field of view in degrees: 55"
+        },
+        "metric_anything": {
+          "mask": "valid mask: 98.2% valid",
+          "metric_scale": "scalar metric scale: 1"
+        },
+        "moge_2": {
+          "normal": "surface normal: 0..1",
+          "mask": "valid mask: 98.2% valid",
+          "metric_scale": "scalar metric scale: 1"
+        },
+        "unidepth_v2": {
+          "confidence": "confidence: 0.0628..0.992",
+          "intrinsics": "3x3 camera intrinsics: 860.6, 0, 448, 0, 860.6, 336, 0, 0, 1"
+        },
+        "unik3d": {
+          "confidence": "confidence: 0.0643..0.992"
+        }
+      },
+      "point_clouds": {
+        "depth_anything_ac": {
+          "cloud": null,
+          "why": "no camera in this model's outputs; nothing to unproject"
+        },
+        "depth_anything_v2": {
+          "cloud": null,
+          "why": "no camera in this model's outputs; nothing to unproject"
+        },
+        "depth_anything_v3": {
+          "cloud": null,
+          "why": "no camera in this model's outputs; nothing to unproject"
+        },
+        "depth_pro": {
+          "cloud": "reports\\demo\\aspect_portrait_depth_pro.ply",
+          "points": 442368,
+          "how": "depth unprojected with the predicted 55.0 deg fov"
+        },
+        "distill_any_depth": {
+          "cloud": null,
+          "why": "no camera in this model's outputs; nothing to unproject"
+        },
+        "metric_anything": {
+          "cloud": "reports\\demo\\aspect_portrait_metric_anything.ply",
+          "points": 200984,
+          "how": "point map, shift +0.0000, metric_scale 1"
+        },
+        "moge_2": {
+          "cloud": "reports\\demo\\aspect_portrait_moge_2.ply",
+          "points": 200984,
+          "how": "point map, shift +0.0000, metric_scale 1"
+        },
+        "streamvggt": {
+          "cloud": null,
+          "why": "no camera in this model's outputs; nothing to unproject"
+        },
+        "unidepth_v2": {
+          "cloud": "reports\\demo\\aspect_portrait_unidepth_v2.ply",
+          "points": 602112,
+          "how": "point map, camera frame, as returned"
+        },
+        "unik3d": {
+          "cloud": "reports\\demo\\aspect_portrait_unik3d.ply",
+          "points": 602112,
+          "how": "point map, camera frame, as returned"
+        },
+        "vggt": {
+          "cloud": null,
+          "why": "no camera in this model's outputs; nothing to unproject"
+        },
+        "zipdepth": {
+          "cloud": null,
+          "why": "no camera in this model's outputs; nothing to unproject"
+        }
+      }
+    }
+  }
+}

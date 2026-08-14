@@ -66,6 +66,7 @@ cd ..
 python infer.py
 ```
 - encoder: small, fp32, ipnut size: 616 x 1064 input
+- **PyTorch reference · conditions unrecorded · not reproducible** — no JSON backs the three lines below, and the warmup, GPU clock, driver and host were never recorded. Not comparable with the generated TensorRT block at the top of this file.
 - 100 iterations time: 20.0422 [sec]
 - Average FPS: 4.99 [fps]
 - Average inference time: 200.42 [msec]
@@ -90,9 +91,7 @@ python onnx2trt.py
 // a file '.engine' will be generated in engine directory.
 ```
 - encoder: small, fp32, ipnut size: 616 x 1064 input
-- 100 iterations time: 16.4291 [sec]
-- Average FPS: 6.09 [fps]
-- Average inference time: 164.29 [msec]
+- Timing: the generated block at the top of this file, from `reports/bench/`. An unrecorded run of this same engine used to be quoted here and disagreed with it.
 
 ## Note — the output is canonical depth, not metric depth
 

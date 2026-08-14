@@ -42,6 +42,17 @@ def check(name, cond, detail=""):
 # torch.hub.load_state_dict_from_url downloads and unpickles, same exposure.
 LOADERS = {"load", "load_state_dict_from_url"}
 
+# torch.hub.load is NOT one of them, and matching it was a defect in this file.
+# It loads an *entrypoint* out of a repository's hubconf.py rather than a
+# checkpoint, it has no weights_only parameter, and anything passed under that
+# name would be forwarded to the entrypoint function as a keyword it does not
+# take. Demanding weights_only there is demanding a TypeError.
+#
+# It is a real exposure, just a different one -- see
+# test_torch_hub_load_is_reported_rather_than_conflated, which names the sites
+# instead of leaving them out of the file.
+NOT_A_CHECKPOINT_LOADER = {("hub", "load")}
+
 SKIP = {"later", ".git", "__pycache__"}
 
 
@@ -64,10 +75,37 @@ def _is_loader(node):
     fn = node.func
     if not isinstance(fn, ast.Attribute) or fn.attr not in LOADERS:
         return False
-    root = fn.value
+    parts, root = [fn.attr], fn.value
     while isinstance(root, ast.Attribute):
+        parts.append(root.attr)
         root = root.value
-    return isinstance(root, ast.Name) and root.id == "torch"
+    if not (isinstance(root, ast.Name) and root.id == "torch"):
+        return False
+    return tuple(reversed(parts)) not in NOT_A_CHECKPOINT_LOADER
+
+
+def _hub_load_sites():
+    """torch.hub.load(...) call sites: file, line, and whether the repo is local."""
+    out = []
+    for path in _sources():
+        try:
+            tree = ast.parse(open(path, encoding="utf-8").read())
+        except (SyntaxError, UnicodeDecodeError):
+            continue
+        for node in ast.walk(tree):
+            fn = getattr(node, "func", None)
+            if not isinstance(node, ast.Call) or not isinstance(fn, ast.Attribute):
+                continue
+            if fn.attr != "load" or not isinstance(fn.value, ast.Attribute) \
+                    or fn.value.attr != "hub":
+                continue
+            root = fn.value.value
+            if not (isinstance(root, ast.Name) and root.id == "torch"):
+                continue
+            local = any(k.arg == "source" and isinstance(k.value, ast.Constant)
+                        and k.value.value == "local" for k in node.keywords)
+            out.append((os.path.relpath(path, ROOT), node.lineno, local))
+    return sorted(out)
 
 
 def test_no_bare_torch_load():
@@ -86,6 +124,42 @@ def test_no_bare_torch_load():
 
     check("found the load sites", seen >= 8, f"only {seen}")
     check("none bare", not bare, "\n        " + "\n        ".join(bare))
+
+
+def test_torch_hub_load_is_reported_rather_than_conflated():
+    """torch.hub.load runs a repository's hubconf.py. Name the sites.
+
+    This check exists because the file used to fold these into
+    test_no_bare_torch_load, which reported models/tr2m/onnx_export.py:140 and
+    :142 as bare torch.load. They are not: weights_only does not exist on
+    torch.hub.load, so that report could never be acted on, only ignored. It was
+    ignored for free, because nothing in this file asserted.
+
+    Excluding them without saying so would be the worse fix. The exposure is
+    real -- `source="local"` reads a checked-out clone, and the fallback clones
+    and executes a GitHub repository -- so the sites are enumerated here and a
+    new one has to be added deliberately.
+    """
+    # Reviewed 2026-08-14. tr2m loads DINOv2 through torch.hub: once from a
+    # checked-out clone under models/tr2m/.../torchhub, and once from GitHub if
+    # that directory is absent. Both are upstream's own way of getting the
+    # encoder, and this runs only in tr2m's own export environment.
+    REVIEWED = {os.path.join("models", "tr2m", "onnx_export.py"): 2}
+
+    sites = _hub_load_sites()
+    by_file = {}
+    for path, _, _ in sites:
+        by_file[path] = by_file.get(path, 0) + 1
+    check("torch.hub.load sites are the reviewed ones", by_file == REVIEWED,
+          f"found {by_file}, reviewed {REVIEWED}")
+
+    # A site that can only reach GitHub has no offline path at all. Every file
+    # with a remote call must also carry a source="local" one.
+    remote_files = {p for p, _, local in sites if not local}
+    local_files = {p for p, _, local in sites if local}
+    check("every file with a remote torch.hub.load also has a local branch",
+          remote_files <= local_files,
+          f"remote-only: {sorted(remote_files - local_files)}")
 
 
 def test_none_of_them_disable_it():

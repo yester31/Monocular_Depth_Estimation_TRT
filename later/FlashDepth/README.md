@@ -54,7 +54,7 @@ torchrun train.py --config-path configs/flashdepth inference=true eval.random_in
 4. check pytorch model inference performance
 ```
 cd ..
-python ../gen_video2imgs.py
+python ../../tools/retired/gen_video2imgs.py
 python infer.py
 ```
 - 518 x 518 

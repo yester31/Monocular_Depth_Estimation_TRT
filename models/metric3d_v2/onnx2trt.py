@@ -18,9 +18,10 @@ from matplotlib import pyplot as plt
 import cv2
 import numpy as np
 import time
-import common
-from common import *
+from core import common
+from core.common import *
 from core import bench
+from core import preprocess as pp
 
 # Removed: `from unidepth.models.unidepthv2.unidepthv2 import get_paddings,
 # get_resize_factor`. That is UniDepth's code in the Metric3D script, copied
@@ -72,36 +73,26 @@ def main():
     image_file_name = 'example.jpg'
     image_path = os.path.join(_R, 'data', image_file_name)
     raw_image = cv2.imread(image_path)
-    h, w = raw_image.shape[:2]
     print(f'[MDET] original shape : {raw_image.shape}')
 
-    rgb_origin = cv2.cvtColor(raw_image, cv2.COLOR_BGR2RGB)
-    #### ajust input size to fit pretrained model
-    # keep ratio resize
-    input_sizes = (616, 1064) # for vit model
-    # input_sizes = (544, 1216) # for convnext model
-    h, w = rgb_origin.shape[:2]
-    scale = min(input_sizes[0] / h, input_sizes[1] / w)
-    rgb = cv2.resize(rgb_origin, (int(w * scale), int(h * scale)), interpolation=cv2.INTER_LINEAR)
-    # padding to input_size
-    padding = [123.675, 116.28, 103.53]
-    h, w = rgb.shape[:2]
-    pad_h = input_sizes[0] - h
-    pad_w = input_sizes[1] - w
-    pad_h_half = pad_h // 2
-    pad_w_half = pad_w // 2
-    rgb = cv2.copyMakeBorder(rgb, pad_h_half, pad_h - pad_h_half, pad_w_half, pad_w - pad_w_half, cv2.BORDER_CONSTANT, value=padding)
-    pad_info = [pad_h_half, pad_h - pad_h_half, pad_w_half, pad_w - pad_w_half]
-
-    #### normalize
-    # Deliberately none here. Metric3DExportModel.forward() (upstream
+    # This is the only model of the fourteen that keeps the aspect ratio and
+    # pads. core/preprocess.py reproduces both of its quirks rather than tidying
+    # them: the resized size truncates (int(w * scale), not round), and there is
+    # no normalisation at all -- Metric3DExportModel.forward() (upstream
     # onnx/metric3d_onnx_export.py) calls normalize_image() as its first step,
-    # so mean/std are baked into the ONNX graph and it expects raw 0-255 input.
-    # Normalising here as well would apply the statistics twice.
-    x = np.ascontiguousarray(np.transpose(rgb, (2, 0, 1))[None], dtype=np.float32)
+    # so mean/std are baked into the graph and it expects raw 0-255 input.
+    # Normalising here as well would apply the statistics twice. The padding is
+    # the ImageNet mean colour in those same 0-255 units.
+    #
+    # tests/test_preprocess.py asserts np.array_equal against
+    # reports/inputs/metric3d_v2.npy.
+    batch_images, geom = pp.preprocess_for(raw_image, 'metric3d_v2',
+                                           (input_h, input_w))
+    # Same four numbers the inline code produced, now derived from the geometry
+    # preprocessing recorded, so the crop below cannot drift from the pad above.
+    pad_info = [geom.pad_top, geom.pad_bottom, geom.pad_left, geom.pad_right]
 
-    print(f'[MDET] after preprocess shape : {x.shape}')
-    batch_images = np.concatenate([x], axis=0)
+    print(f'[MDET] after preprocess shape : {batch_images.shape}')
 
     # Model and engine paths (ff)
     precision = "fp32"  # 'fp32'
@@ -158,7 +149,9 @@ def main():
     # un pad
     pred_depth = pred_depth[pad_info[0] : pred_depth.shape[0] - pad_info[1], pad_info[2] : pred_depth.shape[1] - pad_info[3]]
     # upsample to original size
-    pred_depth = torch.nn.functional.interpolate(pred_depth[None, None, :, :], rgb_origin.shape[:2], mode='bilinear').squeeze()
+    pred_depth = torch.nn.functional.interpolate(pred_depth[None, None, :, :],
+                                                 (geom.src_h, geom.src_w),
+                                                 mode='bilinear').squeeze()
     ###################### canonical camera space ######################
     # Still canonical here. The de-canonical transform would go on this line;
     # see the WARNING at the top of main() for why it does not.

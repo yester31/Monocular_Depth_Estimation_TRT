@@ -103,13 +103,27 @@ def test_warmup_and_iterations_agree_across_models():
 
 def test_record_names_the_model():
     """The first argument to record() becomes the key in the report, so a
-    copy-paste that leaves the donor's name silently overwrites its file."""
+    copy-paste that leaves the donor's name silently overwrites its file.
+
+    Read out of the syntax tree rather than with a regex. The regex here was
+    `bench\\.record\\(\\s*'([a-z0-9_]+)'` -- single quotes only -- so tr2m and
+    zipdepth, which spell the same call with double quotes, failed the first
+    check and were then skipped by the `continue`. The consequence was not the
+    noisy failure it sounds like: this file never asserted, so what actually
+    happened is that the two newest models were the only two exempt from the
+    check this test exists for.
+    """
     for d, p, src in scripts():
-        m = re.search(r"bench\.record\(\s*'([a-z0-9_]+)'", src)
-        check(f"{d} record() has a literal model key", bool(m), src[:0])
-        if not m:
+        calls = [n for n in ast.walk(ast.parse(src))
+                 if isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute)
+                 and n.func.attr == "record" and n.args]
+        keys = [c.args[0].value for c in calls
+                if isinstance(c.args[0], ast.Constant) and isinstance(c.args[0].value, str)]
+        check(f"{d} record() has a literal model key", bool(keys),
+              f"{len(calls)} record() call(s), none with a string literal first")
+        if not keys:
             continue
-        key, folder = m.group(1), d.lower()
+        key, folder = keys[0], d.lower()
         # unidepth_v2 lives in unidepth_v2; compare.py declares that
         from compare import FOLDER
         expected = {v.lower(): k for k, v in FOLDER.items()}.get(folder, folder)
@@ -134,15 +148,41 @@ def test_record_call_parses():
             check(f"{d} record() passes {required}", required in kw, str(sorted(kw)))
 
 
+def _timed_callable(tree, src):
+    """The source of whatever is handed to bench.measure() as its first argument.
+
+    Two idioms are in use and both are fine: an inline lambda, and a named
+    `def run(): return common.do_inference(...)` defined just above the call.
+    The regex this replaced -- `bench\\.measure\\((.*?)warmup=` -- only understood
+    the first, so for tr2m and zipdepth it captured the four characters `run, `
+    and concluded the timed loop contained no inference at all. Since this file
+    never asserted, the effect was that the two models using the named-function
+    idiom were never checked for post-processing inside the timed loop, which is
+    the exact defect this test was written for after depth_pro.
+    """
+    call = next((n for n in ast.walk(tree)
+                 if isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute)
+                 and n.func.attr == "measure" and n.args), None)
+    if call is None:
+        return None
+    arg = call.args[0]
+    if isinstance(arg, ast.Name):
+        fn = next((n for n in ast.walk(tree)
+                   if isinstance(n, ast.FunctionDef) and n.name == arg.id), None)
+        if fn is None:
+            return None
+        return "\n".join(ast.unparse(b) for b in fn.body)
+    return ast.unparse(arg)
+
+
 def test_measure_wraps_do_inference_only():
     """If post-processing crept back inside the lambda, that model would be
     timing something the others do not. This is what depth_pro did."""
     for d, p, src in scripts():
-        m = re.search(r"bench\.measure\((.*?)warmup=", src, re.S)
-        check(f"{d} measure() body found", bool(m))
-        if not m:
+        body = _timed_callable(ast.parse(src), src)
+        check(f"{d} measure() body found", body is not None)
+        if body is None:
             continue
-        body = m.group(1)
         check(f"{d} measure() wraps only do_inference",
               body.count("do_inference") == 1 and "interpolate" not in body,
               body.strip()[:160])

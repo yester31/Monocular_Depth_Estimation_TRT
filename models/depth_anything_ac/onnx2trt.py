@@ -18,9 +18,10 @@ from matplotlib import pyplot as plt
 import cv2
 import numpy as np
 import time
-import common
-from common import *
+from core import common
+from core.common import *
 from core import bench
+from core import preprocess as pp
 
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -29,32 +30,17 @@ TRT_LOGGER = trt.Logger(trt.Logger.INFO)
 TRT_LOGGER.min_severity = trt.Logger.Severity.INFO
 
     
-def preprocess_image(image, target_size=518):
-    """Preprocess input image.
+# preprocess_image() used to live here and is now core/preprocess.py. This is
+# the model that pins the keep-ratio type: its ceil-to-a-multiple-of-14 rule
+# differs from depth_anything_v2's constrain rule (700 against 686 for a 4:3
+# frame at target 518), and it is the only script whose second profile leaves
+# that rule with real work to do.
+#
+# Its arithmetic is also the reason core/preprocess.py carries dtypes: the /255
+# happens in float32 here and in float64 in its two siblings, and the ImageNet
+# statistics then promote back to float64 in all three. tests/test_preprocess.py
+# asserts np.array_equal against reports/inputs/depth_anything_ac.npy.
 
-    Takes an RGB float image already scaled to 0-1 — the caller does the
-    cvtColor and the /255 (see main()). Do not divide again here.
-    """
-    h, w = image.shape[:2]
-    scale = target_size / min(h, w)
-    new_h, new_w = int(h * scale), int(w * scale)
-
-    new_h = ((new_h + 13) // 14) * 14
-    new_w = ((new_w + 13) // 14) * 14
-    image = cv2.resize(image, (new_w, new_h), interpolation=cv2.INTER_CUBIC)
-
-    mean = np.array([0.485, 0.456, 0.406])
-    std = np.array([0.229, 0.224, 0.225])
-    image = (image - mean) / std
-
-    # PrepareForNet
-    image = np.transpose(image, (2, 0, 1))
-    image = np.ascontiguousarray(image).astype(np.float32)
-
-    # [C, H, W] -> [1, C, H, W]
-    image = np.expand_dims(image, axis=0)
-
-    return image
 
 def main():
 
@@ -79,18 +65,17 @@ def main():
     image_file_name = 'example.jpg'
     image_path = os.path.join(_R, 'data', image_file_name)
     raw_image = cv2.imread(image_path)
-    h, w = raw_image.shape[:2]
     print(f'[MDET] original shape : {raw_image.shape}')
     print(f'[MDET] profile : {profile} -> {input_h}x{input_w}')
-    if profile == 'bench':
-        # Squash to the square the engine expects. preprocess_image()'s
-        # keep-aspect rule then has nothing left to do.
-        raw_image = cv2.resize(raw_image, (input_w, input_h))
-    image = cv2.cvtColor(raw_image, cv2.COLOR_BGR2RGB).astype(np.float32) / 255.0
 
-    input_image = preprocess_image(image, input_h)  # Preprocess image
-    print(f'[MDET] after preprocess shape : {input_image.shape}')
-    batch_images = np.concatenate([input_image], axis=0)
+    # stretch=False is the `native` profile: it hands the source through
+    # untouched so the keep-ratio rule decides the size, which for a 4:3 frame
+    # at target 518 is 518x700. 'bench' squashes to the square first and the
+    # keep-ratio stage then has nothing left to do.
+    batch_images, geom = pp.preprocess_for(raw_image, 'depth_anything_ac',
+                                           (input_h, input_w),
+                                           stretch=(profile == 'bench'))
+    print(f'[MDET] after preprocess shape : {batch_images.shape}')
 
     # Model and engine paths (ff)
     precision = "fp16"  # 'fp32' or 'fp16'
@@ -138,7 +123,10 @@ def main():
         # ===================================================================
         print('[MDET] Post process')
         depth = torch.from_numpy(trt_outputs[0].reshape(output_shape))
-        depth = F.interpolate(depth[:, None], (h, w), mode="bilinear", align_corners=True)[0, 0]
+        # geom.src_* is the size preprocessing recorded, so the map goes back to
+        # the grid it came from rather than to a separately-read shape.
+        depth = F.interpolate(depth[:, None], (geom.src_h, geom.src_w),
+                              mode="bilinear", align_corners=True)[0, 0]
         depth = torch.clamp(depth, min=1e-3, max=1e3)
         depth = torch.squeeze(depth).numpy()
 

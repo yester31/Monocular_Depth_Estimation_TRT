@@ -93,7 +93,7 @@ def add_uint8_input(path, out_path, mean, std, *, scale=255.0, input_name=None,
     transpose. Moving that inside cuts the host-to-device copy to a quarter --
     3.1 MB to 0.8 MB at 518 -- but adds work to the graph, and there is no
     guarantee TensorRT fuses it into the first convolution. Which effect wins
-    is a measurement, not a prediction, which is what ab_input_dtype.py does.
+    is a measurement, not a prediction, which is what tools/retired/ab_input_dtype.py does.
 
     Rewriting the exported graph rather than changing each onnx_export.py is
     deliberate: it keeps the body of the two graphs byte-identical, so a

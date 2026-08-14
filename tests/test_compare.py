@@ -138,7 +138,7 @@ def test_readmes_are_up_to_date():
     from the next run onward, which is what the twelve of them used to do.
     """
     import subprocess
-    r = subprocess.run([sys.executable, os.path.join(ROOT, "compare.py"), "--check"],
+    r = subprocess.run([sys.executable, os.path.join(ROOT, "tools", "compare.py"), "--check"],
                        capture_output=True, text=True, cwd=ROOT)
     check("compare.py --check passes", r.returncode == 0,
           (r.stdout + r.stderr).strip()[-400:])

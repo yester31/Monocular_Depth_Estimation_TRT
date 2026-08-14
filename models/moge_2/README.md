@@ -79,6 +79,7 @@ per-build results, graph counts, and raw JSON are in
     ```
 - 518 x 518 input
 - max : 2.4745407104492188 , min : 0.699651837348938
+- **PyTorch reference · conditions unrecorded · not reproducible** — no JSON backs the three lines below, and the warmup, GPU clock, driver and host were never recorded. Not comparable with the generated TensorRT block at the top of this file.
 - 100 iterations time ((518, 518)): 14.0060 [sec]
 - Average FPS: 7.14 [fps]
 - Average inference time: 140.06 [msec]
@@ -121,6 +122,7 @@ per-build results, graph counts, and raw JSON are in
 > looking at the result, which is why it is disabled rather than half
 > translated. `onnx2trt_pointcloud.py` does not use those calls and works.
 - 518 x 518 input
+- **TensorRT at 518x518 · conditions unrecorded · not reproducible** — the three lines below were measured at a **different input size** from the generated block at the top of this file, which is **388x518**. They are not a before/after of the same work, and no JSON backs them.
 - 100 iterations time ((518, 518)): 4.7010 [sec]
 - Average FPS: 21.27 [fps]
 - Average inference time: 47.01 [msec]
@@ -130,7 +132,7 @@ per-build results, graph counts, and raw JSON are in
     ```
     pip install open3d
     pip install viser
-    python ../gen_video2imgs.py
+    python ../../tools/retired/gen_video2imgs.py
     // change input size in onnx_export.py
     // input_h, input_w = 291, 518
     python onnx_export.py

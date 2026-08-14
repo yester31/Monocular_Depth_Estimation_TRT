@@ -54,7 +54,7 @@ def test_a_verified_claim_has_an_adapter_behind_it():
     table is read out of the source. That is enough: the claim is about which
     models have one.
     """
-    src = open(os.path.join(ROOT, "evaluate_gt.py"), encoding="utf-8").read()
+    src = open(os.path.join(ROOT, "tools", "evaluate_gt.py"), encoding="utf-8").read()
     claimed = {m for m, s in specs().items()
                if "byte-exact" in s.get("preprocess", {}).get("verified", "")}
     unbacked = [m for m in claimed if f'"{m}": {{' not in src]

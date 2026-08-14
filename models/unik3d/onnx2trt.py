@@ -12,15 +12,15 @@ sys.path.insert(1, _R)
 import tensorrt as trt
 import torch
 import torch.nn.functional as F
-import torchvision.transforms.v2.functional as TF
 from matplotlib import pyplot as plt
 
 import cv2
 import numpy as np
 import time
-import common
-from common import *
+from core import common
+from core.common import *
 from core import bench
+from core import preprocess as pp
 
 # get_paddings / get_resize_factor were imported here, but the only place they
 # appear is the ''' ''' block in main() showing the upstream resize rule this
@@ -96,32 +96,28 @@ def main():
     image_file_name = 'example.jpg'
     image_path = os.path.join(_R, 'data', image_file_name)
     raw_image = cv2.imread(image_path)
-    h, w = raw_image.shape[:2]
-    resize_factors = (w/input_w, h/input_h)
-
     print(f'[MDET] original shape : {raw_image.shape}')
-    raw_image = cv2.resize(raw_image, (input_w, input_h))
-    image = cv2.cvtColor(raw_image, cv2.COLOR_BGR2RGB).astype(np.float32) 
-    rgb = torch.from_numpy(image).permute(2, 0, 1) # C, H, W
-    rgb = rgb.unsqueeze(0)
-    rgb = TF.normalize(rgb.float() / 255.0, mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225),)
-    # What upstream unik3d.infer() does instead of the plain resize above.
-    # Deliberately not used: new_H/new_W depend on the source aspect ratio, so
-    # the input shape would vary per image and a static TensorRT engine cannot
-    # accept that. This is the cost recorded in the WARNING at the top of main().
-    '''
-        B, _, H, W = rgb.shape
-        ratio_bounds =  [0.5, 2.5]
-        pixels_bounds= [200000, 600000]
-        paddings, (padded_H, padded_W) = get_paddings((H, W), ratio_bounds)
-        (pad_left, pad_right, pad_top, pad_bottom) = paddings
-        resize_factor, (new_H, new_W) = get_resize_factor((padded_H, padded_W), pixels_bounds)
-        rgb = F.pad(rgb, (pad_left, pad_right, pad_top, pad_bottom), value=0.0)
-        rgb = F.interpolate(rgb, size=(new_H, new_W), mode="bilinear", align_corners=False)
-    '''
-    x = rgb.cpu().numpy()
-    print(f'[MDET] after preprocess shape : {x.shape}')
-    batch_images = np.concatenate([x], axis=0)
+
+    # The stretch, the /255 and the ImageNet statistics are core/preprocess.py's
+    # now. All three steps run in float32 here, matching torchvision's
+    # TF.normalize on a float tensor bit for bit -- IEEE subtract and divide are
+    # exact, so "matching" is byte equality and not a tolerance.
+    # tests/test_preprocess.py asserts np.array_equal against
+    # reports/inputs/unik3d.npy.
+    #
+    # What upstream unik3d.infer() does instead is pad the aspect ratio into
+    # [0.5, 2.5] and scale the pixel count into [200000, 600000]. Deliberately
+    # not used: new_H/new_W depend on the source aspect ratio, so the input shape
+    # would vary per image and a static TensorRT engine cannot accept that. This
+    # is the cost recorded in the WARNING at the top of main(). For a 4:3 source
+    # the rule lands on 672x896, which is what is built.
+    batch_images, geom = pp.preprocess_for(raw_image, 'unik3d',
+                                           (input_h, input_w))
+    # The intrinsics rescale below needs how far the source was squashed, which
+    # is the geometry preprocessing just recorded rather than a second reading
+    # of the same two shapes.
+    resize_factors = (geom.src_w / geom.dst_w, geom.src_h / geom.dst_h)
+    print(f'[MDET] after preprocess shape : {batch_images.shape}')
 
     # Model and engine paths
     precision = "fp16"  # 'fp32' or 'fp16'
@@ -199,7 +195,8 @@ def main():
         # ===================================================================
         print('[MDET] Post process')
         points = torch.from_numpy(trt_outputs[0].reshape(output_shape))
-        points = F.interpolate(points, (h, w), mode="bilinear", align_corners=False)
+        points = F.interpolate(points, (geom.src_h, geom.src_w),
+                               mode="bilinear", align_corners=False)
         depth = points[:, -1:]
         depth = torch.clamp(depth, min=1e-3, max=1e3)
         depth = torch.squeeze(depth).numpy()

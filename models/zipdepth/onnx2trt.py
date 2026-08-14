@@ -29,24 +29,22 @@ matplotlib.use("Agg")  # non-GUI mode
 import numpy as np  # noqa: E402
 from matplotlib import pyplot as plt  # noqa: E402
 
-import common  # noqa: E402
-from common import *  # noqa: E402,F401,F403
+from core import common  # noqa: E402
+from core.common import *  # noqa: E402,F401,F403
 from core import bench  # noqa: E402
+from core import preprocess as pp  # noqa: E402
 
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
-def preprocess_image(raw_bgr, input_h, input_w):
-    """BGR uint8 -> float32 NCHW in [0, 1]. No mean, no standard deviation.
-
-    Upstream's predictor does exactly this: BGR to RGB, divide by 255, and
-    stop. The resize matches its rule -- short side to 384, both sides a
-    multiple of 32 -- which for a 4:3 source is the 384x512 the engine is
-    built for, so this is that rule with the arithmetic already done.
-    """
-    img = cv2.resize(raw_bgr, (input_w, input_h), interpolation=cv2.INTER_AREA)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB).astype(np.float32) / 255.0
-    return np.ascontiguousarray(img.transpose(2, 0, 1)[None])
+# preprocess_image() is now core/preprocess.py. Upstream's predictor does BGR to
+# RGB, divide by 255, and stop -- no mean, no standard deviation. Applying the
+# ImageNet statistics here would not crash; it would score badly and look like a
+# weak model, which is what tests/test_preprocess_spec.py guards against. The
+# INTER_AREA stretch matches upstream's rule (short side to 384, both sides a
+# multiple of 32) with the arithmetic already done for a 4:3 source.
+# tests/test_preprocess.py asserts np.array_equal against
+# reports/inputs/zipdepth.npy.
 
 
 def main():
@@ -73,7 +71,8 @@ def main():
         raise FileNotFoundError(f"[MDET] could not read {image_path}")
     ori_shape = raw_image.shape[:2]
     print(f"[MDET] original image size : {ori_shape}")
-    batch_images = preprocess_image(raw_image, input_h, input_w)
+    batch_images, geom = pp.preprocess_for(raw_image, 'zipdepth',
+                                           (input_h, input_w))
     print(f"[MDET] after preprocess shape : {batch_images.shape}")
 
     with get_engine(onnx_model_path, engine_file_path, precision) as engine, \

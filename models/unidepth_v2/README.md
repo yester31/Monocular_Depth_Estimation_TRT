@@ -63,6 +63,7 @@ cd ..
 python infer.py
 ```
 - encoder: vitb, input size: 518 x 518 
+- **PyTorch reference · conditions unrecorded · not reproducible** — no JSON backs the three lines below, and the warmup, GPU clock, driver and host were never recorded. Not comparable with the generated TensorRT block at the top of this file.
 - 100 iterations time: 5.8027 [sec]
 - Average FPS: 17.23 [fps]
 - Average inference time: 58.03 [msec]
@@ -87,6 +88,7 @@ python onnx2trt.py
 // a file '.engine' will be generated in engine directory.
 ```
 - encoder: vitb, input size: 518 x 518 
+- **TensorRT at 518x518 · conditions unrecorded · not reproducible** — the three lines below were measured at a **different input size** from the generated block at the top of this file, which is **672x896**. They are not a before/after of the same work, and no JSON backs them.
 - 100 iterations time: 2.7127 [sec]
 - Average FPS: 36.86 [fps]
 - Average inference time: 27.13 [msec]

@@ -53,6 +53,7 @@ cd ..
 python infer.py
 ```
 - 518 x 518 input
+- **PyTorch reference · conditions unrecorded · not reproducible** — no JSON backs the three lines below, and the warmup, GPU clock, driver and host were never recorded. Not comparable with the generated TensorRT block at the top of this file.
 - 10 iterations time : 394.1773 [sec]
 - Average FPS: 0.03 [fps]
 - Average Latency: 39417.73 [msec]
@@ -77,9 +78,7 @@ python onnx2trt.py
 // a file '.engine' will be generated in engine directory.
 ```
 - 518 x 518 input
-- 100 iterations time: 17.3173 [sec]
-- Average FPS: 5.77 [fps]
-- Average Latency: 173.17 [msec]
+- Timing: the generated block at the top of this file, from `reports/bench/`. An unrecorded run of this same engine used to be quoted here and disagreed with it.
 
 ## License
 

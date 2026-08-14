@@ -1,0 +1,53 @@
+"""Cut a video into per-frame PNGs under video_frames/.
+
+    python tools/retired/gen_video2imgs.py
+
+Reads video/video2.mp4 at the repository root and writes video_frames/ beside
+it. Paths are resolved from ROOT, not from the working directory, so it does
+the same thing from anywhere.
+"""
+
+import os
+import cv2
+
+def extract_frames_from_video(video_path, save_folder, max_count = None):
+    # Create output folder if it doesn't exist
+    if max_count is not None:
+        save_folder = f"{save_folder}_{max_count}"
+
+    os.makedirs(save_folder, exist_ok=True)
+
+    # Open video file
+    cap = cv2.VideoCapture(video_path)
+    if max_count is None:
+        max_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+
+    if not cap.isOpened():
+        print("Cannot open video:", video_path)
+        return
+
+    frame_count = 0
+    while True:
+        ret, frame = cap.read()
+        if not ret:
+            break  # No more frames
+
+        # Save frame as PNG
+        output_path = os.path.join(save_folder, f"frame_{frame_count:05d}.png")
+        cv2.imwrite(output_path, frame)
+        frame_count += 1
+
+        if frame_count > max_count:
+            break
+
+    cap.release()
+    print(f"Saved {frame_count} frames.")
+
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+if __name__ == "__main__":
+
+    save_folder = os.path.join(ROOT, 'video_frames')
+
+    extract_frames_from_video(f"{ROOT}/video/video2.mp4", save_folder)
+    # extract_frames_from_video(f"{ROOT}/video/video2.mp4", save_folder, 10)

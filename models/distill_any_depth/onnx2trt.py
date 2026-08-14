@@ -21,9 +21,10 @@ import matplotlib
 import cv2
 import numpy as np
 import time
-import common
-from common import *
+from core import common
+from core.common import *
 from core import bench
+from core import preprocess as pp
 
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -32,42 +33,15 @@ TRT_LOGGER = trt.Logger(trt.Logger.INFO)
 TRT_LOGGER.min_severity = trt.Logger.Severity.INFO
 
 
-def constrain_to_multiple_of(x, min_val=0, max_val=None, ensure_multiple_of=14):
-    y = (np.round(x / ensure_multiple_of) * ensure_multiple_of).astype(int)
+# constrain_to_multiple_of() and preprocess_image() are now core/preprocess.py.
+# Worth naming what this model's second stage actually was: it derives a scale
+# per axis and snaps each independently, so unlike depth_anything_v2 it does not
+# preserve the aspect ratio -- it is a stretch with the sides rounded to 14.
+# core/preprocess.py calls that type `snap` rather than folding it into
+# keep_ratio, because at a size that is not already a multiple of 14 the two
+# disagree. tests/test_preprocess.py asserts np.array_equal against
+# reports/inputs/distill_any_depth.npy.
 
-    if max_val is not None and y > max_val:
-        y = (np.floor(x / ensure_multiple_of) * ensure_multiple_of).astype(int)
-
-    if y < min_val:
-        y = (np.ceil(x / ensure_multiple_of) * ensure_multiple_of).astype(int)
-
-    return y
-
-def preprocess_image(raw_image, input_h=518, input_w=518, precision=torch.float32):
-
-    image = cv2.cvtColor(raw_image, cv2.COLOR_BGR2RGB) / 255.0
-    
-    width, height = image.shape[1], image.shape[0]
-    scale_height = input_h / height
-    scale_width = input_w / width 
-
-    new_height = constrain_to_multiple_of(scale_height * height, min_val=input_h)
-    new_width = constrain_to_multiple_of(scale_width * width, min_val=input_w)
-
-    # resize sample
-    image = cv2.resize(image, (new_width, new_height), interpolation=cv2.INTER_CUBIC)
-
-    # NormalizeImage
-    image = (image - [0.485, 0.456, 0.406]) / [0.229, 0.224, 0.225]
-
-    # PrepareForNet
-    image = np.transpose(image, (2, 0, 1))
-    image = np.ascontiguousarray(image).astype(np.float32)
-
-    # [C, H, W] -> [1, C, H, W]
-    image = np.expand_dims(image, axis=0)
-
-    return image
 
 def main():
     save_dir_path = os.path.join(CUR_DIR, 'results')
@@ -79,13 +53,11 @@ def main():
     image_file_name = 'example.jpg'
     image_path = os.path.join(_R, 'data', image_file_name)
     raw_img = cv2.imread(image_path)
-    h, w = raw_img.shape[:2]
     print(f'original shape : {raw_img.shape}')
-    raw_img = cv2.resize(raw_img, (input_w, input_h))
 
-    input_image = preprocess_image(raw_img, input_h, input_w)  # Preprocess image
-    print(f'after preprocess shape : {input_image.shape}')
-    batch_images = np.concatenate([input_image], axis=0)
+    batch_images, geom = pp.preprocess_for(raw_img, 'distill_any_depth',
+                                           (input_h, input_w))
+    print(f'after preprocess shape : {batch_images.shape}')
 
     # Model and engine paths
     precision = "fp16"  # Choose 'fp32' or 'fp16'
@@ -149,7 +121,8 @@ def main():
 
     color_depth = (cmap(depth_normalized)[..., :3] * 255).astype(np.uint8)
     color_depth_bgr = cv2.cvtColor(color_depth, cv2.COLOR_RGB2BGR)    
-    color_depth_bgr = cv2.resize(color_depth_bgr, (w, h), cv2.INTER_LINEAR)
+    color_depth_bgr = cv2.resize(color_depth_bgr, (geom.src_w, geom.src_h),
+                                 cv2.INTER_LINEAR)
 
     # save colored depth image 
     cv2.imwrite(output_file_depth, color_depth_bgr)

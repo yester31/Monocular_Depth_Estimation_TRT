@@ -3,7 +3,7 @@
 A model's input size lives in its onnx_export.py as a literal, and a size sweep
 has to change it without editing the file everyone else uses. The substitution
 is pure text, so it lives here where it can be tested without TensorRT, a GPU,
-or even OpenCV -- which is what the rest of size_sweep.py needs.
+or even OpenCV -- which is what the rest of tools/size_sweep.py needs.
 
 Getting this wrong is quiet in the worst way: a pattern that fails to match
 would export the model at its original size, produce a second identical engine,

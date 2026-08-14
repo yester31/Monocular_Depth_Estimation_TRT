@@ -21,8 +21,8 @@ import utils3d
 import open3d as o3d
 import viser
 
-import common
-from common import *
+from core import common
+from core.common import *
 
 from MoGe.moge.utils.geometry_torch import recover_focal_shift
 

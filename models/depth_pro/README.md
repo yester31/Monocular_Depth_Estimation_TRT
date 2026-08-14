@@ -51,6 +51,7 @@ python infer.py
 ```
 - 1536 x 1536 input
 - writes `results/example_Torch.jpg`    
+- **PyTorch reference · conditions unrecorded · not reproducible** — no JSON backs the three lines below, and the warmup, GPU clock, driver and host were never recorded. Not comparable with the generated TensorRT block at the top of this file.
 - 20 iterations time: 124.4491 [sec]   
 - Average FPS: 0.16 [fps]   
 - Average inference time: 6222.46 [msec]   
@@ -77,9 +78,7 @@ python onnx2trt.py
 ```
 - 1536 x 1536 input
 - writes `results/example_TRT.jpg`  
-- 20 iterations time: 14.1636 [sec]
-- Average FPS: 1.41 [fps]
-- Average inference time: 708.18 [msec]
+- Timing: the generated block at the top of this file, from `reports/bench/`. An unrecorded run of this same engine used to be quoted here and disagreed with it.
 
 2-2. build tensorrt model and run video process
 

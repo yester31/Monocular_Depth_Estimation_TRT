@@ -1,0 +1,8 @@
+{
+  "model": "tr2m",
+  "status": "not_measured",
+  "reason_code": "different_contract",
+  "reason": "tools/profile_model.py fills binding 0 and nothing else. tr2m is the only two-input engine here -- image plus a [1,1,768] CLIP text embedding -- and timing it with the second binding left at whatever the allocator returned would be a profile of a computation nobody ran. The profiler has to learn extra inputs first; reports/inputs/tr2m__text_features.npy is already there for it to use.",
+  "see": "docs/model_contracts.md section 1 (extra inputs)",
+  "recorded": "2026-08-14"
+}

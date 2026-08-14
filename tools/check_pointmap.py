@@ -64,7 +64,7 @@ def main():
 
     import torch
 
-    import common
+    from core import common
     import evaluate_gt as ev
     from core import bench, pointmap
 

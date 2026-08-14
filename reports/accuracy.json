@@ -370,5 +370,23 @@
     ],
     "worst_rel": 0.0009316693986692499,
     "verdict": "ok"
+  },
+  {
+    "model": "zipdepth",
+    "status": "not_measured",
+    "reason_code": "not_run",
+    "reason": "The engine, its ONNX and the byte-identical input (reports/inputs/zipdepth.npy) all exist; verify_accuracy.py has never been run against them on a machine with TensorRT.",
+    "see": "PLAN.md section 7, desktop item 4",
+    "recorded": "2026-08-14",
+    "command": "python tools/verify_accuracy.py zipdepth --json"
+  },
+  {
+    "model": "tr2m",
+    "status": "not_measured",
+    "reason_code": "not_run",
+    "reason": "Two-input graph, and both inputs are recorded (reports/inputs/tr2m.npy and tr2m__text_features.npy), so the ONNX reference can be fed exactly what the engine was fed. Nothing blocks it; it has not been run. The prompt contract that blocks the ground-truth score does not apply here, because the embedding this engine was benchmarked with is committed beside the image tensor.",
+    "see": "PLAN.md section 7, desktop item 4",
+    "recorded": "2026-08-14",
+    "command": "python tools/verify_accuracy.py tr2m --json"
   }
 ]

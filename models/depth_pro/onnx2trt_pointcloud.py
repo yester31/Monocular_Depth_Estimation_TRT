@@ -11,8 +11,8 @@ while not os.path.isdir(os.path.join(_R, "core")) and os.path.dirname(_R) != _R:
 sys.path.insert(1, _R)
 
 import tensorrt as trt
-import common
-from common import *
+from core import common
+from core.common import *
 
 import torch
 from torchvision.transforms import (

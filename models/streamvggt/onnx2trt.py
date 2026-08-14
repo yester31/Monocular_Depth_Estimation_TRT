@@ -18,9 +18,10 @@ from matplotlib import pyplot as plt
 import cv2
 import numpy as np
 import time
-import common
-from common import *
+from core import common
+from core.common import *
 from core import bench
+from core import preprocess as pp
 
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -41,48 +42,32 @@ def main():
     image_path = os.path.join(_R, 'data', image_file_name)
     raw_image = cv2.imread(image_path)
     print('[MDET] Pre process')
-    height, width = raw_image.shape[:2]
-    print(f"[MDET] original image size : {height, width}")
-    img = cv2.cvtColor(raw_image, cv2.COLOR_BGR2RGB) 
+    print(f"[MDET] original image size : {raw_image.shape[:2]}")
 
-    # Make the image square by padding the shorter dimension
-    max_dim = max(width, height)
-
-    # Calculate padding
-    left = (max_dim - width) // 2
-    top = (max_dim - height) // 2
-
-    # Resize straight to the network size. This used to go via target_size=1024
-    # and then downscale to 518, copied from VGGT's
+    # core/preprocess.py's `square_pad` type, shared with vggt: pad the shorter
+    # dimension white, then one cubic resize straight to the network size.
+    #
+    # Upstream load_fn.py pads WHITE (value=1.0 on a 0-1 tensor); this was black,
+    # which is a different input to the network wherever the source is not
+    # already square. The single resize used to go via target_size=1024 and then
+    # downscale to 518, copied from VGGT's
     # load_and_preprocess_images_square(target_size=1024). StreamVGGT upstream
     # has no such function -- its load_fn.py only ever uses 518 -- and the extra
     # hop cannot improve quality: upsampling then downsampling with a
     # non-antialiased bilinear only loses detail and costs a full 1024x1024
     # cubic resize per frame. It also left the coordinates on a 1024 grid while
     # the output was 518, which the postprocess then approximated by halving.
-    scale = input_w / max_dim
+    #
+    # tests/test_preprocess.py asserts np.array_equal against
+    # reports/inputs/streamvggt.npy.
+    batch_images, geom = pp.preprocess_for(raw_image, 'streamvggt',
+                                           (input_h, input_w))
 
-    # Final coordinates of the original image inside the network input
-    x1 = left * scale
-    y1 = top * scale
-    x2 = (left + width) * scale
-    y2 = (top + height) * scale
-
-    # Store original image coordinates and scale
-    original_coords.append(np.array([x1, y1, x2, y2, width, height]))
-
-    # Pad to a square. Upstream load_fn.py pads WHITE (value=1.0 on a 0-1
-    # tensor); this was black, which is a different input to the network
-    # wherever the source is not already square.
-    padding = [255, 255, 255]
-    img = cv2.copyMakeBorder(img, top, top, left, left, cv2.BORDER_CONSTANT, value=padding)
-
-    rgb = cv2.resize(img, (input_w, input_h), interpolation=cv2.INTER_CUBIC)
-
-    # Convert to tensor
-    rgb = torch.from_numpy(rgb.transpose((2, 0, 1))).float() / 255.0
-    batch_images = rgb.unsqueeze(0).unsqueeze(0)
-    batch_images = batch_images.cpu().numpy()
+    # Where the real image sits inside the network input, in sub-pixel
+    # coordinates on the output grid. Geometry.box is the same four floats the
+    # inline arithmetic produced; the crop below still rounds them itself.
+    x1, y1, x2, y2 = geom.box
+    original_coords.append(np.array([x1, y1, x2, y2, geom.src_w, geom.src_h]))
 
     # Model and engine paths
     onnx_dtype_fp16 = True
