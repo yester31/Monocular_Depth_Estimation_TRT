@@ -1,0 +1,146 @@
+[
+  {
+    "model": "depth_anything_v3",
+    "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\depth_anything_v3\\onnx\\DA3METRIC-LARGE_518x518_sim.onnx",
+    "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\depth_anything_v3\\engine\\tune\\DA3METRIC-LARGE_518x518_sim_fp16_opt4_wsd.engine",
+    "precision": "fp16",
+    "opt_level": 4,
+    "workspace_gib": null,
+    "repeat": 1,
+    "stats": {
+      "iterations": 100,
+      "warmup": 0,
+      "mean_ms": 19.7845,
+      "min_ms": 19.6654,
+      "p50_ms": 19.7873,
+      "p90_ms": 19.8312,
+      "p99_ms": 19.8672,
+      "max_ms": 19.9704,
+      "stdev_ms": 0.0418,
+      "fps": 50.54
+    },
+    "environment": {
+      "versions": {
+        "torch": "2.11.0+cu128",
+        "cuda": "12.8",
+        "tensorrt": "10.16.1.11",
+        "python": "3.11.15"
+      },
+      "device": "NVIDIA GeForce RTX 3080",
+      "driver": "591.86",
+      "clock_mhz": 1800,
+      "clock_max_mhz": 2130
+    },
+    "profile_summary": {
+      "layers_profiled": 224,
+      "layers_in_engine": 224,
+      "profile_total_ms": 18.5952,
+      "benchmark_mean_ms": null,
+      "top10_share": 0.15,
+      "fp32_output_share": 0.0055,
+      "movement_share": 0.0046,
+      "layer_types": {
+        "kgen": 80,
+        "gemm": 72,
+        "CaskConvolution": 28,
+        "fusion": 24,
+        "Resize": 5,
+        "NoOp": 3,
+        "Reformat": 3,
+        "CaskGemmConvolution": 3,
+        "PointWiseV2": 3,
+        "CaskDeconvolutionV2": 2,
+        "CaskJitConv": 1
+      },
+      "layer_precisions": {
+        "Half": 217,
+        "Float": 7
+      }
+    },
+    "layer_type_time_shares": {
+      "CaskConvolution": 0.20010399999999998,
+      "fusion": 0.18468100000000004,
+      "gemm": 0.36680699999999977,
+      "Resize": 0.014417000000000001,
+      "kgen": 0.21420100000000003,
+      "CaskJitConv": 0.005132,
+      "Reformat": 0.004627999999999999,
+      "CaskDeconvolutionV2": 0.00511,
+      "CaskGemmConvolution": 0.003585,
+      "PointWiseV2": 0.0013269999999999998,
+      "NoOp": 0.0
+    }
+  },
+  {
+    "model": "depth_anything_v3",
+    "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\depth_anything_v3\\onnx\\DA3METRIC-LARGE_518x518_sim.onnx",
+    "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\depth_anything_v3\\engine\\tune\\DA3METRIC-LARGE_518x518_sim_fp16_opt5_wsd.engine",
+    "precision": "fp16",
+    "opt_level": 5,
+    "workspace_gib": null,
+    "repeat": 1,
+    "stats": {
+      "iterations": 100,
+      "warmup": 0,
+      "mean_ms": 19.7073,
+      "min_ms": 19.6027,
+      "p50_ms": 19.7007,
+      "p90_ms": 19.7837,
+      "p99_ms": 19.8277,
+      "max_ms": 19.8339,
+      "stdev_ms": 0.0597,
+      "fps": 50.74
+    },
+    "environment": {
+      "versions": {
+        "torch": "2.11.0+cu128",
+        "cuda": "12.8",
+        "tensorrt": "10.16.1.11",
+        "python": "3.11.15"
+      },
+      "device": "NVIDIA GeForce RTX 3080",
+      "driver": "591.86",
+      "clock_mhz": 1800,
+      "clock_max_mhz": 2130
+    },
+    "profile_summary": {
+      "layers_profiled": 227,
+      "layers_in_engine": 227,
+      "profile_total_ms": 18.534,
+      "benchmark_mean_ms": null,
+      "top10_share": 0.1513,
+      "fp32_output_share": 0.0058,
+      "movement_share": 0.005,
+      "layer_types": {
+        "kgen": 80,
+        "gemm": 72,
+        "CaskConvolution": 27,
+        "fusion": 24,
+        "NoOp": 6,
+        "Resize": 5,
+        "Reformat": 3,
+        "CaskGemmConvolution": 3,
+        "PointWiseV2": 3,
+        "CaskDeconvolutionV2": 2,
+        "CaskJitConv": 2
+      },
+      "layer_precisions": {
+        "Half": 221,
+        "Float": 6
+      }
+    },
+    "layer_type_time_shares": {
+      "CaskConvolution": 0.197014,
+      "fusion": 0.18790499999999996,
+      "Resize": 0.014492,
+      "gemm": 0.363285,
+      "kgen": 0.21257500000000004,
+      "CaskJitConv": 0.009812,
+      "Reformat": 0.005013,
+      "CaskDeconvolutionV2": 0.005105,
+      "CaskGemmConvolution": 0.0034800000000000005,
+      "PointWiseV2": 0.00131,
+      "NoOp": 0.0
+    }
+  }
+]

@@ -1,0 +1,158 @@
+[
+  {
+    "model": "unik3d",
+    "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\unik3d\\onnx\\unik3d_vits_672x896_dynamo.onnx",
+    "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\unik3d\\engine\\tune\\unik3d_vits_672x896_dynamo_fp16_opt4_wsd.engine",
+    "precision": "fp16",
+    "opt_level": 4,
+    "workspace_gib": null,
+    "repeat": 1,
+    "stats": {
+      "iterations": 100,
+      "warmup": 0,
+      "mean_ms": 18.2927,
+      "min_ms": 18.1164,
+      "p50_ms": 18.2944,
+      "p90_ms": 18.3641,
+      "p99_ms": 18.5399,
+      "max_ms": 18.6534,
+      "stdev_ms": 0.0778,
+      "fps": 54.67
+    },
+    "environment": {
+      "versions": {
+        "torch": "2.11.0+cu128",
+        "cuda": "12.8",
+        "tensorrt": "10.16.1.11",
+        "python": "3.11.15"
+      },
+      "device": "NVIDIA GeForce RTX 3080",
+      "driver": "591.86",
+      "clock_mhz": 1800,
+      "clock_max_mhz": 2130
+    },
+    "profile_summary": {
+      "layers_profiled": 337,
+      "layers_in_engine": 337,
+      "profile_total_ms": 16.7877,
+      "benchmark_mean_ms": null,
+      "top10_share": 0.1487,
+      "fp32_output_share": 0.0136,
+      "movement_share": 0.067,
+      "layer_types": {
+        "kgen": 128,
+        "gemm": 63,
+        "fusion": 42,
+        "wait": 35,
+        "signal": 28,
+        "correlation": 14,
+        "Reformat": 12,
+        "Resize": 7,
+        "Slice": 4,
+        "CaskDeconvolutionV2": 3,
+        "PointWiseV2": 1
+      },
+      "layer_precisions": {
+        "Half": 264,
+        "?": 63,
+        "Float": 10
+      }
+    },
+    "layer_type_time_shares": {
+      "fusion": 0.179529,
+      "correlation": 0.10700699999999999,
+      "kgen": 0.4431050000000001,
+      "Slice": 0.038666,
+      "Resize": 0.029450000000000004,
+      "gemm": 0.16725999999999996,
+      "Reformat": 0.028346,
+      "CaskDeconvolutionV2": 0.006264,
+      "PointWiseV2": 0.000372,
+      "signal": 0.0,
+      "wait": 0.0
+    }
+  },
+  {
+    "model": "unik3d",
+    "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\unik3d\\onnx\\unik3d_vits_672x896_dynamo.onnx",
+    "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\unik3d\\engine\\tune\\unik3d_vits_672x896_dynamo_fp16_opt5_wsd.engine",
+    "precision": "fp16",
+    "opt_level": 5,
+    "workspace_gib": null,
+    "repeat": 1,
+    "stats": {
+      "iterations": 100,
+      "warmup": 0,
+      "mean_ms": 20.9645,
+      "min_ms": 18.2835,
+      "p50_ms": 18.5371,
+      "p90_ms": 25.7152,
+      "p99_ms": 29.492,
+      "max_ms": 35.0852,
+      "stdev_ms": 3.5567,
+      "fps": 47.7
+    },
+    "environment": {
+      "versions": {
+        "torch": "2.11.0+cu128",
+        "cuda": "12.8",
+        "tensorrt": "10.16.1.11",
+        "python": "3.11.15"
+      },
+      "device": "NVIDIA GeForce RTX 3080",
+      "driver": "591.86",
+      "clock_mhz": 1800,
+      "clock_max_mhz": 2130
+    },
+    "profile_summary": {
+      "layers_profiled": 333,
+      "layers_in_engine": 333,
+      "profile_total_ms": 20.1471,
+      "benchmark_mean_ms": null,
+      "top10_share": 0.1717,
+      "fp32_output_share": 0.0186,
+      "movement_share": 0.1152,
+      "layer_types": {
+        "kgen": 116,
+        "fusion": 58,
+        "gemm": 39,
+        "wait": 34,
+        "signal": 24,
+        "Reformat": 18,
+        "CaskConvolution": 18,
+        "Resize": 7,
+        "PointWiseV2": 4,
+        "Slice": 4,
+        "CaskDeconvolutionV2": 3,
+        "CaskJitConv": 3,
+        "NoOp": 2,
+        "Constant": 1,
+        "Shuffle": 1,
+        "CaskGemmConvolution": 1
+      },
+      "layer_precisions": {
+        "Half": 263,
+        "?": 58,
+        "Float": 12
+      }
+    },
+    "layer_type_time_shares": {
+      "Slice": 0.04692700000000001,
+      "CaskConvolution": 0.15739000000000003,
+      "kgen": 0.3706050000000002,
+      "fusion": 0.19230400000000009,
+      "CaskJitConv": 0.024222999999999998,
+      "Reformat": 0.06747,
+      "Resize": 0.029017,
+      "gemm": 0.094336,
+      "CaskDeconvolutionV2": 0.009992,
+      "PointWiseV2": 0.006144999999999999,
+      "Shuffle": 0.000808,
+      "CaskGemmConvolution": 0.000778,
+      "Constant": 0.0,
+      "signal": 0.0,
+      "wait": 0.0,
+      "NoOp": 0.0
+    }
+  }
+]
