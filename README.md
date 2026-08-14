@@ -143,6 +143,53 @@ metric 배율이 3.1배 어긋났는데, 모델 성질이 아니라 크기를 �
 
 ---
 
+## 같은 사진, 15개 모델
+
+![depth comparison](reports/demo/example/example_depth.png)
+
+`data/example.jpg` 한 장을 15개 모델에 넣은 결과다. `python demo.py --live` 가
+그렸고, 화면의 모든 숫자는 `spec.json` 과 `reports/bench/` 에서 읽는다.
+
+**표가 세 덩어리로 갈려 있는 것이 이 그림의 요점이다.** 결과마다 자기 최소·최대로
+색을 칠하면 열다섯 장이 전부 비슷해 보인다 — 남는 것이 깊이의 *모양*뿐이고,
+metric 모델이 주장하는 **미터**가 정규화로 지워지기 때문이다.
+
+| 구역 | 무엇 |
+| --- | --- |
+| `metric depth — one range, one unit, comparable` | 7개. 공통 컬러바 0.30–2.10 m |
+| `relative depth — own axis, NOT metres` | 3개. 각자의 축, 다른 색상표 |
+| `global scale unknown` | `vggt` · `streamvggt`. 정규화 좌표계라 단위가 없다 |
+
+### 이 그림이 말해주는 것 세 가지
+
+**`metric3d_v2` 의 검은 칸은 버그가 아니다.** 그 모델은 canonical depth 를 내므로
+미터로 바꾸려면 **실제 초점거리(픽셀)** 가 필요하고, 임의의 사진에는 그 값이 없다.
+그림은 빈칸으로 두는 대신 이유를 적는다 — `reports/gt.md` 에서 1위권인 모델이
+여기서는 아무것도 못 그린다는 것이 이 저장소가 기록하려는 종류의 사실이다.
+
+**속도와 그림은 다른 이야기를 한다.** `depth_pro` 는 1536×1536 으로 242 ms 를
+쓰고 가장 선명한 경계를 만든다. `zipdepth` 는 384×512 로 2.77 ms 다. 어느 쪽이
+"낫다" 고 말하려면 무엇에 쓰는지를 먼저 말해야 한다.
+
+**두 모델은 그려지지 않았고 그 이유가 그림 안에 있다** — `hyden` 과 `tr2m` 은
+`evaluate_gt.py` 에 어댑터가 없어 출력 계약이 검증되지 않았다. 빠진 것을 조용히
+빼지 않는다.
+
+### 다시 그리기
+
+```bash
+python demo.py --live --image data/example.jpg --out reports/demo/example
+python demo.py --synthetic          # GPU·엔진 없이 배치만 확인
+```
+
+포인트클라우드(`--from-saved` 로 재사용할 배열, `.ply`)는 저장소에 넣지 않는다.
+한 파일이 99 MB 이고 다시 만들 수 있기 때문이다.
+
+세 종횡비(4:3 · 16:9 · 세로)로 같은 비교를 한 것은
+[`reports/demo/live/`](reports/demo/live/) 에 있다.
+
+---
+
 ## 성능
 
 <!-- BENCH:BEGIN -->
