@@ -95,7 +95,7 @@ ONNX 내보내기는 업스트림 패키지가, 엔진 빌드는 TensorRT 가 �
 | 모델 | 변환 문서 | 입력 | 출력 | 업스트림 라이선스 |
 | :--- | :--- | :--- | :--- | :--- |
 | **Depth Anything V2** | [→](models/depth_anything_v2/README.md) | 518×518 | 기본 metric(hypersim), relative 체크포인트도 있음 | Apache-2.0 (코드) / **CC BY-NC 4.0** (Base·Large 가중치) |
-| **Depth Anything V3** | [→](models/depth_anything_v3/README.md) | 518×518 | relative + 하늘 마스크 | Apache-2.0 |
+| **Depth Anything V3** | [→](models/depth_anything_v3/README.md) | 518×518 | metric + 하늘 마스크 | Apache-2.0 |
 | **Depth Anything AC** | [→](models/depth_anything_ac/README.md) | 518×518 | relative | **라이선스 파일 없음** |
 | **Distill Any Depth** | [→](models/distill_any_depth/README.md) | 518×518 | relative | MIT |
 | **ZipDepth** | [→](models/zipdepth/README.md) | **384×512** | affine-invariant 역깊이. **여기서 유일한 합성곱 모델**(6.1M) | 모델 README 참조 |
@@ -108,6 +108,34 @@ ONNX 내보내기는 업스트림 패키지가, 엔진 빌드는 TensorRT 가 �
 | **TR2M** | [→](models/tr2m/README.md) | **434×560** | metric. **입력이 둘 — 이미지 + 텍스트 프롬프트** | 업스트림 LICENSE 없음 / pos_embed.py 는 CC BY-NC-SA |
 | **VGGT** | [→](models/vggt/README.md) | 518×518 | geometry, **전역 배율 없음**(정규화 좌표) | VGGT License (Meta 자체) |
 | **StreamVGGT** | [→](models/streamvggt/README.md) | 518×518 | geometry, **전역 배율 없음** | **CC BY-NC-SA 4.0** |
+
+### 인코더·체크포인트 선택
+
+여기서 `사용 가능`은 **업스트림이 실제 가중치를 공개했고 이 저장소의 모델 로더가
+그 구성을 알고 있다**는 뜻이다. 클래스 안에 이름만 정의돼 있거나 체크포인트가
+`Coming soon`인 구성은 포함하지 않는다. 현재 발표 엔진과 정확도 표는 전부
+`현재 사용` 열의 구성만 측정한 결과다. 다른 인코더로 바꾸면 새 ONNX·엔진을 만들고
+속도와 정확도를 다시 검증해야 한다.
+
+지금은 CLI 옵션이 없으므로 각 모델의 `onnx_export.py`와 `onnx2trt.py`에 있는
+상수를 함께 바꿔야 한다. 한쪽만 바꾸면 다른 체크포인트의 엔진을 잘못 읽을 수 있다.
+
+| 모델 | 현재 사용 | 사용 가능한 인코더·변형 | 설명 |
+| :--- | :--- | :--- | :--- |
+| **Depth Anything V2** | `vits` | `vits`, `vitb`, `vitl` | DINOv2 Small/Base/Large. `vitg` 코드 구성은 있지만 공식 Giant 체크포인트는 아직 `Coming soon`이므로 사용 가능 목록에서 제외 |
+| **Depth Anything V3** | `DA3Metric-Large` | `DA3Metric-Large` | 이 저장소가 통합한 metric Large 체크포인트 한 종류 |
+| **Depth Anything AC** | `vits` | `vits` | 로더에는 Base/Large 형상도 있으나 공개·확인된 AC 체크포인트는 Small뿐 |
+| **Distill Any Depth** | `small` | `small`, `base`, `large` | 각각 Depth Anything 계열 ViT-S/ViT-B/ViT-L 체크포인트. 이름은 인코더명보다 업스트림 체크포인트 변형명에 가깝다 |
+| **ZipDepth** | `base` | `base` | `base_npu`는 같은 6.1M 구조의 연산자 구현 차이이며 별도 인코더가 아님 |
+| **Depth Pro** | 고정 | 선택 없음 | patch/image/FoV 경로가 모두 `dinov2l16_384`인 단일 공개 체크포인트 |
+| **Metric3D V2** | `vits` | `vits`, `vitl`, `vitg2` | ViT-S는 RAFT 4회, ViT-L은 8회라 단순한 백본 크기 교체만은 아님. ConvNeXt-T/L은 별도 V1 계열 |
+| **Metric Anything** | 고정 | 선택 없음 | `student_pointmap.pt` 단일 체크포인트 |
+| **MoGe-2** | `vits` | `vits`, `vitb`, `vitl` | 현재 엔진은 normal head를 포함한 `vits-normal` 변형 |
+| **UniDepth V2** | `vits` | `vits`, `vitb`, `vitl` | DINOv2 ViT-S/B/L 계열 |
+| **UniK3D** | `vits` | `vits`, `vitb`, `vitl` | DINOv2 ViT-S/B/L 계열 |
+| **TR2M** | 고정 조합 | 선택 없음 | Depth Anything ViT-S + DINOv2 ViT-L + CLIP ViT-L/14. 공개된 ScaleMap head가 이 조합 하나라 일부만 바꿀 수 없음 |
+| **VGGT** | 고정 | 선택 없음 | VGGT-1B 단일 체크포인트; 별도 encoder 인자를 노출하지 않음 |
+| **StreamVGGT** | 고정 | 선택 없음 | 공개 StreamVGGT 체크포인트 한 종류 |
 
 `unidepth_v2` · `unik3d` 의 672×896 은 원래 518 이었다. 518 을 강제했을 때
 metric 배율이 3.1배 어긋났는데, 모델 성질이 아니라 크기를 강제한 대가였다
@@ -203,3 +231,4 @@ Depth Anything V2 는 코드가 Apache-2.0 이지만 Base·Large 가중치는 CC
 | [`docs/setup.md`](docs/setup.md) | 환경 구성 상세와 알려진 함정 |
 | [`tools/README.md`](tools/README.md) | 각 도구가 무엇이고 어떻게 쓰나. 끝난 질문에 답한 도구는 답까지 |
 | [`docs/demo.md`](docs/demo.md) | `demo.py` 사용법 |
+| [`docs/later_candidates.md`](docs/later_candidates.md) | `later/` 16개 후보의 범위·통합 난이도·추천 순위 |

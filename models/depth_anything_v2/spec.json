@@ -47,10 +47,10 @@
     "available": [
       "vits",
       "vitb",
-      "vitg"
+      "vitl"
     ],
     "smallest": "vits",
-    "source": "upstream clone, checked 2026-08-13"
+    "source": "official Depth Anything V2 README, checked 2026-08-14: Small/Base/Large checkpoints are released; vitg is present in the architecture config but the official Giant checkpoint is still marked Coming soon"
   },
   "depth_scale": "metric",
   "preprocess": {
