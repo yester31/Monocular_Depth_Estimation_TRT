@@ -1,0 +1,11 @@
+{
+  "model": "vggt",
+  "status": "not_measured",
+  "reason_code": "unsupported",
+  "reason": "The output is a normalised coordinate frame: the point map was divided by the average Euclidean distance of its points to the origin (arXiv:2503.11651), so the depth channel is in units of one average scene distance and not in metres. Scoring it in this table would report the missing unit as error.",
+  "see": "docs/findings.md P3; tests/test_scale_only.py",
+  "recorded": "2026-08-14",
+  "measured_instead": "reports/gt_scale_only.md",
+  "measured_instead_status": "completed 2026-08-14 over 50 DIODE indoor images",
+  "command": "python tools/evaluate_gt.py --manifest data/eval/diode_indoors.json --root <DIODE-val-root> --scale-only"
+}

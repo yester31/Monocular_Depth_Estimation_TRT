@@ -1,0 +1,217 @@
+{
+  "reference": "moge-2_vits_normal_388x518_dynamo_sim.onnx",
+  "results": [
+    {
+      "name": "moge-2_vits_normal_388x518_ab_dynamo.onnx",
+      "outputs": [
+        {
+          "index": 0,
+          "shape": [
+            1,
+            388,
+            518,
+            3
+          ],
+          "relative_mean": 1.3705134139655046e-07,
+          "max_abs": 2.6226043701171875e-06,
+          "correlation": 0.999999999999979,
+          "finite_fraction": 1.0
+        },
+        {
+          "index": 1,
+          "shape": [
+            1,
+            388,
+            518,
+            3
+          ],
+          "relative_mean": 4.963714983265975e-07,
+          "max_abs": 6.459653377532959e-06,
+          "correlation": 0.9999999999997414,
+          "finite_fraction": 1.0
+        },
+        {
+          "index": 2,
+          "shape": [
+            1,
+            388,
+            518
+          ],
+          "relative_mean": 2.6100216175494687e-08,
+          "max_abs": 2.384185791015625e-07,
+          "correlation": 0.9999999876056267,
+          "finite_fraction": 1.0
+        },
+        {
+          "index": 3,
+          "shape": [
+            1
+          ],
+          "relative_mean": 3.1346815947170164e-07,
+          "max_abs": 3.5762786865234375e-07,
+          "correlation": null,
+          "finite_fraction": 1.0
+        }
+      ]
+    },
+    {
+      "name": "moge-2_vits_normal_388x518_ab_dynamo_sim.onnx",
+      "outputs": [
+        {
+          "index": 0,
+          "shape": [
+            1,
+            388,
+            518,
+            3
+          ],
+          "relative_mean": 0.0,
+          "max_abs": 0.0,
+          "correlation": 0.9999999999999998,
+          "finite_fraction": 1.0
+        },
+        {
+          "index": 1,
+          "shape": [
+            1,
+            388,
+            518,
+            3
+          ],
+          "relative_mean": 0.0,
+          "max_abs": 0.0,
+          "correlation": 0.9999999999999999,
+          "finite_fraction": 1.0
+        },
+        {
+          "index": 2,
+          "shape": [
+            1,
+            388,
+            518
+          ],
+          "relative_mean": 0.0,
+          "max_abs": 0.0,
+          "correlation": 1.0,
+          "finite_fraction": 1.0
+        },
+        {
+          "index": 3,
+          "shape": [
+            1
+          ],
+          "relative_mean": 0.0,
+          "max_abs": 0.0,
+          "correlation": null,
+          "finite_fraction": 1.0
+        }
+      ]
+    },
+    {
+      "name": "moge-2_vits_normal_388x518_ab_legacy.onnx",
+      "outputs": [
+        {
+          "index": 0,
+          "shape": [
+            1,
+            388,
+            518,
+            3
+          ],
+          "relative_mean": 1.5234208359060557e-07,
+          "max_abs": 2.384185791015625e-06,
+          "correlation": 0.9999999999999809,
+          "finite_fraction": 1.0
+        },
+        {
+          "index": 1,
+          "shape": [
+            1,
+            388,
+            518,
+            3
+          ],
+          "relative_mean": 5.234447458499734e-07,
+          "max_abs": 7.331371307373047e-06,
+          "correlation": 0.9999999999997207,
+          "finite_fraction": 1.0
+        },
+        {
+          "index": 2,
+          "shape": [
+            1,
+            388,
+            518
+          ],
+          "relative_mean": 2.7652218712269875e-08,
+          "max_abs": 3.5762786865234375e-07,
+          "correlation": 0.9999999868643958,
+          "finite_fraction": 1.0
+        },
+        {
+          "index": 3,
+          "shape": [
+            1
+          ],
+          "relative_mean": 3.1346815947170164e-07,
+          "max_abs": 3.5762786865234375e-07,
+          "correlation": null,
+          "finite_fraction": 1.0
+        }
+      ]
+    },
+    {
+      "name": "moge-2_vits_normal_388x518_ab_legacy_sim.onnx",
+      "outputs": [
+        {
+          "index": 0,
+          "shape": [
+            1,
+            388,
+            518,
+            3
+          ],
+          "relative_mean": 1.1599452483788174e-07,
+          "max_abs": 2.7418136596679688e-06,
+          "correlation": 0.9999999999999873,
+          "finite_fraction": 1.0
+        },
+        {
+          "index": 1,
+          "shape": [
+            1,
+            388,
+            518,
+            3
+          ],
+          "relative_mean": 4.753097794517478e-07,
+          "max_abs": 5.140900611877441e-06,
+          "correlation": 0.9999999999997603,
+          "finite_fraction": 1.0
+        },
+        {
+          "index": 2,
+          "shape": [
+            1,
+            388,
+            518
+          ],
+          "relative_mean": 2.658660718644659e-08,
+          "max_abs": 2.384185791015625e-07,
+          "correlation": 0.9999999873662365,
+          "finite_fraction": 1.0
+        },
+        {
+          "index": 3,
+          "shape": [
+            1
+          ],
+          "relative_mean": 7.314257054339705e-07,
+          "max_abs": 8.344650268554688e-07,
+          "correlation": null,
+          "finite_fraction": 1.0
+        }
+      ]
+    }
+  ]
+}

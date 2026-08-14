@@ -1,0 +1,13 @@
+{
+  "model": "tr2m",
+  "status": "not_measured",
+  "reason_code": "different_contract",
+  "reason": "Needs one text prompt per image and a way to put its embedding into the engine's second binding, and evaluate_gt.py has neither. The prompt policy, the sentences and the committed embeddings are specified but do not exist yet, and a tr2m row without a policy name is not a publishable number.",
+  "see": "docs/model_contracts.md, final section: tr2m evaluation contract",
+  "recorded": "2026-08-14",
+  "blocked_on": [
+    "data/eval manifest with prompt_policy and prompts",
+    "data/eval/<manifest>__<policy>_text_features.npy",
+    "evaluate_gt.py support for a second engine input"
+  ]
+}

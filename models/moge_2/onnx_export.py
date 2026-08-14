@@ -1,0 +1,133 @@
+# by yhpark 2025-7-28
+import os
+os.environ['XFORMERS_DISABLED'] = '1'   # Disable xformers
+import torch
+import onnx
+from onnxsim import simplify
+from typing import *
+import torch.nn.functional as F
+
+from infer import set_model as load_model
+
+CUR_DIR = os.path.dirname(os.path.abspath(__file__))
+DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+#DEVICE = torch.device("cpu")
+print(f"[MDET] using device: {DEVICE}")
+
+class MoGeModelWrapper(torch.nn.Module):
+    def __init__(self, model: torch.nn.Module, num_tokens: int = 1800):
+        super().__init__()
+        self.model = model  # 내부에 모델 보관
+        # This must be wrapper state, not a non-tensor export argument.
+        # Dynamo specializes a Python int passed to torch.onnx.export, while
+        # the TorchScript exporter exposes it as a second graph input. The
+        # TensorRT runner intentionally supplies only the image, and the engine
+        # is fixed-size, so both exporters need to see the same constant here.
+        self.num_tokens = int(num_tokens)
+
+    def forward(self, image: torch.Tensor) -> Dict[str, torch.Tensor]:
+        original_interpolate = F.interpolate
+
+        def safe_interpolate(*args, **kwargs):
+            kwargs['antialias'] = False
+            return original_interpolate(*args, **kwargs)
+
+        F.interpolate = safe_interpolate
+        try:
+            out = self.model(image, self.num_tokens)
+        finally:
+            F.interpolate = original_interpolate
+
+        return out
+
+def export_variant(*, input_h, input_w, encoder, normal, dynamo, onnx_sim,
+                   model_name):
+    """Export one explicitly named graph without changing the published one."""
+    print('[MDET] Load model')
+    save_path = os.path.join(CUR_DIR, 'onnx')
+    os.makedirs(save_path, exist_ok=True)
+
+    num_tokens = 1800 # [1200, 3600]
+    model = load_model(encoder, normal)
+    wrapped_model = MoGeModelWrapper(model, num_tokens=num_tokens)
+    export_model_path = os.path.join(save_path, f'{model_name}.onnx')
+    dummy_input = torch.randn((1, 3, input_h, input_w), requires_grad=False).to(DEVICE)
+
+    # num_tokens lives on the wrapper as a plain Python int, so both exporters
+    # fold it into the graph as a constant. Two reasons:
+    #
+    # 1. As an export argument it becomes a second input under the TorchScript
+    #    exporter (Dynamo specializes it). onnx2trt.py only ever supplies the
+    #    image, so exporter choice would otherwise change the input contract.
+    # 2. MoGe derives its internal resize resolution from num_tokens. With a
+    #    runtime value that resolution is an unbacked symbol, and the dynamo
+    #    export dies inside DINOv2's patch embedding:
+    #        GuardOnDataDependentSymNode: Could not guard on data-dependent
+    #        expression Eq(Mod(u0, 14), 0)
+    #    which is the `H % patch_H == 0` assert unable to see a real height.
+    #
+    # The engine is a fixed 388x518 anyway, so there was nothing to vary.
+    with torch.no_grad():  # Disable gradients for efficiency
+        torch.onnx.export(
+            wrapped_model,
+            dummy_input,
+            export_model_path,
+            input_names=['image'],
+            output_names=['points', 'normal', 'mask', 'metric_scale'],
+            opset_version=20,
+            dynamo=dynamo,
+        )
+    print(f"ONNX model exported to: {export_model_path}")
+
+    print("[MDET] Validate exported onnx model")
+    onnx_model = onnx.load(export_model_path)
+    onnx.checker.check_model(onnx_model)
+
+    for input in onnx_model.graph.input:
+        print(f"[MDET] Input: {input.name}")
+        for d in input.type.tensor_type.shape.dim:
+            print("[MDET] dim_value:", d.dim_value, "dim_param:", d.dim_param)
+
+    for output in onnx_model.graph.output:
+        print(f"[MDET] Output: {output.name}")
+        for d in output.type.tensor_type.shape.dim:
+            print("[MDET] dim_value:", d.dim_value, "dim_param:", d.dim_param)
+
+    paths = [export_model_path]
+    if onnx_sim:
+        print("[MDET] Simplify exported onnx model")
+        model_simplified, check = simplify(onnx_model)
+        if not check:
+            raise RuntimeError("[MDET] Simplified model is invalid.")
+        export_model_sim_path = os.path.join(save_path, f'{model_name}_sim.onnx')
+        onnx.save(model_simplified, export_model_sim_path)
+        onnx.checker.check_model(export_model_sim_path)
+        paths.append(export_model_sim_path)
+        print(f"[MDET] simplified onnx model saved to: {export_model_sim_path}")
+    return paths
+
+
+def main ():
+    # Must match onnx2trt.py: the model name embeds the resolution, so a
+    # mismatch means onnx2trt.py looks for an ONNX that was never written.
+    # This said 291x518 (16:9) while onnx2trt.py said 388x518 (4:3).
+    #
+    # MoGe sizes its input from the image aspect ratio, so the fixed size we
+    # export has to be chosen for one: 518 on the long side gives 388 for 4:3
+    # and 291 for 16:9. data/example.jpg is 3024x2268, i.e. 4:3.
+    input_h, input_w = 388, 518 # 4:3; use 291, 518 for 16:9
+    encoder = 'vits' # 'vitl' or 'vitb', 'vits'
+    normal = True # True or False
+    dynamo = True      # True or False
+    onnx_sim = True    # True or False
+    model_name = f"moge-2_{encoder}"
+    model_name = f"{model_name}_normal" if normal else model_name
+    model_name = f"{model_name}_{input_h}x{input_w}"
+    model_name = f"{model_name}_dynamo" if dynamo else model_name
+    export_variant(input_h=input_h, input_w=input_w, encoder=encoder,
+                   normal=normal, dynamo=dynamo, onnx_sim=onnx_sim,
+                   model_name=model_name)
+
+
+if __name__ == "__main__":
+    main()

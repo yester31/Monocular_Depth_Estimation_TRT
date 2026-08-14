@@ -1,0 +1,76 @@
+[
+  {
+    "model": "vggt",
+    "onnx_path": ".\\models\\vggt\\onnx\\vggt_only_depth_518x518_fp16\\vggt_only_depth_518x518_fp16.onnx",
+    "engine_path": ".\\models\\vggt\\engine\\tune\\vggt_only_depth_518x518_fp16_fp16_opt4_wsd.engine",
+    "precision": "fp16",
+    "opt_level": 4,
+    "workspace_gib": null,
+    "repeat": 1,
+    "stats": {
+      "iterations": 100,
+      "warmup": 0,
+      "mean_ms": 52.162,
+      "min_ms": 52.0206,
+      "p50_ms": 52.1614,
+      "p90_ms": 52.2298,
+      "p99_ms": 52.2999,
+      "max_ms": 52.3284,
+      "stdev_ms": 0.0606,
+      "fps": 19.17
+    },
+    "environment": {
+      "versions": {
+        "torch": "2.11.0+cu128",
+        "cuda": "12.8",
+        "tensorrt": "10.16.1.11",
+        "python": "3.11.15"
+      },
+      "device": "NVIDIA GeForce RTX 3080",
+      "driver": "591.86",
+      "clock_mhz": 1800,
+      "clock_max_mhz": 2130
+    },
+    "profile_summary": {
+      "layers_profiled": 715,
+      "layers_in_engine": 715,
+      "profile_total_ms": 52.7453,
+      "benchmark_mean_ms": null,
+      "top10_share": 0.0602,
+      "fp32_output_share": 0.0412,
+      "movement_share": 0.0006,
+      "layer_types": {
+        "kgen": 374,
+        "fusion": 168,
+        "gemm": 120,
+        "CaskConvolution": 28,
+        "NoOp": 7,
+        "Resize": 5,
+        "PointWiseV2": 3,
+        "CaskGemmConvolution": 3,
+        "Constant": 2,
+        "Reformat": 2,
+        "CaskDeconvolutionV2": 2,
+        "Shuffle": 1
+      },
+      "layer_precisions": {
+        "Half": 654,
+        "Float": 61
+      }
+    },
+    "layer_type_time_shares": {
+      "CaskConvolution": 0.06833299999999999,
+      "PointWiseV2": 0.008464,
+      "kgen": 0.2991769999999989,
+      "fusion": 0.3918179999999996,
+      "gemm": 0.22303399999999984,
+      "Resize": 0.005096000000000001,
+      "CaskDeconvolutionV2": 0.001761,
+      "CaskGemmConvolution": 0.001681,
+      "Reformat": 0.000421,
+      "Shuffle": 0.000221,
+      "Constant": 0.0,
+      "NoOp": 0.0
+    }
+  }
+]

@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "name": "unik3d",
+  "env": "unik3d",
+  "input": {
+    "name": "rgbs",
+    "rank": 4,
+    "dtype": "float32",
+    "layout": "NCHW"
+  },
+  "outputs": [
+    {
+      "name": "pts_3d",
+      "meaning": "point map"
+    },
+    {
+      "name": "confidence",
+      "meaning": "confidence"
+    }
+  ],
+  "profiles": {
+    "bench": {
+      "size": [
+        672,
+        896
+      ]
+    }
+  },
+  "build_targets": [
+    {
+      "profile": "bench",
+      "precision": "fp16"
+    }
+  ],
+  "caveats": [
+    "672x896 because that is what the model's own resize rule returns for a 4:3 source -- aspect preserved, pixel count into [200000, 600000], multiple of 14. Running it at 518x518 told it that was the native resolution, it inferred the focal length from that, and the metric depth came out 3.1x upstream. That was the cost of the override, not a conversion defect. One engine covers a fixed-resolution dataset; a different source aspect ratio needs a different build",
+    "exported with antialias disabled; TensorRT cannot parse antialias=1"
+  ],
+  "encoder": {
+    "used": "vits",
+    "available": [
+      "vits",
+      "vitb",
+      "vitl"
+    ],
+    "smallest": "vits",
+    "source": "upstream clone, checked 2026-08-13"
+  },
+  "depth_scale": "metric",
+  "preprocess": {
+    "type": "stretch",
+    "normalise": "imagenet",
+    "interpolation": "linear",
+    "verified": "within 1e-4 against reports/inputs/unik3d.npy via evaluate_gt's adapter (max abs diff 4.768e-7)",
+    "adapter_check": {"oracle": "reports/inputs/unik3d.npy", "max_abs_diff": 4.768e-7, "atol": 1e-4}
+  }
+}

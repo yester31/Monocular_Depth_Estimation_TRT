@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "name": "streamvggt",
+  "env": "streamvggt",
+  "input": {
+    "name": "images",
+    "rank": 5,
+    "dtype": "float32",
+    "layout": "NSCHW"
+  },
+  "outputs": [
+    {
+      "name": "depth",
+      "meaning": "depth; global scale unknown"
+    }
+  ],
+  "profiles": {
+    "bench": {
+      "size": [
+        518,
+        518
+      ]
+    }
+  },
+  "build_targets": [
+    {
+      "profile": "bench",
+      "precision": "fp16"
+    }
+  ],
+  "caveats": [
+    "cartesian_prod is replaced at export time; TorchScript has no symbolic for it (core/export_compat.no_cartesian_prod)"
+  ],
+  "encoder": {
+    "used": "fixed",
+    "available": [
+      "fixed"
+    ],
+    "smallest": "fixed",
+    "source": "upstream clone, checked 2026-08-13"
+  },
+  "depth_scale": "unknown",
+  "preprocess": {
+    "type": "keep_ratio_pad",
+    "normalise": "over_255",
+    "interpolation": "cubic",
+    "note": "square pad first, then resize; scale = size / max_dim",
+    "verified": "exact against reports/inputs/streamvggt.npy via evaluate_gt's adapter",
+    "adapter_check": {"oracle": "reports/inputs/streamvggt.npy", "max_abs_diff": 0.0, "atol": 1e-4}
+  }
+}

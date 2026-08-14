@@ -1,0 +1,146 @@
+[
+  {
+    "model": "distill_any_depth",
+    "onnx_path": ".\\models\\distill_any_depth\\onnx\\distill_any_depth_small_518x518_dynamo_sim.onnx",
+    "engine_path": ".\\models\\distill_any_depth\\engine\\tune\\distill_any_depth_small_518x518_dynamo_sim_fp16_opt4_wsd.engine",
+    "precision": "fp16",
+    "opt_level": 4,
+    "workspace_gib": null,
+    "repeat": 1,
+    "stats": {
+      "iterations": 100,
+      "warmup": 0,
+      "mean_ms": 4.304,
+      "min_ms": 4.2107,
+      "p50_ms": 4.3106,
+      "p90_ms": 4.343,
+      "p99_ms": 4.3827,
+      "max_ms": 4.4422,
+      "stdev_ms": 0.037,
+      "fps": 232.34
+    },
+    "environment": {
+      "versions": {
+        "torch": "2.11.0+cu128",
+        "cuda": "12.8",
+        "tensorrt": "10.16.1.11",
+        "python": "3.11.15"
+      },
+      "device": "NVIDIA GeForce RTX 3080",
+      "driver": "591.86",
+      "clock_mhz": 1800,
+      "clock_max_mhz": 2130
+    },
+    "profile_summary": {
+      "layers_profiled": 136,
+      "layers_in_engine": 136,
+      "profile_total_ms": 3.6898,
+      "benchmark_mean_ms": null,
+      "top10_share": 0.1754,
+      "fp32_output_share": 0.0152,
+      "movement_share": 0.0197,
+      "layer_types": {
+        "kgen": 41,
+        "gemm": 36,
+        "CaskConvolution": 26,
+        "fusion": 12,
+        "Resize": 5,
+        "CaskGemmConvolution": 4,
+        "PointWiseV2": 4,
+        "NoOp": 3,
+        "Reformat": 2,
+        "CaskDeconvolutionV2": 2,
+        "CaskJitConv": 1
+      },
+      "layer_precisions": {
+        "Half": 131,
+        "Float": 5
+      }
+    },
+    "layer_type_time_shares": {
+      "CaskConvolution": 0.221933,
+      "gemm": 0.315124,
+      "Reformat": 0.019664,
+      "CaskDeconvolutionV2": 0.018982,
+      "kgen": 0.241633,
+      "PointWiseV2": 0.024116,
+      "Resize": 0.0353,
+      "fusion": 0.100908,
+      "CaskGemmConvolution": 0.017373,
+      "CaskJitConv": 0.004968,
+      "NoOp": 0.0
+    }
+  },
+  {
+    "model": "distill_any_depth",
+    "onnx_path": ".\\models\\distill_any_depth\\onnx\\distill_any_depth_small_518x518_dynamo_sim.onnx",
+    "engine_path": ".\\models\\distill_any_depth\\engine\\tune\\distill_any_depth_small_518x518_dynamo_sim_fp16_opt5_wsd.engine",
+    "precision": "fp16",
+    "opt_level": 5,
+    "workspace_gib": null,
+    "repeat": 1,
+    "stats": {
+      "iterations": 100,
+      "warmup": 0,
+      "mean_ms": 4.3332,
+      "min_ms": 4.2085,
+      "p50_ms": 4.3258,
+      "p90_ms": 4.3722,
+      "p99_ms": 4.566,
+      "max_ms": 4.6766,
+      "stdev_ms": 0.0574,
+      "fps": 230.78
+    },
+    "environment": {
+      "versions": {
+        "torch": "2.11.0+cu128",
+        "cuda": "12.8",
+        "tensorrt": "10.16.1.11",
+        "python": "3.11.15"
+      },
+      "device": "NVIDIA GeForce RTX 3080",
+      "driver": "591.86",
+      "clock_mhz": 1800,
+      "clock_max_mhz": 2130
+    },
+    "profile_summary": {
+      "layers_profiled": 138,
+      "layers_in_engine": 138,
+      "profile_total_ms": 3.637,
+      "benchmark_mean_ms": null,
+      "top10_share": 0.1819,
+      "fp32_output_share": 0.0153,
+      "movement_share": 0.0152,
+      "layer_types": {
+        "kgen": 41,
+        "gemm": 36,
+        "CaskConvolution": 24,
+        "fusion": 12,
+        "CaskGemmConvolution": 6,
+        "NoOp": 5,
+        "Resize": 5,
+        "PointWiseV2": 4,
+        "Reformat": 2,
+        "CaskDeconvolutionV2": 2,
+        "CaskJitConv": 1
+      },
+      "layer_precisions": {
+        "Half": 133,
+        "Float": 5
+      }
+    },
+    "layer_type_time_shares": {
+      "CaskConvolution": 0.211164,
+      "gemm": 0.3281529999999999,
+      "kgen": 0.2476830000000002,
+      "CaskDeconvolutionV2": 0.017907,
+      "Reformat": 0.015160999999999999,
+      "Resize": 0.026888,
+      "fusion": 0.10133,
+      "PointWiseV2": 0.017849999999999998,
+      "CaskGemmConvolution": 0.028491,
+      "CaskJitConv": 0.005378,
+      "NoOp": 0.0
+    }
+  }
+]

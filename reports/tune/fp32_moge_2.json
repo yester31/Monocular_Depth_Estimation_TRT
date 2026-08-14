@@ -1,0 +1,79 @@
+[
+  {
+    "model": "moge_2",
+    "onnx_path": ".\\models\\moge_2\\onnx\\moge-2_vits_normal_388x518_dynamo_sim.onnx",
+    "engine_path": ".\\models\\moge_2\\engine\\tune\\moge-2_vits_normal_388x518_dynamo_sim_fp16_as_fp32_optd_wsd.engine",
+    "precision": "fp32",
+    "opt_level": null,
+    "workspace_gib": null,
+    "repeat": 1,
+    "stats": {
+      "iterations": 100,
+      "warmup": 0,
+      "mean_ms": 41.9032,
+      "min_ms": 41.6832,
+      "p50_ms": 41.8432,
+      "p90_ms": 42.1505,
+      "p99_ms": 42.2449,
+      "max_ms": 42.4124,
+      "stdev_ms": 0.1671,
+      "fps": 23.86
+    },
+    "environment": {
+      "versions": {
+        "torch": "2.11.0+cu128",
+        "cuda": "12.8",
+        "tensorrt": "10.16.1.11",
+        "python": "3.11.15"
+      },
+      "device": "NVIDIA GeForce RTX 3080",
+      "driver": "591.86",
+      "clock_mhz": 1800,
+      "clock_max_mhz": 2130
+    },
+    "profile_summary": {
+      "layers_profiled": 316,
+      "layers_in_engine": 316,
+      "profile_total_ms": 40.2188,
+      "benchmark_mean_ms": null,
+      "top10_share": 0.1352,
+      "fp32_output_share": 1.0,
+      "movement_share": 0.0933,
+      "layer_types": {
+        "kgen": 80,
+        "gemm": 72,
+        "CaskConvolution": 58,
+        "Slice": 40,
+        "PointWiseV2": 17,
+        "CaskDeconvolutionV2": 12,
+        "Reformat": 10,
+        "Resize": 8,
+        "NoOp": 6,
+        "Scale": 4,
+        "Constant": 3,
+        "Reduce": 2,
+        "CaskGemmConvolution": 2,
+        "Shuffle": 2
+      },
+      "layer_precisions": {
+        "Float": 316
+      }
+    },
+    "layer_type_time_shares": {
+      "CaskConvolution": 0.44811100000000004,
+      "Slice": 0.08554699999999997,
+      "Scale": 0.013959999999999998,
+      "kgen": 0.126752,
+      "Resize": 0.028751000000000002,
+      "CaskDeconvolutionV2": 0.05246100000000001,
+      "gemm": 0.2147579999999999,
+      "PointWiseV2": 0.017956,
+      "CaskGemmConvolution": 0.003058,
+      "Reformat": 0.007128999999999999,
+      "Reduce": 0.000876,
+      "Shuffle": 0.000642,
+      "Constant": 0.0,
+      "NoOp": 0.0
+    }
+  }
+]

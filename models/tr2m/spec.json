@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "name": "tr2m",
+  "env": "tr2m",
+  "input": {
+    "name": "image",
+    "rank": 4,
+    "dtype": "float32",
+    "layout": "NCHW"
+  },
+  "extra_inputs": [
+    {
+      "name": "text_features",
+      "rank": 3,
+      "dtype": "float32",
+      "shape": [
+        1,
+        1,
+        768
+      ],
+      "meaning": "CLIP embedding of the prompt, computed outside the engine"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "metric_depth",
+      "meaning": "metric depth in metres"
+    },
+    {
+      "name": "relative_depth",
+      "meaning": "the Depth Anything prediction the scale map is applied to"
+    },
+    {
+      "name": "scale_map",
+      "meaning": "per-pixel scale A"
+    },
+    {
+      "name": "shift_map",
+      "meaning": "per-pixel shift B"
+    }
+  ],
+  "profiles": {
+    "bench": {
+      "size": [
+        434,
+        560
+      ]
+    }
+  },
+  "build_targets": [
+    {
+      "profile": "bench",
+      "precision": "fp16"
+    }
+  ],
+  "caveats": [
+    "the only two-input model here: image plus a [1,1,768] CLIP text embedding. CLIP is not in the engine, so the prompt is fixed at export time and its embedding is committed as text_features.npy",
+    "434x560, not the 518x518 the rest use, so a frames-per-second comparison is between different amounts of work",
+    "upstream has NO LICENSE file at all, and its pos_embed.py carries 'Copyright (C) 2022-present Naver Corporation. All rights reserved. Licensed under CC BY-NC-SA 4.0 (non-commercial use only)'. Read from the repository 2026-08-14. The clone stays out of this repository and nothing is vendored, which is what keeps that away from this repository's MIT",
+    "metric depth is produced from a relative model by predicting a per-pixel scale and shift, so its errors are those of Depth Anything plus those of the rescaling"
+  ],
+  "encoder": {
+    "used": "vits",
+    "available": [
+      "vits"
+    ],
+    "smallest": "vits",
+    "source": "upstream repository, read 2026-08-14: one checkpoint is released, weights/da_s_vitl_vitl.pth = Depth Anything ViT-S + DINOv2 ViT-L + CLIP ViT-L/14. No other size is published"
+  },
+  "depth_scale": "metric",
+  "preprocess": {
+    "type": "stretch",
+    "normalise": "imagenet",
+    "interpolation": "area",
+    "verified": "transcribed from onnx2trt.py; no ground-truth adapter checks it yet"
+  }
+}

@@ -1,0 +1,84 @@
+[
+  {
+    "model": "vggt",
+    "onnx_path": ".\\models\\vggt\\onnx\\vggt_only_depth_518x518_fp16\\vggt_only_depth_518x518_fp16.onnx",
+    "engine_path": ".\\models\\vggt\\engine\\tune\\vggt_only_depth_518x518_fp16_fp16_opt5_wsd.engine",
+    "precision": "fp16",
+    "opt_level": 5,
+    "workspace_gib": null,
+    "repeat": 1,
+    "stats": {
+      "iterations": 100,
+      "warmup": 0,
+      "mean_ms": 100.9284,
+      "min_ms": 100.2432,
+      "p50_ms": 100.8934,
+      "p90_ms": 101.2289,
+      "p99_ms": 101.363,
+      "max_ms": 101.3701,
+      "stdev_ms": 0.2155,
+      "fps": 9.91
+    },
+    "environment": {
+      "versions": {
+        "torch": "2.11.0+cu128",
+        "cuda": "12.8",
+        "tensorrt": "10.16.1.11",
+        "python": "3.11.15"
+      },
+      "device": "NVIDIA GeForce RTX 3080",
+      "driver": "591.86",
+      "clock_mhz": 1800,
+      "clock_max_mhz": 2130
+    },
+    "profile_summary": {
+      "layers_profiled": 7715,
+      "layers_in_engine": 7715,
+      "profile_total_ms": 145.7435,
+      "benchmark_mean_ms": null,
+      "top10_share": 0.0205,
+      "fp32_output_share": 0.1468,
+      "movement_share": 0.2906,
+      "layer_types": {
+        "NoOp": 1858,
+        "PointWiseV2": 1527,
+        "Reformat": 1276,
+        "kgen": 990,
+        "Constant": 561,
+        "wait": 396,
+        "signal": 320,
+        "gemm": 288,
+        "Slice": 232,
+        "Shuffle": 227,
+        "CaskConvolution": 28,
+        "Resize": 5,
+        "CaskGemmConvolution": 3,
+        "Fill": 2,
+        "CaskDeconvolutionV2": 2
+      },
+      "layer_precisions": {
+        "Half": 5612,
+        "Float": 1383,
+        "?": 716,
+        "Int64": 4
+      }
+    },
+    "layer_type_time_shares": {
+      "CaskConvolution": 0.024862999999999993,
+      "PointWiseV2": 0.22571300000000105,
+      "Shuffle": 0.05826800000000008,
+      "Reformat": 0.1911630000000002,
+      "gemm": 0.2140549999999998,
+      "Resize": 0.001838,
+      "kgen": 0.24156200000000125,
+      "Slice": 0.04118300000000011,
+      "CaskDeconvolutionV2": 0.000636,
+      "CaskGemmConvolution": 0.0006349999999999999,
+      "Fill": 7.999999999999999e-05,
+      "Constant": 0.0,
+      "NoOp": 0.0,
+      "signal": 0.0,
+      "wait": 0.0
+    }
+  }
+]

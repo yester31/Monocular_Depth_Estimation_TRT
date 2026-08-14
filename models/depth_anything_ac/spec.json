@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "name": "depth_anything_ac",
+  "env": "depth_anything_ac",
+  "input": {
+    "name": "input",
+    "rank": 4,
+    "dtype": "float32",
+    "layout": "NCHW"
+  },
+  "outputs": [
+    {
+      "name": "output",
+      "meaning": "relative depth"
+    }
+  ],
+  "profiles": {
+    "bench": {
+      "size": [
+        518,
+        518
+      ]
+    }
+  },
+  "build_targets": [
+    {
+      "profile": "bench",
+      "precision": "fp16"
+    }
+  ],
+  "encoder": {
+    "used": "vits",
+    "available": [
+      "vits"
+    ],
+    "smallest": "vits",
+    "source": "upstream clone, checked 2026-08-13"
+  },
+  "depth_scale": "relative",
+  "output_form": "inverse_depth",
+  "caveats": [
+    "output_form is inverse_depth: larger means nearer. Measured, not assumed -- the prediction correlates -0.927 with true depth over five DIODE images. It decides whether the scale+shift fit is affine in the space the model was trained in"
+  ],
+  "preprocess": {
+    "type": "stretch",
+    "normalise": "imagenet",
+    "interpolation": "linear",
+    "verified": "within 1e-4 against reports/inputs/depth_anything_ac.npy via evaluate_gt's adapter (max abs diff 2.384e-7)",
+    "adapter_check": {"oracle": "reports/inputs/depth_anything_ac.npy", "max_abs_diff": 2.384e-7, "atol": 1e-4}
+  }
+}

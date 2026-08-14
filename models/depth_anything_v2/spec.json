@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "name": "depth_anything_v2",
+  "env": "dav2",
+  "input": {
+    "name": "input",
+    "rank": 4,
+    "dtype": "float32",
+    "layout": "NCHW",
+    "normalize": {
+      "mean": [
+        0.485,
+        0.456,
+        0.406
+      ],
+      "std": [
+        0.229,
+        0.224,
+        0.225
+      ],
+      "scale": 255.0,
+      "source": "onnx2trt.py preprocess_image: /255 then ImageNet mean/std"
+    }
+  },
+  "outputs": [
+    {
+      "name": "output",
+      "meaning": "metric depth (hypersim) with the default checkpoint"
+    }
+  ],
+  "profiles": {
+    "bench": {
+      "size": [
+        518,
+        518
+      ]
+    }
+  },
+  "build_targets": [
+    {
+      "profile": "bench",
+      "precision": "fp16"
+    }
+  ],
+  "encoder": {
+    "used": "vits",
+    "available": [
+      "vits",
+      "vitb",
+      "vitl"
+    ],
+    "smallest": "vits",
+    "source": "official Depth Anything V2 README, checked 2026-08-14: Small/Base/Large checkpoints are released; vitg is present in the architecture config but the official Giant checkpoint is still marked Coming soon"
+  },
+  "depth_scale": "metric",
+  "preprocess": {
+    "type": "stretch",
+    "normalise": "imagenet",
+    "interpolation": "linear",
+    "verified": "exact against reports/inputs/depth_anything_v2.npy via evaluate_gt's adapter",
+    "adapter_check": {"oracle": "reports/inputs/depth_anything_v2.npy", "max_abs_diff": 0.0, "atol": 1e-4}
+  }
+}

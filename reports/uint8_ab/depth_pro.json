@@ -1,0 +1,60 @@
+{
+  "model": "depth_pro",
+  "precision": "fp16",
+  "input_bytes": {
+    "float32_nchw": 28311552,
+    "uint8_nhwc": 7077888
+  },
+  "float32_nchw": {
+    "iterations": 100,
+    "warmup": 0,
+    "mean_ms": 242.1886,
+    "min_ms": 239.9902,
+    "p50_ms": 242.2028,
+    "p90_ms": 243.2363,
+    "p99_ms": 243.6023,
+    "max_ms": 243.9817,
+    "stdev_ms": 0.8573,
+    "fps": 4.13,
+    "h2d_ms": 9.0557,
+    "compute_ms": 230.1174,
+    "d2h_ms": 2.9253,
+    "host_overhead_ms": 0.0902
+  },
+  "uint8_nhwc": {
+    "iterations": 100,
+    "warmup": 0,
+    "mean_ms": 238.3932,
+    "min_ms": 236.8081,
+    "p50_ms": 238.4247,
+    "p90_ms": 239.1885,
+    "p99_ms": 239.7203,
+    "max_ms": 239.9805,
+    "stdev_ms": 0.6662,
+    "fps": 4.19,
+    "h2d_ms": 2.2866,
+    "compute_ms": 233.1047,
+    "d2h_ms": 2.9168,
+    "host_overhead_ms": 0.0851
+  },
+  "delta_ms": -3.7954,
+  "delta_pct": -1.57,
+  "outputs": [
+    {
+      "output": 0,
+      "rel": 0.0004405626394893629,
+      "corr": 0.9990150954991384,
+      "ref_abs_mean": 38.06625132428275
+    },
+    {
+      "output": 1,
+      "rel": 0.001943634596695821,
+      "corr": 1.0,
+      "ref_abs_mean": 32.15625
+    }
+  ],
+  "engines": {
+    "float32_nchw": ".\\models\\depth_pro\\engine\\depth_pro_1536x1536_dynamo_fp16.engine",
+    "uint8_nhwc": ".\\models\\depth_pro\\engine\\depth_pro_1536x1536_dynamo_u8_fp16.engine"
+  }
+}

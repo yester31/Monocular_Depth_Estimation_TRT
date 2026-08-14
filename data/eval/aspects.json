@@ -1,0 +1,56 @@
+[
+  {
+    "file": "aspects/aspect_4x3.png",
+    "aspect": "4:3",
+    "width": 1024,
+    "height": 768,
+    "source": "DIODE val/indoors, sample indoors/scene_00019/scan_00183/00019_00183_indoors_000_010 (http://diode-dataset.s3.amazonaws.com/val.tar.gz, https://diode-dataset.org/)",
+    "license": "MIT -- 'The DIODE dataset and the code is released using the MIT license.' Stated at https://diode-dataset.org/, checked 2026-08-13 (same source cited in tools/make_eval_manifest.py).",
+    "orig_file": "aspects/originals/00019_00183_indoors_000_010.png",
+    "orig_width": 1024,
+    "orig_height": 768,
+    "crop": {
+      "x": 0,
+      "y": 0,
+      "w": 1024,
+      "h": 768
+    },
+    "sha256": "44a934d34c03ca1ad733ef6491e214257ff727cacf9f614ee3c6a22c0a2dfcd7"
+  },
+  {
+    "file": "aspects/aspect_16x9.png",
+    "aspect": "16:9",
+    "width": 1024,
+    "height": 576,
+    "source": "DIODE val/indoors, sample indoors/scene_00020/scan_00186/00020_00186_indoors_220_040 (http://diode-dataset.s3.amazonaws.com/val.tar.gz, https://diode-dataset.org/)",
+    "license": "MIT -- 'The DIODE dataset and the code is released using the MIT license.' Stated at https://diode-dataset.org/, checked 2026-08-13 (same source cited in tools/make_eval_manifest.py).",
+    "orig_file": "aspects/originals/00020_00186_indoors_220_040.png",
+    "orig_width": 1024,
+    "orig_height": 768,
+    "crop": {
+      "x": 0,
+      "y": 96,
+      "w": 1024,
+      "h": 576
+    },
+    "sha256": "b12cdc20b28514bbef46c238c2b80361b705868af6c016a83e57e2e8d89bdeef"
+  },
+  {
+    "file": "aspects/aspect_portrait.png",
+    "aspect": "portrait",
+    "width": 576,
+    "height": 768,
+    "source": "DIODE val/indoors, sample indoors/scene_00021/scan_00192/00021_00192_indoors_320_020 (http://diode-dataset.s3.amazonaws.com/val.tar.gz, https://diode-dataset.org/)",
+    "license": "MIT -- 'The DIODE dataset and the code is released using the MIT license.' Stated at https://diode-dataset.org/, checked 2026-08-13 (same source cited in tools/make_eval_manifest.py).",
+    "orig_file": "aspects/originals/00021_00192_indoors_320_020.png",
+    "orig_width": 1024,
+    "orig_height": 768,
+    "crop": {
+      "x": 224,
+      "y": 0,
+      "w": 576,
+      "h": 768
+    },
+    "sha256": "e28ac3a81975d128e6c7a9b012502125d3e8914090d877d9aa01879a96ecb473"
+  }
+]

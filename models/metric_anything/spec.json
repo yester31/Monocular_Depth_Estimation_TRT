@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "name": "metric_anything",
+  "env": "metric_anything",
+  "input": {
+    "name": "image",
+    "rank": 4,
+    "dtype": "float32",
+    "layout": "NCHW"
+  },
+  "outputs": [
+    {
+      "name": "points",
+      "meaning": "point map"
+    },
+    {
+      "name": "mask",
+      "meaning": "valid mask"
+    },
+    {
+      "name": "metric_scale",
+      "meaning": "scalar metric scale"
+    }
+  ],
+  "profiles": {
+    "bench": {
+      "size": [
+        388,
+        518
+      ]
+    }
+  },
+  "build_targets": [
+    {
+      "profile": "bench",
+      "precision": "fp16"
+    }
+  ],
+  "caveats": [
+    "388x518 assumes a 4:3 source, matching moge_2 (D13)",
+    "post-process calls MoGe's recover_focal_shift, so trte needs the pinned utils3d commit (D15)"
+  ],
+  "encoder": {
+    "used": "fixed",
+    "available": [
+      "fixed"
+    ],
+    "smallest": "fixed",
+    "source": "upstream clone, checked 2026-08-13"
+  },
+  "depth_scale": "metric",
+  "preprocess": {
+    "type": "stretch",
+    "normalise": "over_255",
+    "interpolation": "area",
+    "verified": "exact against reports/inputs/metric_anything.npy via evaluate_gt's adapter",
+    "adapter_check": {"oracle": "reports/inputs/metric_anything.npy", "max_abs_diff": 0.0, "atol": 1e-4}
+  }
+}

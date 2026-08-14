@@ -1,0 +1,97 @@
+{
+  "graphs": [
+    {
+      "name": "moge-2_vits_normal_388x518_dynamo_sim.onnx",
+      "bytes": 252595112,
+      "sha256": "dd36bd0f0e00f3f6bb310426b4d5c8c746ec19abda49acb0d8423144bb6aa40f",
+      "inputs": [
+        "image"
+      ],
+      "nodes": 609,
+      "operators": {
+        "Reshape": 99,
+        "Transpose": 41,
+        "Pad": 40,
+        "Slice": 38,
+        "Cast": 0
+      }
+    },
+    {
+      "name": "moge-2_vits_normal_388x518_ab_dynamo.onnx",
+      "bytes": 1508135,
+      "sha256": "b7f19635fe5e1b9c26cde82c994e30088d8a79cd224121934ec825ed35d9e823",
+      "inputs": [
+        "image"
+      ],
+      "nodes": 645,
+      "operators": {
+        "Reshape": 53,
+        "Transpose": 46,
+        "Pad": 40,
+        "Slice": 39,
+        "Cast": 0
+      }
+    },
+    {
+      "name": "moge-2_vits_normal_388x518_ab_dynamo_sim.onnx",
+      "bytes": 252595112,
+      "sha256": "dd36bd0f0e00f3f6bb310426b4d5c8c746ec19abda49acb0d8423144bb6aa40f",
+      "inputs": [
+        "image"
+      ],
+      "nodes": 609,
+      "operators": {
+        "Reshape": 99,
+        "Transpose": 41,
+        "Pad": 40,
+        "Slice": 38,
+        "Cast": 0
+      }
+    },
+    {
+      "name": "moge-2_vits_normal_388x518_ab_legacy.onnx",
+      "bytes": 140845218,
+      "sha256": "66f46d1370c18c4eef75cc4dc19512df979ad44f025c08f9df117ab7499250b9",
+      "inputs": [
+        "image"
+      ],
+      "nodes": 2282,
+      "operators": {
+        "Reshape": 135,
+        "Transpose": 88,
+        "Pad": 40,
+        "Slice": 65,
+        "Cast": 162
+      }
+    },
+    {
+      "name": "moge-2_vits_normal_388x518_ab_legacy_sim.onnx",
+      "bytes": 252690872,
+      "sha256": "25af6da9a6b084f25216b1ca38208b6e33feaf578f439273087795b528448102",
+      "inputs": [
+        "image"
+      ],
+      "nodes": 633,
+      "operators": {
+        "Reshape": 75,
+        "Transpose": 41,
+        "Pad": 40,
+        "Slice": 14,
+        "Cast": 12
+      }
+    }
+  ],
+  "post_run_environment": {
+    "versions": {
+      "torch": "2.11.0+cu128",
+      "cuda": "12.8",
+      "tensorrt": "10.16.1.11",
+      "python": "3.11.15"
+    },
+    "device": "NVIDIA GeForce RTX 3080",
+    "driver": "591.86",
+    "clock_mhz": 1800,
+    "clock_max_mhz": 2130
+  },
+  "clock_note": "GPU graphics clock was queried before and repeatedly during the 12-build run; every observation was 1800 MHz."
+}

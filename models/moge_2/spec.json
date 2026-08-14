@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "name": "moge_2",
+  "env": "MoGe",
+  "input": {
+    "name": "image",
+    "rank": 4,
+    "dtype": "float32",
+    "layout": "NCHW"
+  },
+  "outputs": [
+    {
+      "name": "points",
+      "meaning": "point map"
+    },
+    {
+      "name": "normal",
+      "meaning": "surface normal"
+    },
+    {
+      "name": "mask",
+      "meaning": "valid mask"
+    },
+    {
+      "name": "metric_scale",
+      "meaning": "scalar metric scale"
+    }
+  ],
+  "profiles": {
+    "bench": {
+      "size": [
+        388,
+        518
+      ]
+    }
+  },
+  "build_targets": [
+    {
+      "profile": "bench",
+      "precision": "fp16"
+    }
+  ],
+  "caveats": [
+    "388x518 assumes a 4:3 source",
+    "post-process calls MoGe's recover_focal_shift, so trte needs the pinned utils3d commit (D15)"
+  ],
+  "encoder": {
+    "used": "vits",
+    "available": [
+      "vits",
+      "vitb",
+      "vitl"
+    ],
+    "smallest": "vits",
+    "source": "upstream clone, checked 2026-08-13"
+  },
+  "depth_scale": "metric",
+  "preprocess": {
+    "type": "stretch",
+    "normalise": "over_255",
+    "interpolation": "linear",
+    "verified": "exact against reports/inputs/moge_2.npy via evaluate_gt's adapter",
+    "adapter_check": {"oracle": "reports/inputs/moge_2.npy", "max_abs_diff": 0.0, "atol": 1e-4}
+  }
+}

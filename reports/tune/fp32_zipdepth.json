@@ -1,0 +1,81 @@
+[
+  {
+    "model": "zipdepth",
+    "onnx_path": ".\\models\\zipdepth\\onnx\\zipdepth_base_384x512.onnx",
+    "engine_path": ".\\models\\zipdepth\\engine\\tune\\zipdepth_base_384x512_fp16_as_fp32_optd_wsd.engine",
+    "precision": "fp32",
+    "opt_level": null,
+    "workspace_gib": null,
+    "repeat": 1,
+    "stats": {
+      "iterations": 100,
+      "warmup": 0,
+      "mean_ms": 3.3019,
+      "min_ms": 3.2157,
+      "p50_ms": 3.2984,
+      "p90_ms": 3.3445,
+      "p99_ms": 3.3804,
+      "max_ms": 3.3866,
+      "stdev_ms": 0.0358,
+      "fps": 302.85
+    },
+    "environment": {
+      "versions": {
+        "torch": "2.11.0+cu128",
+        "cuda": "12.8",
+        "tensorrt": "10.16.1.11",
+        "python": "3.11.15"
+      },
+      "device": "NVIDIA GeForce RTX 3080",
+      "driver": "591.86",
+      "clock_mhz": 1800,
+      "clock_max_mhz": 2130
+    },
+    "profile_summary": {
+      "layers_profiled": 136,
+      "layers_in_engine": 136,
+      "profile_total_ms": 2.8057,
+      "benchmark_mean_ms": null,
+      "top10_share": 0.2378,
+      "fp32_output_share": 1.0,
+      "movement_share": 0.0515,
+      "layer_types": {
+        "CaskConvolution": 51,
+        "NoOp": 23,
+        "PointWiseV2": 22,
+        "Reformat": 9,
+        "CaskPooling": 6,
+        "Scale": 5,
+        "CaskGemmConvolution": 5,
+        "Resize": 5,
+        "Constant": 2,
+        "Reduce": 2,
+        "kgen": 2,
+        "gemm": 1,
+        "Slice": 1,
+        "CaskSoftMaxV2": 1,
+        "Shuffle": 1
+      },
+      "layer_precisions": {
+        "Float": 136
+      }
+    },
+    "layer_type_time_shares": {
+      "CaskConvolution": 0.663981,
+      "Reformat": 0.045219,
+      "PointWiseV2": 0.10430099999999998,
+      "CaskPooling": 0.039416,
+      "Resize": 0.047481,
+      "Scale": 0.037373,
+      "CaskGemmConvolution": 0.026131,
+      "CaskSoftMaxV2": 0.011241,
+      "Reduce": 0.010255,
+      "Shuffle": 0.003175,
+      "kgen": 0.005511,
+      "Slice": 0.003066,
+      "gemm": 0.002847,
+      "Constant": 0.0,
+      "NoOp": 0.0
+    }
+  }
+]
