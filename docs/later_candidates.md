@@ -1,7 +1,9 @@
-# `later/` 모델 후보 검토
+# 삭제한 모델 후보 검토 기록
 
-2026-08-14 기준. 목적은 `later/`의 16개 백업을 보고 **현재 14모델 TensorRT
-비교 체계에 무엇을 추가할 가치가 있는지** 정하는 것이다.
+2026-08-14 기준. 당시 `later/`에 보관하던 16개 백업을 보고 **현재 14모델
+TensorRT 비교 체계에 무엇을 추가할 가치가 있는지** 검토했다. 직접 추가할 후보가
+없다는 결론 뒤 소스 백업과 자동 생성 캐시는 저장소에서 삭제했다. 삭제 전 파일은
+Git 커밋 `d5dc9cf`에서 복구할 수 있다.
 
 이 문서는 정적 검토 결과다. 로컬 파일, 공식 저장소 README, 공개 체크포인트와
 라이선스를 대조했지만 후보 모델을 실제로 실행하거나 ONNX/TensorRT로 검증하지는
@@ -11,7 +13,7 @@
 ## 먼저 구분할 것
 
 현재 체계는 기본적으로 **한 RGB 이미지 → 깊이/점맵** 계약과 DIODE 단일 이미지
-평가를 사용한다. `later/`에는 이 계약과 다른 프로젝트가 섞여 있다.
+평가를 사용한다. 삭제한 백업에는 이 계약과 다른 프로젝트가 섞여 있었다.
 
 | 종류 | 후보 | 현재 14모델 표에 바로 추가 가능한가 |
 | --- | --- | --- |
@@ -39,7 +41,7 @@
 - 평가: RGB-only 모델과 분리된 `prior-assisted` 표
 - 누수 방지: 모델에 준 prior 픽셀과 평가 픽셀을 구분할지 여부
 
-로컬 `later/Prior_Depth_Anything/onnx_export.py`와 `onnx2trt.py`는 이름과 달리
+당시 `later/Prior_Depth_Anything/onnx_export.py`와 `onnx2trt.py`는 이름과 달리
 Prior Depth Anything을 불러오지 않는다. 둘 다 `VGGTDepthOnlyWrapper`와
 `facebook/VGGT-1B`을 사용하므로 재사용할 수 있는 변환 결과가 아니다. 통합은
 업스트림 모델에서 처음부터 다시 시작해야 한다.
@@ -50,7 +52,7 @@ Prior Depth Anything을 불러오지 않는다. 둘 다 `VGGTDepthOnlyWrapper`�
 metric 모델을 각각 ViT-S/B/L로 공개했고 streaming 경로도 제공한다. Small 가중치는
 Apache-2.0이고 Base/Large는 CC BY-NC 4.0이다.
 
-현재 `later/Video_Depth_Anything/`에는 README만 있고 변환 코드는 없다. 또한 공식
+당시 `later/Video_Depth_Anything/`에는 README만 있고 변환 코드는 없었다. 또한 공식
 streaming 구현도 offline 대비 정확도 저하를 명시하므로 다음과 같은 별도 기준이
 필요하다.
 

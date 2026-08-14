@@ -28,7 +28,6 @@
 | `reports/` | **측정 결과의 단일 출처.** `.md` 는 전부 `.json` 에서 생성된다 |
 | `tests/` | 회귀 테스트 |
 | `docs/` | 아래 "문서" 절 |
-| `later/` | 변환을 시도했다 미뤄 둔 업스트림 클론 16개. 저장소의 어떤 코드도 여기를 읽지 않는다 |
 
 ---
 
@@ -231,4 +230,4 @@ Depth Anything V2 는 코드가 Apache-2.0 이지만 Base·Large 가중치는 CC
 | [`docs/setup.md`](docs/setup.md) | 환경 구성 상세와 알려진 함정 |
 | [`tools/README.md`](tools/README.md) | 각 도구가 무엇이고 어떻게 쓰나. 끝난 질문에 답한 도구는 답까지 |
 | [`docs/demo.md`](docs/demo.md) | `demo.py` 사용법 |
-| [`docs/later_candidates.md`](docs/later_candidates.md) | `later/` 16개 후보의 범위·통합 난이도·추천 순위 |
+| [`docs/later_candidates.md`](docs/later_candidates.md) | 삭제한 보류 후보 16개의 정적 검토와 제외 근거 |

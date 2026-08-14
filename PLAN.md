@@ -124,7 +124,6 @@
 
 다음 단계는 자동으로 시작하지 않는다. 별도 승인 후 범위를 하나씩 연다.
 
-- `later/` 16개 프로젝트 — **정적 검토 완료**, 구현 후보 선택 대기
 - CPU 추론 백엔드
 - BF16
 - INT8
@@ -216,17 +215,16 @@
 
 ### 남은 것
 
-8. **`streamvggt` 재프로파일.** `reports/comparison.md` 의 `fp32` · `moved` 열이
-   `stale` 이다 — 프로파일이 교체 전 엔진의 것이다. 데스크탑에서
-   `python tools/profile_model.py streamvggt` 한 번.
+8. **완료 — `streamvggt` 재프로파일.** `stale` 이 사라졌다. 레이어 수가 714 로
+   그대로이고 fp32·이동 비중도 사실상 같다 — 레벨 4 는 그래프가 아니라 커널을
+   바꾼다(`docs/findings.md` P6).
 9. **레벨 4 의 폭을 기록에 반영했다**(`docs/findings.md` P6). 발표 대 발표 이득은
    −0.96% 이고 확인 실험의 −2.3% 가 아니다. 추가 조치는 필요 없지만, 다음에 레벨을
    채택할 때 **3빌드가 분포를 다 보여주지 못한다**는 것을 전제로 한다.
 
 ### 사용자 결정이 필요한 것
 
-8. **D4 — Phase 6 범위.** `later/` 16개는 정적 검토를 마쳐
-   [`docs/later_candidates.md`](docs/later_candidates.md)에 기록했다. 실제 통합은
-   Prior Depth Anything(외부 prior 계약), Video Depth Anything(별도 video 계약),
-   GeoCalib(보조 도구) 중 목적을 먼저 정해야 한다. CPU 백엔드, BF16, INT8,
-   CUDA Graph도 §4와 §5에 따라 하나씩 열며 임의로 시작하지 않는다.
+8. **D4 — Phase 6 범위.** 보류 모델 16개는 정적 검토 후 소스 백업을 삭제했고,
+   제외 근거만 [`docs/later_candidates.md`](docs/later_candidates.md)에 남겼다.
+   남은 선택지는 CPU 백엔드, BF16, INT8, CUDA Graph다. §4와 §5에 따라 하나씩
+   열며 임의로 시작하지 않는다.

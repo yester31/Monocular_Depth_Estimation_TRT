@@ -17,7 +17,7 @@
 | Phase | 내용 | 결과 (2026-08-14 확인) |
 | --- | --- | --- |
 | 0 | 사실 조사 — 모델별 입출력·전처리·가중치 계약 | `docs/model_contracts.md`. **이게 없으면 나머지 Phase 의 설계 근거가 없다** 는 전제였고 실제로 그랬다 |
-| 1 | 버그 수정 B1~B6, B8 | `common.py` 가 엔진에 fingerprint 를 기록(19곳). `SPARSE_WEIGHTS` 는 활성 저장소에서 제거 — `later/` 에만 남음 |
+| 1 | 버그 수정 B1~B6, B8 | `common.py` 가 엔진에 fingerprint 를 기록(19곳). `SPARSE_WEIGHTS` 는 활성 저장소에서 제거 — 당시 보류 폴더에만 남았고 그 폴더도 후보 검토 후 삭제 |
 | 2 | `get_engine()` 통합 | 922줄 / 15개 파일 중복 → `core/common.py` 하나. 53곳이 이것을 쓴다 |
 | 3 | 기계 판독 결과 + 벤치마크 통일 | `compare.py` 가 `reports/bench/*.json` → `reports/comparison.md`. **이 시점부터 모델 간 비교가 처음으로 성립했다** |
 | 4 | manifest + 구조 재배치 | `models/*/spec.json` 14개, 소문자 폴더명 (§3) |
