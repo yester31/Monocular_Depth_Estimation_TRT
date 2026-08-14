@@ -21,11 +21,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 TYPES = {"stretch", "keep_ratio_pad"}
 NORMS = {"imagenet", "over_255", "half", "none"}
-INTERPS = {"linear", "cubic", "area", "torch_bilinear",
-           # torchvision transforms.Resize on a PIL image: bilinear WITH
-           # antialias, which is neither cv2 INTER_LINEAR nor torch's
-           # F.interpolate bilinear. hyden is the first model to use it.
-           "pil_bilinear_antialias"}
+INTERPS = {"linear", "cubic", "area", "torch_bilinear"}
 
 
 def specs():

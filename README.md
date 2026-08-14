@@ -1,6 +1,6 @@
 # Monocular Depth Estimation → TensorRT
 
-단안 깊이 추정 모델 15개를 TensorRT 엔진으로 변환하고, **같은 조건에서 속도와
+단안 깊이 추정 모델 14개를 TensorRT 엔진으로 변환하고, **같은 조건에서 속도와
 정확도를 비교한다.**
 
 비교가 성립하려면 조건이 같아야 하는데 이 모델들은 조건이 같지 않다 — 입력
@@ -85,7 +85,7 @@ ONNX 내보내기는 업스트림 패키지가, 엔진 빌드는 TensorRT 가 �
 
 ---
 
-## 모델 15개
+## 모델 14개
 
 **"깊이" 는 한 가지가 아니다.** 아래 표의 `출력` 열을 보지 않고 속도만 비교하면
 안 된다. D 번호는 [`docs/model_contracts.md`](docs/model_contracts.md) 의 기록을
@@ -97,7 +97,7 @@ ONNX 내보내기는 업스트림 패키지가, 엔진 빌드는 TensorRT 가 �
 | **Depth Anything V3** | [→](models/depth_anything_v3/README.md) | 518×518 | metric + 하늘 마스크 | Apache-2.0 |
 | **Depth Anything AC** | [→](models/depth_anything_ac/README.md) | 518×518 | relative | **라이선스 파일 없음** |
 | **Distill Any Depth** | [→](models/distill_any_depth/README.md) | 518×518 | relative | MIT |
-| **ZipDepth** | [→](models/zipdepth/README.md) | **384×512** | affine-invariant 역깊이. **여기서 유일한 순수 합성곱 모델**(6.1M) — `hyden` 도 CNN 경로를 갖지만 ViT 와 함께다 | 모델 README 참조 |
+| **ZipDepth** | [→](models/zipdepth/README.md) | **384×512** | affine-invariant 역깊이. **여기서 유일한 합성곱 모델**(6.1M) | 모델 README 참조 |
 | **Depth Pro** | [→](models/depth_pro/README.md) | **1536×1536** | metric + 초점거리 | Apple Sample Code License |
 | **Metric3D V2** | [→](models/metric3d_v2/README.md) | **616×1064** | **canonical depth, 미터 아님 — D12** | BSD-2-Clause |
 | **Metric Anything** | [→](models/metric_anything/README.md) | **388×518** | point map + metric scale | Apache-2.0 |
@@ -107,7 +107,6 @@ ONNX 내보내기는 업스트림 패키지가, 엔진 빌드는 TensorRT 가 �
 | **TR2M** | [→](models/tr2m/README.md) | **434×560** | metric. **입력이 둘 — 이미지 + 텍스트 프롬프트** | 업스트림 LICENSE 없음 / pos_embed.py 는 CC BY-NC-SA |
 | **VGGT** | [→](models/vggt/README.md) | 518×518 | geometry, **전역 배율 없음**(정규화 좌표) | VGGT License (Meta 자체) |
 | **StreamVGGT** | [→](models/streamvggt/README.md) | 518×518 | geometry, **전역 배율 없음** | **CC BY-NC-SA 4.0** |
-| **HyDen** | [→](models/hyden/README.md) | 518×518 | relative. **방향 미측정** — 아직 벤치 없음 | FAIR Noncommercial Research |
 
 ### 인코더·체크포인트 선택
 
@@ -143,47 +142,44 @@ metric 배율이 3.1배 어긋났는데, 모델 성질이 아니라 크기를 �
 
 ---
 
-## 같은 사진, 15개 모델
+## 같은 사진, 14개 모델
 
 ![depth comparison](reports/demo/example/example_depth.png)
 
-`data/example.jpg` 한 장을 **엔진이 있는 13개** 모델에 넣은 결과다.
-`python demo.py --live` 가 그렸고, 화면의 모든 숫자는 `spec.json` 과
-`reports/bench/` 에서 읽는다.
+`data/example.jpg` 한 장으로 평가 경로가 있는 13개 모델을 실제 TensorRT 추론으로
+돌린 정성 비교다.
+가까운 곳은 따뜻한 색, 먼 곳은 차가운 색으로 방향을 통일했고, 모든 모델에 같은
+`turbo` 색상표를 쓴다. 각 패널은 자체 2–98% 범위로 정규화하므로 깊이의 *모양*을
+비교하기 쉽지만, 패널 사이의 색으로 미터 값을 비교할 수는 없다.
 
-등록된 모델은 15개고 두 개는 그려지지 않았다 — `hyden` 은 아직 빌드되지 않았고
-`tr2m` 은 이미지마다 프롬프트가 필요하다. **둘 다 그림 맨 아래에 이름과 이유가
-적혀 있다.**
+등록된 모델은 14개다. `tr2m` 은 이미지마다 프롬프트가 필요하고 평가 어댑터가
+없어 빠졌다. 그림에 결과를 꾸며 넣지 않고 상태와 이유를 남긴다.
 
-**표가 세 덩어리로 갈려 있는 것이 이 그림의 요점이다.** 결과마다 자기 최소·최대로
-색을 칠하면 열다섯 장이 전부 비슷해 보인다 — 남는 것이 깊이의 *모양*뿐이고,
-metric 모델이 주장하는 **미터**가 정규화로 지워지기 때문이다.
-
-| 구역 | 무엇 |
-| --- | --- |
-| `metric depth — one range, one unit, comparable` | 7개. 공통 컬러바 0.30–2.10 m (`metric3d_v2` 는 8번째 metric 모델이지만 그리지 못했다 — 아래) |
-| `relative depth — own axis, NOT metres` | 3개. 각자의 축, 다른 색상표 |
-| `global scale unknown` | `vggt` · `streamvggt`. 정규화 좌표계라 단위가 없다 |
+절대 거리와 metric 정확도를 확인할 때는 별도의 감사용 화면을 사용한다.
+`python demo.py --live --view metric`은 metric 모델에 하나의 공통 미터 축을 적용하고,
+relative·scale-unknown 모델을 별도 구역에 둔다. 정성 그림과 수치 비교를 한 화면에
+억지로 섞지 않기 위한 구분이다.
 
 ### 이 그림이 말해주는 것 세 가지
 
-**`metric3d_v2` 의 검은 칸은 버그가 아니다.** 그 모델은 canonical depth 를 내므로
-미터로 바꾸려면 **실제 초점거리(픽셀)** 가 필요하고, 임의의 사진에는 그 값이 없다.
-그림은 빈칸으로 두는 대신 이유를 적는다 — `reports/gt.md` 에서 1위권인 모델이
-여기서는 아무것도 못 그린다는 것이 이 저장소가 기록하려는 종류의 사실이다.
+**`metric3d_v2` 도 정성 그림에는 나온다.** 실제 초점거리를 모르는 사진이므로 출력한
+canonical depth를 자체 범위로 정규화해 *모양만* 표시하며, 패널에도 `canonical`이라고
+적는다. 미터 값이 필요한 `--view metric`에서는 여전히 실제 초점거리(픽셀)를
+`--fx`로 제공해야 한다. 모양을 그릴 수 있다는 사실과 metric 변환이 가능하다는 주장을
+섞지 않는다.
 
 **속도와 그림은 다른 이야기를 한다.** `depth_pro` 는 1536×1536 으로 242 ms 를
 쓰고 가장 선명한 경계를 만든다. `zipdepth` 는 384×512 로 2.77 ms 다. 어느 쪽이
 "낫다" 고 말하려면 무엇에 쓰는지를 먼저 말해야 한다.
 
-**두 모델은 그려지지 않았고 그 이유가 그림 안에 있다** — `hyden` 과 `tr2m` 은
-`evaluate_gt.py` 에 어댑터가 없어 출력 계약이 검증되지 않았다. 빠진 것을 조용히
-빼지 않는다.
+**`tr2m` 은 정상 결과가 없다** — 평가 어댑터가 없어 실행 대상에서 제외된다.
+빠진 것을 조용히 성공 결과처럼 취급하지 않는다.
 
 ### 다시 그리기
 
 ```bash
 python demo.py --live --image data/example.jpg --out reports/demo/example
+python demo.py --live --view metric --image data/example.jpg --out reports/demo/metric
 python demo.py --synthetic          # GPU·엔진 없이 배치만 확인
 ```
 

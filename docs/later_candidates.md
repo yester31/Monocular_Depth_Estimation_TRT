@@ -137,7 +137,7 @@ gravity를 추정한다. 코드 Apache-2.0, 가중치 CC BY 4.0이다. 깊이 �
 
 | 모델 | 판정 | 이유 |
 | --- | --- | --- |
-| **HyDen** (Meta, ICLR 2026) | **채택 — `models/hyden/`** | 단일 RGB 518x518. FAIR 비상업 라이선스는 사용을 제한할 뿐 전파하지 않는다 |
+| **HyDen** (Meta, ICLR 2026) | **기각 — 가중치를 받을 수 없다** | 아래 |
 | **AnyDepth** | 조건부 | DySample 이 `F.grid_sample` 을 쓴다. 이 저장소의 15개 중 그 연산을 쓰는 모델이 하나도 없어 TensorRT 빌드가 검증된 적 없다. 작은 테스트가 먼저 |
 | **YOLO26 Depth** | **기각 — 라이선스** | 아래 |
 | **InfiniDepth** (CVPR 2026) | 기각 | RGB 전용 경로에도 MoGe-2 체크포인트가 필요하다(metric 복원용). 모델이 아니라 파이프라인. 임의 해상도 = 동적 shape, 이 저장소는 정적 shape 만 |
@@ -145,6 +145,36 @@ gravity를 추정한다. 코드 Apache-2.0, 가중치 CC BY 4.0이다. 깊이 �
 | **UniDAC** (CVPR 2026) | 기각 | MIT 이지만 intrinsics·왜곡계수·위도 그리드를 입력으로 받는다. monocular 가 아니라 calibrated depth |
 | **DAGE** (CVPR 2026) | 기각 | 입력이 `(B, N, 3, H, W)` — 다중 프레임 |
 | DepthMaster · StableDPT | 기각 | 코드 없음 / 비디오 |
+
+### HyDen 을 뺀 이유 — gated 저장소
+
+계약은 맞았다. 단일 RGB 518x518, DA2 계열, FAIR 비상업 라이선스는 사용을 제한할
+뿐 이 저장소의 MIT 로 전파하지 않는다. `models/hyden/` 을 만들어 등록까지 마쳤고
+테스트도 통과했다.
+
+**막힌 곳은 가중치다.**
+
+```
+GatedRepoError: 401 Client Error
+Cannot access gated repo
+  facebook/hyden-da2-relative-depth/.../hyden_da2_reldepth_vitl_fp32_<hash>.pth
+```
+
+`huggingface.co/facebook/hyden-da2-relative-depth` 는 **gated** 다. 사람이
+로그인해서 FAIR 라이선스에 직접 동의해야 열리고, 토큰만으로는 열리지 않는다.
+자동화된 빌드가 통과할 수 없는 문이다.
+
+**"가중치 공개"를 판정할 때 gated 여부를 보지 않은 것이 이 검토의 실수다.**
+HuggingFace 에 페이지가 있는 것과 받을 수 있는 것은 다르다. 다음 후보부터는
+`huggingface_hub.snapshot_download` 가 익명으로 성공하는지를 판정 조건에 넣는다.
+
+동의를 거친 뒤라면 되살릴 수 있다 — 삭제 전 파일은 커밋 `ae6c042` 에 있다.
+그때 확인된 사실 둘도 거기 남아 있다:
+
+- upstream `da2/__init__.py` 는 `from ..cnn import ...` 로 시작하므로 clone 자체를
+  `sys.path` 에 넣으면 안 되고 부모를 넣어 `metadepth.da2` 로 import 해야 한다
+- 배포 파일명은 문서의 `hyden_da2_vitl.pth` 가 아니라
+  `hyden_da2_reldepth_vitl_fp32_<hash>.pth` 다
 
 ### YOLO26 Depth 를 기각한 이유 — 기술이 아니라 라이선스다
 

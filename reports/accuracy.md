@@ -41,11 +41,3 @@ One row per model output, worst first.
 **Reading `rel`.** It is the mean absolute difference divided by the mean magnitude of the reference, so an output whose values sit near zero inflates it for free. Flagged above 1% and failed above 5%, but only when the correlation also drops below 0.99 — otherwise a large `rel` on a small-valued map is fp16 noise, not a broken engine. `ref |mean|` is there so that judgement can be checked.
 
 `scale` is the least-squares factor between the two. A value away from 1.0000 means the engine is off by a constant, which is a different failure from noise.
-
-## Not measured
-
-No engine-against-ONNX check exists for these. They are listed because the table above has one row per *output*, so a model with no result does not leave a visible gap in it.
-
-**not_run** — not run yet - defined and unblocked, needs GPU time
-
-- `hyden` — Added 2026-08-14; nothing has been exported or built yet. The upstream clone and the HyDen-DA2-Large checkpoint have to be fetched on the GPU machine first, and reports/inputs/hyden.npy comes out of that export -- onnx2trt.py refuses to build without it, because the cv2 stretch every other 518x518 model uses is not upstream's torchvision resize. See models/hyden/README.md.

@@ -88,11 +88,3 @@ These numbers are valid as latency. The *output* carries a condition recorded in
 - `vggt` -- cartesian_prod is replaced at export time; TorchScript has no symbolic for it (core/export_compat.no_cartesian_prod)
 - `zipdepth` -- the only convolutional model here at 6.1M parameters; every other row is a ViT or a transformer geometry network, so it exercises TensorRT's convolution path rather than its attention path; 384x512 fixes upstream's rule (short side 384, both sides a multiple of 32) at the 4:3 of data/example.jpg. A different aspect ratio needs a different engine; preprocessing is /255 only. There is no ImageNet mean/std here, unlike every other model in this repository; output is inverse depth, so larger means nearer. Scored with a scale-and-shift fit on disparity, which is the form it is already in; trained on pseudo-labels from Depth Anything V2 Large, whose weights are CC BY-NC 4.0. Whether that reaches a distilled student is unsettled; the code and checkpoints here are MIT; exported in the shared trte environment rather than one of its own: onnx_export.py puts the clone on sys.path instead of pip-installing it, and torch 2.11 there already satisfies upstream's torch>=2.4. Verified 2026-08-14 -- the export ran clean with no missing state_dict keys; output_form is inverse_depth: larger means nearer. Measured, not assumed -- the prediction correlates -0.892 with true depth over five DIODE images. It decides whether the scale+shift fit is affine in the space the model was trained in
 
-## Not measured
-
-No benchmark record exists for these, so they are absent from the tables above rather than slow.
-
-**not_run** — not run yet - defined and unblocked, needs GPU time
-
-- `hyden` — Added 2026-08-14; nothing has been exported or built yet. The upstream clone and the HyDen-DA2-Large checkpoint have to be fetched on the GPU machine first, and reports/inputs/hyden.npy comes out of that export -- onnx2trt.py refuses to build without it, because the cv2 stretch every other 518x518 model uses is not upstream's torchvision resize. See models/hyden/README.md.
-

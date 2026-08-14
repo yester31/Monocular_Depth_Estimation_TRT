@@ -55,9 +55,6 @@ KIND = {
     # "relative" because the sign convention is the opposite of the other
     # relative rows and reading it the wrong way round inverts the picture.
     "zipdepth": "relative (inverse depth)",
-    # orientation deliberately absent: spec.json says output_form is
-    # unmeasured, and naming it here would be the guess that file refuses.
-    "hyden": "relative (orientation unmeasured)",
     # Metric, but produced by rescaling a relative model with a per-pixel
     # scale and shift predicted from a sentence -- not measured from the image
     # alone like the other metric rows.

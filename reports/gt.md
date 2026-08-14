@@ -40,10 +40,6 @@ Every row above, with the engine it was measured on and the result file its numb
 
 Fourteen models are in this repository and the table above does not have fourteen rows. These are the difference. None of them was dropped for scoring badly.
 
-**not_run** — not run yet - defined and unblocked, needs GPU time
-
-- `hyden` — Added 2026-08-14; nothing has been exported or built yet. The upstream clone and the HyDen-DA2-Large checkpoint have to be fetched on the GPU machine first, and reports/inputs/hyden.npy comes out of that export -- onnx2trt.py refuses to build without it, because the cv2 stretch every other 518x518 model uses is not upstream's torchvision resize. See models/hyden/README.md.
-
 **unsupported** — not defined for this model - a number here would mean nothing
 
 - `streamvggt` — The output is a normalised coordinate frame: the point map was divided by the average Euclidean distance of its points to the origin (arXiv:2503.11651), so the depth channel is in units of one average scene distance and not in metres. Scoring it in this table would report the missing unit as error. See docs/findings.md P3; tests/test_scale_only.py.
