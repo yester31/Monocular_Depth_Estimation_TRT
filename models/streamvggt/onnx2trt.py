@@ -92,7 +92,14 @@ def main():
     iteration = 100
     warmup = 20
     # Load or build the TensorRT engine and do inference
-    with get_engine(onnx_model_path, engine_file_path, precision, workspace_gib=4) as engine, \
+    # opt_level=4 is adopted, not a default. P6 screened 23 builds across twelve
+    # models and this is the only one that crossed the 2% threshold, then held
+    # it across three independent builds: level 3 came out 53.30/53.43/54.03 ms
+    # and level 4 came out 52.10/52.28/52.69, distributions that do not overlap
+    # (-2.3%). See docs/findings.md P6. The 1.4% spread inside level 3 is why a
+    # single build was not enough to decide this.
+    with get_engine(onnx_model_path, engine_file_path, precision, workspace_gib=4,
+                    opt_level=4) as engine, \
             engine.create_execution_context() as context:
                 
         inputs, outputs, bindings, stream = common.allocate_buffers(engine)

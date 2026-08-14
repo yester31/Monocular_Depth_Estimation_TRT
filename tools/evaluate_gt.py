@@ -173,7 +173,11 @@ def _metric3d_depth(outs, oh, ow, ctx, size=METRIC3D_SIZE):
     scale, _, pad = _metric3d_geometry(oh, ow, size)
     d = d[pad[0]:d.shape[0] - pad[1], pad[2]:d.shape[1] - pad[3]]
     d = cv2.resize(d, (ow, oh), interpolation=cv2.INTER_LINEAR)
-    return np.clip(d, 0, 300) * (fx * scale / 1000.0)
+    # Multiply first, then clamp the metres -- the order upstream Metric3D uses.
+    # Clipping canonical at 300 and scaling by ~0.71 put the effective ceiling at
+    # 213.4 m instead of 300. No published number moves (DIODE indoors tops out
+    # near 17 m) but the two orderings are not the same operation.
+    return np.clip(d * (fx * scale / 1000.0), 0, 300)
 
 
 def _rgb_over_255(bgr, h, w, interp=cv2.INTER_LINEAR):

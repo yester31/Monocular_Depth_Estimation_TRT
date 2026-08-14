@@ -192,17 +192,15 @@
 
 ### 데스크탑(RTX 3080)이 필요한 것 — 순서대로 하나씩, 카드를 비우고
 
-1. **`streamvggt` 발표 엔진을 레벨 4 로 교체한다.** 확인은 끝났다(§3). 새 엔진을
-   `reports/bench` 기록과 함께 발표 경로로 올리고, `models/streamvggt/onnx2trt.py`
-   에 `builder_optimization_level=4` 를 기록한다. **채택한 최적화는 정확도도
-   확인해야 한다**(규칙 6) — `tools/verify_accuracy.py streamvggt` 를 같이 돌린다.
+1. **무인 배치 `gpu_batch.bat` 이 아래 일곱을 순서대로 돈다** (2026-08-14 투입):
+   `streamvggt` 레벨 4 재빌드(발표 엔진 교체) → 그 엔진의 정확도 확인 →
+   `zipdepth`·`tr2m` 정확도 → `tr2m` 프로파일 → 정답 데이터 전 모델 재채점
+   (`metric3d_v2` clip 순서가 바뀌었다) → `--scale-only` 별도 표 →
+   `demo.py --live`. 결과가 나오면 회수해 표를 갱신한다.
 2. **`vggt` · `streamvggt` 정답 데이터 채점** — 코드는 준비됐다(`docs/findings.md` P3).
    `tools/evaluate_gt.py --scale-only` → `reports/gt_scale_only.md`.
 3. **`demo.py --live`** — 라이브 엔진 경로는 한 번도 실행된 적이 없다(`docs/findings.md` P7).
    엔진 역직렬화, 버퍼 배선, rank-5 입력이 전부 미검증이다.
-4-1. **`metric3d_v2` 의 clip 순서를 업스트림에 맞춘다** — 곱한 뒤 미터를 자른다.
-   현재 실효 상한이 213.4 m 다(`docs/findings.md` P3). 발표 수치는 안 바뀌지만
-   **고친 뒤 재측정해서 확인해야** 한다.
 4. `zipdepth` · `tr2m` 의 ONNX 대 엔진 정확도, `tr2m` 의 레이어 프로파일 —
    §2 표의 12/14 와 13/14 를 14/14 로 만든다.
 
