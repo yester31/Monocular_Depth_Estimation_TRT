@@ -88,11 +88,23 @@ def main():
             f"       cd models/hyden && "
             f"git clone https://github.com/facebookresearch/metadepth.git")
 
-    ckpt_path = os.path.join(CLONE, "checkpoints", f"hyden_da2_{encoder}.pth")
-    if not os.path.exists(ckpt_path):
+    # The released filename is not the one upstream's snippet writes. Their
+    # example says checkpoints/hyden_da2_vitl.pth; the file on HuggingFace is
+    # hyden_da2_reldepth_vitl_fp32_<hash>.pth. Match on the parts that are
+    # stable so a rename on download does not become a missing-file error.
+    ckpt_dir = os.path.join(CLONE, "checkpoints")
+    found = sorted(f for f in os.listdir(ckpt_dir)
+                   if f.endswith(".pth") and "da2" in f and encoder in f
+                   ) if os.path.isdir(ckpt_dir) else []
+    if not found:
         raise FileNotFoundError(
-            f"[MDET] checkpoint not found: {ckpt_path}\n"
-            f"       from https://huggingface.co/facebook/hyden-da2-relative-depth")
+            "[MDET] no HyDen-DA2 checkpoint in " + ckpt_dir + "\n"
+            "       huggingface.co/facebook/hyden-da2-relative-depth is GATED.\n"
+            "       Accept the FAIR Noncommercial Research License while signed\n"
+            "       in, then run `huggingface-cli login` on this machine.\n"
+            "       Without that the download fails with 401 GatedRepoError.")
+    ckpt_path = os.path.join(ckpt_dir, found[0])
+    print("[MDET] checkpoint " + found[0])
 
     from metadepth.da2 import HyDenDepthAnything
 

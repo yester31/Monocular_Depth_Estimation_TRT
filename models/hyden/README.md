@@ -4,6 +4,26 @@
 - **[HyDen-DA2-Large weights](https://huggingface.co/facebook/hyden-da2-relative-depth)** (released 2026-04-24)
 - 2d image -> relative depth
 
+## At a Glance
+
+| Item | Repository configuration |
+| :--- | :--- |
+| Input | RGB image, `518x518` |
+| Output | Non-negative, affine-invariant inverse depth |
+| Scale | Relative; values are not metres |
+| TensorRT target | `vitl`, FP16 |
+| Measurement status | Not measured; no benchmark result is published yet |
+
+## Supported Encoders
+
+| Used here | Released HyDen-DA2 checkpoint |
+| :--- | :--- |
+| `vitl` | `vitl` (`HyDen-DA2-Large`) |
+
+The other published MetaDepth releases use MoGeV2 heads; they are not smaller
+HyDen-DA2 encoder choices. For the DA2 variant, Large is both the selected and
+the only released checkpoint.
+
 ## Why this one is here
 
 **It is the first hybrid encoder in the table.** Every other ViT row runs one
