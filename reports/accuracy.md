@@ -7,23 +7,28 @@ This isolates what TensorRT and fp16 did. It is **not** a comparison against PyT
 |      | model               | input HxW | prec | out | ref \|mean\| | rel     | max abs  | corr     | scale  |
 | --- | --- | --- | --- | --- | ---: | ---: | ---: | ---: | ---: |
 | WARN | `depth_anything_v3` | 518x518   | fp16 | 1   | 6.57e-06     | 8.7914% | 0.0101   | 0.998429 | 1.0317 |
-| ok   | `unik3d`            | 672x896   | fp16 | 1   | 0.009913     | 1.2215% | 0.00148  | 0.997542 | 1.0051 |
+| ok   | `unik3d`            | 672x896   | fp16 | 0   | 0.1604       | 1.3704% | 0.00726  | 0.999998 | 0.9863 |
+| ok   | `unik3d`            | 672x896   | fp16 | 1   | 0.0143       | 1.2097% | 0.0034   | 0.999504 | 1.0033 |
 | ok   | `metric3d_v2`       | 616x1064  | fp32 | 0   | 2.186        | 0.7090% | 9.05     | 0.999633 | 1.0002 |
-| ok   | `unidepth_v2`       | 672x896   | fp16 | 1   | 0.7501       | 0.5336% | 0.277    | 0.999848 | 0.9958 |
+| ok   | `tr2m`              | 434x560   | fp16 | 3   | 0.5561       | 0.5956% | 0.0323   | 0.999518 | 0.9997 |
+| ok   | `unidepth_v2`       | 672x896   | fp16 | 1   | 0.9568       | 0.5762% | 0.147    | 0.999905 | 1.0054 |
+| ok   | `tr2m`              | 434x560   | fp16 | 0   | 1.395        | 0.5470% | 0.125    | 0.999658 | 0.9995 |
+| ok   | `tr2m`              | 434x560   | fp16 | 2   | 0.02273      | 0.4332% | 0.00101  | 0.999743 | 0.9995 |
 | ok   | `metric_anything`   | 388x518   | fp16 | 2   | 1.253        | 0.3174% | 0.00398  | -        | 0.9968 |
+| ok   | `unidepth_v2`       | 672x896   | fp16 | 0   | 0.4475       | 0.3043% | 0.00905  | 0.999999 | 0.9970 |
 | ok   | `moge_2`            | 388x518   | fp16 | 1   | 0.4947       | 0.2749% | 0.0264   | 0.999992 | 1.0000 |
 | ok   | `depth_pro`         | 1536x1536 | fp16 | 0   | 1.03         | 0.1924% | 0.0122   | 0.999994 | 0.9984 |
 | ok   | `depth_anything_ac` | 518x518   | fp16 | 0   | 3.023        | 0.1747% | 0.09     | 0.999995 | 1.0013 |
 | ok   | `depth_anything_v2` | 518x518   | fp16 | 0   | 1.532        | 0.1700% | 0.0239   | 0.999979 | 1.0013 |
-| ok   | `unidepth_v2`       | 672x896   | fp16 | 0   | 0.4757       | 0.1698% | 0.0061   | 0.999999 | 1.0014 |
-| ok   | `unik3d`            | 672x896   | fp16 | 0   | 0.4409       | 0.1175% | 0.0082   | 0.999999 | 1.0007 |
+| ok   | `zipdepth`          | 384x512   | fp16 | 0   | 0.07972      | 0.1359% | 0.000998 | 0.999989 | 1.0002 |
 | ok   | `distill_any_depth` | 518x518   | fp16 | 0   | 3.241        | 0.1141% | 0.181    | 0.999995 | 1.0007 |
-| ok   | `streamvggt`        | 518x518   | fp16 | 0   | 0.9009       | 0.1065% | 0.0282   | 0.999983 | 0.9998 |
-| ok   | `unidepth_v2`       | 672x896   | fp16 | 2   | 183.5        | 0.0974% | 0.776    | 1.000000 | 0.9989 |
+| ok   | `streamvggt`        | 518x518   | fp16 | 0   | 0.9009       | 0.1063% | 0.0281   | 0.999983 | 0.9998 |
+| ok   | `tr2m`              | 434x560   | fp16 | 1   | 9.548        | 0.1031% | 0.206    | 0.999996 | 1.0004 |
 | ok   | `vggt`              | 518x518   | fp16 | 0   | 1.068        | 0.0932% | 0.0316   | 0.999970 | 0.9993 |
 | ok   | `moge_2`            | 388x518   | fp16 | 0   | 0.4902       | 0.0837% | 0.0249   | 0.999999 | 0.9998 |
 | ok   | `metric_anything`   | 388x518   | fp16 | 0   | 0.5704       | 0.0636% | 0.0295   | 1.000000 | 0.9997 |
 | ok   | `depth_anything_v3` | 518x518   | fp16 | 0   | 0.7335       | 0.0593% | 0.0311   | 0.999997 | 0.9998 |
+| ok   | `unidepth_v2`       | 672x896   | fp16 | 2   | 277.7        | 0.0457% | 0.57     | 1.000000 | 0.9999 |
 | ok   | `moge_2`            | 388x518   | fp16 | 3   | 1.141        | 0.0219% | 0.00025  | -        | 0.9998 |
 | ok   | `depth_pro`         | 1536x1536 | fp16 | 1   | 48.43        | 0.0161% | 0.00779  | -        | 1.0002 |
 | ok   | `moge_2`            | 388x518   | fp16 | 2   | 0.9999       | 0.0001% | 0.000257 | 0.999977 | 1.0000 |
@@ -36,12 +41,3 @@ One row per model output, worst first.
 **Reading `rel`.** It is the mean absolute difference divided by the mean magnitude of the reference, so an output whose values sit near zero inflates it for free. Flagged above 1% and failed above 5%, but only when the correlation also drops below 0.99 — otherwise a large `rel` on a small-valued map is fp16 noise, not a broken engine. `ref |mean|` is there so that judgement can be checked.
 
 `scale` is the least-squares factor between the two. A value away from 1.0000 means the engine is off by a constant, which is a different failure from noise.
-
-## Not measured
-
-No engine-against-ONNX check exists for these. They are listed because the table above has one row per *output*, so a model with no result does not leave a visible gap in it.
-
-**not_run** — not run yet - defined and unblocked, needs GPU time
-
-- `tr2m` — Two-input graph, and both inputs are recorded (reports/inputs/tr2m.npy and tr2m__text_features.npy), so the ONNX reference can be fed exactly what the engine was fed. Nothing blocks it; it has not been run. The prompt contract that blocks the ground-truth score does not apply here, because the embedding this engine was benchmarked with is committed beside the image tensor. See PLAN.md section 7, desktop item 4.
-- `zipdepth` — The engine, its ONNX and the byte-identical input (reports/inputs/zipdepth.npy) all exist; verify_accuracy.py has never been run against them on a machine with TensorRT. See PLAN.md section 7, desktop item 4.

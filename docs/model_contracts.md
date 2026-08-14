@@ -1443,11 +1443,11 @@ P1 이 14개 모델의 전처리 호출부를 `spec.json` 선언과 전수 대�
 | 항목 | 모델 | 실제 |
 | --- | --- | --- |
 | `type` 이 "keep-ratio + pad" 와 "square pad + resize" 를 둘 다 `keep_ratio_pad` 로 뭉갠다 | `metric3d_v2` · `vggt` · `streamvggt` | 좌표 복원 방식이 다른 별개 함수다 |
-| **`verified: "byte-exact ... via evaluate_gt's adapter"` 는 과장이다** | 11 | `evaluate_gt.check_adapter` 는 `max abs diff < 1e-4` 로 비교한다. 동등성이 아니다. 어댑터는 가깝지 **정확하지 않다** — `_imagenet_stretch` 는 전 구간 f64 로, 이는 `depth_anything_v2` 의 산술이지 `depth_anything_ac` 나 `tr2m` 의 산술이 아니다 |
+| ~~`verified: "byte-exact ... via evaluate_gt's adapter"` 는 과장이다~~ **해결** | 13 adapters | `evaluate_gt.check_adapter` 실측상 10개는 최대 차이 0이고, `depth_anything_ac`(2.384e-07) · `unidepth_v2`(4.768e-07) · `unik3d`(4.768e-07) 는 `< 1e-4` 근사다. 각 `spec.json` 의 `adapter_check` 에 oracle·실측 차이·허용치를 구조화했다. |
 
-**두 번째는 알고도 P1 에서 고치지 않았다.** `tests/test_preprocess_spec.py` 가
-`"byte-exact"` 부분 문자열로 어느 모델이 어댑터를 가져야 하는지 판정하므로,
-문구만 고치면 그 테스트가 조용히 꺼진다. 문구와 테스트를 같이 고쳐야 한다.
+두 번째 항목은 2026-08-14에 문구와 테스트를 함께 고쳤다.
+`tests/test_preprocess_spec.py` 는 이제 `"byte-exact"` 부분 문자열이 아니라
+구조화된 `adapter_check` 로 어댑터 존재와 판정 근거를 검사한다.
 
 ---
 

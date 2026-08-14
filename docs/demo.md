@@ -107,6 +107,10 @@ scores `metric3d_v2`, the z-buffer in the point-cloud renderer, and a full
 `--synthetic` → `--save-outputs` → `--from-saved` round trip at three aspect
 ratios.
 
-The `--live` path has no test and has never been executed: this was written on
-a machine with no engines and no CUDA. It is the one part of this file that is
-unverified.
+The `--live` path was executed on the RTX 3080 on 2026-08-14. It deserialised
+the published engines and produced all four figures for each of the three
+aspect ratios; the committed evidence is in `reports/demo/live/`. TR2M was
+excluded before running because it still has no evaluation adapter, and
+Metric3D ran inference but rendered the documented error panel because this
+invocation deliberately supplied no `--fx`. The other twelve models completed
+inference and post-processing for all three inputs.

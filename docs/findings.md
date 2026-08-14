@@ -18,7 +18,7 @@
 | 5. P4 fp16 대 fp32 | **fp16 은 정확도에서 측정되지 않는다.** 두 모델은 fp32 로 빌드 자체가 안 된다 |
 | 6. P5 D2·D3 | uint8 은 변이로 채택. **큰 입력이 더 낫지 않다** — 발표 크기를 바꾸지 않는다 |
 | 7. P6 빌더 레벨 | 레벨 5 는 `vggt` 를 **2배 느리게** 만들었다(105분 빌드). 더 오래 찾는 것이 더 빠른 것이 아니다 |
-| 8. P7 시각화 | metric/relative/scale-unknown 3구역. 라이브 엔진 경로는 미검증 |
+| 8. P7 시각화 | metric/relative/scale-unknown 3구역. 3종횡비 라이브 엔진 경로까지 실행 완료 |
 | 9. 검증 자체를 검증 | **테스트 240개가 실패할 수 없었다.** 발표 수치 감사에서 불일치 16 묶음 |
 
 ---
@@ -616,12 +616,13 @@ DIODE 실내 50장. `tools/size_sweep.py`, `reports/tune/size_depth_anything_v2.
 **실제 버그 하나를 잡았다** — `--align-relative-to` 가 적합은 계산해 놓고 정렬되지
 않은 배열을 그리고 있었다.
 
-### 검증되지 않은 것 — 이 노트북에는 엔진이 없다
+### 라이브 검증 — 2026-08-14 완료
 
-`--live` 경로 전체(엔진 역직렬화, 버퍼 배선, `vggt`/`streamvggt` 의 rank-5 입력),
-실제 데이터에서의 공통 metric 범위, `depth_pro` 전처리 미리보기(torch 필요).
-**지금 나오는 그림은 합성 배열이고 모든 패널에 `SYNTHETIC` 도장이 찍힌다.**
-데스크탑이 비면 실제 엔진으로 다시 돌려야 한다.
+RTX 3080에서 `demo.py --live --out reports/demo/live` 를 실행했다. 엔진 역직렬화,
+버퍼 배선, `vggt`/`streamvggt` rank-5 입력과 실제 데이터 공통 metric 범위가
+3종횡비 모두 끝까지 동작했다. tr2m은 어댑터가 없어 실행 전 제외했고,
+metric3d_v2는 `--fx`를 주지 않아 의도한 오류 패널을 냈다. 나머지 12개는 추론과
+후처리가 모두 성공했다. JSON과 PNG 12장은 `reports/demo/live/`에 있다.
 
 ### 원래 계획
 
@@ -777,6 +778,13 @@ def check(name, cond, detail=""):
 | `reports/profile/tr2m.json` | `tr2m` | `different_contract`. `tools/profile_model.py` 는 binding 0 만 채운다. 두 번째 binding 을 비운 채 잰 시간은 아무도 돌리지 않은 계산의 프로필이다 |
 | `reports/gt/vggt.json` · `streamvggt.json` | `vggt` · `streamvggt` | `unsupported`. 출력이 정규화 좌표라 미터가 아니다. 이 표에서 채점하면 빠진 단위를 오차로 보고하게 된다. 이 둘에 대해 정의된 측정은 `--scale-only` 쪽이다 |
 | `reports/gt/tr2m.json` | `tr2m` | `different_contract`. 이미지마다 프롬프트가 필요하고 그 계약이 아직 없다(`model_contracts.md` 「`tr2m` 평가 계약」) |
+
+**2026-08-14 후속 상태:** 앞의 표는 미측정을 처음 기록했을 때의 상태다.
+`zipdepth`·`tr2m` 엔진 정확도는 전수 재실행으로 14/14가 됐다. tr2m 프로파일은
+첫 시도가 두 번째 입력을 비운 무효 측정임을 확인한 뒤, `profile_model.py`가
+`tr2m__text_features.npy`까지 바인딩하도록 고쳐 다시 측정했다(369/369 레이어).
+vggt·streamvggt는 일반 미터 표에서는 계속 `unsupported`이고, 대신
+`reports/gt_scale_only.md`에서 각 50장을 측정했다. tr2m GT 계약만 남아 있다.
 
 생성기 셋이 그 레코드를 읽어 표시한다. `compare.py` 는 `fp32`·`moved` 칸을
 `-` 대신 `not measured` 로 쓰고 「Layer profiles not measured」 절을 붙인다.

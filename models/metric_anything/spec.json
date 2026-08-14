@@ -53,6 +53,7 @@
     "type": "stretch",
     "normalise": "over_255",
     "interpolation": "area",
-    "verified": "byte-exact against reports/inputs/metric_anything.npy via evaluate_gt's adapter"
+    "verified": "exact against reports/inputs/metric_anything.npy via evaluate_gt's adapter",
+    "adapter_check": {"oracle": "reports/inputs/metric_anything.npy", "max_abs_diff": 0.0, "atol": 1e-4}
   }
 }

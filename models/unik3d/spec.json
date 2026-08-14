@@ -51,6 +51,7 @@
     "type": "stretch",
     "normalise": "imagenet",
     "interpolation": "linear",
-    "verified": "byte-exact against reports/inputs/unik3d.npy via evaluate_gt's adapter"
+    "verified": "within 1e-4 against reports/inputs/unik3d.npy via evaluate_gt's adapter (max abs diff 4.768e-7)",
+    "adapter_check": {"oracle": "reports/inputs/unik3d.npy", "max_abs_diff": 4.768e-7, "atol": 1e-4}
   }
 }

@@ -45,6 +45,7 @@
     "normalise": "over_255",
     "interpolation": "cubic",
     "note": "square pad first, then resize; scale = size / max_dim",
-    "verified": "transcribed from onnx2trt.py; no ground-truth adapter checks it yet"
+    "verified": "exact against reports/inputs/streamvggt.npy via evaluate_gt's adapter",
+    "adapter_check": {"oracle": "reports/inputs/streamvggt.npy", "max_abs_diff": 0.0, "atol": 1e-4}
   }
 }

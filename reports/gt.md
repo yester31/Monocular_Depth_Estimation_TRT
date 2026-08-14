@@ -49,8 +49,8 @@ Fourteen models are in this repository and the table above does not have fourtee
 
 - `tr2m` — Needs one text prompt per image and a way to put its embedding into the engine's second binding, and evaluate_gt.py has neither. The prompt policy, the sentences and the committed embeddings are specified but do not exist yet, and a tr2m row without a policy name is not a publishable number. See docs/model_contracts.md, final section: tr2m evaluation contract.
 
-`streamvggt` is measured instead in `reports/gt_scale_only.md` — not run yet (PLAN.md section 7, desktop item 2).
+`streamvggt` is measured instead in `reports/gt_scale_only.md` — completed 2026-08-14 over 50 DIODE indoor images.
 
-`vggt` is measured instead in `reports/gt_scale_only.md` — not run yet (PLAN.md section 7, desktop item 2).
+`vggt` is measured instead in `reports/gt_scale_only.md` — completed 2026-08-14 over 50 DIODE indoor images.
 
 **Alignment** is the model's own claim, not a choice made here. `none` means the output was compared in metres as it came out; `scale_shift` means a scale and a shift were fitted on disparity first, which is all a relative model claims. Two rows with different alignments are not comparable.

@@ -7,9 +7,9 @@ Runs the engine the benchmark measured, on the exact input the benchmark used,
 with TensorRT's layer profiler attached, and reports the time per layer
 alongside the engine's own structure.
 
-Uses reports/inputs/<model>.npy -- the byte-identical tensor that produced the
-recorded number -- so the profile describes the run in the report and not some
-other run.
+Uses reports/inputs/<model>.npy and every declared
+reports/inputs/<model>__<binding>.npy -- the recorded tensors that produced the
+benchmark number -- so the profile describes the same complete computation.
 
 Two things this is for. Finding where the time is, obviously. And finding
 layers that cost time while doing no arithmetic: a Reformat or a Shuffle is
@@ -28,9 +28,46 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import numpy as np  # noqa: E402
 
-from core import bench, build_conditions, profile as prof, spec as spec_mod  # noqa: E402
+from core import bench, build_conditions, spec as spec_mod  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+INPUTS = os.path.join(ROOT, "reports", "inputs")
+
+
+def saved_inputs(model, model_spec, inputs_dir=INPUTS):
+    """Load every recorded engine input in declared binding order.
+
+    Most models have only the image. TR2M also has a CLIP text embedding;
+    profiling it with an uninitialised second binding measures a computation
+    that the benchmark never ran. The spec is the ordering contract and the
+    recorded arrays are the values the benchmark actually used.
+    """
+    declared = [model_spec["input"]] + list(model_spec.get("extra_inputs", []))
+    feeds = []
+    for i, item in enumerate(declared):
+        suffix = "" if i == 0 else "__" + item["name"]
+        path = os.path.join(inputs_dir, f"{model}{suffix}.npy")
+        if not os.path.isfile(path):
+            raise FileNotFoundError(
+                f"{model}: no saved input for binding {item['name']!r} at {path}")
+        feeds.append((item["name"], np.ascontiguousarray(np.load(path))))
+    return feeds
+
+
+def bind_saved_inputs(slots, feeds):
+    """Copy all declared feeds into TensorRT host buffers, without omissions."""
+    if len(slots) != len(feeds):
+        names = ", ".join(name for name, _ in feeds)
+        raise ValueError(
+            f"engine has {len(slots)} input bindings but the spec/record has "
+            f"{len(feeds)} ({names})")
+    for slot, (name, value) in zip(slots, feeds):
+        flat = np.asarray(value, dtype=slot.host.dtype).ravel()
+        if flat.size != slot.host.size:
+            raise ValueError(
+                f"binding {name!r} has {slot.host.size} elements but the "
+                f"recorded input has {flat.size}")
+        np.copyto(slot.host, flat, casting="safe")
 
 
 def load_engine(path):
@@ -62,19 +99,21 @@ def run(model, args):
         print(f"{model}: engine not on this machine ({engine_path})")
         return 1
 
-    input_path = os.path.join(ROOT, "reports", "inputs", f"{model}.npy")
-    if not os.path.isfile(input_path):
-        print(f"{model}: no saved input at {input_path}")
+    try:
+        feeds = saved_inputs(model, spec_mod.load(model))
+    except (FileNotFoundError, ValueError) as e:
+        print(e)
         return 1
-    feed = np.load(input_path)
+    feed = feeds[0][1]
 
     from core import common
     from core import common_runtime
+    from core import profile as prof
 
     engine = load_engine(engine_path)
     context = engine.create_execution_context()
     inputs, outputs, bindings, stream = common.allocate_buffers(engine)
-    np.copyto(inputs[0].host, feed.ravel().view(inputs[0].host.dtype))
+    bind_saved_inputs(inputs, feeds)
 
     timer = prof.LayerTimer()
     try:
@@ -118,6 +157,10 @@ def run(model, args):
         # benchmark measured, rather than assuming it from the model name.
         **build_conditions.stamp(engine_path),
         "input_shape": list(feed.shape),
+        "extra_inputs": [
+            {"name": name, "shape": list(value.shape), "dtype": str(value.dtype)}
+            for name, value in feeds[1:]
+        ],
         "iterations": args.iterations,
         "summary": summary,
         "suspects": susp,

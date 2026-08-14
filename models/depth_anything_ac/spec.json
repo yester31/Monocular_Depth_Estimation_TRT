@@ -45,6 +45,7 @@
     "type": "stretch",
     "normalise": "imagenet",
     "interpolation": "linear",
-    "verified": "byte-exact against reports/inputs/depth_anything_ac.npy via evaluate_gt's adapter"
+    "verified": "within 1e-4 against reports/inputs/depth_anything_ac.npy via evaluate_gt's adapter (max abs diff 2.384e-7)",
+    "adapter_check": {"oracle": "reports/inputs/depth_anything_ac.npy", "max_abs_diff": 2.384e-7, "atol": 1e-4}
   }
 }

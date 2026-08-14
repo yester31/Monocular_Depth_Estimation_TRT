@@ -55,6 +55,7 @@
     "type": "stretch",
     "normalise": "imagenet",
     "interpolation": "linear",
-    "verified": "byte-exact against reports/inputs/unidepth_v2.npy via evaluate_gt's adapter"
+    "verified": "within 1e-4 against reports/inputs/unidepth_v2.npy via evaluate_gt's adapter (max abs diff 4.768e-7)",
+    "adapter_check": {"oracle": "reports/inputs/unidepth_v2.npy", "max_abs_diff": 4.768e-7, "atol": 1e-4}
   }
 }

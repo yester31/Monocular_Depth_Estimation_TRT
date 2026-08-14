@@ -6,6 +6,6 @@
   "see": "docs/findings.md P3; tests/test_scale_only.py",
   "recorded": "2026-08-14",
   "measured_instead": "reports/gt_scale_only.md",
-  "measured_instead_status": "not run yet (PLAN.md section 7, desktop item 2)",
-  "command": "python tools/evaluate_gt.py vggt --scale-only"
+  "measured_instead_status": "completed 2026-08-14 over 50 DIODE indoor images",
+  "command": "python tools/evaluate_gt.py --manifest data/eval/diode_indoors.json --root <DIODE-val-root> --scale-only"
 }

@@ -63,6 +63,7 @@
     "normalise": "half",
     "interpolation": "torch_bilinear",
     "note": "normalised before the resize, and the resize is torch's bilinear with align_corners=False, not cv2's",
-    "verified": "byte-exact against reports/inputs/depth_pro.npy via evaluate_gt's adapter"
+    "verified": "exact against reports/inputs/depth_pro.npy via evaluate_gt's adapter",
+    "adapter_check": {"oracle": "reports/inputs/depth_pro.npy", "max_abs_diff": 0.0, "atol": 1e-4}
   }
 }

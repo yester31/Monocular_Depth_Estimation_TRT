@@ -4,10 +4,9 @@ P1 wants the preprocessing type decidable from spec.json rather than by reading
 fourteen scripts. Writing it down is the easy half; the half that matters is
 that the declaration keeps matching the code.
 
-So a declaration marked verified has to be one evaluate_gt has an adapter for --
-and those adapters are checked byte-for-byte against the tensor each model's own
-onnx2trt.py fed its engine. A model cannot claim verification it has no adapter
-to earn.
+So an adapter_check declaration has to be backed by an evaluate_gt adapter.
+The structured record also says whether the comparison was exact or merely
+within the accepted tolerance; free-form wording does not control the test.
 """
 
 import json
@@ -56,11 +55,28 @@ def test_a_verified_claim_has_an_adapter_behind_it():
     """
     src = open(os.path.join(ROOT, "tools", "evaluate_gt.py"), encoding="utf-8").read()
     claimed = {m for m, s in specs().items()
-               if "byte-exact" in s.get("preprocess", {}).get("verified", "")}
+               if "adapter_check" in s.get("preprocess", {})}
     unbacked = [m for m in claimed if f'"{m}": {{' not in src]
     assert not unbacked, (
-        f"these claim a byte-exact adapter and evaluate_gt has none: "
+        f"these declare an adapter check and evaluate_gt has none: "
         f"{', '.join(sorted(unbacked))}")
+
+
+def test_adapter_check_states_the_observed_difference_and_tolerance():
+    for model, s in specs().items():
+        pre = s.get("preprocess", {})
+        check = pre.get("adapter_check")
+        if check is None:
+            continue
+        assert set(check) == {"oracle", "max_abs_diff", "atol"}, model
+        assert check["oracle"] == f"reports/inputs/{model}.npy", model
+        assert check["max_abs_diff"] <= check["atol"], model
+        note = pre.get("verified", "")
+        assert "byte-exact" not in note, model
+        if check["max_abs_diff"] == 0:
+            assert "exact against" in note, model
+        else:
+            assert "within 1e-4" in note, model
 
 
 def test_unverified_models_say_so_rather_than_staying_silent():

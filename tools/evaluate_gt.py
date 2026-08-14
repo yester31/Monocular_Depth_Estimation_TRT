@@ -11,7 +11,8 @@ does, against DIODE: real measurements in metres, with a mask saying which
 pixels the scanner actually reached.
 
 **The adapters are the risky part, so they are checked against an oracle.**
-Getting a model onto ground truth means reproducing its preprocessing exactly
+Getting a model onto ground truth means reproducing its preprocessing within a
+recorded numerical tolerance
 -- channel order, the divide by 255, whether ImageNet statistics apply, which
 interpolation, and what the network's output even means -- and every one of
 those is a silent failure. Feed a BGR image to a model trained on RGB and it
@@ -19,9 +20,11 @@ still returns a plausible depth map that scores badly, and the conclusion
 lands on the model.
 
 So each adapter is first run on data/example.jpg and compared against
-reports/inputs/<model>.npy, the byte-exact tensor that model's own onnx2trt.py
-fed the engine when it was benchmarked. An adapter that cannot reproduce that
-does not get to score anything. `--check` runs only that part and needs no GPU.
+reports/inputs/<model>.npy, the exact tensor that model's own onnx2trt.py fed
+the engine when it was benchmarked. The comparison records max absolute
+difference and accepts only values below 1e-4; zero is reported separately as
+exact. An adapter outside that tolerance does not get to score anything.
+`--check` runs only that part and needs no GPU.
 
 **Alignment is decided by the model's contract, never by the numbers.** A
 model that claims metres is scored in metres. See core/gt.py.
@@ -59,9 +62,10 @@ IMAGENET_STD = [0.229, 0.224, 0.225]
 # --------------------------------------------------------------------------
 # Adapters: one per model, transcribed from its own onnx2trt.py.
 #
-# `pre` takes the original BGR image and returns exactly what that model feeds
-# its engine. `depth` takes the engine's raw outputs and the original size and
-# returns depth in metres on the original pixel grid.
+# `pre` takes the original BGR image and reproduces what that model feeds its
+# engine, checked against a recorded tensor with max absolute difference below
+# 1e-4. `depth` takes the engine's raw outputs and the original size and returns
+# depth in metres on the original pixel grid.
 # --------------------------------------------------------------------------
 
 def _imagenet_stretch(bgr, h, w):
@@ -934,6 +938,18 @@ def rerender():
     return 0
 
 
+def preserve_unmeasured(results, recorded):
+    """Keep durable contract records when a refresh can only return a skip."""
+    missing = {r.get("model"): r for r in recorded
+               if unmeasured.is_unmeasured(r)}
+    kept = [missing[r["model"]]
+            if r.get("skip") and r.get("model") in missing else r
+            for r in results]
+    existing = {r["model"] for r in kept}
+    kept.extend(r for model, r in missing.items() if model not in existing)
+    return kept
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -1074,6 +1090,16 @@ def main():
         # belong beside them -- keeping them in separate files is the cheapest
         # way to make merging them a deliberate act rather than an accident.
         suffix += "_scale_only"
+    # A targeted run can only produce records for models it knows how to run.
+    # Preserve explicit not-measured records for the remaining contracts so a
+    # successful refresh cannot make an acknowledged gap disappear from the
+    # published report. This is how tr2m stays visible in gt.md even though it
+    # has no evaluate_gt adapter.
+    # A run that reaches a deliberately unsupported model returns a skip, but
+    # the existing record is more informative: it names the contract and the
+    # alternative table. Do not replace that durable explanation with a
+    # four-word runtime result.
+    results = preserve_unmeasured(results, _results_for(suffix))
     os.makedirs(OUT_DIR, exist_ok=True)
     for r in results:
         with open(os.path.join(OUT_DIR, f"{r['model']}{suffix}.json"), "w",

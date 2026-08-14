@@ -71,9 +71,9 @@
 | --- | --- | --- |
 | GPU 클럭 1800 MHz 고정 정책 | 완료 | 빌드·측정 동일 조건. 빌드 전후 클럭을 `<engine>.buildinfo.json` 에 기록하고, 흔들렸으면 로드할 때마다 경고 |
 | 14개 엔진 빌드·측정 | 완료 | `reports/comparison.md`. 표에 `fp32` · `moved` 열이 있어 엔진 상태가 속도 옆에 보인다 |
-| 엔진 대 ONNX 정확도 | **12/14 + 미측정 2건 기록** | `reports/accuracy.json` 에 12개 모델. 실패 0, `depth_anything_v3` 하늘 마스크만 WARN (값 크기 6.57e-06 이라 상대오차가 부풀려짐, 상관 0.998). **`zipdepth` · `tr2m` 은 미측정** |
-| 전수 레이어 프로파일 | **13/14 + 미측정 1건 기록** | `reports/profile/` 에 13개. 프로파일에도 클럭과 엔진 스탬프가 들어가 벤치 기록과 짝이 맞는지 검사됨. **`tr2m` 은 미측정** |
-| **정답 데이터 평가 (DIODE 실내 50장)** | **완료 — 11개 모델** | `reports/gt.md`. 어댑터는 전부 `reports/inputs/<model>.npy` 와 대조해 통과한 것만 채점 |
+| 엔진 대 ONNX 정확도 | **완료 — 14/14** | `reports/accuracy.json`. FAIL 0, `depth_anything_v3` 하늘 마스크만 WARN (참조 평균 6.57e-06 이라 상대오차 8.79%가 부풀려짐, 상관 0.9984). `zipdepth` · `tr2m` 포함 전 모델 재실행 |
+| 전수 레이어 프로파일 | **완료 — 14/14** | `reports/profile/`. `tr2m` 은 이미지와 기록된 `text_features [1,1,768]` 를 모두 바인딩해 재측정: 369/369 레이어, 19.338 ms, 이동 0.70%, fp32 출력 0.55% |
+| **정답 데이터 평가 (DIODE 실내 50장)** | **완료 — 일반 11개 + scale-only 2개** | `reports/gt.md` · `reports/gt_scale_only.md`. `tr2m` 만 이미지별 프롬프트 계약이 없어 미측정 |
 | **`unidepth_v2` · `unik3d` 672x896 재빌드** | **완료** | D11 의 3.1배 스케일 오차가 1.08 · 1.15 로 내려감. 모델 성질이 아니라 518 을 강제한 대가였다 |
 | **`metric3d_v2` canonical → 미터** | **완료** | DIODE 가 전역 캘리브레이션을 제공(`fx=886.81`). "영구 차단" 으로 적혀 있었으나 임의 사진에 대해서만 참이었다 |
 | **DIODE 깊이 규약** | **z-depth 로 측정 확인** | `tools/check_diode_convention.py`. 문서 어디에도 없어서 평면 피팅으로 판정 |
@@ -85,8 +85,8 @@
 | `tr2m` · `zipdepth` 추가 | 완료 | 13번째·14번째 모델 |
 | **공통 전처리 연결 (P1)** | **완료 — 13/14** | `core/preprocess.py`. `reports/inputs/*.npy` 와 바이트 동일. `depth_pro` 만 자기 경로에 남음 |
 | **평가 입력 3종횡비 (P2)** | **완료** | `data/eval/aspects.json`. 4:3 · 16:9 · portrait, DIODE 에서 결정적 크롭 |
-| **통합 시각화 데모 (P7)** | **완료 — headless** | `demo.py`. metric/relative/scale-unknown 3구역. 라이브 엔진 경로는 미검증 |
-| **`vggt`·`streamvggt` scale 정렬 채점 준비** | **완료 — 미실행** | 어댑터 바이트 일치, `--scale-only` 배선. 실행은 데스크탑 필요 |
+| **통합 시각화 데모 (P7)** | **완료 — headless + live** | `reports/demo/live/`. 3종횡비에서 실제 엔진 실행; tr2m 계약상 제외, metric3d_v2는 `--fx` 미지정 오류 패널, 나머지 12개 성공 |
+| **`vggt`·`streamvggt` scale 정렬 채점** | **완료** | `reports/gt_scale_only.md`. 각 50장; 일반 미터 표와 분리 유지 |
 | **테스트 240개가 실패 불가였던 문제** | **해결** | `tests/conftest.py`. 숨은 실패 3건 발견, 전부 테스트 버그 (`docs/findings.md`) |
 | **발표 수치 전수 감사** | **완료** | 불일치 16 묶음 · 출처 없음 60 묶음. [`docs/findings.md`](docs/findings.md) 9절 |
 | **미측정을 기계 판독 가능하게** | **완료** | `core/unmeasured.py`. 세 생성기가 빈칸을 `not measured` 로 표시하고 이유를 묶어 낸다 |
@@ -105,11 +105,11 @@
 | P0 측정 메타데이터 | **완료** | — |
 | P1 공통 전처리 연결 | **완료 13/14** | `depth_pro` 는 자기 경로에 남음(중단 조건). `models/*/infer.py` 미전환 |
 | P2 평가 입력 세트 | **완료** | — |
-| P3 정답 데이터 평가 | **완료 11/14** | `vggt`·`streamvggt` 채점(코드 준비됨), `tr2m` 계약 |
+| P3 정답 데이터 평가 | **일반 11 + scale-only 2 완료** | `tr2m` 이미지별 프롬프트·embedding 계약만 남음 |
 | P4 fp16 대 fp32 | **완료 8측정 / 2빌드불가** | — |
 | P5 보류 변경 결정 | **D2·D3 완료 / D4 대기** | D4 는 사용자 결정 |
-| P6 빌더 레벨 스윕 | **확정** | `streamvggt` 만 레벨 4 채택. 발표 엔진 교체 남음 |
-| P7 시각화 데모 | **완료 — headless** | 라이브 엔진 경로 미검증 |
+| P6 빌더 레벨 스윕 | **완료** | `streamvggt` 레벨 4 발표 엔진 교체·정확도 확인 완료 |
+| P7 시각화 데모 | **완료 — headless + live** | 3종횡비 실제 엔진 산출물은 `reports/demo/live/` |
 
 **P6 이 닫혔다.** `streamvggt` 레벨 4 가 확인 6빌드를 통과했다 — 레벨 3 세 빌드가
 53.30/53.43/54.03, 레벨 4 가 52.10/52.28/52.69 로 **분포가 겹치지 않는다**(−2.3%).
@@ -188,33 +188,31 @@
 
 ---
 
-## 7. 다음 실행 묶음 — 2026-08-14 기준
+## 7. 최근 완료 묶음과 남은 작업 — 2026-08-14 기준
 
-### 데스크탑(RTX 3080)이 필요한 것 — 순서대로 하나씩, 카드를 비우고
+### 데스크탑(RTX 3080) 묶음 — 완료
 
-1. **무인 배치 `gpu_batch.bat` 이 아래 일곱을 순서대로 돈다** (2026-08-14 투입):
-   `streamvggt` 레벨 4 재빌드(발표 엔진 교체) → 그 엔진의 정확도 확인 →
-   `zipdepth`·`tr2m` 정확도 → `tr2m` 프로파일 → 정답 데이터 전 모델 재채점
-   (`metric3d_v2` clip 순서가 바뀌었다) → `--scale-only` 별도 표 →
-   `demo.py --live`. 결과가 나오면 회수해 표를 갱신한다.
-2. **`vggt` · `streamvggt` 정답 데이터 채점** — 코드는 준비됐다(`docs/findings.md` P3).
-   `tools/evaluate_gt.py --scale-only` → `reports/gt_scale_only.md`.
-3. **`demo.py --live`** — 라이브 엔진 경로는 한 번도 실행된 적이 없다(`docs/findings.md` P7).
-   엔진 역직렬화, 버퍼 배선, rank-5 입력이 전부 미검증이다.
-4. `zipdepth` · `tr2m` 의 ONNX 대 엔진 정확도, `tr2m` 의 레이어 프로파일 —
-   §2 표의 12/14 와 13/14 를 14/14 로 만든다.
+1. `streamvggt` 레벨 4 발표 엔진 교체와 ONNX 정확도 확인 완료. 새 벤치는
+   52.827 ms, 엔진 대 ONNX 상대오차 0.1063%, 상관 0.999983.
+2. 엔진 대 ONNX 정확도 전수 재실행 완료: **14/14**, FAIL 0.
+3. `tr2m` 프로파일 완료. 첫 배치는 두 번째 입력을 채우지 않은 무효 측정이었고,
+   `profile_model.py` 를 고친 뒤 기록된 CLIP embedding까지 바인딩해 재측정했다.
+4. DIODE 전체 GT 재채점 완료. 첫 배치는 데이터 루트를 잘못 잡아 0장을 쓰고도
+   종료 코드 0이었으며, `--root C:\Users\soy\data\diode\val` 로 재실행해 일반
+   11개와 scale-only 2개가 각각 50장을 처리했음을 JSON에서 확인했다.
+5. `demo.py --live` 완료. 3종횡비 실제 산출물과 summary는 `reports/demo/live/`.
 
-### 노트북에서 할 수 있는 것
+### 노트북에서 완료한 것
 
-6. **`spec.json` 의 `verified: "byte-exact"` 를 사실에 맞게 고친다.** 코디네이터가
-   전 모델에 `check_adapter` 를 돌려 확인했다(2026-08-14): 바이트 동일은 9개이고
-   `depth_anything_ac`(2.4e-07) · `unidepth_v2`(4.8e-07) · `unik3d`(4.8e-07) 는
-   근사다. 합격선이 `< 1e-4` 라 통과할 뿐이다. **문구와
-   `tests/test_preprocess_spec.py` 를 같이 고쳐야 한다** — 그 테스트가
-   `"byte-exact"` 부분 문자열로 어느 모델이 어댑터를 가져야 하는지 판정하므로,
-   문구만 고치면 테스트가 조용히 꺼진다.
-7. `models/*/infer.py` 의 전처리는 공통 코드로 옮기지 않았다(`docs/findings.md` P1). 대조할 기록된
-   tensor 를 먼저 만들지 않으면 옮길 수 없다.
+6. **완료 — `spec.json` 의 `verified: "byte-exact"` 를 사실에 맞게 고쳤다.**
+   전 모델 `check_adapter` 로그를 다시 확인했다(2026-08-14): 어댑터가 있는
+   13개 중 정확히 같은 것은 10개이고 `depth_anything_ac`(2.384e-07) ·
+   `unidepth_v2`(4.768e-07) · `unik3d`(4.768e-07) 는 `< 1e-4` 근사다.
+   `adapter_check` 에 oracle·실측 최대 차이·허용치를 구조화했고,
+   `tests/test_preprocess_spec.py` 는 이제 설명 문구가 아니라 이 필드로 어댑터
+   존재와 판정 근거를 검사한다.
+7. `models/*/infer.py` 의 전처리는 공통 코드로 옮기지 않았다(`docs/findings.md` P1).
+   대조할 기록된 tensor가 없는 상태에서는 안전하게 검증할 수 없어 기존 중단 조건을 유지한다.
 
 ### 사용자 결정이 필요한 것
 

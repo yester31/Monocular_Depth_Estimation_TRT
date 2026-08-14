@@ -200,22 +200,37 @@ def test_a_not_measured_record_carries_no_scores(which):
             f"{carried}, which a generator will read as a result")
 
 
-def test_the_reason_codes_are_the_three_and_are_all_in_use():
-    """A fourth code, or a code nobody uses, means the taxonomy drifted."""
+def test_every_reason_code_in_use_belongs_to_the_closed_set():
+    """Completing measurements may retire a category without changing schema."""
     assert set(unmeasured.REASON_CODES) == {
         "not_run", "unsupported", "different_contract"}
     used = {r.get("reason_code")
             for which in SETS for r in _records(which)
             if unmeasured.is_unmeasured(r)}
-    assert used == set(unmeasured.REASON_CODES), (
-        f"in use: {sorted(used)}. A code with no record behind it is a "
-        f"category nobody found, and one in use that is not declared is a "
-        f"category nobody named.")
+    assert used <= set(unmeasured.REASON_CODES), (
+        f"in use but not declared: {sorted(used - set(unmeasured.REASON_CODES))}")
 
 
 def test_record_refuses_a_reason_code_it_does_not_know():
     with pytest.raises(ValueError):
         unmeasured.record("x", "dunno", "because")
+
+
+def test_a_refresh_preserves_more_informative_unmeasured_contracts():
+    from tools import evaluate_gt
+
+    unsupported = unmeasured.record("vggt", "unsupported", "x" * 50)
+    different = unmeasured.record("tr2m", "different_contract", "y" * 50)
+    scored = {"model": "depth_pro", "abs_rel": 0.1}
+    refreshed = [scored, {"model": "vggt", "skip": "no alignment policy"}]
+
+    kept = evaluate_gt.preserve_unmeasured(
+        refreshed, [unsupported, different])
+
+    by_model = {r["model"]: r for r in kept}
+    assert by_model["depth_pro"] is scored
+    assert by_model["vggt"] is unsupported
+    assert by_model["tr2m"] is different
 
 
 def test_split_loses_nothing_and_keeps_the_order():
@@ -294,7 +309,10 @@ def test_the_comparison_table_marks_the_cell_rather_than_leaving_a_dash():
     text = _published("profile")
     missing = {r["model"] for r in _records("profile")
                if unmeasured.is_unmeasured(r)}
-    assert missing, "no not-measured profile records to check"
+    # Reaching 14/14 is a valid terminal state. The assertions below apply
+    # whenever a future model introduces another explicit gap.
+    if not missing:
+        return
     for line in text.splitlines():
         if not line.startswith("|"):
             continue

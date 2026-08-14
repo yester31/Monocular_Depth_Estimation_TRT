@@ -59,6 +59,7 @@
     "type": "stretch",
     "normalise": "over_255",
     "interpolation": "linear",
-    "verified": "byte-exact against reports/inputs/moge_2.npy via evaluate_gt's adapter"
+    "verified": "exact against reports/inputs/moge_2.npy via evaluate_gt's adapter",
+    "adapter_check": {"oracle": "reports/inputs/moge_2.npy", "max_abs_diff": 0.0, "atol": 1e-4}
   }
 }
