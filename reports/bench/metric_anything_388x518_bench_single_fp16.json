@@ -123,7 +123,7 @@
   },
   "host": "soynet",
   "outputs": {},
-  "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\metric_anything\\engine\\metric_anything_388x518_fp16.engine",
+  "engine_path": ".\\models\\metric_anything\\engine\\metric_anything_388x518_fp16.engine",
   "engine_bytes": 661225276,
   "engine_mtime": 1786611728,
   "onnx_sha256": "",

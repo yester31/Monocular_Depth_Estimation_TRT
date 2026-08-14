@@ -136,7 +136,7 @@
       "mean": 0.3419007360935211
     }
   },
-  "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\unik3d\\engine\\unik3d_vits_672x896_dynamo_fp16.engine",
+  "engine_path": ".\\models\\unik3d\\engine\\unik3d_vits_672x896_dynamo_fp16.engine",
   "engine_bytes": 78294932,
   "engine_mtime": 1786651641,
   "onnx_sha256": "",

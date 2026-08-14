@@ -34,7 +34,7 @@ def main ():
     # [200000, 600000], snapped to a multiple of 14 -- and for any 4:3 source
     # that rule lands on exactly 672x896. Feeding them a 518 square meant the
     # engine ran at a size the model would never have chosen, which is what
-    # D11's 3.1x metric scale error was: not a defect in the conversion, a
+    # the 3.1x metric scale error was: not a defect in the conversion, a
     # consequence of overriding the model's own choice.
     #
     # It costs speed. 602112 pixels against 268324 is 2.24x the work, and the

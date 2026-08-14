@@ -1,7 +1,7 @@
 """Does core/pointmap.py agree with MoGe's own solver on real point maps?
 
     python tools/check_pointmap.py --manifest data/eval/diode_indoors.json \
-        --root C:/Users/soy/data/diode/val --limit 10
+        --root "$DIODE_ROOT" --limit 10
 
 core/pointmap.py exists to remove an import from a model's clone. The fair
 objection to reimplementing anything is that it becomes a second thing to be

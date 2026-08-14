@@ -62,7 +62,7 @@ def main():
     # Measured consequence: the keep-ratio factor below moves 0.2716 -> 1.1892
     # across input sizes, a 4.4x swing, yet the output barely changes (scale
     # 1.00-1.12). Invariance to input size is exactly what "not yet tied to a
-    # real camera" looks like. See docs/model_contracts.md D12 and 5.7.
+    # real camera" looks like. See docs/model_contracts.md, "Postprocessing rules".
     #
     # 616x1064 is upstream's own size for the ViT models, so this script is
     # already native; it does not use the repo-wide 518 bench size.

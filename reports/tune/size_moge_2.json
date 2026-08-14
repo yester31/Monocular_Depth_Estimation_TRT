@@ -14,8 +14,8 @@
       "alignment": "none",
       "mean_ms": 19.3893,
       "p50_ms": 19.3741,
-      "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\moge_2\\engine\\size\\moge-2_vits_normal_336x448_dynamo_fp16.engine",
-      "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\moge_2\\onnx\\moge-2_vits_normal_336x448_dynamo.onnx"
+      "engine_path": ".\\models\\moge_2\\engine\\size\\moge-2_vits_normal_336x448_dynamo_fp16.engine",
+      "onnx_path": ".\\models\\moge_2\\onnx\\moge-2_vits_normal_336x448_dynamo.onnx"
     },
     {
       "abs_rel": 0.2140070553109555,
@@ -29,8 +29,8 @@
       "alignment": "none",
       "mean_ms": 19.9656,
       "p50_ms": 19.9565,
-      "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\moge_2\\engine\\size\\moge-2_vits_normal_388x518_dynamo_fp16.engine",
-      "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\moge_2\\onnx\\moge-2_vits_normal_388x518_dynamo.onnx"
+      "engine_path": ".\\models\\moge_2\\engine\\size\\moge-2_vits_normal_388x518_dynamo_fp16.engine",
+      "onnx_path": ".\\models\\moge_2\\onnx\\moge-2_vits_normal_388x518_dynamo.onnx"
     },
     {
       "abs_rel": 0.21691227780224193,
@@ -44,8 +44,8 @@
       "alignment": "none",
       "mean_ms": 21.1974,
       "p50_ms": 21.1816,
-      "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\moge_2\\engine\\size\\moge-2_vits_normal_476x630_dynamo_fp16.engine",
-      "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\moge_2\\onnx\\moge-2_vits_normal_476x630_dynamo.onnx"
+      "engine_path": ".\\models\\moge_2\\engine\\size\\moge-2_vits_normal_476x630_dynamo_fp16.engine",
+      "onnx_path": ".\\models\\moge_2\\onnx\\moge-2_vits_normal_476x630_dynamo.onnx"
     }
   ]
 }

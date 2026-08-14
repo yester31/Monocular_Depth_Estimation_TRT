@@ -2,7 +2,6 @@
   "inputs_from": "1 image(s) named on the command line",
   "source": "live",
   "models_not_drawn": {
-    "hyden": "no adapter in evaluate_gt.py; its output contract is unverified",
     "tr2m": "no adapter in evaluate_gt.py; its output contract is unverified"
   },
   "images": {
@@ -16,18 +15,17 @@
         "cloud": "reports\\demo\\example\\example_cloud.png"
       },
       "depth": {
-        "shared_metric_range": [
-          0.29638599537037036,
-          2.0993673238991595
-        ],
-        "shared_range_note": "shared metric range 0.30-2.10 m (2-98 pct pooled over 7 metric models)",
+        "view": "qualitative",
+        "shared_metric_range": null,
         "per_model": {
           "depth_anything_ac": {
+            "display": "proximity",
+            "polarity": "warm=near, cool=far",
+            "normalization": "per-model 2-98 percentile",
+            "source_output_form": "inverse_depth",
             "vmin": 0.11475855108260245,
             "vmax": 5.887858719269761,
-            "cmap": "magma",
-            "how": "own range 0.115-5.89, not metres",
-            "band": "relative",
+            "cmap": "turbo",
             "stats": {
               "p02": 0.11400706725083479,
               "median": 2.8500136247660177,
@@ -41,21 +39,18 @@
               518
             ],
             "precision": "fp16",
-            "unit": "-",
-            "outputs": [
-              [
-                "output",
-                "relative depth"
-              ]
-            ],
-            "fit": null
+            "focal_length_px": null,
+            "focal_source": null,
+            "fov_deg": null
           },
           "depth_anything_v2": {
-            "vmin": 0.29638599537037036,
-            "vmax": 2.0993673238991595,
+            "display": "proximity",
+            "polarity": "warm=near, cool=far",
+            "normalization": "per-model 2-98 percentile",
+            "source_output_form": "depth",
+            "vmin": 0.37026352098473886,
+            "vmax": 1.1781795503659929,
             "cmap": "turbo",
-            "how": "shared metric axis 0.30-2.10 m (see the bar)",
-            "band": "metric",
             "stats": {
               "p02": 0.8487673158998842,
               "median": 1.5574541235820423,
@@ -69,21 +64,18 @@
               518
             ],
             "precision": "fp16",
-            "unit": "m",
-            "outputs": [
-              [
-                "output",
-                "metric depth (hypersim) with the default checkpoint"
-              ]
-            ],
-            "fit": null
+            "focal_length_px": null,
+            "focal_source": null,
+            "fov_deg": null
           },
           "depth_anything_v3": {
-            "vmin": 0.29638599537037036,
-            "vmax": 2.0993673238991595,
+            "display": "proximity",
+            "polarity": "warm=near, cool=far",
+            "normalization": "per-model 2-98 percentile",
+            "source_output_form": "depth",
+            "vmin": 0.5084718324098753,
+            "vmax": 2.8609030673197706,
             "cmap": "turbo",
-            "how": "shared metric axis 0.30-2.10 m (see the bar)",
-            "band": "metric",
             "stats": {
               "p02": 0.34956212466309267,
               "median": 0.6955473629044899,
@@ -97,25 +89,18 @@
               518
             ],
             "precision": "fp16",
-            "unit": "m",
-            "outputs": [
-              [
-                "depth",
-                "metric depth (DA3Metric-Large is the metric series)"
-              ],
-              [
-                "sky",
-                "sky mask; near-zero magnitude"
-              ]
-            ],
-            "fit": null
+            "focal_length_px": null,
+            "focal_source": null,
+            "fov_deg": null
           },
           "depth_pro": {
-            "vmin": 0.29638599537037036,
-            "vmax": 2.0993673238991595,
+            "display": "proximity",
+            "polarity": "warm=near, cool=far",
+            "normalization": "per-model 2-98 percentile",
+            "source_output_form": "depth",
+            "vmin": 0.38548833051768655,
+            "vmax": 1.620373161614488,
             "cmap": "turbo",
-            "how": "shared metric axis 0.30-2.10 m (see the bar)",
-            "band": "metric",
             "stats": {
               "p02": 0.6171795317613473,
               "median": 1.154050197245644,
@@ -129,25 +114,18 @@
               1536
             ],
             "precision": "fp16",
-            "unit": "m",
-            "outputs": [
-              [
-                "canonical_inverse_depth",
-                "inverse depth, canonical camera"
-              ],
-              [
-                "fov_deg",
-                "field of view in degrees"
-              ]
-            ],
-            "fit": null
+            "focal_length_px": null,
+            "focal_source": null,
+            "fov_deg": null
           },
           "distill_any_depth": {
+            "display": "proximity",
+            "polarity": "warm=near, cool=far",
+            "normalization": "per-model 2-98 percentile",
+            "source_output_form": "inverse_depth",
             "vmin": 0.18687715475451308,
             "vmax": 6.2709593219521595,
-            "cmap": "magma",
-            "how": "own range 0.187-6.27, not metres",
-            "band": "relative",
+            "cmap": "turbo",
             "stats": {
               "p02": 0.1863705716440542,
               "median": 3.169889703863115,
@@ -161,24 +139,43 @@
               518
             ],
             "precision": "fp16",
-            "unit": "-",
-            "outputs": [
-              [
-                "output",
-                "relative depth"
-              ]
-            ],
-            "fit": null
+            "focal_length_px": null,
+            "focal_source": null,
+            "fov_deg": null
           },
           "metric3d_v2": {
-            "error": "postprocess: ValueError: metric3d_v2 needs the real focal length in pixels to produce metres; the manifest carries no source.intrinsics.fx"
+            "display": "proximity",
+            "polarity": "warm=near, cool=far",
+            "normalization": "per-model 2-98 percentile",
+            "source_output_form": "depth",
+            "vmin": 0.2639001353682143,
+            "vmax": 0.8189803844074351,
+            "cmap": "turbo",
+            "stats": {
+              "p02": 1.221033402070823,
+              "median": 1.7916575002327224,
+              "p98": 3.7895559298291985,
+              "valid_pct": 100.0
+            },
+            "engine_fingerprint": "92f4b42b98f4",
+            "engine_fingerprint_source": "engine sha256",
+            "input_size": [
+              616,
+              1064
+            ],
+            "precision": "fp32",
+            "focal_length_px": 3361.410123932837,
+            "focal_source": "depth_pro predicted fov_deg",
+            "fov_deg": 48.4375
           },
           "metric_anything": {
-            "vmin": 0.29638599537037036,
-            "vmax": 2.0993673238991595,
+            "display": "proximity",
+            "polarity": "warm=near, cool=far",
+            "normalization": "per-model 2-98 percentile",
+            "source_output_form": "depth",
+            "vmin": 0.32160561270523025,
+            "vmax": 1.101049884509856,
             "cmap": "turbo",
-            "how": "shared metric axis 0.30-2.10 m (see the bar)",
-            "band": "metric",
             "stats": {
               "p02": 0.9081428578143819,
               "median": 1.5462002724777033,
@@ -192,29 +189,18 @@
               518
             ],
             "precision": "fp16",
-            "unit": "m",
-            "outputs": [
-              [
-                "points",
-                "point map"
-              ],
-              [
-                "mask",
-                "valid mask"
-              ],
-              [
-                "metric_scale",
-                "scalar metric scale"
-              ]
-            ],
-            "fit": null
+            "focal_length_px": null,
+            "focal_source": null,
+            "fov_deg": null
           },
           "moge_2": {
-            "vmin": 0.29638599537037036,
-            "vmax": 2.0993673238991595,
+            "display": "proximity",
+            "polarity": "warm=near, cool=far",
+            "normalization": "per-model 2-98 percentile",
+            "source_output_form": "depth",
+            "vmin": 0.47151501419034364,
+            "vmax": 1.3019070379663384,
             "cmap": "turbo",
-            "how": "shared metric axis 0.30-2.10 m (see the bar)",
-            "band": "metric",
             "stats": {
               "p02": 0.7681075217530887,
               "median": 1.2088620448238636,
@@ -228,33 +214,18 @@
               518
             ],
             "precision": "fp16",
-            "unit": "m",
-            "outputs": [
-              [
-                "points",
-                "point map"
-              ],
-              [
-                "normal",
-                "surface normal"
-              ],
-              [
-                "mask",
-                "valid mask"
-              ],
-              [
-                "metric_scale",
-                "scalar metric scale"
-              ]
-            ],
-            "fit": null
+            "focal_length_px": null,
+            "focal_source": null,
+            "fov_deg": null
           },
           "streamvggt": {
-            "vmin": 0.5711420243279433,
-            "vmax": 1.522193656039545,
-            "cmap": "bone",
-            "how": "own range 0.571-1.52, not metres",
-            "band": "unknown",
+            "display": "proximity",
+            "polarity": "warm=near, cool=far",
+            "normalization": "per-model 2-98 percentile",
+            "source_output_form": "depth",
+            "vmin": 0.6569466354307412,
+            "vmax": 1.7508779907803482,
+            "cmap": "turbo",
             "stats": {
               "p02": 0.5711269189443497,
               "median": 0.8810848970270593,
@@ -268,21 +239,18 @@
               518
             ],
             "precision": "fp16",
-            "unit": "-",
-            "outputs": [
-              [
-                "depth",
-                "depth; global scale unknown"
-              ]
-            ],
-            "fit": null
+            "focal_length_px": null,
+            "focal_source": null,
+            "fov_deg": null
           },
           "unidepth_v2": {
-            "vmin": 0.29638599537037036,
-            "vmax": 2.0993673238991595,
+            "display": "proximity",
+            "polarity": "warm=near, cool=far",
+            "normalization": "per-model 2-98 percentile",
+            "source_output_form": "depth",
+            "vmin": 0.9730348250890715,
+            "vmax": 1.3219750891941018,
             "cmap": "turbo",
-            "how": "shared metric axis 0.30-2.10 m (see the bar)",
-            "band": "metric",
             "stats": {
               "p02": 0.756419994212963,
               "median": 0.94091796875,
@@ -296,29 +264,18 @@
               896
             ],
             "precision": "fp16",
-            "unit": "m",
-            "outputs": [
-              [
-                "pts_3d",
-                "point map"
-              ],
-              [
-                "confidence",
-                "confidence"
-              ],
-              [
-                "intrinsics",
-                "3x3 camera intrinsics"
-              ]
-            ],
-            "fit": null
+            "focal_length_px": null,
+            "focal_source": null,
+            "fov_deg": null
           },
           "unik3d": {
-            "vmin": 0.29638599537037036,
-            "vmax": 2.0993673238991595,
+            "display": "proximity",
+            "polarity": "warm=near, cool=far",
+            "normalization": "per-model 2-98 percentile",
+            "source_output_form": "depth",
+            "vmin": 2.332443810411057,
+            "vmax": 3.5961369622475856,
             "cmap": "turbo",
-            "how": "shared metric axis 0.30-2.10 m (see the bar)",
-            "band": "metric",
             "stats": {
               "p02": 0.278076171875,
               "median": 0.35009765625,
@@ -332,25 +289,18 @@
               896
             ],
             "precision": "fp16",
-            "unit": "m",
-            "outputs": [
-              [
-                "pts_3d",
-                "point map"
-              ],
-              [
-                "confidence",
-                "confidence"
-              ]
-            ],
-            "fit": null
+            "focal_length_px": null,
+            "focal_source": null,
+            "fov_deg": null
           },
           "vggt": {
-            "vmin": 0.6869789880821338,
-            "vmax": 1.6722916414785307,
-            "cmap": "bone",
-            "how": "own range 0.687-1.67, not metres",
-            "band": "unknown",
+            "display": "proximity",
+            "polarity": "warm=near, cool=far",
+            "normalization": "per-model 2-98 percentile",
+            "source_output_form": "depth",
+            "vmin": 0.5979818256862233,
+            "vmax": 1.4556485967521942,
+            "cmap": "turbo",
             "stats": {
               "p02": 0.6870298624941147,
               "median": 1.0243304340727664,
@@ -364,21 +314,18 @@
               518
             ],
             "precision": "fp16",
-            "unit": "-",
-            "outputs": [
-              [
-                "depth",
-                "depth; global scale unknown"
-              ]
-            ],
-            "fit": null
+            "focal_length_px": null,
+            "focal_source": null,
+            "fov_deg": null
           },
           "zipdepth": {
+            "display": "proximity",
+            "polarity": "warm=near, cool=far",
+            "normalization": "per-model 2-98 percentile",
+            "source_output_form": "inverse_depth",
             "vmin": 0.011365596597917717,
             "vmax": 0.14429811784739935,
-            "cmap": "magma",
-            "how": "own range 0.0114-0.144, not metres",
-            "band": "relative",
+            "cmap": "turbo",
             "stats": {
               "p02": 0.011343417376040384,
               "median": 0.07875408342299031,
@@ -392,18 +339,12 @@
               512
             ],
             "precision": "fp16",
-            "unit": "-",
-            "outputs": [
-              [
-                "depth",
-                "affine-invariant inverse depth"
-              ]
-            ],
-            "fit": null
+            "focal_length_px": null,
+            "focal_source": null,
+            "fov_deg": null
           }
         },
         "not_drawn": {
-          "hyden": "no adapter in evaluate_gt.py; its output contract is unverified",
           "tr2m": "no adapter in evaluate_gt.py; its output contract is unverified"
         }
       },
@@ -578,7 +519,14 @@
           "cloud": null,
           "why": "no camera in this model's outputs; nothing to unproject"
         }
+      },
+      "metric3d_focal": {
+        "focal_length_px": 3361.410123932837,
+        "fov_deg": 48.4375,
+        "source": "depth_pro predicted fov_deg",
+        "status": "estimated intrinsics, not measured calibration"
       }
     }
-  }
+  },
+  "depth_view": "qualitative"
 }

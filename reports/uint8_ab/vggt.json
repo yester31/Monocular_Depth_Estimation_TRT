@@ -48,7 +48,7 @@
     }
   ],
   "engines": {
-    "float32_nchw": "C:\\Users\\soy\\mde_trt\\work\\models\\vggt\\engine\\vggt_only_depth_518x518_fp16_fp16.engine",
-    "uint8_nhwc": "C:\\Users\\soy\\mde_trt\\work\\models\\vggt\\engine\\vggt_only_depth_518x518_fp16_u8_fp16.engine"
+    "float32_nchw": ".\\models\\vggt\\engine\\vggt_only_depth_518x518_fp16_fp16.engine",
+    "uint8_nhwc": ".\\models\\vggt\\engine\\vggt_only_depth_518x518_fp16_u8_fp16.engine"
   }
 }

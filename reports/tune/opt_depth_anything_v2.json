@@ -1,8 +1,8 @@
 [
   {
     "model": "depth_anything_v2",
-    "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\depth_anything_v2\\onnx\\depth_anything_v2_vits_518x518_metric_hypersim_dynamo_sim.onnx",
-    "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\depth_anything_v2\\engine\\tune\\depth_anything_v2_vits_518x518_metric_hypersim_dynamo_sim_fp16_opt4_wsd.engine",
+    "onnx_path": ".\\models\\depth_anything_v2\\onnx\\depth_anything_v2_vits_518x518_metric_hypersim_dynamo_sim.onnx",
+    "engine_path": ".\\models\\depth_anything_v2\\engine\\tune\\depth_anything_v2_vits_518x518_metric_hypersim_dynamo_sim_fp16_opt4_wsd.engine",
     "precision": "fp16",
     "opt_level": 4,
     "workspace_gib": null,
@@ -70,8 +70,8 @@
   },
   {
     "model": "depth_anything_v2",
-    "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\depth_anything_v2\\onnx\\depth_anything_v2_vits_518x518_metric_hypersim_dynamo_sim.onnx",
-    "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\depth_anything_v2\\engine\\tune\\depth_anything_v2_vits_518x518_metric_hypersim_dynamo_sim_fp16_opt5_wsd.engine",
+    "onnx_path": ".\\models\\depth_anything_v2\\onnx\\depth_anything_v2_vits_518x518_metric_hypersim_dynamo_sim.onnx",
+    "engine_path": ".\\models\\depth_anything_v2\\engine\\tune\\depth_anything_v2_vits_518x518_metric_hypersim_dynamo_sim_fp16_opt5_wsd.engine",
     "precision": "fp16",
     "opt_level": 5,
     "workspace_gib": null,

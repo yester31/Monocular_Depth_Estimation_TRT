@@ -76,7 +76,7 @@ def main():
     #   518x518 (was)            551.1
     #
     # Metric depth is tied to focal length, so the depth moved with it: unik3d,
-    # which shares this design, measured 3.15x upstream at 518x518. D11 was
+    # which shares this design, measured 3.15x upstream at 518x518. That was
     # never a conversion defect, it was the cost of overriding the model's own
     # choice.
     #

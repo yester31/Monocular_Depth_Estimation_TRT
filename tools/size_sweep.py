@@ -1,7 +1,7 @@
 """Does the input size a model is given change how accurate it is?
 
     python tools/size_sweep.py depth_anything_v2 --sizes 518x518 672x896 \
-        --manifest data/eval/diode_indoors.json --root C:/Users/soy/data/diode/val
+        --manifest data/eval/diode_indoors.json --root "$DIODE_ROOT"
 
 D3. The old sensitivity table in docs/model_contracts.md answers a different
 question -- it compares each model against *its own* output at another size, so

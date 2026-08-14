@@ -1,8 +1,8 @@
 [
   {
     "model": "moge_2",
-    "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\moge_2\\onnx\\moge-2_vits_normal_388x518_dynamo_sim.onnx",
-    "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\moge_2\\engine\\tune\\moge-2_vits_normal_388x518_dynamo_sim_fp16_opt4_wsd.engine",
+    "onnx_path": ".\\models\\moge_2\\onnx\\moge-2_vits_normal_388x518_dynamo_sim.onnx",
+    "engine_path": ".\\models\\moge_2\\engine\\tune\\moge-2_vits_normal_388x518_dynamo_sim_fp16_opt4_wsd.engine",
     "precision": "fp16",
     "opt_level": 4,
     "workspace_gib": null,
@@ -72,8 +72,8 @@
   },
   {
     "model": "moge_2",
-    "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\moge_2\\onnx\\moge-2_vits_normal_388x518_dynamo_sim.onnx",
-    "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\moge_2\\engine\\tune\\moge-2_vits_normal_388x518_dynamo_sim_fp16_opt5_wsd.engine",
+    "onnx_path": ".\\models\\moge_2\\onnx\\moge-2_vits_normal_388x518_dynamo_sim.onnx",
+    "engine_path": ".\\models\\moge_2\\engine\\tune\\moge-2_vits_normal_388x518_dynamo_sim_fp16_opt5_wsd.engine",
     "precision": "fp16",
     "opt_level": 5,
     "workspace_gib": null,

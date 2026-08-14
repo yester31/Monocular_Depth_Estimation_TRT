@@ -12,7 +12,7 @@
   "images": 50,
   "pixels": 38852365,
   "alignment": "none",
-  "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\depth_pro\\engine\\depth_pro_1536x1536_dynamo_u8_fp16.engine",
+  "engine_path": ".\\models\\depth_pro\\engine\\depth_pro_1536x1536_dynamo_u8_fp16.engine",
   "precision": "fp16",
   "samples": [
     {

@@ -4,7 +4,7 @@
   "precision": "fp32",
   "clock_mhz": 1800,
   "clock_max_mhz": 2130,
-  "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\metric3d_v2\\engine\\metric3d_vits_616x1064_fp32.engine",
+  "engine_path": ".\\models\\metric3d_v2\\engine\\metric3d_vits_616x1064_fp32.engine",
   "engine_bytes": 189589372,
   "engine_mtime": 1786611480,
   "input_shape": [

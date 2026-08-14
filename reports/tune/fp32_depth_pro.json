@@ -1,8 +1,8 @@
 [
   {
     "model": "depth_pro",
-    "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\depth_pro\\onnx\\depth_pro_1536x1536_dynamo.onnx",
-    "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\depth_pro\\engine\\tune\\depth_pro_1536x1536_dynamo_fp16_as_fp32_optd_wsd.engine",
+    "onnx_path": ".\\models\\depth_pro\\onnx\\depth_pro_1536x1536_dynamo.onnx",
+    "engine_path": ".\\models\\depth_pro\\engine\\tune\\depth_pro_1536x1536_dynamo_fp16_as_fp32_optd_wsd.engine",
     "precision": "fp32",
     "opt_level": null,
     "workspace_gib": null,

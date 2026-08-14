@@ -136,7 +136,7 @@
       "mean": 3.2438831329345703
     }
   },
-  "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\distill_any_depth\\engine\\distill_any_depth_small_518x518_dynamo_sim_fp16.engine",
+  "engine_path": ".\\models\\distill_any_depth\\engine\\distill_any_depth_small_518x518_dynamo_sim_fp16.engine",
   "engine_bytes": 52308332,
   "engine_mtime": 1786611353,
   "onnx_sha256": "",

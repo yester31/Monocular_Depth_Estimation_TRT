@@ -1,6 +1,6 @@
 """Pick an evaluation subset from a DIODE download and write it down exactly.
 
-    python tools/make_eval_manifest.py --root C:/Users/soy/data/diode/val \
+    python tools/make_eval_manifest.py --root "$DIODE_ROOT" \
         --split indoors --count 50 --out data/eval/diode_indoors.json
 
 The dataset itself is 2.6 GB and stays outside the repository; what goes in is

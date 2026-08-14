@@ -5,11 +5,8 @@
 
 The three crops (4:3, 16:9, portrait) are not hand-picked photos; they are
 fixed pixel rectangles cut from DIODE indoor frames that already live in this
-repo under data/eval/aspects/originals/ (copied, read-only, from the desktop's
-C:/Users/soy/data/diode/val -- the same dataset data/eval/diode_indoors.json
-draws its ground truth from; see tools/make_eval_manifest.py for the license
-text this reuses). Nothing here downloads anything or depends on that other
-manifest at run time.
+repo under data/eval/aspects/originals/. Nothing here downloads anything or
+depends on an external dataset path at run time.
 
 manifest is not hand-written. This script is the only thing that writes
 data/eval/aspects.json -- every entry's sha256 is computed from the crop file

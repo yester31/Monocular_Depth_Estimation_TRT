@@ -14,8 +14,8 @@
       "alignment": "none",
       "mean_ms": 3.7605,
       "p50_ms": 3.7496,
-      "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\depth_anything_v2\\engine\\size\\depth_anything_v2_vits_392x518_metric_hypersim_dynamo_fp16.engine",
-      "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\depth_anything_v2\\onnx\\depth_anything_v2_vits_392x518_metric_hypersim_dynamo.onnx"
+      "engine_path": ".\\models\\depth_anything_v2\\engine\\size\\depth_anything_v2_vits_392x518_metric_hypersim_dynamo_fp16.engine",
+      "onnx_path": ".\\models\\depth_anything_v2\\onnx\\depth_anything_v2_vits_392x518_metric_hypersim_dynamo.onnx"
     },
     {
       "abs_rel": 0.23063554733701355,
@@ -29,8 +29,8 @@
       "alignment": "none",
       "mean_ms": 4.2852,
       "p50_ms": 4.2863,
-      "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\depth_anything_v2\\engine\\size\\depth_anything_v2_vits_518x518_metric_hypersim_dynamo_fp16.engine",
-      "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\depth_anything_v2\\onnx\\depth_anything_v2_vits_518x518_metric_hypersim_dynamo.onnx"
+      "engine_path": ".\\models\\depth_anything_v2\\engine\\size\\depth_anything_v2_vits_518x518_metric_hypersim_dynamo_fp16.engine",
+      "onnx_path": ".\\models\\depth_anything_v2\\onnx\\depth_anything_v2_vits_518x518_metric_hypersim_dynamo.onnx"
     },
     {
       "abs_rel": 0.26514136711947806,
@@ -44,8 +44,8 @@
       "alignment": "none",
       "mean_ms": 10.4632,
       "p50_ms": 10.2651,
-      "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\depth_anything_v2\\engine\\size\\depth_anything_v2_vits_672x896_metric_hypersim_dynamo_fp16.engine",
-      "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\depth_anything_v2\\onnx\\depth_anything_v2_vits_672x896_metric_hypersim_dynamo.onnx"
+      "engine_path": ".\\models\\depth_anything_v2\\engine\\size\\depth_anything_v2_vits_672x896_metric_hypersim_dynamo_fp16.engine",
+      "onnx_path": ".\\models\\depth_anything_v2\\onnx\\depth_anything_v2_vits_672x896_metric_hypersim_dynamo.onnx"
     }
   ]
 }

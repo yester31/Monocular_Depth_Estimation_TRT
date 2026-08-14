@@ -1,8 +1,8 @@
 [
   {
     "model": "streamvggt",
-    "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\streamvggt\\onnx\\streamvggt_only_depth_518x518_fp16\\streamvggt_only_depth_518x518_fp16.onnx",
-    "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\streamvggt\\engine\\tune\\streamvggt_only_depth_518x518_fp16_fp16_opt4_wsd_r1.engine",
+    "onnx_path": ".\\models\\streamvggt\\onnx\\streamvggt_only_depth_518x518_fp16\\streamvggt_only_depth_518x518_fp16.onnx",
+    "engine_path": ".\\models\\streamvggt\\engine\\tune\\streamvggt_only_depth_518x518_fp16_fp16_opt4_wsd_r1.engine",
     "precision": "fp16",
     "opt_level": 4,
     "workspace_gib": null,
@@ -70,8 +70,8 @@
   },
   {
     "model": "streamvggt",
-    "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\streamvggt\\onnx\\streamvggt_only_depth_518x518_fp16\\streamvggt_only_depth_518x518_fp16.onnx",
-    "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\streamvggt\\engine\\tune\\streamvggt_only_depth_518x518_fp16_fp16_opt4_wsd_r2.engine",
+    "onnx_path": ".\\models\\streamvggt\\onnx\\streamvggt_only_depth_518x518_fp16\\streamvggt_only_depth_518x518_fp16.onnx",
+    "engine_path": ".\\models\\streamvggt\\engine\\tune\\streamvggt_only_depth_518x518_fp16_fp16_opt4_wsd_r2.engine",
     "precision": "fp16",
     "opt_level": 4,
     "workspace_gib": null,
@@ -144,8 +144,8 @@
   },
   {
     "model": "streamvggt",
-    "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\streamvggt\\onnx\\streamvggt_only_depth_518x518_fp16\\streamvggt_only_depth_518x518_fp16.onnx",
-    "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\streamvggt\\engine\\tune\\streamvggt_only_depth_518x518_fp16_fp16_opt4_wsd_r3.engine",
+    "onnx_path": ".\\models\\streamvggt\\onnx\\streamvggt_only_depth_518x518_fp16\\streamvggt_only_depth_518x518_fp16.onnx",
+    "engine_path": ".\\models\\streamvggt\\engine\\tune\\streamvggt_only_depth_518x518_fp16_fp16_opt4_wsd_r3.engine",
     "precision": "fp16",
     "opt_level": 4,
     "workspace_gib": null,

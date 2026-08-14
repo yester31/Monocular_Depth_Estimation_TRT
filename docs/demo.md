@@ -1,18 +1,22 @@
 # demo.py — one input, every model, side by side
 
-`demo.py` draws what the models actually return for the same picture. It is the
-P7 deliverable in PLAN.md §11, and the reason it needed a plan of its own is
-that the obvious way to draw it is wrong.
+`demo.py` draws what the models actually return for the same picture. It has
+two views because a compact qualitative gallery and an auditable metric
+comparison answer different questions.
 
-## The rule this exists to enforce
+## Two Views
 
-Colour each result by its own minimum and maximum and every model produces the
-same image. All that survives is the *shape* of the depth map; the metres go
-away. `reports/gt.md` ranks eight of these models on exactly the metres that
-would disappear — `depth_anything_v2` sits at 23.06% AbsRel and `metric3d_v2`
-at 13.10%, and per-panel normalisation makes those two look identical.
+| View | Command | Intended use |
+| --- | --- | --- |
+| Qualitative (default) | `python demo.py --live` | Compact README gallery. One `turbo` colour map, warm=near, and a separate 2–98% range for each model. This compares depth *shape*, not metres. |
+| Metric audit | `python demo.py --live --view metric` | Detailed report. Metric models share one range and colourbar; relative and unknown-scale models are visibly separated. Metric3D additionally needs `--fx` or the explicitly estimated `--metric3d-fx-from-depth-pro`. |
 
-So:
+Per-model normalization makes outputs with similar geometry easy to inspect,
+but it removes absolute scale disagreement. The qualitative figure therefore
+says that its colours do not compare metres. Use the metric view whenever the
+question is numerical agreement or metric accuracy.
+
+The metric view uses these rules:
 
 | `depth_scale` in `spec.json` | how it is drawn |
 | --- | --- |
@@ -26,11 +30,11 @@ in its own section, keeps a different frame colour, and its unit prints as
 `m fitted`, because the metres are the reference's. A fitted model never moves
 the shared axis: the range is pooled only over models that claim metres.
 
-Every panel carries the model name, the input size the engine was built for,
-what each output means, the unit, the precision, and a 12-character engine
-fingerprint. All of it is read from `models/<name>/spec.json` and
-`reports/bench/*.json` — nothing on screen is typed into this code
-(execution rule 7).
+Every detailed metric panel carries the model name, engine input size, output
+meaning, unit, precision, and a 12-character engine fingerprint. The compact
+view keeps only the model name, scale class, normalization rule, and timing so
+it remains readable at README width. Both read their facts from
+`models/<name>/spec.json` and `reports/bench/*.json`.
 
 ## Three sources of output, one drawing path
 
@@ -66,7 +70,7 @@ For each input image, in `--out` (default `reports/demo`):
 
 | file | what it shows |
 | --- | --- |
-| `<key>_depth.png` | the comparison, sectioned by output contract |
+| `<key>_depth.png` | the selected depth view; compact qualitative by default, detailed shared-axis audit with `--view metric` |
 | `<key>_inputs.png` | the tensor each model is actually fed, with the pad region drawn as a dashed box and the resize written under it |
 | `<key>_outputs.png` | mask, normal, confidence — only outputs a model declares. Field of view and intrinsics print as values in the footer |
 | `<key>_cloud.png`, `<key>_<model>.ply` | point clouds, for models that return a point map or a camera. A model returning only depth gets a stated reason, not an invented field of view |
@@ -85,10 +89,15 @@ one aspect ratio, where P7 wants three. `--image PATH` can be repeated.
 
 ## Things it will refuse to do
 
-* `metric3d_v2` predicts through a canonical camera, so its metres need the
-  focal length of the camera that took the picture. Without `--fx` it is drawn
-  as a failed panel stating that, rather than dropped (execution rule 9). DIODE
-  ships one: `--fx 886.81`.
+* `metric3d_v2` predicts through a canonical camera. The qualitative view can
+  draw that canonical depth as shape and labels it `canonical`; it does not
+  call the values metres. The metric view needs the focal length of the camera
+  that took the picture and remains a stated failure without a focal source.
+  Use `--fx 886.81` when the dataset supplies measured calibration, as DIODE
+  does. `--metric3d-fx-from-depth-pro` instead converts Depth Pro's predicted
+  horizontal FOV to pixels and records the result as estimated intrinsics. It
+  requires both models in `--models` and must not be reported as measured
+  camera calibration.
 * `tr2m` has no adapter in `evaluate_gt.py` — its prompt differs per image — so
   it is listed in the footer as excluded rather than silently missing.
 * Preprocessing previews for `depth_pro` need torch, which the shared runtime
@@ -110,7 +119,7 @@ ratios.
 The `--live` path was executed on the RTX 3080 on 2026-08-14. It deserialised
 the published engines and produced all four figures for each of the three
 aspect ratios; the committed evidence is in `reports/demo/live/`. TR2M was
-excluded before running because it still has no evaluation adapter, and
-Metric3D ran inference but rendered the documented error panel because this
-invocation deliberately supplied no `--fx`. The other twelve models completed
-inference and post-processing for all three inputs.
+excluded before running because it still has no evaluation adapter. Those
+older detailed figures show Metric3D's no-`--fx` error panel; the README's
+qualitative figure was regenerated on 2026-08-15 and uses its canonical output
+for shape only.

@@ -5,11 +5,10 @@ Two different things are tested here and they are not equally important.
 The layout tests are ordinary: a figure gets written, three aspect ratios come
 out the far end, a caption does not run into the next model's picture.
 
-The one that matters is `test_a_metric_disagreement_survives_the_drawing`.
-Colouring each result by its own minimum and maximum is the natural way to
-write this demo and it silently deletes the only thing reports/gt.md ranks the
-metric models on. That test states the property in the form of two models that
-disagree by two metres, and fails if the drawing makes them look alike.
+The detailed metric view must preserve absolute disagreement; the compact
+qualitative view must explicitly do the opposite, using one polarity and a
+per-model range to compare shape. Both policies are tested so a README layout
+change cannot silently turn into a metric claim, or vice versa.
 
 Nothing here needs TensorRT, an engine, or DIODE. The three aspect ratios are
 synthesised in a temporary directory rather than read from data/eval, because
@@ -51,6 +50,7 @@ def _image(h, w, seed=0):
 def _card(model="m", band="metric", h=518, w=518):
     return {"model": model, "input_h": h, "input_w": w, "band": band,
             "depth_scale": band, "unit": "m" if band == "metric" else "-",
+            "output_form": "depth",
             "precision": "fp16", "profile": "bench",
             "outputs": [("output", "metric depth")],
             "engine_fingerprint": "0123456789ab",
@@ -131,6 +131,27 @@ def test_robust_range_ignores_nan_and_non_positive():
     lo, hi = viz.robust_range([a], 0, 100)
     assert lo == pytest.approx(1.0)
     assert hi == pytest.approx(100.0)
+
+
+def test_qualitative_display_unifies_near_far_polarity():
+    depth = np.array([[1.0, 2.0, 4.0]])
+    inverse = 1.0 / depth
+    from_depth, lo_d, hi_d = viz.qualitative_display(depth, "depth")
+    from_inverse, lo_i, hi_i = viz.qualitative_display(inverse, "inverse_depth")
+    assert np.allclose(from_depth, from_inverse)
+    assert (lo_d, hi_d) == pytest.approx((lo_i, hi_i))
+    assert from_depth[0, 0] > from_depth[0, -1], "near must map to warm"
+
+
+def test_qualitative_display_uses_each_models_own_range():
+    shape = np.linspace(1.0, 3.0, 64).reshape(8, 8)
+    shifted = shape + 20.0
+    a, alo, ahi = viz.qualitative_display(shape, "inverse_depth")
+    b, blo, bhi = viz.qualitative_display(shifted, "inverse_depth")
+    assert (alo, ahi) != (blo, bhi)
+    first = viz.colorize(a, alo, ahi, viz.QUALITATIVE_CMAP)
+    second = viz.colorize(b, blo, bhi, viz.QUALITATIVE_CMAP)
+    assert np.abs(first.astype(float) - second.astype(float)).mean() < 1.0
 
 
 # ---------------------------------------------------------------------------
@@ -372,7 +393,8 @@ DEMO_MODELS = "depth_anything_v2,zipdepth,moge_2"
 def test_demo_draws_three_aspect_ratios_from_synthetic_arrays(tmp_path,
                                                               three_aspects):
     out = tmp_path / "out"
-    rc = demo.main(["--synthetic", "--models", DEMO_MODELS, "--out", str(out)]
+    rc = demo.main(["--synthetic", "--view", "metric", "--models",
+                    DEMO_MODELS, "--out", str(out)]
                    + [a for p in three_aspects for a in ("--image", p)])
     assert rc == 0
     for name in ASPECTS:
@@ -396,14 +418,15 @@ def test_saved_arrays_reproduce_the_run_they_came_from(tmp_path, three_aspects):
     images = [a for p in three_aspects for a in ("--image", p)]
     saved = tmp_path / "saved"
     first = tmp_path / "first"
-    assert demo.main(["--synthetic", "--models", DEMO_MODELS,
+    assert demo.main(["--synthetic", "--view", "metric", "--models", DEMO_MODELS,
                       "--save-outputs", str(saved), "--out", str(first),
                       "--no-pointcloud", "--no-extras",
                       "--no-inputs-figure"] + images) == 0
     assert (saved / "aspect_4x3" / "moge_2.npz").is_file()
 
     second = tmp_path / "second"
-    assert demo.main(["--from-saved", str(saved), "--models", DEMO_MODELS,
+    assert demo.main(["--from-saved", str(saved), "--view", "metric",
+                      "--models", DEMO_MODELS,
                       "--out", str(second), "--no-pointcloud", "--no-extras",
                       "--no-inputs-figure"] + images) == 0
 
@@ -449,11 +472,12 @@ def test_every_model_puts_its_depth_back_on_the_source_grid(name, three_aspects)
     assert checked >= 8, f"only {checked} models were exercised"
 
 
-def test_a_model_that_fails_is_drawn_as_a_failure_rather_than_dropped(tmp_path,
-                                                                     three_aspects):
+def test_metric_view_keeps_metric3d_as_a_failure_without_fx(tmp_path,
+                                                             three_aspects):
     """Rule 9. metric3d_v2 cannot produce metres without a focal length."""
     out = tmp_path / "out"
-    assert demo.main(["--synthetic", "--models", "metric3d_v2,zipdepth",
+    assert demo.main(["--synthetic", "--view", "metric", "--models",
+                      "metric3d_v2,zipdepth",
                       "--out", str(out), "--no-pointcloud", "--no-extras",
                       "--no-inputs-figure", "--image", three_aspects[0]]) == 0
     per = json.loads((out / "demo_summary.json").read_text())
@@ -461,6 +485,51 @@ def test_a_model_that_fails_is_drawn_as_a_failure_rather_than_dropped(tmp_path,
     assert "error" in per["metric3d_v2"]
     assert "focal" in per["metric3d_v2"]["error"]
     assert "error" not in per["zipdepth"]
+
+
+def test_qualitative_view_draws_metric3d_canonical_shape_without_fx(
+        tmp_path, three_aspects):
+    out = tmp_path / "out"
+    assert demo.main(["--synthetic", "--models", "metric3d_v2,zipdepth",
+                      "--out", str(out), "--no-pointcloud", "--no-extras",
+                      "--no-inputs-figure", "--image", three_aspects[0]]) == 0
+    per = json.loads((out / "demo_summary.json").read_text())
+    per = next(iter(per["images"].values()))["depth"]["per_model"]
+    metric3d = per["metric3d_v2"]
+    assert "error" not in metric3d
+    assert metric3d["display_source"].startswith("canonical depth")
+    assert "not metres" in metric3d["display_source"]
+    assert "focal" in metric3d["metric_conversion_error"]
+
+
+def test_depth_pro_fov_can_supply_metric3d_focal_pixels():
+    result = {"raw": [np.zeros(4), np.array([60.0])]}
+    fx, fov = demo._depth_pro_focal_from_result(result, 1000)
+    assert fov == pytest.approx(60.0)
+    assert fx == pytest.approx(500.0 / np.tan(np.deg2rad(30.0)))
+
+
+def test_metric3d_can_use_depth_pro_estimated_intrinsics(tmp_path,
+                                                         three_aspects):
+    out = tmp_path / "out"
+    assert demo.main([
+        "--synthetic", "--view", "metric",
+        "--models", "depth_pro,metric3d_v2",
+        "--metric3d-fx-from-depth-pro",
+        "--out", str(out), "--no-pointcloud", "--no-extras",
+        "--no-inputs-figure", "--image", three_aspects[0],
+    ]) == 0
+    image = next(iter(json.loads(
+        (out / "demo_summary.json").read_text())["images"].values()))
+    focal = image["metric3d_focal"]
+    assert focal["source"] == "depth_pro predicted fov_deg"
+    assert focal["status"].startswith("estimated intrinsics")
+    assert focal["focal_length_px"] > 0
+    metric3d = image["depth"]["per_model"]["metric3d_v2"]
+    assert "error" not in metric3d
+    assert metric3d["focal_source"] == focal["source"]
+    assert metric3d["focal_length_px"] == pytest.approx(
+        focal["focal_length_px"])
 
 
 def test_the_same_model_with_a_focal_length_then_succeeds(three_aspects):

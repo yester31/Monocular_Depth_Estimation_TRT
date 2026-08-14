@@ -49,6 +49,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 METRIC_CMAP = "turbo"
 RELATIVE_CMAP = "magma"
 UNKNOWN_CMAP = "bone"
+QUALITATIVE_CMAP = "turbo"
 INVALID_RGB = (60, 60, 66)
 
 BANDS = {
@@ -59,6 +60,7 @@ BANDS = {
     "fitted": ("relative, fitted", METRIC_CMAP, "#7a4fa3"),
     "relative": ("relative depth", RELATIVE_CMAP, "#c46a1f"),
     "unknown": ("scale unknown", UNKNOWN_CMAP, "#8a8a8a"),
+    "qualitative": ("shape comparison", QUALITATIVE_CMAP, "#3f6f8f"),
     "input": ("input", None, "#4d4d4d"),
     "skipped": ("not shown", None, "#a02b2b"),
 }
@@ -142,6 +144,7 @@ def model_card(name, spec, run=None):
         "input_w": w,
         "band": scale if scale in ("metric", "relative") else "unknown",
         "depth_scale": scale,
+        "output_form": spec.get("output_form") or "depth",
         "unit": "m" if scale == "metric" else "-",
         "precision": (run or {}).get("precision") or target.get("precision") or "?",
         "profile": profile or "?",
@@ -377,6 +380,27 @@ def display_ranges(cards, depths, override=None):
             cmap = RELATIVE_CMAP if band == "relative" else UNKNOWN_CMAP
             out[m] = (lo, hi, cmap, f"own range {lo:.3g}-{hi:.3g}, not metres")
     return out, shared_note
+
+
+def qualitative_display(depth, output_form="depth"):
+    """Return a near-is-high map and its own robust display range.
+
+    This is intentionally a *shape-only* representation for a compact README
+    gallery. It must not be used to compare metric values: each model receives
+    its own 2--98 percentile range. Direct depth is converted to proximity;
+    models that already output inverse depth keep their orientation. As a
+    result, the same Turbo colours mean the same visual direction in every
+    panel: warm is near and cool is far.
+    """
+    d = np.asarray(depth, dtype=np.float64)
+    valid = np.isfinite(d) & (d > 0)
+    shown = np.full(d.shape, np.nan, dtype=np.float64)
+    if output_form == "inverse_depth":
+        shown[valid] = d[valid]
+    else:
+        shown[valid] = 1.0 / d[valid]
+    lo, hi = robust_range([shown])
+    return shown, lo, hi
 
 
 # ---------------------------------------------------------------------------

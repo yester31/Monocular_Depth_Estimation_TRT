@@ -44,7 +44,7 @@ KIND = {
     "depth_anything_v3": "metric + sky mask",
     "distill_any_depth": "relative",
     "depth_pro": "metric",
-    "metric3d_v2": "canonical (not metres - D12)",
+    "metric3d_v2": "canonical (not metres; needs a real focal length)",
     "moge_2": "point map + metric_scale",
     "metric_anything": "point map + metric_scale",
     "unidepth_v2": "point map + intrinsics",

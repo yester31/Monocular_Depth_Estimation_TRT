@@ -1,8 +1,8 @@
 [
   {
     "model": "metric_anything",
-    "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\metric_anything\\onnx\\metric_anything_388x518.onnx",
-    "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\metric_anything\\engine\\tune\\metric_anything_388x518_fp16_opt3_ws2.engine",
+    "onnx_path": ".\\models\\metric_anything\\onnx\\metric_anything_388x518.onnx",
+    "engine_path": ".\\models\\metric_anything\\engine\\tune\\metric_anything_388x518_fp16_opt3_ws2.engine",
     "precision": "fp16",
     "opt_level": 3,
     "workspace_gib": 2,
@@ -81,8 +81,8 @@
   },
   {
     "model": "metric_anything",
-    "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\metric_anything\\onnx\\metric_anything_388x518.onnx",
-    "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\metric_anything\\engine\\tune\\metric_anything_388x518_fp16_opt3_ws4.engine",
+    "onnx_path": ".\\models\\metric_anything\\onnx\\metric_anything_388x518.onnx",
+    "engine_path": ".\\models\\metric_anything\\engine\\tune\\metric_anything_388x518_fp16_opt3_ws4.engine",
     "precision": "fp16",
     "opt_level": 3,
     "workspace_gib": 4,
@@ -161,8 +161,8 @@
   },
   {
     "model": "metric_anything",
-    "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\metric_anything\\onnx\\metric_anything_388x518.onnx",
-    "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\metric_anything\\engine\\tune\\metric_anything_388x518_fp16_opt3_ws8.engine",
+    "onnx_path": ".\\models\\metric_anything\\onnx\\metric_anything_388x518.onnx",
+    "engine_path": ".\\models\\metric_anything\\engine\\tune\\metric_anything_388x518_fp16_opt3_ws8.engine",
     "precision": "fp16",
     "opt_level": 3,
     "workspace_gib": 8,
@@ -241,8 +241,8 @@
   },
   {
     "model": "metric_anything",
-    "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\metric_anything\\onnx\\metric_anything_388x518.onnx",
-    "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\metric_anything\\engine\\tune\\metric_anything_388x518_fp16_opt5_ws2.engine",
+    "onnx_path": ".\\models\\metric_anything\\onnx\\metric_anything_388x518.onnx",
+    "engine_path": ".\\models\\metric_anything\\engine\\tune\\metric_anything_388x518_fp16_opt5_ws2.engine",
     "precision": "fp16",
     "opt_level": 5,
     "workspace_gib": 2,
@@ -316,8 +316,8 @@
   },
   {
     "model": "metric_anything",
-    "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\metric_anything\\onnx\\metric_anything_388x518.onnx",
-    "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\metric_anything\\engine\\tune\\metric_anything_388x518_fp16_opt5_ws4.engine",
+    "onnx_path": ".\\models\\metric_anything\\onnx\\metric_anything_388x518.onnx",
+    "engine_path": ".\\models\\metric_anything\\engine\\tune\\metric_anything_388x518_fp16_opt5_ws4.engine",
     "precision": "fp16",
     "opt_level": 5,
     "workspace_gib": 4,
@@ -396,8 +396,8 @@
   },
   {
     "model": "metric_anything",
-    "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\metric_anything\\onnx\\metric_anything_388x518.onnx",
-    "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\metric_anything\\engine\\tune\\metric_anything_388x518_fp16_opt5_ws8.engine",
+    "onnx_path": ".\\models\\metric_anything\\onnx\\metric_anything_388x518.onnx",
+    "engine_path": ".\\models\\metric_anything\\engine\\tune\\metric_anything_388x518_fp16_opt5_ws8.engine",
     "precision": "fp16",
     "opt_level": 5,
     "workspace_gib": 8,

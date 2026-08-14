@@ -1,8 +1,8 @@
 [
   {
     "model": "distill_any_depth",
-    "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\distill_any_depth\\onnx\\distill_any_depth_small_518x518_dynamo_sim.onnx",
-    "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\distill_any_depth\\engine\\tune\\distill_any_depth_small_518x518_dynamo_sim_fp16_opt4_wsd.engine",
+    "onnx_path": ".\\models\\distill_any_depth\\onnx\\distill_any_depth_small_518x518_dynamo_sim.onnx",
+    "engine_path": ".\\models\\distill_any_depth\\engine\\tune\\distill_any_depth_small_518x518_dynamo_sim_fp16_opt4_wsd.engine",
     "precision": "fp16",
     "opt_level": 4,
     "workspace_gib": null,
@@ -73,8 +73,8 @@
   },
   {
     "model": "distill_any_depth",
-    "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\distill_any_depth\\onnx\\distill_any_depth_small_518x518_dynamo_sim.onnx",
-    "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\distill_any_depth\\engine\\tune\\distill_any_depth_small_518x518_dynamo_sim_fp16_opt5_wsd.engine",
+    "onnx_path": ".\\models\\distill_any_depth\\onnx\\distill_any_depth_small_518x518_dynamo_sim.onnx",
+    "engine_path": ".\\models\\distill_any_depth\\engine\\tune\\distill_any_depth_small_518x518_dynamo_sim_fp16_opt5_wsd.engine",
     "precision": "fp16",
     "opt_level": 5,
     "workspace_gib": null,

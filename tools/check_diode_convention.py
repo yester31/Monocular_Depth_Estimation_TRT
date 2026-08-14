@@ -51,7 +51,7 @@ there and such a patch votes for nothing.
 import glob, os
 import numpy as np
 
-ROOT = r"C:/Users/soy/data/diode/val"
+ROOT = os.environ.get("DIODE_ROOT")
 # From the devkit's intrinsics.txt. These reproduce the paper's stated 60x45
 # degree design field of view, so the ray geometry is almost certainly right.
 FX, FY = 886.81, 927.06
@@ -78,6 +78,8 @@ def plane_rms(pts):
 
 
 def main():
+    if not ROOT:
+        raise SystemExit("Set DIODE_ROOT to the extracted DIODE val/ directory")
     files = sorted(glob.glob(os.path.join(ROOT, "indoors", "**", "*_depth.npy"),
                              recursive=True))[::12]
     tot = {"z": [], "range": []}

@@ -77,7 +77,7 @@ def main():
     #   518x700                          1.75x      75.6%          0.8968
     #   518x518 (was)                    3.15x     217.5%          0.7210
     #
-    # So D11's "metric scale is 3.15x upstream" was never a conversion defect.
+    # So "metric scale is 3.15x upstream" was never a conversion defect.
     # It was the cost of overriding the model's own choice, and it made the
     # metric output unusable while leaving the structure intact.
     #

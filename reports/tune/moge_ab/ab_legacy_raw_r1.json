@@ -1,8 +1,8 @@
 [
   {
     "model": "moge_2",
-    "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\moge_2\\onnx\\moge-2_vits_normal_388x518_ab_legacy.onnx",
-    "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\moge_2\\engine\\tune\\ab_legacy_raw_r1_fp16_optd_wsd_r1.engine",
+    "onnx_path": ".\\models\\moge_2\\onnx\\moge-2_vits_normal_388x518_ab_legacy.onnx",
+    "engine_path": ".\\models\\moge_2\\engine\\tune\\ab_legacy_raw_r1_fp16_optd_wsd_r1.engine",
     "precision": "fp16",
     "opt_level": null,
     "workspace_gib": null,

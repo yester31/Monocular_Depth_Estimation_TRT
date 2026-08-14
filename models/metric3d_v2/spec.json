@@ -11,7 +11,7 @@
   "outputs": [
     {
       "name": "pred_depth",
-      "meaning": "canonical depth \u2014 NOT metres, see D12"
+      "meaning": "canonical depth \u2014 NOT metres; metres need a real focal length"
     }
   ],
   "profiles": {
@@ -29,7 +29,7 @@
     }
   ],
   "caveats": [
-    "output is canonical depth; metres need real_focal * scale / 1000 (D12)",
+    "output is canonical depth; metres need real_focal * scale / 1000, and that focal length has to come from the dataset -- an arbitrary photograph does not carry one",
     "built at fp32 while every other model is fp16"
   ],
   "encoder": {

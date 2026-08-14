@@ -1,8 +1,8 @@
 [
   {
     "model": "unik3d",
-    "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\unik3d\\onnx\\unik3d_vits_672x896_dynamo.onnx",
-    "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\unik3d\\engine\\tune\\unik3d_vits_672x896_dynamo_fp16_opt4_wsd.engine",
+    "onnx_path": ".\\models\\unik3d\\onnx\\unik3d_vits_672x896_dynamo.onnx",
+    "engine_path": ".\\models\\unik3d\\engine\\tune\\unik3d_vits_672x896_dynamo_fp16_opt4_wsd.engine",
     "precision": "fp16",
     "opt_level": 4,
     "workspace_gib": null,
@@ -74,8 +74,8 @@
   },
   {
     "model": "unik3d",
-    "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\unik3d\\onnx\\unik3d_vits_672x896_dynamo.onnx",
-    "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\unik3d\\engine\\tune\\unik3d_vits_672x896_dynamo_fp16_opt5_wsd.engine",
+    "onnx_path": ".\\models\\unik3d\\onnx\\unik3d_vits_672x896_dynamo.onnx",
+    "engine_path": ".\\models\\unik3d\\engine\\tune\\unik3d_vits_672x896_dynamo_fp16_opt5_wsd.engine",
     "precision": "fp16",
     "opt_level": 5,
     "workspace_gib": null,

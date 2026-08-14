@@ -62,7 +62,7 @@ def test_single_size_omits_the_warning():
 def test_caveats_follow_the_model():
     with tempfile.TemporaryDirectory() as td:
         txt = render(seed(td, [("metric3d_v2", 616, 1064, "fp16")]))
-        check("D12 surfaced", "D12" in txt, txt)
+        check("the caveat surfaced", "real focal length" in txt, txt)
         check("not called metric", "canonical" in txt)
         # a caveat for an absent model must not appear
         check("no unik3d caveat", "3.15x" not in txt)

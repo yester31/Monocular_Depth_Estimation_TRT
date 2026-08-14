@@ -1,9 +1,29 @@
 # MoGe-2
+
 - **[MoGe-2: Accurate Monocular Geometry with Metric Scale and Sharp Details](https://arxiv.org/abs/2507.02546)**
 - **[MoGe-2 official GitHub](https://github.com/microsoft/MoGe)**
 - 2d image -> depth, point cloud, surface normal, fov
 
-## TensorRT performance
+## At a Glance
+
+| Item | Repository configuration |
+| :--- | :--- |
+| Input | RGB image, `388x518` |
+| Output | Point map, surface normal, valid mask, and metric scale |
+| Scale | Metric after applying the predicted scale |
+| TensorRT target | `vits`, FP16 |
+
+## Supported Encoders
+
+| Used here | Released upstream checkpoints |
+| :--- | :--- |
+| `vits` | `vits`, `vitb`, `vitl` |
+
+The benchmark uses the smallest released encoder, `vits`. The larger
+checkpoints require changing the export configuration and rebuilding the
+engine; the performance block below does not describe those variants.
+
+## TensorRT Performance
 
 <!-- BENCH:BEGIN -->
 - Input **388x518**, precision **fp16**, 100 iterations after 20 warmup
@@ -30,7 +50,7 @@ per-build results, graph counts, and raw JSON are in
 > recorded the GPU or TensorRT version. The block above is generated
 > from an actual measurement; those are not.
 
-## How to Run (Pytorch)
+## PyTorch Setup and Inference
 
 1. set up a virtual environment.
     ```
@@ -85,7 +105,7 @@ per-build results, graph counts, and raw JSON are in
 - Average inference time: 140.06 [msec]
 --------------------------------------------------------------------
 
-## How to Run (TensorRT)
+## ONNX Export and TensorRT
 
 1. generate onnx file
     ```

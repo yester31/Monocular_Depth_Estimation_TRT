@@ -1,4 +1,6 @@
 # by yhpark 2025-7-26
+import os
+
 from onnx2trt import *
 
 import threading
@@ -190,9 +192,11 @@ class DepthWebcamStream:
 
 def main():
     print("Start Depth Pro WebCam Stream")
-    
-    # stream = DepthWebcamStream(camera_index=0)
-    stream = DepthWebcamStream(camera_index='http://192.168.0.11:5000/video')
+
+    # Use a local camera by default. Set MDE_CAMERA_URL for an RTSP/HTTP feed.
+    camera = os.environ.get("MDE_CAMERA_URL", "0")
+    camera_index = int(camera) if camera.isdigit() else camera
+    stream = DepthWebcamStream(camera_index=camera_index)
     
     stream.run_stream()
 

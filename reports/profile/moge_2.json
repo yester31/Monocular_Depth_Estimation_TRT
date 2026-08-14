@@ -4,7 +4,7 @@
   "precision": "fp16",
   "clock_mhz": 1800,
   "clock_max_mhz": 2130,
-  "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\moge_2\\engine\\moge-2_vits_normal_388x518_dynamo_sim_fp16.engine",
+  "engine_path": ".\\models\\moge_2\\engine\\moge-2_vits_normal_388x518_dynamo_sim_fp16.engine",
   "engine_bytes": 129920252,
   "engine_mtime": 1786611935,
   "input_shape": [

@@ -1,8 +1,8 @@
 [
   {
     "model": "zipdepth",
-    "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\zipdepth\\onnx\\zipdepth_base_384x512.onnx",
-    "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\zipdepth\\engine\\tune\\zipdepth_base_384x512_fp16_as_fp32_optd_wsd.engine",
+    "onnx_path": ".\\models\\zipdepth\\onnx\\zipdepth_base_384x512.onnx",
+    "engine_path": ".\\models\\zipdepth\\engine\\tune\\zipdepth_base_384x512_fp16_as_fp32_optd_wsd.engine",
     "precision": "fp32",
     "opt_level": null,
     "workspace_gib": null,

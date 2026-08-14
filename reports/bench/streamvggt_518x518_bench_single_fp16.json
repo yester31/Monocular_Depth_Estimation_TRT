@@ -136,7 +136,7 @@
       "mean": 0.8805999755859375
     }
   },
-  "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\streamvggt\\engine\\streamvggt_only_depth_518x518_fp16_fp16.engine",
+  "engine_path": ".\\models\\streamvggt\\engine\\streamvggt_only_depth_518x518_fp16_fp16.engine",
   "engine_bytes": 1901232796,
   "engine_mtime": 1786707754,
   "onnx_sha256": "",

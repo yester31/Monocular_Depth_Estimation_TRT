@@ -12,7 +12,7 @@
   "images": 50,
   "pixels": 38852365,
   "alignment": "none",
-  "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\depth_anything_v3\\engine\\tune\\DA3METRIC-LARGE_518x518_sim_fp16_as_fp32_optd_wsd.engine",
+  "engine_path": ".\\models\\depth_anything_v3\\engine\\tune\\DA3METRIC-LARGE_518x518_sim_fp16_as_fp32_optd_wsd.engine",
   "precision": "fp32",
   "samples": [
     {

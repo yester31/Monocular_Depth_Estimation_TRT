@@ -14,9 +14,9 @@
 # the desktop now, and this script is the only thing that should do either.
 set -euo pipefail
 
-HOST="${MDE_HOST:-soy@192.168.0.13}"
-KEY="${MDE_KEY:-$HOME/.ssh/id_ed25519_codex_soy}"
-REMOTE="${MDE_REMOTE:-C:/Users/soy/mde_trt}"
+HOST="${MDE_HOST:?Set MDE_HOST to the GPU desktop's SSH user and host}"
+KEY="${MDE_KEY:-$HOME/.ssh/id_ed25519}"
+REMOTE="${MDE_REMOTE:?Set MDE_REMOTE to the GPU desktop workspace path}"
 WORK="$REMOTE/work"
 BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"

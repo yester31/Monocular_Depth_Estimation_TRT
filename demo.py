@@ -1,22 +1,16 @@
-"""One input, every model's output, side by side and to the same scale.
+"""One input, every model's output, side by side.
 
     python demo.py --synthetic                       # no GPU, no engines, no data
     python demo.py --from-saved reports/demo/saved   # from arrays somebody saved
     python demo.py --live --save-outputs reports/demo/saved   # on the desktop
     python demo.py --live --models moge_2,zipdepth --out reports/demo
 
-The comparison table says how fast each engine is and reports/gt.md says how
-close each one lands on measured depth. Neither shows what the models actually
-disagree about, and the picture that would show it is the easiest thing in this
-repository to draw dishonestly: colour each result by its own minimum and
-maximum and every model produces the same image, because the only thing left is
-the shape of the depth map. The metres -- which is what a metric model claims
-and what gt.md ranks it on -- are normalised away.
-
-So this draws every `depth_scale: metric` model on one shared range with one
-colourbar in metres, and draws `relative` models on their own axis in a
-different colour map with the normalisation written on the panel. See
-core/viz.py, where that rule lives and is tested.
+The default is a compact qualitative gallery for the README: every model uses
+the same colour map and near/far polarity, but its own robust range. That makes
+shape easy to compare and deliberately does not compare metres. ``--view
+metric`` keeps the auditable alternative: every metric model uses one shared
+range and colourbar, while relative and unknown-scale outputs are separated.
+See core/viz.py, where both rules live and are tested.
 
 **Three sources of output, one drawing path.** `--live` runs the engines,
 `--from-saved` reads arrays a previous run saved, and `--synthetic` makes them
@@ -383,6 +377,32 @@ class LiveRunner:
 # One (image, model) result
 # ---------------------------------------------------------------------------
 
+def _metric3d_canonical_for_display(raw, spec, eh, ew, oh, ow):
+    """Restore Metric3D canonical depth to the source grid without inventing fx.
+
+    Canonical depth is proportional to metric depth for one image, so it is
+    valid for the qualitative shape gallery after per-model normalization. It
+    is not metres and must never enter the shared-axis metric figure.
+    """
+    depth = np.asarray(raw[0], dtype=np.float64).reshape(eh, ew)
+    geom = viz.input_geometry(spec, oh, ow, eh, ew)
+    y0, y1, x0, x1 = geom.crop_box()
+    depth = depth[y0:y1, x0:x1]
+    depth = cv2.resize(depth, (ow, oh), interpolation=cv2.INTER_LINEAR)
+    return np.where(np.isfinite(depth) & (depth > 0), depth, np.nan)
+
+
+def _depth_pro_focal_from_result(result, image_width):
+    """Convert Depth Pro's predicted horizontal field of view to focal pixels."""
+    raw = result.get("raw") or []
+    if len(raw) < 2:
+        raise ValueError("Depth Pro did not return fov_deg")
+    fov_deg = float(np.asarray(raw[1]).reshape(-1)[0])
+    if not np.isfinite(fov_deg) or not 0.0 < fov_deg < 180.0:
+        raise ValueError(f"Depth Pro returned invalid fov_deg={fov_deg!r}")
+    return viz.focal_from_fov(fov_deg, image_width), fov_deg
+
+
 def evaluate_one(model, spec, card, adapt, image_bgr, source, runner=None,
                  saved_root=None, image_key="", fx=None):
     """Raw outputs and depth for one model on one image, or a stated failure."""
@@ -424,6 +444,14 @@ def evaluate_one(model, spec, card, adapt, image_bgr, source, runner=None,
         res["depth"] = np.asarray(depth, dtype=np.float64)
     except Exception as e:
         res["error"] = f"postprocess: {type(e).__name__}: {e}"
+        if model == "metric3d_v2":
+            try:
+                res["display_depth"] = _metric3d_canonical_for_display(
+                    res["raw"], spec, eh, ew, oh, ow)
+                res["display_depth_kind"] = "canonical depth (shape only; not metres)"
+            except Exception as display_error:
+                res["display_error"] = (
+                    f"{type(display_error).__name__}: {display_error}")
         return res
 
     res["stats"] = distribution(res["depth"])
@@ -572,6 +600,9 @@ def depth_figure(inp, results, cards, skipped, synthetic, depth_range=None,
         if stats:
             extra.append(f"p02 {stats['p02']:.3g}  med {stats['median']:.3g}  "
                          f"p98 {stats['p98']:.3g}  valid {stats['valid_pct']:.1f}%")
+        if r.get("focal_source"):
+            extra.append(f"fx {r['focal_length_px']:.2f} px from "
+                         f"{r['focal_source']} (estimated intrinsics)")
         if card["mean_ms"]:
             extra.append(f"{card['mean_ms']:.2f} ms on {card.get('device') or '?'}")
         per_band[band].append(viz.Panel(
@@ -585,8 +616,11 @@ def depth_figure(inp, results, cards, skipped, synthetic, depth_range=None,
                       "engine_fingerprint": card["engine_fingerprint"],
                       "engine_fingerprint_source": card["engine_fingerprint_source"],
                       "input_size": [card["input_h"], card["input_w"]],
-                      "precision": card["precision"], "unit": card["unit"],
-                      "outputs": card["outputs"], "fit": fitted.get(m)}
+                       "precision": card["precision"], "unit": card["unit"],
+                       "outputs": card["outputs"], "fit": fitted.get(m),
+                       "focal_length_px": r.get("focal_length_px"),
+                       "focal_source": r.get("focal_source"),
+                       "fov_deg": r.get("fov_deg")}
 
     if per_band["metric"]:
         sections.append(viz.Section(
@@ -630,6 +664,107 @@ def depth_figure(inp, results, cards, skipped, synthetic, depth_range=None,
     return fig, {"shared_metric_range": shared[:2] if shared else None,
                  "shared_range_note": shared_note if shared else None,
                  "per_model": printed, "not_drawn": skipped}
+
+
+def qualitative_depth_figure(inp, results, cards, skipped, synthetic, cols=5):
+    """Compact shape comparison for the project README.
+
+    Unlike :func:`depth_figure`, this deliberately does not compare metres.
+    Every valid model is normalized on its own robust range and drawn with one
+    colour map and one polarity (warm=near). The metric-audit figure remains
+    available through ``--view metric``.
+    """
+    rgb = cv2.cvtColor(cv2.imread(inp["path"]), cv2.COLOR_BGR2RGB)
+    panels = [viz.Panel(
+        title="Input",
+        image=rgb,
+        band="input",
+        caption=f"{rgb.shape[1]}x{rgb.shape[0]}",
+    )]
+    printed = {}
+    for r in results:
+        model = r["model"]
+        card = cards[model]
+        shown_depth = r.get("depth")
+        if shown_depth is None:
+            shown_depth = r.get("display_depth")
+        if shown_depth is None:
+            error = r.get("error", "no result")
+            panels.append(viz.Panel(
+                title=model,
+                image=_skip_tile(rgb.shape[0], rgb.shape[1], error),
+                band="skipped",
+                caption="not available",
+            ))
+            printed[model] = {"error": error}
+            continue
+
+        shown, vmin, vmax = viz.qualitative_display(
+            shown_depth, card.get("output_form", "depth"))
+        timing = (f" · {card['mean_ms']:.2f} ms" if card.get("mean_ms") else "")
+        if r.get("display_depth_kind"):
+            scale_label = "canonical"
+        elif r.get("focal_source") == "depth_pro predicted fov_deg":
+            scale_label = "metric (Depth Pro fx)"
+        else:
+            scale_label = card["depth_scale"]
+        panels.append(viz.Panel(
+            title=model,
+            image=viz.colorize(shown, vmin, vmax, viz.QUALITATIVE_CMAP),
+            band="qualitative",
+            caption=f"{scale_label} · own 2-98% range{timing}",
+            badge=SYNTHETIC_BADGE if synthetic else "",
+        ))
+        printed[model] = {
+            "display": "proximity",
+            "polarity": "warm=near, cool=far",
+            "normalization": "per-model 2-98 percentile",
+            "source_output_form": card.get("output_form", "depth"),
+            "vmin": vmin,
+            "vmax": vmax,
+            "cmap": viz.QUALITATIVE_CMAP,
+            "stats": distribution(shown_depth),
+            "engine_fingerprint": card["engine_fingerprint"],
+            "engine_fingerprint_source": card["engine_fingerprint_source"],
+            "input_size": [card["input_h"], card["input_w"]],
+            "precision": card["precision"],
+            "focal_length_px": r.get("focal_length_px"),
+            "focal_source": r.get("focal_source"),
+            "fov_deg": r.get("fov_deg"),
+        }
+        if r.get("display_depth_kind"):
+            printed[model]["display_source"] = r["display_depth_kind"]
+            printed[model]["metric_conversion_error"] = r.get("error")
+
+    foot = [
+        "Qualitative view: every model uses its own robust range; colours do not compare metres.",
+        "Polarity is unified: warm=near, cool=far. Use --view metric for the shared metric axis.",
+    ]
+    if skipped:
+        foot.append("Not drawn: " + "; ".join(
+            f"{m} ({why})" for m, why in sorted(skipped.items())))
+    if synthetic:
+        foot.insert(0, "SYNTHETIC RUN: analytic arrays, not model output.")
+    section = viz.Section(
+        header="input and model outputs -- shape comparison only",
+        panels=panels,
+        note="same Turbo map · warm=near · per-model 2-98%",
+    )
+    fig = viz.render_figure(
+        [section],
+        f"monocular depth gallery -- {inp['key']}",
+        subtitle=(f"{len(printed)} model attempts · compact qualitative view; "
+                  "absolute colour values are intentionally not shared"),
+        footer="\n".join(foot),
+        cols=cols,
+        panel_in=2.35,
+    )
+    return fig, {
+        "view": "qualitative",
+        "shared_metric_range": None,
+        "per_model": printed,
+        "not_drawn": skipped,
+    }
 
 
 def inputs_figure(inp, results, cards, specs, adapt, cols=4):
@@ -771,6 +906,12 @@ def run(args):
     models, skipped = select_models(specs, adapt, wanted)
     if not models:
         raise SystemExit("no model left to draw")
+    if args.metric3d_fx_from_depth_pro:
+        missing = [m for m in ("depth_pro", "metric3d_v2") if m not in models]
+        if missing:
+            raise SystemExit("--metric3d-fx-from-depth-pro requires both "
+                             "depth_pro and metric3d_v2 in the selected models; "
+                             "missing: " + ", ".join(missing))
 
     runs = bench_runs()
     cards = {m: viz.model_card(m, specs[m], runs.get(m)) for m in models}
@@ -803,10 +944,13 @@ def run(args):
             raise SystemExit(f"--live needs TensorRT and common.py here: "
                              f"{type(e).__name__}: {e}")
 
+    view = "metric" if (args.depth_range or args.align_relative_to) else args.view
+    cols = args.cols or (5 if view == "qualitative" else 4)
     out_dir = args.out
     os.makedirs(out_dir, exist_ok=True)
     saved_root = args.from_saved or os.path.join(out_dir, "saved")
     written, summary = [], {"inputs_from": where, "source": source,
+                            "depth_view": view,
                             "models_not_drawn": skipped, "images": {}}
 
     try:
@@ -816,10 +960,32 @@ def run(args):
                 print(f"  cannot read {inp['path']}")
                 continue
             results = []
+            depth_pro_focal = None
+            depth_pro_focal_error = None
             for m in models:
+                effective_fx = args.fx
+                if m == "metric3d_v2" and args.metric3d_fx_from_depth_pro:
+                    effective_fx = (depth_pro_focal or {}).get("fx")
                 r = evaluate_one(m, specs[m], cards[m], adapt, bgr, source,
                                  runner=runner, saved_root=saved_root,
-                                 image_key=inp["key"], fx=args.fx)
+                                 image_key=inp["key"], fx=effective_fx)
+                if m == "depth_pro" and args.metric3d_fx_from_depth_pro:
+                    try:
+                        fx_px, fov_deg = _depth_pro_focal_from_result(
+                            r, bgr.shape[1])
+                        depth_pro_focal = {"fx": fx_px, "fov_deg": fov_deg}
+                        print(f"  {inp['key']:<18} {'depth_pro focal':<20} "
+                              f"{fx_px:.2f} px from {fov_deg:.3f} deg")
+                    except Exception as e:
+                        depth_pro_focal_error = f"{type(e).__name__}: {e}"
+                if m == "metric3d_v2" and args.metric3d_fx_from_depth_pro:
+                    if depth_pro_focal:
+                        r["focal_length_px"] = depth_pro_focal["fx"]
+                        r["fov_deg"] = depth_pro_focal["fov_deg"]
+                        r["focal_source"] = "depth_pro predicted fov_deg"
+                    else:
+                        r["error"] = ("Depth Pro focal estimate unavailable: "
+                                      + (depth_pro_focal_error or "no result"))
                 results.append(r)
                 mark = "ok" if "depth" in r else "-- " + str(r.get("error", ""))[:60]
                 print(f"  {inp['key']:<18} {m:<20} {mark}")
@@ -832,17 +998,30 @@ def run(args):
                          "source": source})
 
             per_image = {"path": rel(inp["path"]),
-                         "aspect": inp.get("aspect"), "figures": {}}
-            fig, printed = depth_figure(inp, results, dict(cards), skipped,
-                                        source == "synthetic", args.depth_range,
-                                        args.align_relative_to, args.cols)
+                          "aspect": inp.get("aspect"), "figures": {}}
+            if args.metric3d_fx_from_depth_pro:
+                per_image["metric3d_focal"] = (
+                    {"focal_length_px": depth_pro_focal["fx"],
+                     "fov_deg": depth_pro_focal["fov_deg"],
+                     "source": "depth_pro predicted fov_deg",
+                     "status": "estimated intrinsics, not measured calibration"}
+                    if depth_pro_focal else {"error": depth_pro_focal_error})
+            if view == "qualitative":
+                fig, printed = qualitative_depth_figure(
+                    inp, results, dict(cards), skipped,
+                    source == "synthetic", cols)
+            else:
+                fig, printed = depth_figure(
+                    inp, results, dict(cards), skipped,
+                    source == "synthetic", args.depth_range,
+                    args.align_relative_to, cols)
             p = viz.save_figure(fig, os.path.join(out_dir, f"{inp['key']}_depth.png"))
             written.append(p)
             per_image["figures"]["depth"] = rel(p)
             per_image["depth"] = printed
 
             if args.inputs_figure:
-                fig, rec = inputs_figure(inp, results, cards, specs, adapt, args.cols)
+                fig, rec = inputs_figure(inp, results, cards, specs, adapt, cols)
                 p = viz.save_figure(fig, os.path.join(out_dir,
                                                       f"{inp['key']}_inputs.png"))
                 written.append(p)
@@ -851,7 +1030,7 @@ def run(args):
 
             if args.extras:
                 fig, rec = outputs_figure(inp, results, cards, specs,
-                                          source == "synthetic", args.cols)
+                                          source == "synthetic", cols)
                 if fig is not None:
                     p = viz.save_figure(fig, os.path.join(
                         out_dir, f"{inp['key']}_outputs.png"))
@@ -861,7 +1040,7 @@ def run(args):
 
             if args.pointcloud:
                 fig, rec = cloud_figure(inp, results, cards, specs, out_dir,
-                                        source == "synthetic", args.cols,
+                                        source == "synthetic", cols,
                                         write_ply=not args.no_ply)
                 if fig is not None:
                     p = viz.save_figure(fig, os.path.join(
@@ -904,15 +1083,24 @@ def build_parser():
                          "data/eval/aspects.json, else data/example.jpg")
     ap.add_argument("--models", help="comma separated subset")
     ap.add_argument("--out", default=DEFAULT_OUT, help="output directory")
-    ap.add_argument("--cols", type=int, default=4)
+    ap.add_argument("--view", choices=("qualitative", "metric"),
+                    default="qualitative",
+                    help="depth figure style: compact per-model shape gallery "
+                         "(default) or shared-axis metric audit")
+    ap.add_argument("--cols", type=int,
+                    help="panels per row (default: 5 qualitative, 4 metric)")
     ap.add_argument("--depth-range", type=float, nargs=2, metavar=("MIN", "MAX"),
                     help="fix the shared metric range in metres")
     ap.add_argument("--align-relative-to", metavar="MODEL",
                     help="fit each relative model's scale and shift to this "
                          "model and draw it on the metric axis, saying so")
-    ap.add_argument("--fx", type=float,
-                    help="focal length in pixels of the camera that took the "
-                         "image; metric3d_v2 cannot produce metres without it")
+    focal = ap.add_mutually_exclusive_group()
+    focal.add_argument("--fx", type=float,
+                       help="measured focal length in pixels of the camera that "
+                            "took the image")
+    focal.add_argument("--metric3d-fx-from-depth-pro", action="store_true",
+                       help="derive Metric3D fx from Depth Pro's predicted FOV; "
+                            "this is estimated intrinsics, not calibration")
     ap.add_argument("--no-inputs-figure", dest="inputs_figure",
                     action="store_false", help="skip the preprocessing figure")
     ap.add_argument("--no-extras", dest="extras", action="store_false",

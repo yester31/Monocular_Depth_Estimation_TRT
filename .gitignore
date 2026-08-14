@@ -5,6 +5,10 @@ ml-depth-pro/
 *.cache
 GEMINI.md
 video_frames*
+# Optional local video input for the retired frame-extraction demo.
+video/video2.mp4
+# Local planning notes; durable decisions belong in docs/.
+PLAN.md
 *.ply
 # later/
 results*

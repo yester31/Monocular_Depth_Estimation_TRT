@@ -147,7 +147,7 @@ def resize_stretch(img, dst_h, dst_w, interp="linear"):
     Ten of the fourteen models do this, because a static TensorRT engine has one
     input size and the alternatives -- letterboxing or cropping -- either feed
     the network invented pixels or throw real ones away. Upstream unidepth_v2
-    and unik3d pad instead; see defect D11.
+    and unik3d pad instead.
     """
     h, w = img.shape[:2]
     out = cv2.resize(img, (dst_w, dst_h), interpolation=INTERP[interp])

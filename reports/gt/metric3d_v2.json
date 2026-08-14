@@ -27,7 +27,7 @@
   "images": 50,
   "pixels": 38852365,
   "alignment": "none",
-  "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\metric3d_v2\\engine\\metric3d_vits_616x1064_fp32.engine",
+  "engine_path": ".\\models\\metric3d_v2\\engine\\metric3d_vits_616x1064_fp32.engine",
   "precision": "fp32",
   "samples": [
     {

@@ -14,8 +14,8 @@
       "alignment": "none",
       "mean_ms": 66.7806,
       "p50_ms": 66.7878,
-      "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\metric_anything\\engine\\size\\metric_anything_336x448_fp16.engine",
-      "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\metric_anything\\onnx\\metric_anything_336x448.onnx"
+      "engine_path": ".\\models\\metric_anything\\engine\\size\\metric_anything_336x448_fp16.engine",
+      "onnx_path": ".\\models\\metric_anything\\onnx\\metric_anything_336x448.onnx"
     },
     {
       "abs_rel": 0.15650489876019763,
@@ -29,8 +29,8 @@
       "alignment": "none",
       "mean_ms": 67.196,
       "p50_ms": 67.1879,
-      "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\metric_anything\\engine\\size\\metric_anything_388x518_fp16.engine",
-      "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\metric_anything\\onnx\\metric_anything_388x518.onnx"
+      "engine_path": ".\\models\\metric_anything\\engine\\size\\metric_anything_388x518_fp16.engine",
+      "onnx_path": ".\\models\\metric_anything\\onnx\\metric_anything_388x518.onnx"
     },
     {
       "abs_rel": 0.1642076739457803,
@@ -44,8 +44,8 @@
       "alignment": "none",
       "mean_ms": 68.1895,
       "p50_ms": 68.1825,
-      "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\metric_anything\\engine\\size\\metric_anything_476x630_fp16.engine",
-      "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\metric_anything\\onnx\\metric_anything_476x630.onnx"
+      "engine_path": ".\\models\\metric_anything\\engine\\size\\metric_anything_476x630_fp16.engine",
+      "onnx_path": ".\\models\\metric_anything\\onnx\\metric_anything_476x630.onnx"
     }
   ]
 }

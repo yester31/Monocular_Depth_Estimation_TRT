@@ -1,8 +1,8 @@
 [
   {
     "model": "vggt",
-    "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\vggt\\onnx\\vggt_only_depth_518x518_fp16\\vggt_only_depth_518x518_fp16.onnx",
-    "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\vggt\\engine\\tune\\vggt_only_depth_518x518_fp16_fp16_opt4_wsd.engine",
+    "onnx_path": ".\\models\\vggt\\onnx\\vggt_only_depth_518x518_fp16\\vggt_only_depth_518x518_fp16.onnx",
+    "engine_path": ".\\models\\vggt\\engine\\tune\\vggt_only_depth_518x518_fp16_fp16_opt4_wsd.engine",
     "precision": "fp16",
     "opt_level": 4,
     "workspace_gib": null,

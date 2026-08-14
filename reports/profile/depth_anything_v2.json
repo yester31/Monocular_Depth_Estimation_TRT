@@ -4,7 +4,7 @@
   "precision": "fp16",
   "clock_mhz": 1800,
   "clock_max_mhz": 2130,
-  "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\depth_anything_v2\\engine\\depth_anything_v2_vits_518x518_metric_hypersim_dynamo_sim_fp16.engine",
+  "engine_path": ".\\models\\depth_anything_v2\\engine\\depth_anything_v2_vits_518x518_metric_hypersim_dynamo_sim_fp16.engine",
   "engine_bytes": 52395028,
   "engine_mtime": 1786610569,
   "input_shape": [
