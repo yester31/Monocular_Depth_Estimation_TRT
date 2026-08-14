@@ -1,6 +1,6 @@
 # Monocular Depth Estimation → TensorRT
 
-단안 깊이 추정 모델 14개를 TensorRT 엔진으로 변환하고, **같은 조건에서 속도와
+단안 깊이 추정 모델 15개를 TensorRT 엔진으로 변환하고, **같은 조건에서 속도와
 정확도를 비교한다.**
 
 비교가 성립하려면 조건이 같아야 하는데 이 모델들은 조건이 같지 않다 — 입력
@@ -58,7 +58,7 @@ pip install "tensorrt-cu12<11" "cuda-python<13" onnx opencv-python matplotlib
 ```bash
 python run.py export unidepth_v2      # ONNX, 모델 자기 환경에서
 python run.py build  unidepth_v2      # 엔진 + 측정, trte 에서
-python run.py build  --all            # 14개 전부, 각자의 환경에서
+python run.py build  --all            # 등록된 전부, 각자의 환경에서
 python run.py build  --all --dry-run  # 명령만 출력
 
 python demo.py                        # 같은 입력, 모든 모델 출력을 같은 축에
@@ -97,7 +97,7 @@ ONNX 내보내기는 업스트림 패키지가, 엔진 빌드는 TensorRT 가 �
 | **Depth Anything V3** | [→](models/depth_anything_v3/README.md) | 518×518 | metric + 하늘 마스크 | Apache-2.0 |
 | **Depth Anything AC** | [→](models/depth_anything_ac/README.md) | 518×518 | relative | **라이선스 파일 없음** |
 | **Distill Any Depth** | [→](models/distill_any_depth/README.md) | 518×518 | relative | MIT |
-| **ZipDepth** | [→](models/zipdepth/README.md) | **384×512** | affine-invariant 역깊이. **여기서 유일한 합성곱 모델**(6.1M) | 모델 README 참조 |
+| **ZipDepth** | [→](models/zipdepth/README.md) | **384×512** | affine-invariant 역깊이. **여기서 유일한 순수 합성곱 모델**(6.1M) — `hyden` 도 CNN 경로를 갖지만 ViT 와 함께다 | 모델 README 참조 |
 | **Depth Pro** | [→](models/depth_pro/README.md) | **1536×1536** | metric + 초점거리 | Apple Sample Code License |
 | **Metric3D V2** | [→](models/metric3d_v2/README.md) | **616×1064** | **canonical depth, 미터 아님 — D12** | BSD-2-Clause |
 | **Metric Anything** | [→](models/metric_anything/README.md) | **388×518** | point map + metric scale | Apache-2.0 |
@@ -147,8 +147,13 @@ metric 배율이 3.1배 어긋났는데, 모델 성질이 아니라 크기를 �
 
 ![depth comparison](reports/demo/example/example_depth.png)
 
-`data/example.jpg` 한 장을 15개 모델에 넣은 결과다. `python demo.py --live` 가
-그렸고, 화면의 모든 숫자는 `spec.json` 과 `reports/bench/` 에서 읽는다.
+`data/example.jpg` 한 장을 **엔진이 있는 13개** 모델에 넣은 결과다.
+`python demo.py --live` 가 그렸고, 화면의 모든 숫자는 `spec.json` 과
+`reports/bench/` 에서 읽는다.
+
+등록된 모델은 15개고 두 개는 그려지지 않았다 — `hyden` 은 아직 빌드되지 않았고
+`tr2m` 은 이미지마다 프롬프트가 필요하다. **둘 다 그림 맨 아래에 이름과 이유가
+적혀 있다.**
 
 **표가 세 덩어리로 갈려 있는 것이 이 그림의 요점이다.** 결과마다 자기 최소·최대로
 색을 칠하면 열다섯 장이 전부 비슷해 보인다 — 남는 것이 깊이의 *모양*뿐이고,
@@ -156,7 +161,7 @@ metric 모델이 주장하는 **미터**가 정규화로 지워지기 때문이�
 
 | 구역 | 무엇 |
 | --- | --- |
-| `metric depth — one range, one unit, comparable` | 7개. 공통 컬러바 0.30–2.10 m |
+| `metric depth — one range, one unit, comparable` | 7개. 공통 컬러바 0.30–2.10 m (`metric3d_v2` 는 8번째 metric 모델이지만 그리지 못했다 — 아래) |
 | `relative depth — own axis, NOT metres` | 3개. 각자의 축, 다른 색상표 |
 | `global scale unknown` | `vggt` · `streamvggt`. 정규화 좌표계라 단위가 없다 |
 

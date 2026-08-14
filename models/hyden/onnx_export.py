@@ -46,8 +46,13 @@ CLONE = os.path.join(CUR_DIR, "metadepth")
 import numpy as np  # noqa: E402
 import torch  # noqa: E402
 
-if CLONE not in sys.path:
-    sys.path.insert(0, CLONE)
+# The clone's *parent*, not the clone. da2/__init__.py starts with
+# `from ..cnn import ...` -- a relative import that leaves the package -- so
+# da2 only resolves as `metadepth.da2`. Putting the clone itself on sys.path
+# and importing `da2` fails with "attempted relative import beyond top-level
+# package" before any weight is read.
+if CUR_DIR not in sys.path:
+    sys.path.insert(0, CUR_DIR)
 
 
 def upstream_tensor(image_path, size):
@@ -89,24 +94,19 @@ def main():
             f"[MDET] checkpoint not found: {ckpt_path}\n"
             f"       from https://huggingface.co/facebook/hyden-da2-relative-depth")
 
-    from da2 import HyDenDepthAnything
+    from metadepth.da2 import HyDenDepthAnything
 
     print(f"[MDET] building hyden-da2 {encoder}")
     model = HyDenDepthAnything(encoder=encoder)
     sd = torch.load(ckpt_path, map_location="cpu", weights_only=True)
     sd = sd.get("model", sd.get("state_dict", sd))
-    missing, unexpected = model.load_state_dict(sd, strict=False)
-    # strict=False so a wrapper prefix does not stop the export, but never
-    # silently: a half-loaded encoder produces a plausible depth map and a
-    # meaningless benchmark row.
-    if missing or unexpected:
-        print(f"[MDET] state_dict: {len(missing)} missing, "
-              f"{len(unexpected)} unexpected")
-        for k in list(missing)[:5] + list(unexpected)[:5]:
-            print(f"[MDET]   {k}")
-        if len(missing) > 8:
-            raise RuntimeError(
-                "[MDET] too many missing keys to call this the released model")
+    # strict=True, which is how upstream's own example loads it. The checkpoint
+    # is a raw state dict, so any mismatch is a real one. A tolerance here --
+    # "allow up to N missing" -- lets a partly-initialised encoder export, and
+    # a partly-initialised encoder still draws a plausible depth map and still
+    # produces a benchmark row. If a key genuinely has to be excused, it gets
+    # named here, not counted.
+    model.load_state_dict(sd, strict=True)
     model.eval()
 
     model_name = f"hyden_da2_{encoder}_{input_h}x{input_w}"

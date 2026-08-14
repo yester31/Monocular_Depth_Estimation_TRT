@@ -68,6 +68,34 @@ IMAGENET_STD = [0.229, 0.224, 0.225]
 # depth in metres on the original pixel grid.
 # --------------------------------------------------------------------------
 
+def _pil_imagenet_stretch(bgr, h, w):
+    """Upstream HyDen's own preprocessing: PIL resize, then ImageNet statistics.
+
+    `torchvision.transforms.Resize` on a PIL image is bilinear WITH antialias;
+    cv2's INTER_LINEAR has none. Reducing a 3024x2268 source to 518 is where
+    the two diverge most, so _imagenet_stretch is not reused here even though
+    every other field of the declaration matches. PIL is a dependency of
+    torchvision and already present wherever this runs.
+
+    Matched against reports/inputs/hyden.npy by check_adapter, the same as
+    every other adapter -- which is the only thing that makes "this is
+    upstream's preprocessing" a statement rather than an intention.
+    """
+    from PIL import Image
+    rgb = cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB)
+    # PIL.BILINEAR downscaling antialiases; this is what transforms.Resize does
+    # for a PIL input. size is (w, h) for PIL and (h, w) everywhere else here.
+    img = np.asarray(Image.fromarray(rgb).resize((w, h), Image.BILINEAR))
+    # float32 the whole way, because that is what upstream does: ToTensor()
+    # produces float32 and Normalize runs in it. Dividing in float64 and
+    # casting at the end is a different computation -- it is the difference
+    # that separated six otherwise-identical stretch+imagenet models in P1.
+    img = img.astype(np.float32) / np.float32(255.0)
+    img = ((img - np.asarray(IMAGENET_MEAN, dtype=np.float32))
+           / np.asarray(IMAGENET_STD, dtype=np.float32))
+    return np.ascontiguousarray(img.transpose(2, 0, 1)[None])
+
+
 def _imagenet_stretch(bgr, h, w):
     """Stretch to the engine's size, then ImageNet mean and standard deviation."""
     img = cv2.resize(bgr, (w, h))
@@ -309,6 +337,14 @@ ADAPTERS = {
     "depth_pro": {
         "pre": lambda bgr, h, w: _depth_pro_pre(bgr, h),
         "depth": lambda outs, h, w, oh, ow, ctx: _depth_pro_depth(outs, (h, w), oh, ow),
+    },
+    "hyden": {
+        # Inverse depth, per da2/dpt.py's ReLU "always non-negative inverse
+        # depth". _direct_depth puts it back on the original grid without
+        # inverting it: core.gt scores relative models with a scale+shift fit
+        # on disparity, which is the space this already lives in.
+        "pre": lambda bgr, h, w: _pil_imagenet_stretch(bgr, h, w),
+        "depth": lambda outs, h, w, oh, ow, ctx: _direct_depth(outs, (h, w), oh, ow),
     },
     "zipdepth": {
         "pre": lambda bgr, h, w: _rgb_over_255(bgr, h, w, cv2.INTER_AREA),
