@@ -85,7 +85,7 @@ ONNX 내보내기는 업스트림 패키지가, 엔진 빌드는 TensorRT 가 �
 
 ---
 
-## 모델 14개
+## 모델 15개
 
 **"깊이" 는 한 가지가 아니다.** 아래 표의 `출력` 열을 보지 않고 속도만 비교하면
 안 된다. D 번호는 [`docs/model_contracts.md`](docs/model_contracts.md) 의 기록을
@@ -107,6 +107,7 @@ ONNX 내보내기는 업스트림 패키지가, 엔진 빌드는 TensorRT 가 �
 | **TR2M** | [→](models/tr2m/README.md) | **434×560** | metric. **입력이 둘 — 이미지 + 텍스트 프롬프트** | 업스트림 LICENSE 없음 / pos_embed.py 는 CC BY-NC-SA |
 | **VGGT** | [→](models/vggt/README.md) | 518×518 | geometry, **전역 배율 없음**(정규화 좌표) | VGGT License (Meta 자체) |
 | **StreamVGGT** | [→](models/streamvggt/README.md) | 518×518 | geometry, **전역 배율 없음** | **CC BY-NC-SA 4.0** |
+| **HyDen** | [→](models/hyden/README.md) | 518×518 | relative. **방향 미측정** — 아직 벤치 없음 | FAIR Noncommercial Research |
 
 ### 인코더·체크포인트 선택
 
@@ -230,4 +231,4 @@ Depth Anything V2 는 코드가 Apache-2.0 이지만 Base·Large 가중치는 CC
 | [`docs/setup.md`](docs/setup.md) | 환경 구성 상세와 알려진 함정 |
 | [`tools/README.md`](tools/README.md) | 각 도구가 무엇이고 어떻게 쓰나. 끝난 질문에 답한 도구는 답까지 |
 | [`docs/demo.md`](docs/demo.md) | `demo.py` 사용법 |
-| [`docs/later_candidates.md`](docs/later_candidates.md) | 삭제한 보류 후보 16개의 정적 검토와 제외 근거 |
+| [`docs/later_candidates.md`](docs/later_candidates.md) | **모델 후보 검토 기록** — 무엇을 왜 넣었고 왜 뺐나. 새 모델을 제안하기 전에 여기부터 |

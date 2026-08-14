@@ -55,6 +55,9 @@ KIND = {
     # "relative" because the sign convention is the opposite of the other
     # relative rows and reading it the wrong way round inverts the picture.
     "zipdepth": "relative (inverse depth)",
+    # orientation deliberately absent: spec.json says output_form is
+    # unmeasured, and naming it here would be the guess that file refuses.
+    "hyden": "relative (orientation unmeasured)",
     # Metric, but produced by rescaling a relative model with a per-pixel
     # scale and shift predicted from a sentence -- not measured from the image
     # alone like the other metric rows.
@@ -288,12 +291,31 @@ def render(runs):
               f"these rows. The speed beside them was measured; the layer "
               f"profile behind those two columns was not.")
 
+    # A model in the kind table with no row in the tables above. Two different
+    # things land here and they are not the same news:
+    #
+    #   - one that recorded *why* it has no measurement. Print the reason, via
+    #     the same helper the fp32/moved section uses, so the reason code and
+    #     its definition travel with the name.
+    #   - one that is simply absent from this render -- a filtered bench
+    #     directory, a model built but not benchmarked. Nothing to explain, but
+    #     it still has to be named, or a reader counting rows counts models.
     missing = sorted(set(KIND) - present)
     if missing:
+        explained = [PROFILES[m] for m in missing
+                     if unmeasured.is_unmeasured(PROFILES.get(m))]
+        bare = [m for m in missing
+                if not unmeasured.is_unmeasured(PROFILES.get(m))]
         lines += ["## Not measured", "",
-                  "No result file exists for these yet, so they are absent "
-                  "from the tables above rather than slow:", "",
-                  ", ".join(f"`{m}`" for m in missing), ""]
+                  "No benchmark record exists for these, so they are absent "
+                  "from the tables above rather than slow.", ""]
+        if bare:
+            lines += [", ".join(f"`{m}`" for m in bare), ""]
+        if explained:
+            # section() writes its own "## heading" and intro; both are already
+            # above, so only its grouped body is taken.
+            body = unmeasured.section(explained)
+            lines += body[4:] if len(body) > 4 else body
 
     return "\n".join(lines) + "\n"
 

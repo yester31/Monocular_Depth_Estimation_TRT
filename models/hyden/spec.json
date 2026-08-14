@@ -1,0 +1,68 @@
+{
+  "schema": 1,
+  "name": "hyden",
+  "env": "trte",
+  "input": {
+    "name": "input",
+    "rank": 4,
+    "dtype": "float32",
+    "layout": "NCHW",
+    "normalize": {
+      "mean": [
+        0.485,
+        0.456,
+        0.406
+      ],
+      "std": [
+        0.229,
+        0.224,
+        0.225
+      ],
+      "scale": 255.0,
+      "source": "upstream example_code/hyden_load_and_inference.py: transforms.Resize((518,518)) then ToTensor then Normalize with the ImageNet statistics"
+    }
+  },
+  "outputs": [
+    {
+      "name": "depth",
+      "meaning": "relative depth, orientation not yet measured -- see caveats"
+    }
+  ],
+  "profiles": {
+    "bench": {
+      "size": [
+        518,
+        518
+      ]
+    }
+  },
+  "build_targets": [
+    {
+      "profile": "bench",
+      "precision": "fp16"
+    }
+  ],
+  "encoder": {
+    "used": "vitl",
+    "available": [
+      "vitl"
+    ],
+    "smallest": "vitl",
+    "source": "facebookresearch/metadepth README, checked 2026-08-14: the DA2 variant ships one checkpoint, HyDen-DA2-Large (facebook/hyden-da2-relative-depth). The other two releases are MoGeV2 heads, not smaller DA2 encoders. This repository's rule is to use the smallest released encoder; here that is also the only one"
+  },
+  "depth_scale": "relative",
+  "output_form": "unmeasured",
+  "preprocess": {
+    "type": "stretch",
+    "normalise": "imagenet",
+    "interpolation": "pil_bilinear_antialias",
+    "verified": "not yet -- no adapter, no reports/inputs/hyden.npy"
+  },
+  "caveats": [
+    "hybrid CNN+ViT dual-path encoder. Every other ViT row here is a single path, so this is the first model that exercises both TensorRT's convolution and attention paths in one graph",
+    "upstream preprocesses with torchvision transforms.Resize((518,518)) on a PIL image, which is bilinear WITH antialias. depth_anything_v2 in this repository uses cv2 INTER_LINEAR, which is bilinear WITHOUT antialias. They are not the same resize and the difference is largest exactly here, where a 3024x2268 source is reduced by 4x. onnx_export.py reproduces upstream's transform rather than reusing the DAv2 adapter, and reports/inputs/hyden.npy is what settles it",
+    "output_form is unmeasured. Depth Anything V2's relative checkpoint emits disparity (larger means nearer) but HyDen-DA2 is a different decoder and this repository does not assume orientation -- zipdepth's was measured at -0.892 correlation against true depth before it was written down. Run core.gt.orientation before scoring",
+    "FAIR Noncommercial Research License covers the code AND the weights. It permits derivative works and redistribution provided the agreement travels with them, so it restricts use rather than propagating to this repository's MIT licence -- unlike AGPL, which is why YOLO26-depth was rejected",
+    "upstream claims 'up to 10x faster 4K inference' with no GPU named and no numbers published. This repository measures at 518x518 on a pinned-clock RTX 3080; that claim is neither confirmed nor tested by the row it produces"
+  ]
+}

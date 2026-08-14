@@ -531,6 +531,11 @@ MODELS = _builders()
 UNSUPPORTED = {
     "depth_pro": "torch bilinear resize; cv2 differs at 1.8e-07 on 34% of the "
                  "tensor. See docs/findings.md P1 for why depth_pro stayed behind.",
+    "hyden": "torchvision transforms.Resize on a PIL image, which is bilinear "
+             "WITH antialias. cv2 INTER_LINEAR has none, and a 3024x2268 source "
+             "reduced to 518 is where the two diverge most. models/hyden/"
+             "onnx_export.py records upstream's own tensor to "
+             "reports/inputs/hyden.npy instead of approximating it here.",
 }
 
 
