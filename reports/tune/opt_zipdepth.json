@@ -1,0 +1,162 @@
+[
+  {
+    "model": "zipdepth",
+    "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\zipdepth\\onnx\\zipdepth_base_384x512.onnx",
+    "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\zipdepth\\engine\\tune\\zipdepth_base_384x512_fp16_opt4_wsd.engine",
+    "precision": "fp16",
+    "opt_level": 4,
+    "workspace_gib": null,
+    "repeat": 1,
+    "stats": {
+      "iterations": 100,
+      "warmup": 0,
+      "mean_ms": 2.7377,
+      "min_ms": 2.5452,
+      "p50_ms": 2.6497,
+      "p90_ms": 3.0538,
+      "p99_ms": 3.1561,
+      "max_ms": 3.1657,
+      "stdev_ms": 0.1852,
+      "fps": 365.28
+    },
+    "environment": {
+      "versions": {
+        "torch": "2.11.0+cu128",
+        "cuda": "12.8",
+        "tensorrt": "10.16.1.11",
+        "python": "3.11.15"
+      },
+      "device": "NVIDIA GeForce RTX 3080",
+      "driver": "591.86",
+      "clock_mhz": 1800,
+      "clock_max_mhz": 2130
+    },
+    "profile_summary": {
+      "layers_profiled": 135,
+      "layers_in_engine": 135,
+      "profile_total_ms": 2.3986,
+      "benchmark_mean_ms": null,
+      "top10_share": 0.229,
+      "fp32_output_share": 0.1176,
+      "movement_share": 0.0823,
+      "layer_types": {
+        "CaskConvolution": 41,
+        "PointWiseV2": 22,
+        "NoOp": 19,
+        "CaskGemmConvolution": 15,
+        "Reformat": 10,
+        "CaskPooling": 6,
+        "Scale": 5,
+        "Resize": 5,
+        "kgen": 4,
+        "Constant": 2,
+        "Reduce": 2,
+        "gemm": 1,
+        "Slice": 1,
+        "CaskSoftMaxV2": 1,
+        "Shuffle": 1
+      },
+      "layer_precisions": {
+        "Half": 118,
+        "Float": 17
+      }
+    },
+    "layer_type_time_shares": {
+      "CaskConvolution": 0.49761900000000003,
+      "Reformat": 0.07552199999999999,
+      "PointWiseV2": 0.159223,
+      "CaskPooling": 0.062459,
+      "Resize": 0.02681,
+      "CaskSoftMaxV2": 0.012551,
+      "CaskGemmConvolution": 0.090975,
+      "Scale": 0.033429,
+      "Reduce": 0.010801,
+      "kgen": 0.019896,
+      "Shuffle": 0.00397,
+      "gemm": 0.003928,
+      "Slice": 0.002818,
+      "Constant": 0.0,
+      "NoOp": 0.0
+    }
+  },
+  {
+    "model": "zipdepth",
+    "onnx_path": "C:\\Users\\soy\\mde_trt\\work\\models\\zipdepth\\onnx\\zipdepth_base_384x512.onnx",
+    "engine_path": "C:\\Users\\soy\\mde_trt\\work\\models\\zipdepth\\engine\\tune\\zipdepth_base_384x512_fp16_opt5_wsd.engine",
+    "precision": "fp16",
+    "opt_level": 5,
+    "workspace_gib": null,
+    "repeat": 1,
+    "stats": {
+      "iterations": 100,
+      "warmup": 0,
+      "mean_ms": 2.787,
+      "min_ms": 2.5641,
+      "p50_ms": 2.6523,
+      "p90_ms": 2.6986,
+      "p99_ms": 7.2074,
+      "max_ms": 7.2087,
+      "stdev_ms": 0.7776,
+      "fps": 358.81
+    },
+    "environment": {
+      "versions": {
+        "torch": "2.11.0+cu128",
+        "cuda": "12.8",
+        "tensorrt": "10.16.1.11",
+        "python": "3.11.15"
+      },
+      "device": "NVIDIA GeForce RTX 3080",
+      "driver": "591.86",
+      "clock_mhz": 1800,
+      "clock_max_mhz": 2130
+    },
+    "profile_summary": {
+      "layers_profiled": 150,
+      "layers_in_engine": 150,
+      "profile_total_ms": 2.4793,
+      "benchmark_mean_ms": null,
+      "top10_share": 0.2355,
+      "fp32_output_share": 0.102,
+      "movement_share": 0.0797,
+      "layer_types": {
+        "CaskConvolution": 44,
+        "NoOp": 34,
+        "PointWiseV2": 22,
+        "CaskGemmConvolution": 12,
+        "Reformat": 10,
+        "CaskPooling": 6,
+        "Scale": 5,
+        "Resize": 5,
+        "kgen": 4,
+        "Constant": 2,
+        "Reduce": 2,
+        "gemm": 1,
+        "Slice": 1,
+        "CaskSoftMaxV2": 1,
+        "Shuffle": 1
+      },
+      "layer_precisions": {
+        "Half": 136,
+        "Float": 14
+      }
+    },
+    "layer_type_time_shares": {
+      "CaskConvolution": 0.5219289999999998,
+      "CaskPooling": 0.04902499999999999,
+      "PointWiseV2": 0.14831199999999997,
+      "Reformat": 0.07203100000000001,
+      "CaskGemmConvolution": 0.0755,
+      "kgen": 0.031473,
+      "CaskSoftMaxV2": 0.01206,
+      "Scale": 0.035726999999999995,
+      "Resize": 0.022921999999999998,
+      "Reduce": 0.015406,
+      "gemm": 0.007971,
+      "Slice": 0.003965,
+      "Shuffle": 0.003676,
+      "Constant": 0.0,
+      "NoOp": 0.0
+    }
+  }
+]

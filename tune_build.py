@@ -124,13 +124,24 @@ def main():
         print(f"no spec for {args.model}")
         return 1
 
-    run_rec = None
-    for r in bench.load_all(os.path.join(ROOT, "reports", "bench")):
-        if r["model"] == args.model and r.get("variant", "single") == "single":
-            run_rec = r
-    if not run_rec:
+    found = [r for r in bench.load_all(os.path.join(ROOT, "reports", "bench"))
+             if r["model"] == args.model and r.get("variant", "single") == "single"]
+    if not found:
         print(f"{args.model}: not measured yet - build it first")
         return 1
+    if len(found) > 1:
+        # Taking the last one is not a choice anybody made, and the one it
+        # takes depends on the order the files were read. depth_anything_v2
+        # kept a 672x896 record from a size experiment and this tool silently
+        # tuned that engine while feeding it the 518x518 reference tensor.
+        have = ", ".join(sorted(f"{r.get('input_h')}x{r.get('input_w')}"
+                                for r in found))
+        print(f"{args.model}: {len(found)} benchmark records ({have}). "
+              f"Remove the superseded one -- and remove it from git, because a "
+              f"tracked file deleted only on the remote comes back on the next "
+              f"sync.")
+        return 1
+    run_rec = found[0]
 
     from package_artifacts import onnx_beside
     if args.onnx:
